@@ -2,24 +2,36 @@
   "name": "project-marketplace-angular",
   "version": "0.0.0",
   "scripts": {
+    "dev": "ng serve",
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
+    "config": "node set-env.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "heroku-postbuild": "npm run config && ng build --configuration production"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~12.0.0",
+    "@angular/cdk": "^12.0.0",
     "@angular/common": "~12.0.0",
     "@angular/compiler": "~12.0.0",
     "@angular/core": "~12.0.0",
     "@angular/forms": "~12.0.0",
+    "@angular/material": "^12.0.0",
     "@angular/platform-browser": "~12.0.0",
     "@angular/platform-browser-dynamic": "~12.0.0",
     "@angular/router": "~12.0.0",
+    "bootstrap": "^5.0.1",
+    "dotenv": "^9.0.2",
+    "express": "^4.17.1",
+    "ngx-cookie-service": "^11.0.2",
+    "ngx-toast-notifications": "^1.3.0",
+    "path": "^0.12.7",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
+    "typescript": "~4.2.3",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -28,6 +40,7 @@
     "@angular/compiler-cli": "~12.0.0",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
+    "enhanced-resolve": "^3.3.0",
     "jasmine-core": "~3.7.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
@@ -35,5 +48,9 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "typescript": "~4.2.3"
+  },
+  "engines": {
+    "node": "14.16.0",
+    "npm": "6.14.11"
   }
 }
