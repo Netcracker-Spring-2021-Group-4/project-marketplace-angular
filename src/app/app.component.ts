@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {environment} from "../environments/environment";
+import {UserRole} from "./shared/models/enums/role.enum";
 
 @Component({
   selector: 'app-root',
@@ -12,5 +13,9 @@ export class AppComponent implements OnInit{
 
   ngOnInit() {
     console.log(this.secretMessage);
+  }
+
+  get role(): typeof UserRole {
+    return UserRole;
   }
 }

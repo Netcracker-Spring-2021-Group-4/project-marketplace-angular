@@ -16,10 +16,15 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatListModule} from '@angular/material/list';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatTableModule} from '@angular/material/table';
+import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     MatButtonModule,
     MatStepperModule,
     MatFormFieldModule,
@@ -36,24 +41,28 @@ import {MatTableModule} from '@angular/material/table';
     MatListModule,
     MatDividerModule,
     MatTableModule,
+    LayoutModule,
+    MatSidenavModule,
   ],
-  exports: [
-    MatStepperModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatProgressSpinnerModule,
-    MatRadioModule,
-    MatCardModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    MatListModule,
-    MatDividerModule,
-    MatTableModule,
-  ]
+    exports: [
+        MatStepperModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatProgressSpinnerModule,
+        MatRadioModule,
+        MatCardModule,
+        MatDialogModule,
+        MatSelectModule,
+        MatSlideToggleModule,
+        MatListModule,
+        MatDividerModule,
+        MatTableModule,
+        MenuBarComponent,
+    ],
+  declarations: [MenuBarComponent]
 })
 export class SharedModule { }

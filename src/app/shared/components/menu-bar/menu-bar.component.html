@@ -1,0 +1,78 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer class="sidenav"
+    fixedInViewport="false"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'push'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list class="d-flex flex-column">
+      <a mat-list-item
+        *ngFor="let l of links.main"
+        [routerLink]="[l.url]"
+       (click)="closeDrawer()"
+      >
+        {{l.label.toUpperCase()}}
+      </a>
+      <div class="mb-5"></div>
+      <a mat-list-item
+         *ngFor="let l of links.side"
+         [routerLink]="[l.url]"
+         (click)="closeDrawer()"
+      >
+        {{l.label.toUpperCase()}}
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span class="logo-margin">WineApp</span>
+      <div
+        *ngIf="(isHandset$ | async) === false"
+      >
+        <a
+          *ngFor="let l of links.main"
+          [routerLink]="[l.url]"
+        >
+          <button
+            *ngIf="!l.icon"
+            class="color-w"
+            mat-button
+          >
+            {{l.label.toUpperCase()}}
+          </button>
+        </a>
+      </div>
+      <span class="spacer"></span>
+      <span
+        class="d-flex"
+        *ngIf="(isHandset$ | async) === false"
+      >
+        <a
+           *ngFor="let l of links.side"
+           [routerLink]="[l.url]"
+        >
+          <button
+            mat-button
+            class="color-w"
+          >
+            <span *ngIf="!l.icon">{{l.label.toUpperCase()}}</span>
+            <i *ngIf="l.icon"
+               class="{{l.icon}}"></i>
+          </button>
+        </a>
+      </span>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
