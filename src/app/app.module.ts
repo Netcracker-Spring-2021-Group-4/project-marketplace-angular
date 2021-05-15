@@ -11,6 +11,7 @@ import {AuthStoreModule} from "./components/auth-store/auth-store.module";
 import {CustomerModule} from "./components/customer/customer.module";
 import {ManagerPlusModule} from "./components/manager-plus/manager-plus.module";
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { NotFoundPageComponent } from './components/not-found-page/not-found-pag
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     SharedModule,
     NoAuthModule,
     AuthStoreModule,

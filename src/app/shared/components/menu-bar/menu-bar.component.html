@@ -11,7 +11,7 @@
       <a mat-list-item
         *ngFor="let l of links.main"
         [routerLink]="[l.url]"
-       (click)="closeDrawer()"
+       (click)="closeDrawer(l.label)"
       >
         {{l.label.toUpperCase()}}
       </a>
@@ -19,7 +19,7 @@
       <a mat-list-item
          *ngFor="let l of links.side"
          [routerLink]="[l.url]"
-         (click)="closeDrawer()"
+         (click)="closeDrawer(l.label)"
       >
         {{l.label.toUpperCase()}}
       </a>
@@ -60,6 +60,7 @@
         <a
            *ngFor="let l of links.side"
            [routerLink]="[l.url]"
+           (click)="checkForLogOut(l.label)"
         >
           <button
             mat-button

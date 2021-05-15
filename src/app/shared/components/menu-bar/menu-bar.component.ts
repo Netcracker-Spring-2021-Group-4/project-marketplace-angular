@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
@@ -6,6 +6,8 @@ import linksMapper from './service/links.mapper';
 import {UserRole} from "../../models/enums/role.enum";
 import {Link} from "../../models/internal/link.model";
 import {MatDrawer} from "@angular/material/sidenav";
+import {RoleService} from "../../../services/role.service";
+import {JwtTokenService} from "../../../auth/jwt-token.service";
 
 class Links {
 }
@@ -16,8 +18,7 @@ class Links {
   styleUrls: ['./menu-bar.component.scss']
 })
 export class MenuBarComponent implements OnInit{
-  @Input()
-  role ?: UserRole;
+  role : UserRole;
   @ViewChild('drawer') drawer: MatDrawer;
 
   links: MenuLinkConfig;
@@ -28,15 +29,33 @@ export class MenuBarComponent implements OnInit{
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private jwtTokenService : JwtTokenService,
+    private roleService: RoleService
+  ) {}
 
   ngOnInit() {
-    this.links = linksMapper(this.role ?? UserRole.ROLE_NO_AUTH_CUSTOMER)
-    console.log(this.links)
+    this.roleService.currentRole.subscribe(r => {
+      this.role = r
+      this.links = linksMapper(this.role ?? UserRole.ROLE_NO_AUTH_CUSTOMER)
+      console.log(this.links)
+    })
   }
 
-  closeDrawer() {
-    this.drawer.close();
+  closeDrawer(label: string) {
+    this.logOut(label)
+    this.drawer.close()
+  }
+
+  checkForLogOut(label: string) {
+    this.logOut(label)
+  }
+
+  logOut(label: string) {
+    if (label.toUpperCase() === 'LOGOUT') {
+      this.jwtTokenService.deleteToken()
+    }
   }
 }
 
