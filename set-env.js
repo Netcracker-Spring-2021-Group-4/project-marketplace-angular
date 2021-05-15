@@ -6,7 +6,8 @@ require('dotenv').config();
 // `environment.ts` file structure
 const envConfigFile = `export const environment = {
   production: true,
-  secretMessage: '${process.env.SECRET_MESSAGE}'
+  secretMessage: '${process.env.SECRET_MESSAGE}',
+  backURL: '${process.env.BACK_URL}'
 };
 `;
 console.log('The file `environment.prod.ts` will be written with the following content: \n');
