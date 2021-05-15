@@ -1,5 +1,6 @@
 import {Link} from "../../../models/internal/link.model";
 import {UserRole} from "../../../models/enums/role.enum";
+import {Route} from "../../../models/enums/route.enum";
 
 const mapper = (role: UserRole) => {
   switch (role) {
@@ -43,7 +44,7 @@ const getIconClassString = (name: string) => (`fas fa-${name}`);
 const list: Link[] = [
   {
     label: "Catalog",
-    url: '/'
+    url: Route.CATALOG
   },
   {
     label: "Create product",
@@ -77,12 +78,12 @@ const list: Link[] = [
   {
     label: 'compare',
     icon: getIconClassString('balance-scale'),
-    url: '/'
+    url: Route.COMPARE
   },
   {
     label: 'Shopping cart',
     icon: getIconClassString('shopping-cart'),
-    url: '/'
+    url: Route.CART
   },
   {
     label: 'My profile',
@@ -91,14 +92,14 @@ const list: Link[] = [
   },
   {
     label: 'Login',
-    url: '/'
+    url: Route.LOGIN,
   },
   {
     label: 'Sign Up',
-    url: '/'
+    url: Route.REGISTER
   },
   {
     label: 'Logout',
-    url: '/'
+    url: Route.CATALOG
   }
 ];

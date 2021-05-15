@@ -1,6 +1,6 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
-import {LoginComponent} from "./components/login/login.component";
+import NoAuthRoutes from "./routes/no-auth.routes";
 
 const routes: Routes = [
   {
@@ -8,10 +8,7 @@ const routes: Routes = [
     redirectTo: '/login',
     pathMatch: 'full'
   },
-  {
-    path: 'login',
-    component: LoginComponent
-  }
+  ...NoAuthRoutes
 ];
 
 @NgModule({

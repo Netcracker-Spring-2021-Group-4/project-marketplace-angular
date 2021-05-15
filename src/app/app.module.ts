@@ -5,16 +5,16 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {SharedModule} from "./shared/shared.module";
 import {AppRoutingModule} from "./app.routing.module";
-import { LoginComponent } from './components/login/login.component';
+import {NoAuthModule} from "./components/no-auth/no-auth.module";
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
   ],
   imports: [
     BrowserModule,
     SharedModule,
+    NoAuthModule,
     BrowserAnimationsModule,
     AppRoutingModule
   ],

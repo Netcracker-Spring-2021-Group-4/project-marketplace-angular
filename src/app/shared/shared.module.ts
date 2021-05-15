@@ -20,11 +20,15 @@ import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {RouterModule} from "@angular/router";
+import {BrowserModule} from "@angular/platform-browser";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     MatButtonModule,
     MatStepperModule,
     MatFormFieldModule,
@@ -45,6 +49,8 @@ import {RouterModule} from "@angular/router";
     MatSidenavModule,
   ],
     exports: [
+        BrowserModule,
+        BrowserAnimationsModule,
         MatStepperModule,
         MatFormFieldModule,
         MatInputModule,
