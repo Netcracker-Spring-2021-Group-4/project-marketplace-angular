@@ -25,7 +25,7 @@ const mapper = (role: UserRole) => {
     case UserRole.ROLE_ADMIN: {
       return {
         main: [list[0], list[1], list[5], list[2], list[3], list[4]],
-        side: [list[10], list[13]]
+        side: [list[13]]
       }
     }
     default: {
@@ -48,32 +48,32 @@ const list: Link[] = [
   },
   {
     label: "Create product",
-    url: '/'
+    url: Route.CREATE_PRODUCT
   },
   {
     label: "Create auction",
-    url: '/'
+    url: Route.CREATE_AUCTION
   },
   {
     label: "Stock",
-    url: '/'
+    url: Route.STOCK
   },
   {
     label: "Staff",
-    url: '/'
+    url: Route.STAFF_LIST
   },
   {
     label: "Auctions",
-    url: '/'
+    url: Route.AUCTIONS
   },
   {
     label: "Deliveries",
-    url: '/'
+    url: Route.DELIVERIES
   },
   {
     label: 'My orders',
     icon: getIconClassString('history'),
-    url: '/'
+    url: Route.ORDER_HISTORY
   },
   {
     label: 'compare',
@@ -88,7 +88,7 @@ const list: Link[] = [
   {
     label: 'My profile',
     icon: getIconClassString('user'),
-    url: '/'
+    url: Route.PROFILE
   },
   {
     label: 'Login',

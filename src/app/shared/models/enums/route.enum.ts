@@ -8,4 +8,15 @@ export enum Route {
   COMPARE = "compare",
   CART = "cart",
   CHECK_OUT = "check-out",
+  AUCTIONS = "auth-store/auction-list",
+  AUCTION_PAGE = "auth-store/auction",
+  PROFILE = "me",
+  STAFF_LIST = "admin/staff",
+  STAFF_PROFILE = "admin/staffer",
+  ORDER_HISTORY = "customer/order-history",
+  ORDER_PAGE = "customer/order",
+  CREATE_PRODUCT = "mgr/create-product",
+  CREATE_AUCTION = "mgr/create-auction",
+  STOCK = "mgr/stock",
+  DELIVERIES = "courier/deliveries"
 }
