@@ -27,7 +27,7 @@ export class JwtTokenService {
       .map((a: any) => a.authority)
       .filter((s: string) => s.indexOf('ROLE_') !== -1)[0]
 
-    return (<any>UserRole)[roleString]
+    return (<any>UserRole)[roleString] || UserRole.ROLE_NO_AUTH_CUSTOMER
   }
 
   static get isExpired(): boolean {

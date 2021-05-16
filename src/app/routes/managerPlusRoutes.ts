@@ -5,27 +5,33 @@ import {StaffListPageComponent} from "../components/manager-plus/staff-list-page
 import {CreateProductPageComponent} from "../components/manager-plus/create-product-page/create-product-page.component";
 import {CreateAuctionPageComponent} from "../components/manager-plus/create-auction-page/create-auction-page.component";
 import {StockSetterPageComponent} from "../components/manager-plus/stock-setter-page/stock-setter-page.component";
+import {AdminGuard, ManagerPlusGuard} from "../guards/role.guards";
 
 const ManagerPlusRoutes: Routes = [
   {
     path: Route.STAFF_LIST,
-    component: StaffListPageComponent
+    component: StaffListPageComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: Route.STAFF_PROFILE,
-    component: ProfilePageComponent
+    component: ProfilePageComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: Route.CREATE_PRODUCT,
-    component: CreateProductPageComponent
+    component: CreateProductPageComponent,
+    canActivate: [ManagerPlusGuard]
   },
   {
     path: Route.CREATE_AUCTION,
-    component: CreateAuctionPageComponent
+    component: CreateAuctionPageComponent,
+    canActivate: [ManagerPlusGuard]
   },
   {
     path: Route.STOCK,
-    component: StockSetterPageComponent
+    component: StockSetterPageComponent,
+    canActivate: [ManagerPlusGuard]
   },
 ];
 
