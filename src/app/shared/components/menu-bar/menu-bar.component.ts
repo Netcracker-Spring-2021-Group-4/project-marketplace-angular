@@ -39,7 +39,6 @@ export class MenuBarComponent implements OnInit{
     this.roleService.currentRole.subscribe(r => {
       this.role = r
       this.links = linksMapper(this.role ?? UserRole.ROLE_NO_AUTH_CUSTOMER)
-      console.log(this.links)
     })
   }
 

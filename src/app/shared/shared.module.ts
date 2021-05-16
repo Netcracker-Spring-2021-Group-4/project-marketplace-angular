@@ -22,12 +22,17 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import {RouterModule} from "@angular/router";
 import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ToastNotificationsModule} from "ngx-toast-notifications";
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ToastNotificationsModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatStepperModule,
@@ -49,25 +54,28 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     MatSidenavModule,
   ],
     exports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        MatStepperModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatTooltipModule,
-        MatProgressSpinnerModule,
-        MatRadioModule,
-        MatCardModule,
-        MatDialogModule,
-        MatSelectModule,
-        MatSlideToggleModule,
-        MatListModule,
-        MatDividerModule,
-        MatTableModule,
-        MenuBarComponent,
+      BrowserModule,
+      FormsModule,
+      ReactiveFormsModule,
+      BrowserAnimationsModule,
+      ToastNotificationsModule,
+      MatStepperModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatButtonModule,
+      MatToolbarModule,
+      MatIconModule,
+      MatTooltipModule,
+      MatProgressSpinnerModule,
+      MatRadioModule,
+      MatCardModule,
+      MatDialogModule,
+      MatSelectModule,
+      MatSlideToggleModule,
+      MatListModule,
+      MatDividerModule,
+      MatTableModule,
+      MenuBarComponent,
     ],
   declarations: [MenuBarComponent]
 })

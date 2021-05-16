@@ -1,7 +1,32 @@
-
-<h1 class="text-center mt-5"> A message to know that we've deployed</h1>
-
-<div class="d-flex align-content-center justify-content-center">
-  <button mat-raised-button color="primary" class="">Primary</button>
+<div
+  class="h-100per container d-flex justify-content-center align-items-center"
+>
+  <form
+    [formGroup]="form"
+    class="container m-form d-flex justify-content-center flex-column form-width">
+    <h1 class="text-center">Login</h1>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="username">
+      <mat-error *ngIf="form.get('username')?.invalid">{{usernameErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Password</mat-label>
+      <input type="password" matInput formControlName="password">
+      <mat-error *ngIf="form.get('password')?.invalid">{{passwordErrorMessage}}</mat-error>
+    </mat-form-field>
+    <button
+      mat-raised-button color="accent"
+      [disabled]="form.invalid"
+      class="name-input mr-auto ml-auto"
+      (click)="submit()"
+    >
+      login
+    </button>
+  </form>
 </div>
 

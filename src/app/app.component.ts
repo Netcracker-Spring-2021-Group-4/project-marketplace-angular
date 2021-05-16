@@ -9,13 +9,17 @@ import {UserRole} from "./shared/models/enums/role.enum";
 })
 export class AppComponent implements OnInit{
   title = 'projectMarketplaceAngular';
-  secretMessage = environment.secretMessage
+  secretMessage = environment.secretMessage;
+
+  constructor(
+    ) {
+  }
 
   ngOnInit() {
     console.log(this.secretMessage);
   }
 
-  get role(): typeof UserRole {
+  get roleEnum(): typeof UserRole {
     return UserRole;
   }
 }

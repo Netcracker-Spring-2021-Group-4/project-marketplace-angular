@@ -1,0 +1,5 @@
+$nav-height: 64px;
+
+@mixin height-full {
+  height: calc(100% - #{$nav-height});
+}
