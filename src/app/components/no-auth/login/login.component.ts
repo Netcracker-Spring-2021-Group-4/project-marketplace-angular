@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserAuthFormService} from "../services/user-auth-form.service";
-import {FormGroup} from "@angular/forms";
+import {FormGroup, Validators} from "@angular/forms";
 import {JwtTokenService} from "../../../auth/jwt-token.service";
 import {AuthApiService} from "../../../api-services/auth-http.service";
 import {Toaster} from "ngx-toast-notifications";
@@ -9,6 +9,7 @@ import {RoleService} from "../../../services/role.service";
 import {Router} from "@angular/router";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {Route} from "../../../shared/models/enums/route.enum";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,8 @@ import {Route} from "../../../shared/models/enums/route.enum";
 export class LoginComponent implements OnInit {
 
   form: FormGroup
+  siteKey = environment.captchaKey
+  attemptsCounter = 0
 
   constructor(
     private userAuthFormService: UserAuthFormService,
@@ -41,13 +44,24 @@ export class LoginComponent implements OnInit {
     return 'Password must contain at least one capital letter, lower case letter and number'
   }
 
+  get isCaptchaDisabled() {
+    return this.attemptsCounter < 5
+  }
+
+  setRequiredCaptcha() {
+    this.form.get('recaptcha')?.setValidators([Validators.required])
+    this.form.get('recaptcha')?.updateValueAndValidity()
+  }
+
   private get defaultRoute() {
     return this.jwtTokenService.role === UserRole.ROLE_COURIER ? Route.DELIVERIES : Route.CATALOG;
   }
 
   submit() {
-    const value = this.form.value
-    this.authApiService.login(value).subscribe(
+    // todo handle captcha
+    const {username, password} = this.form.value
+    const cred = {username, password}
+    this.authApiService.login(cred).subscribe(
       (res:Response ) => {
       const token = res.headers.get('Authorization')
       this.jwtTokenService.saveToken(token!)
@@ -61,6 +75,9 @@ export class LoginComponent implements OnInit {
       });
       this.router.navigate([this.defaultRoute])
     }, err => {
+        this.attemptsCounter += 1
+        if(!this.isCaptchaDisabled) this.setRequiredCaptcha()
+
         this.toaster.open({
           text: Labels.login.error,
           caption: Labels.caption.error,
@@ -68,5 +85,16 @@ export class LoginComponent implements OnInit {
           type: 'danger'
         });
     })
+  }
+
+  handleError() {
+    this.toaster.open({
+      text: Labels.login.robot,
+      caption: Labels.caption.error,
+      duration: 4000,
+      type: 'danger'
+    });
+    this.form.disable()
+    setTimeout(() => this.form.enable(), 5*60*1000)
   }
 }

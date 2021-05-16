@@ -10,6 +10,7 @@ import { ProductPageComponent } from './product-page/product-page.component';
 import { ComparePageComponent } from './compare-page/compare-page.component';
 import { CartPageComponent } from './cart-page/cart-page.component';
 import { CheckoutPageComponent } from './checkout-page/checkout-page.component';
+import {NgxCaptchaModule} from "ngx-captcha";
 
 
 
@@ -28,6 +29,7 @@ import { CheckoutPageComponent } from './checkout-page/checkout-page.component';
   imports: [
     CommonModule,
     SharedModule,
+    NgxCaptchaModule
   ]
 })
 export class NoAuthModule { }

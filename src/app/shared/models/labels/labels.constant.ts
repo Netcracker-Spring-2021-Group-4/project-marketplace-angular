@@ -6,7 +6,8 @@ const Labels = {
   },
   login: {
     error: 'Your username or password is incorrect',
-    success: 'You have been successfully logged in'
+    success: 'You have been successfully logged in',
+    robot: 'You might be a robot'
   }
 }
 

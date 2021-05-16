@@ -19,6 +19,14 @@
       <input type="password" matInput formControlName="password">
       <mat-error *ngIf="form.get('password')?.invalid">{{passwordErrorMessage}}</mat-error>
     </mat-form-field>
+    <ngx-recaptcha2
+      #captchaElem
+      [class.captcha-dis]="isCaptchaDisabled"
+      class="mb-3"
+      [siteKey]="siteKey"
+      (error)="handleError()"
+      formControlName="recaptcha">
+    </ngx-recaptcha2>
     <button
       mat-raised-button color="accent"
       [disabled]="form.invalid"
