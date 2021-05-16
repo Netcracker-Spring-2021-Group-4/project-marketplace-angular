@@ -13,16 +13,16 @@ export class JwtTokenService {
   ) {
   }
 
-  saveToken(token: string) {
+  static saveToken(token: string) {
     const pureToken = token.substring(7, token.length)
     this.setToken(pureToken)
   }
 
-  deleteToken() {
+  static  deleteToken() {
     this.removeToken()
   }
 
-  get role(): UserRole {
+  static get role(): UserRole {
     const roleString = this.payload?.authorities
       .map((a: any) => a.authority)
       .filter((s: string) => s.indexOf('ROLE_') !== -1)[0]
@@ -30,18 +30,18 @@ export class JwtTokenService {
     return (<any>UserRole)[roleString]
   }
 
-  get isExpired(): boolean {
+  static get isExpired(): boolean {
     const exp = this.payload?.exp
 
     return exp ? ( Date.now() >= exp * 1000) : true;
   }
 
-  get payload() : any | null {
+  static get payload() : any | null {
     const token = JwtTokenService.getToken()
     return token ? JwtTokenService.decodeToken(token) : null;
   }
 
-  private setToken(token: string) {
+  private static setToken(token: string) {
     sessionStorage.setItem(JwtTokenService.keyName, token)
   }
 
@@ -49,7 +49,7 @@ export class JwtTokenService {
     return sessionStorage.getItem(JwtTokenService.keyName)
   }
 
-  private removeToken() {
+  private static removeToken() {
     sessionStorage.removeItem(JwtTokenService.keyName)
   }
 

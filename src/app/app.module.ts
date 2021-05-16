@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {NgModule, Provider} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -11,7 +11,14 @@ import {AuthStoreModule} from "./components/auth-store/auth-store.module";
 import {CustomerModule} from "./components/customer/customer.module";
 import {ManagerPlusModule} from "./components/manager-plus/manager-plus.module";
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {TokenAppenderInterceptor} from "./auth/token-appender.interceptor";
+
+const INTERCEPTOR_PROVIDER: Provider = {
+  provide: HTTP_INTERCEPTORS,
+  multi: true,
+  useClass: TokenAppenderInterceptor
+};
 
 @NgModule({
   declarations: [
@@ -30,7 +37,7 @@ import {HttpClientModule} from "@angular/common/http";
     BrowserAnimationsModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [INTERCEPTOR_PROVIDER],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -12,10 +12,9 @@ export class RoleService {
   currentRole = this. roleSource.asObservable();
 
   constructor(
-    private jwtTokenService: JwtTokenService,
   ){
-    if(!this.jwtTokenService.isExpired) {
-      this.changeRole(this.jwtTokenService.role)
+    if(!JwtTokenService.isExpired) {
+      this.changeRole(JwtTokenService.role)
     }
   }
 

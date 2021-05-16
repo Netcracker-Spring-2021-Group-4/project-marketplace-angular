@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private userAuthFormService: UserAuthFormService,
-    private jwtTokenService: JwtTokenService,
     private roleService: RoleService,
     private authApiService: AuthApiService,
     private toaster: Toaster,
@@ -54,7 +53,7 @@ export class LoginComponent implements OnInit {
   }
 
   private get defaultRoute() {
-    return this.jwtTokenService.role === UserRole.ROLE_COURIER ? Route.DELIVERIES : Route.CATALOG;
+    return JwtTokenService.role === UserRole.ROLE_COURIER ? Route.DELIVERIES : Route.CATALOG;
   }
 
   submit() {
@@ -64,8 +63,8 @@ export class LoginComponent implements OnInit {
     this.authApiService.login(cred).subscribe(
       (res:Response ) => {
       const token = res.headers.get('Authorization')
-      this.jwtTokenService.saveToken(token!)
-      this.roleService.changeRole(this.jwtTokenService.role)
+        JwtTokenService.saveToken(token!)
+      this.roleService.changeRole(JwtTokenService.role)
 
       this.toaster.open({
         text: Labels.login.success,
