@@ -9,9 +9,6 @@ import {MatDrawer} from "@angular/material/sidenav";
 import {RoleService} from "../../../services/role.service";
 import {JwtTokenService} from "../../../auth/jwt-token.service";
 
-class Links {
-}
-
 @Component({
   selector: 'app-menu-bar',
   templateUrl: './menu-bar.component.html',
