@@ -1,7 +1,7 @@
 export enum Route {
   LOGIN = "login",
   REGISTER ="register",
-  CONFIRM_TOKEN = "confirm-token",
+  CONFIRM_TOKEN = "confirm-token/:token",
   PASSWORD = "password",
   CATALOG = "catalog",
   PRODUCT = "product",

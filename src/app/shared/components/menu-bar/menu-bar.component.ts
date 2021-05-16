@@ -28,7 +28,6 @@ export class MenuBarComponent implements OnInit{
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private jwtTokenService : JwtTokenService,
     private roleService: RoleService
   ) {}
 
