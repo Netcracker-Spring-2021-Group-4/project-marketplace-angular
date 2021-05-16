@@ -54,6 +54,7 @@ export class MenuBarComponent implements OnInit{
   logOut(label: string) {
     if (label.toUpperCase() === 'LOGOUT') {
       this.jwtTokenService.deleteToken()
+      this.roleService.changeRole(UserRole.ROLE_NO_AUTH_CUSTOMER)
     }
   }
 }

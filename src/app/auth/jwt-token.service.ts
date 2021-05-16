@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import jwtDecode, {JwtPayload} from "jwt-decode";
 import {UserRole} from "../shared/models/enums/role.enum";
-import {RoleService} from "../services/role.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,19 +10,16 @@ export class JwtTokenService {
   private static keyName = 'auth-token';
 
   constructor(
-    private roleService: RoleService
   ) {
   }
 
   saveToken(token: string) {
     const pureToken = token.substring(7, token.length)
-    JwtTokenService.setToken(pureToken)
-    this.roleService.changeRole(this.role)
+    this.setToken(pureToken)
   }
 
   deleteToken() {
-    JwtTokenService.removeToken()
-    this.roleService.changeRole(UserRole.ROLE_NO_AUTH_CUSTOMER)
+    this.removeToken()
   }
 
   get role(): UserRole {
@@ -45,15 +41,15 @@ export class JwtTokenService {
     return token ? JwtTokenService.decodeToken(token) : null;
   }
 
-  private static setToken(token: string) {
+  private setToken(token: string) {
     sessionStorage.setItem(JwtTokenService.keyName, token)
   }
 
-  private static getToken() : string | null {
+  static getToken() : string | null {
     return sessionStorage.getItem(JwtTokenService.keyName)
   }
 
-  private static removeToken() {
+  private removeToken() {
     sessionStorage.removeItem(JwtTokenService.keyName)
   }
 
