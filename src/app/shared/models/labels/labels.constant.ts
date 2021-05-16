@@ -12,7 +12,9 @@ const Labels = {
   register: {
     success: 'Registration completed successfully',
     wrongTokenFormat: 'Wrong token format',
-    tokenAlreadyUsed: 'Token already used'
+    tokenAlreadyUsed: 'Token already used',
+    successRequest: 'Request was send successfully.\nConfirm your account by clicking the link sent to your email',
+    error: 'Something went wrong with your registration'
   }
 }
 

@@ -1,1 +1,62 @@
-<p>register works!</p>
+<div
+  class="h-100per container d-flex justify-content-center align-items-center"
+>
+  <form
+    [formGroup]="form"
+    class="container m-form d-flex justify-content-center flex-column form-width">
+    <h1 class="text-center">Sign Up</h1>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+      <mat-error *ngIf="form.get('email')?.invalid">{{emailErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Password</mat-label>
+      <input type="password" matInput formControlName="plainPassword">
+      <mat-error *ngIf="form.get('plainPassword')?.invalid">{{passwordErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>First name</mat-label>
+      <input matInput formControlName="firstName">
+      <mat-error *ngIf="form.get('firstName')?.invalid">{{firstNameErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Last name</mat-label>
+      <input matInput formControlName="lastName">
+      <mat-error *ngIf="form.get('lastName')?.invalid">{{lastNameErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      appearance="outline"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Phone number</mat-label>
+      <input type="number" matInput formControlName="phoneNumber">
+      <mat-error *ngIf="form.get('phoneNumber')?.invalid">{{phoneNumberErrorMessage}}</mat-error>
+    </mat-form-field>
+    <button
+      mat-raised-button color="accent"
+      [disabled]="form.invalid || isLoading"
+      class="name-input mr-auto ml-auto"
+      (click)="submit()"
+    >
+      login
+    </button>
+    <div
+      *ngIf="isLoading"
+      class="d-flex justify-content-center mt-2"
+    >
+      <mat-spinner
+        class="mr-auto"
+        [diameter]="36"
+      ></mat-spinner>
+    </div>
+  </form>
+</div>
+

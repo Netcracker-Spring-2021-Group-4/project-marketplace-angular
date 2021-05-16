@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {Route} from "../../../shared/models/enums/route.enum";
 import {environment} from "../../../../environments/environment";
+import {ValidationMessages} from "../../../shared/models/labels/validation.message";
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,9 @@ export class LoginComponent implements OnInit {
   siteKey = environment.captchaKey
   attemptsCounter = 0
 
+  usernameErrorMessage = ValidationMessages.email
+  passwordErrorMessage = ValidationMessages.password
+
   constructor(
     private userAuthFormService: UserAuthFormService,
     private roleService: RoleService,
@@ -33,14 +37,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  get usernameErrorMessage() {
-    return 'Incorrect email'
-  }
-
-  get passwordErrorMessage() {
-    return 'Password must contain at least one capital letter, lower case letter and number'
   }
 
   get isCaptchaDisabled() {

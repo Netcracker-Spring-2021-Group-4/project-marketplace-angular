@@ -1,14 +1,5 @@
 @import 'src/styles/variables';
 
-
-.form-width {
-  width: clamp(250px, 320px, 450px);
-}
-
-.h-100per {
-  @include height-full
-}
-
 .m-form {
   margin-top: -200px;
 }

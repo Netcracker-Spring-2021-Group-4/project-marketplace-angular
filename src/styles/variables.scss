@@ -3,3 +3,11 @@ $nav-height: 64px;
 @mixin height-full {
   height: calc(100% - #{$nav-height});
 }
+
+.form-width {
+  width: clamp(250px, 320px, 450px);
+}
+
+.h-100per {
+  @include height-full
+}
