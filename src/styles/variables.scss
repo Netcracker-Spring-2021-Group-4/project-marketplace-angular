@@ -1,7 +1,7 @@
 $nav-height: 64px;
 
 @mixin height-full {
-  height: calc(100% - #{$nav-height});
+  min-height: calc(100% - #{$nav-height});
 }
 
 .form-width {

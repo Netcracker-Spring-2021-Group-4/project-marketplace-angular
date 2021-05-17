@@ -11,6 +11,7 @@ import { ComparePageComponent } from './compare-page/compare-page.component';
 import { CartPageComponent } from './cart-page/cart-page.component';
 import { CheckoutPageComponent } from './checkout-page/checkout-page.component';
 import {NgxCaptchaModule} from "ngx-captcha";
+import {NgxMaskModule} from "ngx-mask";
 
 
 
@@ -29,7 +30,8 @@ import {NgxCaptchaModule} from "ngx-captcha";
   imports: [
     CommonModule,
     SharedModule,
-    NgxCaptchaModule
+    NgxCaptchaModule,
+    NgxMaskModule.forRoot(),
   ]
 })
 export class NoAuthModule { }

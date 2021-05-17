@@ -3,7 +3,7 @@
 >
   <form
     [formGroup]="form"
-    class="container m-form d-flex justify-content-center flex-column form-width">
+    class="container d-flex justify-content-center flex-column form-width mt-3 mb-3">
     <h1 class="text-center">Sign Up</h1>
     <mat-form-field
       appearance="fill"
@@ -37,7 +37,12 @@
       appearance="outline"
       class="name-input mr-auto ml-auto mb-3">
       <mat-label>Phone number</mat-label>
-      <input type="number" matInput formControlName="phoneNumber">
+      <input type="text" matInput
+          mask="(000) 000 00 00"
+          prefix="+38"
+          [clearIfNotMatch]="true"
+          formControlName="phoneNumber"
+      >
       <mat-error *ngIf="form.get('phoneNumber')?.invalid">{{phoneNumberErrorMessage}}</mat-error>
     </mat-form-field>
     <button
@@ -46,7 +51,7 @@
       class="name-input mr-auto ml-auto"
       (click)="submit()"
     >
-      login
+      sign up
     </button>
     <div
       *ngIf="isLoading"
