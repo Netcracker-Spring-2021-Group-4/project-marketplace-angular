@@ -1,0 +1,34 @@
+<div
+  *ngIf="isFormNeeded"
+  class="h-100per container d-flex justify-content-center align-items-center"
+>
+  <form
+    [formGroup]="form"
+    class="container m-form d-flex justify-content-center flex-column form-width mt-3 mb-3">
+    <h1 class="text-center">Set Password</h1>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Password</mat-label>
+      <input type="password" matInput formControlName="password">
+      <mat-error *ngIf="form.get('password')?.invalid">{{passwordErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Password (repeat)</mat-label>
+      <input type="password" matInput formControlName="passwordRepeat">
+      <mat-error *ngIf="form.get('passwordRepeat')?.invalid">{{passwordErrorMessage}}</mat-error>
+      <mat-error *ngIf="form.errors?.passwordDontMatch">{{passwordDontMatchMessage}}</mat-error>
+    </mat-form-field>
+    <button
+      mat-raised-button color="accent"
+      [disabled]="form.invalid"
+      class="name-input mr-auto ml-auto"
+      (click)="submit()"
+    >
+      Set password
+    </button>
+  </form>
+</div>
+

@@ -19,6 +19,11 @@ const ManagerPlusRoutes: Routes = [
     canActivate: [AdminGuard]
   },
   {
+    path: Route.STAFF_CREATE,
+    component: ProfilePageComponent,
+    canActivate: [AdminGuard]
+  },
+  {
     path: Route.CREATE_PRODUCT,
     component: CreateProductPageComponent,
     canActivate: [ManagerPlusGuard]

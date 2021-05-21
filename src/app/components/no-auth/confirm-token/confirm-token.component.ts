@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {zip} from "rxjs";
 import {AuthApiService} from "../../../api-services/auth-http.service";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {Toaster} from "ngx-toast-notifications";
 import {Route} from "../../../shared/models/enums/route.enum";
+import {FormGroup} from "@angular/forms";
+import {UserAuthFormService} from "../services/user-auth-form.service";
+import {ValidationMessages} from "../../../shared/models/labels/validation.message";
 
 @Component({
   selector: 'app-confirm-token',
@@ -14,27 +16,42 @@ import {Route} from "../../../shared/models/enums/route.enum";
 export class ConfirmTokenComponent implements OnInit {
 
   token: string
-  takePassword: boolean
+  currentRoute: Route
+  form: FormGroup
+
+  passwordErrorMessage = ValidationMessages.password
+  passwordDontMatchMessage = ValidationMessages.passwordDontMatch
 
   constructor(
+    private userAuthFormService: UserAuthFormService,
     private activatedRoute: ActivatedRoute,
     private authApiService: AuthApiService,
     private toaster: Toaster,
     private router: Router,
   ) {
-    const observable = zip(
-      this.activatedRoute.params, this.activatedRoute.queryParams
-    )
-
-   observable.subscribe( obj =>{
-     this.token = obj[0].token
-     const queryParams = obj[1]
-     this.takePassword = Object.keys(queryParams).length !== 0
-   });
+    this.setCurrentRoute()
+    this.activatedRoute.params.subscribe(params => {
+      this.token = params.token
+    })
+    if(this.isFormNeeded) {
+      this.form = this.userAuthFormService.newPasswordForm()
+    }
   }
 
   ngOnInit(): void {
-    if (this.takePassword) return
+    if (!this.isFormNeeded) this.confirmSignUp()
+  }
+
+  submit() {
+    const {password} = this.form.value
+    console.log(password)
+  }
+
+  get isFormNeeded(): boolean {
+    return this.currentRoute !== Route.CONFIRM_TOKEN
+  }
+
+  private confirmSignUp() {
     this.authApiService.confirmSignUp(this.token).subscribe( res => {
       this.toaster.open({
         text: Labels.register.success,
@@ -55,4 +72,14 @@ export class ConfirmTokenComponent implements OnInit {
     })
   }
 
+  private setCurrentRoute() {
+    const route = this.router.url
+    if(route.indexOf('confirm-token') !== -1) {
+      this.currentRoute = Route.CONFIRM_TOKEN
+    } else if(route.indexOf('new-password') !== -1) {
+      this.currentRoute = Route.NEW_PASSWORD
+    } else {
+      this.currentRoute = Route.FIRST_PASSWORD
+    }
+  }
 }

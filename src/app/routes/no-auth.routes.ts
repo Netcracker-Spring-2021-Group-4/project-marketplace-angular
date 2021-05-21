@@ -24,6 +24,14 @@ const NoAuthRoutes: Routes = [
     component: ConfirmTokenComponent
   },
   {
+    path: Route.NEW_PASSWORD,
+    component: ConfirmTokenComponent
+  },
+  {
+    path: Route.FIRST_PASSWORD,
+    component: ConfirmTokenComponent
+  },
+  {
     path: Route.PASSWORD,
     component: RecoverPwdComponent
   },
