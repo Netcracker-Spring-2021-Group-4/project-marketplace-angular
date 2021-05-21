@@ -7,6 +7,7 @@ import {Route} from "../../../shared/models/enums/route.enum";
 import {FormGroup} from "@angular/forms";
 import {UserAuthFormService} from "../services/user-auth-form.service";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
+import {finalize} from "rxjs/operators";
 
 @Component({
   selector: 'app-confirm-token',
@@ -18,6 +19,7 @@ export class ConfirmTokenComponent implements OnInit {
   token: string
   currentRoute: Route
   form: FormGroup
+  isLoading: boolean
 
   passwordErrorMessage = ValidationMessages.password
   passwordDontMatchMessage = ValidationMessages.passwordDontMatch
@@ -43,12 +45,38 @@ export class ConfirmTokenComponent implements OnInit {
   }
 
   submit() {
+    this.isLoading = true
     const {password} = this.form.value
-    console.log(password)
+    if(this.currentRoute === Route.FIRST_PASSWORD) this.confirmFirstPassword(password)
   }
 
   get isFormNeeded(): boolean {
     return this.currentRoute !== Route.CONFIRM_TOKEN
+  }
+
+  private confirmFirstPassword(password: string) {
+    this.authApiService.confirmFirstPassword(this.token, password)
+      .pipe(
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe( _ => {
+      this.toaster.open({
+        text: Labels.password.successFirstPassword,
+        caption: Labels.caption.success,
+        duration: 4000,
+        type: 'success'
+      });
+
+      this.router.navigate([Route.LOGIN])
+    }, err => {
+      const text = err.status === 417 ? Labels.register.tokenAlreadyUsed : Labels.register.wrongTokenFormat
+      this.toaster.open({
+        text,
+        caption: Labels.caption.error,
+        duration: 4000,
+        type: 'danger'
+      });
+    })
   }
 
   private confirmSignUp() {

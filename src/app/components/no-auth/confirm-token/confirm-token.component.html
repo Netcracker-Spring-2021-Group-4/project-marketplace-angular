@@ -19,16 +19,25 @@
       <mat-label>Password (repeat)</mat-label>
       <input type="password" matInput formControlName="passwordRepeat">
       <mat-error *ngIf="form.get('passwordRepeat')?.invalid">{{passwordErrorMessage}}</mat-error>
-      <mat-error *ngIf="form.errors?.passwordDontMatch">{{passwordDontMatchMessage}}</mat-error>
     </mat-form-field>
+    <mat-error class="mb-3" *ngIf="form.errors?.passwordDontMatch">{{passwordDontMatchMessage}}</mat-error>
     <button
       mat-raised-button color="accent"
-      [disabled]="form.invalid"
+      [disabled]="form.invalid || isLoading"
       class="name-input mr-auto ml-auto"
       (click)="submit()"
     >
       Set password
     </button>
+    <div
+      *ngIf="isLoading"
+      class="d-flex justify-content-center mt-2"
+    >
+      <mat-spinner
+        class="mr-auto"
+        [diameter]="36"
+      ></mat-spinner>
+    </div>
   </form>
 </div>
 
