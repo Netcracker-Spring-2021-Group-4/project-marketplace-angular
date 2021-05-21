@@ -4,6 +4,8 @@ import {SharedModule} from "../../shared/shared.module";
 import { AuctionListPageComponent } from './auction-list-page/auction-list-page.component';
 import { AuctionPageComponent } from './auction-page/auction-page.component';
 import { DeliveriesPageComponent } from './deliveries-page/deliveries-page.component';
+import {ProfilePageComponent} from "./profile-page/profile-page.component";
+import {NgxMaskModule} from "ngx-mask";
 
 
 
@@ -11,11 +13,13 @@ import { DeliveriesPageComponent } from './deliveries-page/deliveries-page.compo
   declarations: [
     AuctionListPageComponent,
     AuctionPageComponent,
-    DeliveriesPageComponent
+    DeliveriesPageComponent,
+    ProfilePageComponent
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    NgxMaskModule.forRoot(),
   ]
 })
 export class AuthStoreModule { }

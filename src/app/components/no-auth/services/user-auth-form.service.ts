@@ -31,6 +31,18 @@ export class UserAuthFormService {
     });
   }
 
+  public createStaffForm()
+    : FormGroup {
+    return this.formBuilder.group({
+      email: username(),
+      plainPassword: password(),
+      firstName: name(),
+      lastName: name(),
+      phoneNumber: phoneNumber(),
+      title: title()
+    });
+  }
+
   public newPasswordForm()
     : FormGroup {
     return this.formBuilder.group({
@@ -52,4 +64,5 @@ const username = (value?: string) => ([value ?? null, [Validators.required, Vali
 const password = () => ([null, [Validators.required, Validators.pattern(passwordRegExp)]])
 const name = (value?: string) => ([value ?? null, [Validators.required, Validators.minLength(2), Validators.maxLength(30)]])
 const phoneNumber = (value?: string) => ([value ?? null])
+const title = () => ([null, [Validators.required]])
 const recaptcha = () => ([''])

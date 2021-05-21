@@ -14,6 +14,7 @@ const Labels = {
     wrongTokenFormat: 'Wrong token format',
     tokenAlreadyUsed: 'Token already used',
     successRequest: 'Request was send successfully.\nConfirm your account by clicking the link sent to your email',
+    successCreatingStaff: 'Request was sent successfully.\nPlease tell the staffer to check his email',
     error: 'Something went wrong with your registration'
   }
 }

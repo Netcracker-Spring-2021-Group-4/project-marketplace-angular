@@ -1,7 +1,7 @@
 import {Routes} from "@angular/router";
 import {Route} from "../shared/models/enums/route.enum";
-import {ProfilePageComponent} from "../components/profile-page/profile-page.component";
 import {AuthNotAdminGuard} from "../guards/role.guards";
+import {ProfilePageComponent} from "../components/auth-store/profile-page/profile-page.component";
 
 const AuthNotAdminRoutes: Routes = [
   {

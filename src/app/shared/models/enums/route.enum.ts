@@ -14,7 +14,7 @@ export enum Route {
   AUCTION_PAGE = "auth-store/auction",
   PROFILE = "me",
   STAFF_LIST = "admin/staff",
-  STAFF_PROFILE = "admin/staffer",
+  STAFF_PROFILE = "admin/staffer/:id",
   STAFF_CREATE = "admin/create-staff",
   ORDER_HISTORY = "customer/order-history",
   ORDER_PAGE = "customer/order",

@@ -4,6 +4,7 @@ import {environment} from "../../environments/environment";
 import {LoginCredentials} from "../shared/models/api/send/credentials.model";
 import {Observable} from "rxjs";
 import {SignUpCredentials} from "../shared/models/api/send/sign-up-credentials.model";
+import {UpdatePasswordWrapper} from "../shared/models/api/send/update-password-wrapper.model";
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +31,25 @@ export class AuthApiService {
 
   confirmSignUp(token: string): Observable<any> {
     return this.httpClient.post(`${this.PUBLIC_USER_URL}/confirm-signup/${token}`,{})
+  }
+
+  confirmFirstPassword(token: string, password: string): Observable<any> {
+    return this.httpClient.post(`${this.PUBLIC_USER_URL}/confirm-first-password/${token}`, {password})
+  }
+
+  requestResetPassword(email: string): Observable<any> {
+    return this.httpClient.post(`${this.PUBLIC_USER_URL}/password-reset/${email}`, {})
+  }
+
+  resetPassword(token: string, password: string): Observable<any> {
+    return this.httpClient.patch(`${this.PUBLIC_USER_URL}/password/${token}`, {password})
+  }
+
+  changePassword(email: string, obj: UpdatePasswordWrapper): Observable<any> {
+    return this.httpClient.patch(`${this.PUBLIC_USER_URL}/${email}/password`, obj)
+  }
+
+  getPasswordValidity(token: string): Observable<any> {
+    return this.httpClient.get(`${this.PUBLIC_USER_URL}/password-token-validity/${token}`)
   }
 }
