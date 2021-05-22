@@ -1,1 +1,33 @@
-<p>recover-pwd works!</p>
+<div
+  class="h-100per container d-flex justify-content-center align-items-center"
+>
+  <form
+    [formGroup]="form"
+    class="container m-form d-flex justify-content-center flex-column form-width mt-3 mb-3">
+    <h1 class="text-center">Reset password</h1>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Email connected to the account</mat-label>
+      <input type="text" matInput formControlName="email">
+      <mat-error *ngIf="form.get('email')?.invalid">{{emailErrorMessage}}</mat-error>
+    </mat-form-field>
+    <button
+      mat-raised-button color="accent"
+      [disabled]="form.invalid || isLoading"
+      class="name-input mr-auto ml-auto"
+      (click)="submit()"
+    >
+      send email
+    </button>
+    <div
+      *ngIf="isLoading"
+      class="d-flex justify-content-center mt-2"
+    >
+      <mat-spinner
+        class="mr-auto"
+        [diameter]="36"
+      ></mat-spinner>
+    </div>
+  </form>
+</div>

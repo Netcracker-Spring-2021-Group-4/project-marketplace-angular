@@ -8,6 +8,7 @@ import {FormGroup} from "@angular/forms";
 import {UserAuthFormService} from "../services/user-auth-form.service";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
 import {finalize} from "rxjs/operators";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-confirm-token',
@@ -41,63 +42,56 @@ export class ConfirmTokenComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.isFormNeeded) this.confirmSignUp()
-  }
-
-  submit() {
-    this.isLoading = true
-    const {password} = this.form.value
-    if(this.currentRoute === Route.FIRST_PASSWORD) this.confirmFirstPassword(password)
+    if (!this.isFormNeeded){
+      const func = this.authApiService.confirmSignUp(this.token)
+      const text = Labels.register.success
+      this.execApiFunc(func, text)
+    }
   }
 
   get isFormNeeded(): boolean {
     return this.currentRoute !== Route.CONFIRM_TOKEN
   }
 
-  private confirmFirstPassword(password: string) {
-    this.authApiService.confirmFirstPassword(this.token, password)
+  submit() {
+    this.isLoading = true
+    const {password} = this.form.value
+    let func: Observable<any>;
+    let text: string;
+    if (this.currentRoute === Route.FIRST_PASSWORD) {
+      func = this.authApiService.confirmFirstPassword(this.token, password)
+      text = Labels.password.successFirstPassword
+    } else {
+      // this.currentRoute === Route.NEW_PASSWORD
+      func = this.authApiService.resetPassword(this.token, password)
+      text = Labels.password.successfulRequestResetPassword
+    }
+    this.execApiFunc(func, text);
+  }
+
+  private execApiFunc(apiFunction: Observable<any>, successText: string) {
+    apiFunction
       .pipe(
         finalize(() => this.isLoading = false)
       )
       .subscribe( _ => {
-      this.toaster.open({
-        text: Labels.password.successFirstPassword,
-        caption: Labels.caption.success,
-        duration: 4000,
-        type: 'success'
-      });
+        this.toaster.open({
+          text: successText,
+          caption: Labels.caption.success,
+          duration: 4000,
+          type: 'success'
+        });
 
-      this.router.navigate([Route.LOGIN])
-    }, err => {
-      const text = err.status === 417 ? Labels.register.tokenAlreadyUsed : Labels.register.wrongTokenFormat
-      this.toaster.open({
-        text,
-        caption: Labels.caption.error,
-        duration: 4000,
-        type: 'danger'
-      });
-    })
-  }
-
-  private confirmSignUp() {
-    this.authApiService.confirmSignUp(this.token).subscribe( res => {
-      this.toaster.open({
-        text: Labels.register.success,
-        caption: Labels.caption.success,
-        duration: 4000,
-        type: 'success'
-      });
-
-      this.router.navigate([Route.LOGIN])
-    }, err => {
-      const text = err.status === 417 ? Labels.register.tokenAlreadyUsed : Labels.register.wrongTokenFormat
-      this.toaster.open({
-        text,
-        caption: Labels.caption.error,
-        duration: 4000,
-        type: 'danger'
-      });
-    })
+        this.router.navigate([Route.LOGIN])
+      }, err => {
+        const text = err.status === 417 ? Labels.register.tokenAlreadyUsed : err.error.message
+        this.toaster.open({
+          text,
+          caption: Labels.caption.error,
+          duration: 4000,
+          type: 'danger'
+        });
+      })
   }
 
   private setCurrentRoute() {

@@ -51,6 +51,12 @@ export class UserAuthFormService {
     }, { validators: [samePasswordValidator]})
   }
 
+  public resetPasswordForm()
+    : FormGroup {
+    return this.formBuilder.group({
+      email: username()
+    });
+  }
 }
 
 const samePasswordValidator :ValidatorFn = (control: AbstractControl): ValidationErrors | null => {

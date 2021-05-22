@@ -18,7 +18,9 @@ const Labels = {
     error: 'Something went wrong with your registration'
   },
   password: {
-    successFirstPassword: 'Your password was set and the registration is completed'
+    successFirstPassword: 'Your password was set and the registration is completed',
+    successfulRequestResetPassword: 'Link to reset the password was sent to your email',
+    successfulResetPassword: 'Your new password was set'
   }
 }
 

@@ -37,6 +37,7 @@ export class RegisterComponent implements OnInit {
   submit() {
     this.isLoading = true;
     const result = this.form.value
+    if(!result.phoneNumber) delete result.phoneNumber
     this.authApiService.requestSignUp(result)
       .pipe(
         finalize(() => this.isLoading = false)
