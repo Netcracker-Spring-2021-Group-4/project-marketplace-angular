@@ -1,5 +1,6 @@
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {Injectable} from "@angular/core";
+import {ProfileModel} from "../../../shared/models/api/receive/profile.model";
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,18 @@ export class UserAuthFormService {
     });
   }
 
+  public editForm(p: ProfileModel, isAdmin: boolean)
+    : FormGroup {
+    const form = this.formBuilder.group({
+      email: username( p.email, true),
+      firstName: name(p.firstName),
+      lastName: name(p.lastName),
+      phoneNumber: phoneNumber(p.phoneNumber),
+    });
+    if(isAdmin) form.addControl('status', this.formBuilder.control(p.status))
+    return form
+  }
+
   public newPasswordForm()
     : FormGroup {
     return this.formBuilder.group({
@@ -66,7 +79,7 @@ const samePasswordValidator :ValidatorFn = (control: AbstractControl): Validatio
 }
 
 const passwordRegExp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$"
-const username = (value?: string) => ([value ?? null, [Validators.required, Validators.email]])
+const username = (value?: string, disabled = false) => ([{value: value ?? null, disabled}, [Validators.required, Validators.email]])
 const password = () => ([null, [Validators.required, Validators.pattern(passwordRegExp)]])
 const name = (value?: string) => ([value ?? null, [Validators.required, Validators.minLength(2), Validators.maxLength(30)]])
 const phoneNumber = (value?: string) => ([value ?? null])

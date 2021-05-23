@@ -1,0 +1,106 @@
+<div
+  class="h-100per container d-flex flex-column justify-content-center align-items-center"
+>
+  <form
+    [formGroup]="form"
+    class="container d-flex justify-content-center flex-column form-width mt-3 mb-3">
+    <h1 class="text-center">{{formTitle}}</h1>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Email</mat-label>
+      <input
+        matInput formControlName="email"
+      >
+      <mat-error *ngIf="form.get('email')?.invalid">{{emailErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      *ngIf="isStaffCreateRoute"
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Password</mat-label>
+      <input type="password" matInput formControlName="plainPassword">
+      <mat-error *ngIf="form.get('plainPassword')?.invalid">{{passwordErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>First name</mat-label>
+      <input matInput formControlName="firstName">
+      <mat-error *ngIf="form.get('firstName')?.invalid">{{firstNameErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Last name</mat-label>
+      <input matInput formControlName="lastName">
+      <mat-error *ngIf="form.get('lastName')?.invalid">{{lastNameErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      *ngIf="isStaffCreateRoute"
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3"
+    >
+      <mat-label>Job title</mat-label>
+      <mat-select formControlName="title">
+        <mat-option *ngFor="let title of titles" [value]="title.value">
+          {{title.label}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field
+      *ngIf="isStaffEditRoute"
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3"
+    >
+      <mat-label>Status</mat-label>
+      <mat-select
+        formControlName="status"
+        (selectionChange)="statusChanged($event)"
+      >
+        <mat-option *ngFor="let st of statuses" [value]="st.value">
+          {{st.label}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field
+      appearance="outline"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Phone number</mat-label>
+      <input type="text" matInput
+             mask="(000) 000 00 00"
+             prefix="+38"
+             [clearIfNotMatch]="true"
+             formControlName="phoneNumber"
+      >
+      <mat-error *ngIf="form.get('phoneNumber')?.invalid">{{phoneNumberErrorMessage}}</mat-error>
+    </mat-form-field>
+    <div class="d-flex justify-content-center">
+      <button
+        mat-raised-button color="primary"
+        [disabled]="isLoading"
+        class="me-3"
+        (click)="back()"
+      >
+        back
+      </button>
+      <button
+        mat-raised-button color="accent"
+        [disabled]="form.invalid || isLoading"
+        (click)="submit()"
+      >
+        {{formBtnMessage}}
+      </button>
+    </div>
+    <div
+      *ngIf="isLoading"
+      class="d-flex justify-content-center mt-2"
+    >
+      <mat-spinner
+        class="mr-auto"
+        [diameter]="36"
+      ></mat-spinner>
+    </div>
+  </form>
+</div>
+

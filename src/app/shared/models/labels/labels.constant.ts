@@ -21,6 +21,10 @@ const Labels = {
     successFirstPassword: 'Your password was set and the registration is completed',
     successfulRequestResetPassword: 'Link to reset the password was sent to your email',
     successfulResetPassword: 'Your new password was set'
+  },
+  editProfile: {
+    successfulStatusChange: 'Status was changed successfully',
+    successfulEditStaffer: 'The information of the staffer was changed successfully'
   }
 }
 

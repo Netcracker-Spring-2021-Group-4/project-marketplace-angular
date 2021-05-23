@@ -1,9 +1,10 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {LoginCredentials} from "../shared/models/api/send/credentials.model";
 import {Observable} from "rxjs";
 import {SignUpCredentials} from "../shared/models/api/send/sign-up-credentials.model";
+import {UserUpdateModel} from "../shared/models/api/send/user-update.model";
+import {ChangeStatusModel} from "../shared/models/api/send/change-status.model";
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,13 @@ export class ManagerPlusApiService {
 
   createCourier(body: SignUpCredentials): Observable<any> {
     return this.httpClient.post(`${this.ADMIN_STAFF_URL}/courier`, body)
+  }
+
+  updateStaffer(body: UserUpdateModel): Observable<any> {
+    return this.httpClient.put(`${this.ADMIN_STAFF_URL}/edit`, body)
+  }
+
+  changeStafferStatus(body: ChangeStatusModel): Observable<any> {
+    return this.httpClient.patch(`${this.ADMIN_STAFF_URL}/change-status`, body)
   }
 }
