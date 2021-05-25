@@ -12,6 +12,11 @@ import { CartPageComponent } from './cart-page/cart-page.component';
 import { CheckoutPageComponent } from './checkout-page/checkout-page.component';
 import {NgxCaptchaModule} from "ngx-captcha";
 import {NgxMaskModule} from "ngx-mask";
+import { HeaderComponent } from './catalog/header/header.component';
+import { FooterComponent } from './catalog/footer/footer.component';
+import { FiltersComponent } from './catalog/filters/filters.component';
+import { ProductsComponent } from './catalog/products/products.component';
+import { ProductComponent } from './catalog/products/product/product.component';
 
 
 
@@ -25,7 +30,12 @@ import {NgxMaskModule} from "ngx-mask";
     ProductPageComponent,
     ComparePageComponent,
     CartPageComponent,
-    CheckoutPageComponent
+    CheckoutPageComponent,
+    HeaderComponent,
+    FooterComponent,
+    FiltersComponent,
+    ProductsComponent,
+    ProductComponent
   ],
   imports: [
     CommonModule,
