@@ -35,6 +35,10 @@ export class ManagerPlusApiService {
     return this.httpClient.post(`${this.ADMIN_STAFF_URL}/courier`, body)
   }
 
+  getStaffer(id: string): Observable<any> {
+    return this.httpClient.get(`${this.ADMIN_STAFF_URL}/${id}`, {observe: 'response'})
+  }
+
   updateStaffer(body: UserUpdateModel): Observable<any> {
     return this.httpClient.put(`${this.ADMIN_STAFF_URL}/edit`, body)
   }

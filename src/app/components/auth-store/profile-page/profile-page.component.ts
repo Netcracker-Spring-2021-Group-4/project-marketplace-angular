@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {FormGroup} from "@angular/forms";
 import {Route} from "../../../shared/models/enums/route.enum";
 import {UserAuthFormService} from "../../no-auth/services/user-auth-form.service";
@@ -13,6 +13,7 @@ import {Observable, Subscription} from "rxjs";
 import {ProfileModel} from "../../../shared/models/api/receive/profile.model";
 import {UserStatus} from "../../../shared/models/api/send/change-status.model";
 import {UserUpdateModel} from "../../../shared/models/api/send/user-update.model";
+import {AuthStoreApiService} from "../../../api-services/auth-store-http.service";
 
 @Component({
   selector: 'app-profile-page',
@@ -27,31 +28,53 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   role: UserRole;
   roleSub: Subscription;
   isFormViewActive: boolean;
-  profile: ProfileModel = {
-    userId: 'ghtfd43',
-    email: 'dhdft@bfgen.ty',
-    firstName: 'urytuty',
-    lastName: 'gfbfhd',
-    phoneNumber:'911',
-    role: UserRole.ROLE_COURIER,
-    status: 'ACTIVE'
-  };
+  profile: ProfileModel;
+  profileId: string;
 
   constructor(
     private roleService: RoleService,
     private userAuthFormService: UserAuthFormService,
     private managerPlusApiService: ManagerPlusApiService,
+    private authStoreApiService: AuthStoreApiService,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private toaster: Toaster
   ) {
     this.setCurrentRoute()
+    this.activatedRoute.params.subscribe(params => {
+      this.profileId = params['id'];
+    })
   }
 
   ngOnInit(): void {
     this.roleSub = this.roleService.currentRole.subscribe(role => this.role = role)
-    // todo set profile if needed
-    if(this.isFormNeeded) {
-      this.form = this.pageForm
+    let func;
+    if (this.isStaffEditRoute) {
+      func = this.managerPlusApiService.getStaffer(this.profileId)
+    } else if (this.isCustomerProfileRoute || this.isStaffProfileRoute) {
+      func = this.authStoreApiService.getMyProfile()
+    }
+    if(func) {
+      this.isLoading = true
+      func
+        .pipe(
+          finalize(() => this.isLoading = false)
+        )
+        .subscribe(res => {
+        this.profile = res.body
+        if(this.isFormNeeded) this.form = this.pageForm
+      }, err => {
+        const text = err.error?.message ?? 'Wrong id format'
+        this.toaster.open({
+          text,
+          caption: Labels.caption.error,
+          duration: 4000,
+          type: 'danger'
+        });
+        this.router.navigate([Route.STAFF_LIST])
+      })
+    } else {
+      if(this.isFormNeeded) this.form = this.pageForm
     }
   }
 
@@ -125,7 +148,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
 
   submitEditStaff($event: UserUpdateModel) {
     this.execApiFunc(this.managerPlusApiService.updateStaffer($event),
-      Labels.editProfile.successfulEditStaffer)
+      Labels.editProfile.successfulEditStaffer, $event)
   }
 
   submitCreateStaff($event: any) {
@@ -139,13 +162,16 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   }
 
 
-  private execApiFunc(func: Observable<any>, successText: string) {
+  private execApiFunc(func: Observable<any>, successText: string, updatedProfile: any = {}) {
     this.isLoading = true
     func
       .pipe(
         finalize(() => this.isLoading = false)
       )
       .subscribe( _ => {
+        if (this.isCustomerProfileRoute || this.isStaffEditRoute) {
+          this.profile = {...this.profile, ...updatedProfile}
+        }
         this.toaster.open({
           text: successText,
           caption: Labels.caption.success,
@@ -154,7 +180,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         });
       }, err => {
         const text = err.error.message ?? Object.values(err.error.error).join('\n')
-        console.log(text)
         this.toaster.open({
           text: text,
           caption: Labels.caption.error,

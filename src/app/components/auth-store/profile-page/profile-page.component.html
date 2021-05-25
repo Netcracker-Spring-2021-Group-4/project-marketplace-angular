@@ -17,7 +17,7 @@
 </app-profile-page-form>
 
 <app-profile-page-view
-  *ngIf="!isFormViewActive"
+  *ngIf="!isFormViewActive && !isLoading"
   [profile]="profile"
   [isCustomerProfileRoute]="isCustomerProfileRoute"
   [isStaffProfileRoute]="isStaffProfileRoute"
