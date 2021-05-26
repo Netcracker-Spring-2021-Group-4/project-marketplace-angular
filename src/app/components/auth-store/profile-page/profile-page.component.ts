@@ -41,6 +41,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     private toaster: Toaster
   ) {
     this.setCurrentRoute()
+    if (this.isStaffCreateRoute) this.isFormViewActive = true;
     this.activatedRoute.params.subscribe(params => {
       this.profileId = params['id'];
     })

@@ -13,7 +13,7 @@ export class ProfilePageFormComponent{
   @Input()
   form: FormGroup;
   @Input()
-  status: UserStatus;
+  status ?: UserStatus;
   @Input()
   isLoading: boolean;
   @Input()
