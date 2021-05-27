@@ -136,8 +136,13 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     this.isFormViewActive = !this.isFormViewActive
   }
 
+  changePassword() {
+    this.router.navigate([Route.CHANGE_PASSWORD])
+  }
+
   submitEditCustomer($event: UserUpdateModel) {
-    console.log($event)
+    this.execApiFunc(this.authStoreApiService.editCustomerProfile($event),
+      Labels.editProfile.successfulEditCustomer, $event);
   }
 
   statusChangeStaffer($event: UserStatus) {
@@ -172,6 +177,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
       .subscribe( _ => {
         if (this.isCustomerProfileRoute || this.isStaffEditRoute) {
           this.profile = {...this.profile, ...updatedProfile}
+          if (!updatedProfile.hasOwnProperty('phoneNumber')) this.profile.phoneNumber = undefined
         }
         this.toaster.open({
           text: successText,

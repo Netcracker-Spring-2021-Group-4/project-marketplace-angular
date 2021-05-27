@@ -4,6 +4,7 @@ import {AuctionListPageComponent} from "../components/auth-store/auction-list-pa
 import {AuctionPageComponent} from "../components/auth-store/auction-page/auction-page.component";
 import {DeliveriesPageComponent} from "../components/auth-store/deliveries-page/deliveries-page.component";
 import {AuthStoreGuard, CourierGuard} from "../guards/role.guards";
+import {ChangePasswordComponent} from "../components/auth-store/profile-page/change-password/change-password.component";
 
 const AuthStoreRoutes : Routes = [
   {
@@ -20,6 +21,11 @@ const AuthStoreRoutes : Routes = [
     path: Route.DELIVERIES,
     component: DeliveriesPageComponent,
     canActivate: [CourierGuard]
+  },
+  {
+    path: Route.CHANGE_PASSWORD,
+    component: ChangePasswordComponent,
+    canActivate: [AuthStoreGuard]
   }
 ];
 
