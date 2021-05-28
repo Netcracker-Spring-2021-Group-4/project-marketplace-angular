@@ -4,6 +4,7 @@ import {environment} from "../../environments/environment";
 import {Observable} from "rxjs";
 import {UserUpdateModel} from "../shared/models/api/send/user-update.model";
 import {UpdatePasswordWrapper} from "../shared/models/api/send/update-password-wrapper.model";
+import {CartItemModel} from "../shared/models/api/send/cart-item.model";
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,9 @@ export class AuthStoreApiService {
 
   changePassword(obj: UpdatePasswordWrapper): Observable<any> {
     return this.httpClient.patch(`${this.AUTH_STORE_URL}/change-password`, obj)
+  }
+
+  addToCart(obj: CartItemModel): Observable<any> {
+    return this.httpClient.post(`${this.AUTH_CUSTOMER_URL}/add-to-cart`, obj)
   }
 }

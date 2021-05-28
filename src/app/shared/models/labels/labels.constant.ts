@@ -27,6 +27,10 @@ const Labels = {
     successfulStatusChange: 'Status was changed successfully',
     successfulEditStaffer: 'The information of the staffer was changed successfully',
     successfulEditCustomer: 'Your information was updated successfully'
+  },
+  cart: {
+    wrongFormatUUID: 'The added id is not a UUID',
+    successfulAddingToCart: 'The item was successfully added to your cart'
   }
 }
 
