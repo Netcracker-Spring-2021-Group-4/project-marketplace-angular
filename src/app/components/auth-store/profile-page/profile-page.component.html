@@ -1,7 +1,7 @@
 <app-profile-page-form
   *ngIf="isFormViewActive"
   [form]="form"
-  [status]="profile.status"
+  [status]="profile?.status"
   [isLoading]="isLoading"
   [isStaffCreateRoute]="isStaffCreateRoute"
   [isCustomerProfileRoute]="isCustomerProfileRoute"
@@ -23,5 +23,6 @@
   [isStaffProfileRoute]="isStaffProfileRoute"
   [isFormNeeded]="isFormNeeded"
   (viewActiveEvent)="toggleActiveView()"
+  (changePasswordEvent)="changePassword()"
 >
 </app-profile-page-view>

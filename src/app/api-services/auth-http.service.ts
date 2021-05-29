@@ -45,11 +45,7 @@ export class AuthApiService {
     return this.httpClient.patch(`${this.PUBLIC_USER_URL}/password/${token}`, {password})
   }
 
-  changePassword(email: string, obj: UpdatePasswordWrapper): Observable<any> {
-    return this.httpClient.patch(`${this.PUBLIC_USER_URL}/${email}/password`, obj)
-  }
-
-  getPasswordValidity(token: string): Observable<any> {
+  getPasswordTokenValidity(token: string): Observable<any> {
     return this.httpClient.get(`${this.PUBLIC_USER_URL}/password-token-validity/${token}`)
   }
 }

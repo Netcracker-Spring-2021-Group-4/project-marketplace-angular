@@ -13,7 +13,7 @@ export class ProfilePageFormComponent{
   @Input()
   form: FormGroup;
   @Input()
-  status: UserStatus;
+  status ?: UserStatus;
   @Input()
   isLoading: boolean;
   @Input()
@@ -58,11 +58,19 @@ export class ProfilePageFormComponent{
     else if (this.isStaffEditRoute) {
       const obj = this.form.value
       delete obj.status
-      obj.email = this.form.get('email')!.value
+      if(!obj.phoneNumber) delete obj.phoneNumber;
+      obj.email = this.emailValue
       this.staffEditEvent.emit(obj)
     } else if (this.isCustomerProfileRoute) {
-      this.customerEditEvent.emit(this.form.value)
+      const obj = this.form.value
+      obj.email = this.emailValue
+      if(!obj.phoneNumber) delete obj.phoneNumber;
+      this.customerEditEvent.emit(obj)
     }
+  }
+
+  get emailValue() : string {
+    return this.form.get('email')!.value
   }
 
   statusChanged($event: any) {

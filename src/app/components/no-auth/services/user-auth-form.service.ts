@@ -72,6 +72,15 @@ export class UserAuthFormService {
     }, { validators: [samePasswordValidator]})
   }
 
+  public changePasswordForm()
+    : FormGroup {
+    return this.formBuilder.group({
+      currentPassword: password(),
+      newPassword: password(),
+      newPasswordRepeat: password(),
+    }, { validators: [changePasswordValidator]})
+  }
+
   public resetPasswordForm()
     : FormGroup {
     return this.formBuilder.group({
@@ -96,8 +105,19 @@ export class UserAuthFormService {
 const samePasswordValidator :ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const password = control.get('password')?.value
   const passwordRepeat = control.get('passwordRepeat')?.value
-  return password === passwordRepeat ? null : {passwordDontMatch: true}
+  return passwordDontMatchCheck(password, passwordRepeat)
 }
+
+const changePasswordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const currentPassword = control.get('currentPassword')?.value
+  const newPassword = control.get('newPassword')?.value
+  const newPasswordRepeat = control.get('newPasswordRepeat')?.value
+  return currentPassword === newPassword  && control.get('currentPassword')?.touched ? {passwordsAreTheSame: true} :
+    passwordDontMatchCheck(newPassword, newPasswordRepeat)
+}
+
+const passwordDontMatchCheck = (password: string, passwordRepeat: string): ValidationErrors | null =>
+    password === passwordRepeat ? null : {passwordDontMatch: true}
 
 const passwordRegExp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$"
 const username = (value?: string, disabled = false) => ([{value: value ?? null, disabled}, [Validators.required, Validators.email]])

@@ -20,11 +20,17 @@ const Labels = {
   password: {
     successFirstPassword: 'Your password was set and the registration is completed',
     successfulRequestResetPassword: 'Link to reset the password was sent to your email',
-    successfulResetPassword: 'Your new password was set'
+    successfulResetPassword: 'Your new password was set',
+    successfulChangePassword: 'Your password was changed successfully'
   },
   editProfile: {
     successfulStatusChange: 'Status was changed successfully',
-    successfulEditStaffer: 'The information of the staffer was changed successfully'
+    successfulEditStaffer: 'The information of the staffer was changed successfully',
+    successfulEditCustomer: 'Your information was updated successfully'
+  },
+  cart: {
+    wrongFormatUUID: 'The added id is not a UUID',
+    successfulAddingToCart: 'The item was successfully added to your cart'
   }
 }
 

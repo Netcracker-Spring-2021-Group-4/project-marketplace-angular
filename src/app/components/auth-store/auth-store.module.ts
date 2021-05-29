@@ -6,8 +6,13 @@ import {AuctionPageComponent} from './auction-page/auction-page.component';
 import {DeliveriesPageComponent} from './deliveries-page/deliveries-page.component';
 import {ProfilePageComponent} from "./profile-page/profile-page.component";
 import {NgxMaskModule} from "ngx-mask";
+import { ProfilePageFormComponent } from './profile-page/profile-page-form/profile-page-form.component';
+import { ProfilePageViewComponent } from './profile-page/profile-page-view/profile-page-view.component';
+import { ChangePasswordComponent } from './profile-page/change-password/change-password.component';
 import {ProfilePageFormComponent} from './profile-page/profile-page-form/profile-page-form.component';
 import {ProfilePageViewComponent} from './profile-page/profile-page-view/profile-page-view.component';
+
+
 
 @NgModule({
   declarations: [
@@ -16,7 +21,8 @@ import {ProfilePageViewComponent} from './profile-page/profile-page-view/profile
     DeliveriesPageComponent,
     ProfilePageComponent,
     ProfilePageFormComponent,
-    ProfilePageViewComponent
+    ProfilePageViewComponent,
+    ChangePasswordComponent
   ],
   imports: [
     CommonModule,
@@ -24,5 +30,4 @@ import {ProfilePageViewComponent} from './profile-page/profile-page-view/profile
     NgxMaskModule.forRoot(),
   ]
 })
-export class AuthStoreModule {
-}
+export class AuthStoreModule { }

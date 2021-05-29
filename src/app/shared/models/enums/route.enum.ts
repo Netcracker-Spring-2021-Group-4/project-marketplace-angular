@@ -5,6 +5,7 @@ export enum Route {
   NEW_PASSWORD = "new-password/:token",
   FIRST_PASSWORD = "first-password/:token",
   PASSWORD = "reset-password",
+  CHANGE_PASSWORD = "change-password",
   CATALOG = "catalog",
   PRODUCT = "product",
   COMPARE = "compare",

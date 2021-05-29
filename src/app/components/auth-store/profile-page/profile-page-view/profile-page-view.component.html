@@ -25,9 +25,17 @@
 
   <button
     *ngIf="!isStaffProfileRoute"
+    class="mb-3"
     mat-raised-button color="primary"
     (click)="edit()"
   >
     Edit
+  </button>
+
+  <button
+    mat-raised-button color="warn"
+    (click)="goToChangePassword()"
+  >
+    Change password
   </button>
 </div>
