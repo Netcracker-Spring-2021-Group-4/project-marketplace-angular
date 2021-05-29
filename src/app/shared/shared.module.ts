@@ -24,6 +24,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ToastNotificationsModule} from "ngx-toast-notifications";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   imports: [
@@ -52,6 +53,7 @@ import {ToastNotificationsModule} from "ngx-toast-notifications";
     MatTableModule,
     LayoutModule,
     MatSidenavModule,
+    MatCheckboxModule
   ],
     exports: [
       BrowserModule,
@@ -76,6 +78,7 @@ import {ToastNotificationsModule} from "ngx-toast-notifications";
       MatDividerModule,
       MatTableModule,
       MenuBarComponent,
+      MatCheckboxModule
     ],
   declarations: [MenuBarComponent]
 })

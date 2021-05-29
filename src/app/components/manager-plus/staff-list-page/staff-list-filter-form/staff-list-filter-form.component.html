@@ -1,0 +1,26 @@
+<form [formGroup]="staffFilterForm" (ngSubmit)="search()">
+  <h3>Enter your search criteria</h3>
+
+  <mat-form-field appearance="fill">
+    <mat-label>First name:</mat-label>
+    <input matInput formControlName="firstName" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Last name:</mat-label>
+    <input matInput formControlName="lastName" />
+  </mat-form-field>
+
+  <fieldset>
+    <legend>Target roles:</legend>
+      <mat-checkbox formControlName="isRoleCourier">Courier</mat-checkbox>
+      <mat-checkbox formControlName="isRolePM">Product manager</mat-checkbox>
+  </fieldset>
+  <fieldset>
+    <legend>Target statuses:</legend>
+      <mat-checkbox formControlName="isStatusActive">Active</mat-checkbox>
+      <mat-checkbox formControlName="isStatusInactive">Inactive</mat-checkbox>
+      <mat-checkbox formControlName="isStatusTerminated">Terminated</mat-checkbox>
+      <mat-checkbox formControlName="isStatusUnconfirmed">Unconfirmed</mat-checkbox>
+  </fieldset>
+  <button type="submit">Search</button>
+</form>

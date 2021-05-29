@@ -1,1 +1,12 @@
-<p>staff-list-page works!</p>
+<app-staff-list-filter-form
+  [staffFilterForm]="formControlsGroup"
+  (searchCriteriaEvent)="setSearchCriteria($event)"></app-staff-list-filter-form>
+<div *ngIf="contentPage">
+  <app-staff-list-content [matchingStaff]="contentPage.content"></app-staff-list-content>
+  <mat-paginator
+    [length]="contentPage.numPages"
+    [pageIndex]="selectedPage"
+    [pageSize]="contentPage.fullPageSize"
+    (page)="handlePageChange($event)"
+  ></mat-paginator>
+</div>
