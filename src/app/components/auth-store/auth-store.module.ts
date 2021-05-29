@@ -9,10 +9,6 @@ import {NgxMaskModule} from "ngx-mask";
 import { ProfilePageFormComponent } from './profile-page/profile-page-form/profile-page-form.component';
 import { ProfilePageViewComponent } from './profile-page/profile-page-view/profile-page-view.component';
 import { ChangePasswordComponent } from './profile-page/change-password/change-password.component';
-import {ProfilePageFormComponent} from './profile-page/profile-page-form/profile-page-form.component';
-import {ProfilePageViewComponent} from './profile-page/profile-page-view/profile-page-view.component';
-
-
 
 @NgModule({
   declarations: [
