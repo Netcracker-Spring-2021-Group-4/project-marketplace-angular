@@ -23,7 +23,7 @@
 <!--  </tbody>-->
 <!--</table>-->
 
-<table mat-table [dataSource]="matchingStaff">
+<table mat-table [dataSource]="matchingStaff" >
   <ng-component matColumnDef="userId">
     <th mat-header-cell *matHeaderCellDef>Employee id</th>
     <td mat-cell *matCellDef="let employee">{{employee.userId}}</td>
@@ -55,5 +55,4 @@
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
-
 </table>
