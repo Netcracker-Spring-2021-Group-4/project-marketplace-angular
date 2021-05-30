@@ -1,1 +1,15 @@
-<p>staff-list-page works!</p>
+<div class="container">
+  <app-staff-list-filter-form
+    [staffFilterForm]="formControlsGroup"
+    (searchCriteriaEvent)="setSearchCriteria($event)"
+  class="d-flex justify-content-around"></app-staff-list-filter-form>
+  <div *ngIf="contentPage" class="my-4">
+    <app-staff-list-content [matchingStaff]="contentPage.content"></app-staff-list-content>
+    <mat-paginator
+      [length]="contentPage.numPages"
+      [pageIndex]="selectedPage"
+      [pageSize]="contentPage.fullPageSize"
+      (page)="handlePageChange($event)"
+    ></mat-paginator>
+  </div>
+</div>

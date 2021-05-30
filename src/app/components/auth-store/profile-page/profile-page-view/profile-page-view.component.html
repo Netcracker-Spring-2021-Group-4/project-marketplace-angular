@@ -1,0 +1,41 @@
+<div
+  class="h-100per container d-flex flex-column justify-content-center align-items-center"
+>
+  <h1 class="font-monospace mb-5">Profile</h1>
+  <div
+    class="d-flex flex-column justify-content-start mx-auto mb-3"
+  >
+    <p class="mb-3"> <span class="font-monospace fw-bold">Email: </span>{{profile.email}}</p>
+    <p class="mb-3">
+      <span class="font-monospace fw-bold">First name: </span>{{profile.firstName}}
+    </p>
+    <p class="mb-3">
+      <span class="font-monospace fw-bold">Last name: </span>{{profile.lastName}}
+    </p>
+    <p class="mb-3" *ngIf="profile.phoneNumber">
+      <span class="font-monospace fw-bold">Phone number: </span>{{profile.phoneNumber}}
+    </p>
+    <p class="mb-3" *ngIf="!isCustomerProfileRoute">
+      <span class="font-monospace fw-bold">Role: </span>{{profile.role}}
+    </p>
+    <p class="mb-3" *ngIf="!isCustomerProfileRoute">
+      <span class="font-monospace fw-bold">Status: </span>{{profile.status}}
+    </p>
+  </div>
+
+  <button
+    *ngIf="!isStaffProfileRoute"
+    class="mb-3"
+    mat-raised-button color="primary"
+    (click)="edit()"
+  >
+    Edit
+  </button>
+
+  <button
+    mat-raised-button color="warn"
+    (click)="goToChangePassword()"
+  >
+    Change password
+  </button>
+</div>

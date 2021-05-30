@@ -81,8 +81,8 @@ export class AuthNotAdminGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    const prohibited = [UserRole.ROLE_COURIER, UserRole.ROLE_PRODUCT_MGR]
-    if (prohibited.indexOf(JwtTokenService.role) !== -1) {
+    const permitted = [UserRole.ROLE_CUSTOMER, UserRole.ROLE_COURIER, UserRole.ROLE_PRODUCT_MGR]
+    if (permitted.indexOf(JwtTokenService.role) !== -1) {
       return true;
     }
     this.router.navigate([Route.LOGIN]);
