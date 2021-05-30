@@ -24,6 +24,8 @@ import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ToastNotificationsModule} from "ngx-toast-notifications";
+import {NgxSliderModule} from '@angular-slider/ngx-slider';
+
 
 @NgModule({
   imports: [
@@ -52,6 +54,7 @@ import {ToastNotificationsModule} from "ngx-toast-notifications";
     MatTableModule,
     LayoutModule,
     MatSidenavModule,
+    NgxSliderModule
   ],
     exports: [
       BrowserModule,

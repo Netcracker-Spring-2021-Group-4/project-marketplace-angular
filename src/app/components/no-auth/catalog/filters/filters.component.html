@@ -1,8 +1,20 @@
+<div class="card filters">
 
-<div>
-  <p>filters works!</p>
+  <div class="card-header">
+    <strong>Filters</strong>
+  </div>
+
+  <div>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Categories</mat-label>
+        <mat-select [formControl]="categories" multiple>
+          <mat-option *ngFor="let topping of categoryList" [value]="topping">{{topping}}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
 
 
+    <button >Filter </button>
+  </div>
 </div>
-
