@@ -1,8 +1,46 @@
 .example-card {
-  max-width: 200px;
+  max-width: 250px;
 }
 
 .example-header-image {
   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
   background-size: cover;
+}
+.new-price{
+  color: crimson;
+  font-weight: bold;
+  font-size: large;
+}
+.old-price{
+  text-decoration: line-through;
+  font-size: large;
+
+}
+.price{
+  font-size: large;
+  font-weight: bold;
+}
+.card-title{
+  font-weight: 300;
+  font-size: 32px;
+  margin: 0px 0px 0px 0px;
+  line-height: 110%;
+  font-family: 'Open sans', sans-serif;
+  color:#6e1414
+}
+
+.container {
+  position: relative;
+  max-width: 800px; /* Maximum width */
+  margin: 0 auto; /* Center it */
+}
+
+.container .content {
+  position: absolute; /* Position the background text */
+  bottom: 0; /* At the bottom. Use top:0 to append it to the top */
+  background: rgb(0, 0, 0); /* Fallback color */
+  background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
+  color: lavenderblush; /* Grey text */
+  width: 100%; /* Full width */
+  padding: 20px; /* Some padding */
 }

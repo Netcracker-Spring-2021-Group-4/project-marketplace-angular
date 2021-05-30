@@ -1,15 +1,48 @@
-<mat-card class="example-card">
 
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-  <mat-card-title>White wine</mat-card-title>
-  <mat-card-content>
-    <p>Price is 100$
-    </p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button>ADD TO CARD</button>
-    <button mat-button>DETAILS</button>
-    <button mat-button>Compare</button>
+  <!--Card-->
+  <mat-card>
 
-  </mat-card-actions>
-</mat-card>
+
+    <div class="container">
+      <img mat-card-image src="{{productItem.imageUrl}}">
+      <a> </a>
+      <div *ngIf="productItem.inStock==0" class="content">
+        <h1>OUT OF STOCK!</h1>
+      </div>
+    </div>
+
+
+
+    <mat-card-content >
+
+      <mat-card-title >
+        <h4 ><a class="card-title" href="">{{productItem.name}}</a></h4>
+      </mat-card-title>
+
+      <!--Description-->
+      <mat-card-content >
+        <div class = "row ">
+
+        <p *ngIf="productItem.discount!=0" class="new-price col">US $ {{productItem.price*(1-productItem.discount/100)  }}</p>
+        <p *ngIf="productItem.discount!=0" class="old-price col">{{productItem.price}}</p>
+        <p *ngIf="productItem.discount==0" class="price col">US $ {{productItem.price}}</p>
+        </div>
+      </mat-card-content>
+
+      <hr>
+
+      <!--Card footer-->
+
+      <mat-card-actions class="">
+
+        <button mat-button class="">Add to cart <i class="fas fa-shopping-cart"></i></button>
+        <button mat-button class="">Compare</button>
+
+      </mat-card-actions>
+
+
+    </mat-card-content>
+  </mat-card>
+  <!--/.Card-->
+
+
