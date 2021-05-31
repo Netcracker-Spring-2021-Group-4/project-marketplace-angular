@@ -1,22 +1,26 @@
-<div id = "container">
+<mat-toolbar>
+  <div class="col-lg-6 col-sm-12">
+    <form action="#" class="search">
+      <div class="input-group w-100">
+        <input type="text" class="form-control" placeholder="Search">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div><!-- search-wrap .end// -->
+  <span class="example-spacer"></span>
 
-<h1 class="page-name"> Product catalog</h1>
 
-
-  <form class="form-inline waves-light search-form" mdbWavesEffect>
-  <div class="md-form mt-0">
-    <input class="form-control mr-sm-2" type="text" placeholder="Search">
-  </div>
-  </form>
-
-
-  <mat-form-field appearance="fill" class = 'sorting'>
-    <mat-label>Select sort option</mat-label>
+  <mat-form-field>
+    <mat-label>Sort by:</mat-label>
     <mat-select>
-        <mat-option value="price-descending">Price Descending</mat-option>
-        <mat-option value="price-ascending">Price Ascending</mat-option>
-        <mat-option value="name">Name</mat-option>
-        <mat-option value="newest">Newest</mat-option>
+      <mat-option value="price-descending">Price Descending</mat-option>
+      <mat-option value="price-ascending">Price Ascending</mat-option>
+      <mat-option value="name">Name</mat-option>
+      <mat-option value="newest">Newest</mat-option>
     </mat-select>
   </mat-form-field>
-</div>
+</mat-toolbar>

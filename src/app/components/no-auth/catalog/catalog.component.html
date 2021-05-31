@@ -1,14 +1,19 @@
 
 <div >
+
   <div class ="catalog-header">
-    <app-header></app-header>
+    <mat-toolbar>
+      <span>Product catalog</span></mat-toolbar>
   </div>
 
   <div class = "row">
   <div class="col">
     <app-filters></app-filters>
   </div>
-  <div class="col col-md-8">
+
+  <div class="col col-md-8 product-catalog">
+
+    <app-header></app-header>
     <app-products></app-products>
   </div>
   </div>

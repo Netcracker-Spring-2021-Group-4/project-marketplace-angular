@@ -4,17 +4,29 @@
     <strong>Filters</strong>
   </div>
 
-  <div>
+  <div class="card-body">
 
-      <mat-form-field appearance="fill">
-        <mat-label>Categories</mat-label>
-        <mat-select [formControl]="categories" multiple>
-          <mat-option *ngFor="let topping of categoryList" [value]="topping">{{topping}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <mat-form-field appearance="fill" class="form-group">
+      <mat-label>Categories</mat-label>
+      <mat-select [formControl]="categories" multiple>
+        <mat-option *ngFor="let topping of categoryList" [value]="topping">{{topping}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <form>
+      <div class="form-group">
+        <label for="from">From</label>
+        <input type="number" id="from" class="form-control">
+      </div>
 
+      <div class="form-group">
+        <label for="to">To</label>
+        <input type="number" id="to" class="form-control">
+      </div>
 
-
-    <button >Filter </button>
+      <button mat-button>Discard</button>
+      <button mat-raised-button color="primary">Filter</button>
+    </form>
   </div>
 </div>
+
+
