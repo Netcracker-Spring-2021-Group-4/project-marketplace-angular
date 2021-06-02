@@ -29,6 +29,13 @@
       <mat-header-cell *matHeaderCellDef>Employee status</mat-header-cell>
       <mat-cell *matCellDef="let employee">{{employee.status}}</mat-cell>
     </ng-component>
+    <ng-component matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let employee">
+        <img src="../../../../../assets/edit-button.png" alt="edit" class="table-icon"/>
+        <img src="../../../../../assets/delete-button.png" alt="delete" class="table-icon"/>
+      </mat-cell>
+    </ng-component>
 
     <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
     <mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></mat-row>
