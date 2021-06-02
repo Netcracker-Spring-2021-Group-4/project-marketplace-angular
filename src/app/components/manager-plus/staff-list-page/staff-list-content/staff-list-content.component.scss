@@ -1,3 +1,16 @@
-table {
+.mat-table {
+  width: 100%;
+  //overflow-x: scroll;
+  overflow-y : auto;
+}
+
+.mat-row, .mat-header-row {
+  min-width: 1200px;
   width: 100%;
 }
+
+.mat-header-cell, .mat-cell {
+  justify-content: center;
+  min-width: 300px;
+}
+

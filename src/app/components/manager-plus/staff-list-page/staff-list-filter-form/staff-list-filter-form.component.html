@@ -12,20 +12,20 @@
     </mat-form-field>
   </div>
 
-
   <fieldset class="my-2">
     <legend>Target roles:</legend>
-      <mat-checkbox formControlName="isRoleCourier" class="mx-3">Courier</mat-checkbox>
-      <mat-checkbox formControlName="isRolePM" class="mx-3">Product manager</mat-checkbox>
+    <mat-checkbox formControlName="isRoleCourier" class="mx-3">Courier</mat-checkbox>
+    <mat-checkbox formControlName="isRolePM" class="mx-3">Product manager</mat-checkbox>
   </fieldset>
   <fieldset class="my-2">
     <legend>Target statuses:</legend>
-      <mat-checkbox formControlName="isStatusActive" class="mx-3">Active</mat-checkbox>
-      <mat-checkbox formControlName="isStatusInactive" class="mx-3">Inactive</mat-checkbox>
-      <mat-checkbox formControlName="isStatusTerminated" class="mx-3">Terminated</mat-checkbox>
-      <mat-checkbox formControlName="isStatusUnconfirmed" class="mx-3">Unconfirmed</mat-checkbox>
+    <mat-checkbox formControlName="isStatusActive" class="mx-3">Active</mat-checkbox>
+    <mat-checkbox formControlName="isStatusInactive" class="mx-3">Inactive</mat-checkbox>
+    <mat-checkbox formControlName="isStatusTerminated" class="mx-3">Terminated</mat-checkbox>
+    <mat-checkbox formControlName="isStatusUnconfirmed" class="mx-3">Unconfirmed</mat-checkbox>
   </fieldset>
+
   <div class="d-flex justify-content-center">
-    <button type="submit">Search</button>
+    <button mat-raised-button type="submit">Search</button>
   </div>
 </form>
