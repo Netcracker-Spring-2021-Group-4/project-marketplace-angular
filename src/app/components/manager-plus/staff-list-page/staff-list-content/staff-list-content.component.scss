@@ -1,17 +1,18 @@
-.mat-table {
+table {
   width: 100%;
-  //overflow-x: scroll;
-  overflow-y : auto;
+
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
-.mat-row, .mat-header-row {
+tr {
   min-width: 1200px;
   width: 100%;
 }
 
-.mat-header-cell, .mat-cell {
-  justify-content: center;
-  min-width: 300px;
+th, td {
+  padding: 0 15px !important;
 }
 
 .table-icon {
