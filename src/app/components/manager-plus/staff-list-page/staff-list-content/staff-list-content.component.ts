@@ -11,7 +11,7 @@ export class StaffListContentComponent implements OnInit {
 
   @Input() matchingStaff: ProfileModel[];
 
-  columnsToDisplay = ['userId', 'email', 'firstName', 'lastName', 'phoneNumber', 'role', 'status', 'edit'];
+  columnsToDisplay = ['firstName', 'lastName', 'email', 'phoneNumber', 'role', 'status', 'edit'];
 
   constructor() {
   }

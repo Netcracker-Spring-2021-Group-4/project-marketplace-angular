@@ -1,18 +1,26 @@
 table {
   width: 100%;
-
+  table-layout: auto;
   display: block;
   overflow-x: auto;
   white-space: nowrap;
 }
 
 tr {
-  min-width: 1200px;
+  //min-width: 1200px;
   width: 100%;
 }
 
 th, td {
   padding: 0 15px !important;
+}
+
+.narrow-col {
+  width: 10%;
+}
+
+.wide-col {
+  width: 20%;
 }
 
 .table-icon {
