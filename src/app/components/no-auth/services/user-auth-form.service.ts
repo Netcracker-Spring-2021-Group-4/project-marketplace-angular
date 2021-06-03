@@ -1,5 +1,5 @@
 import {
-  AbstractControl,
+  AbstractControl, FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -100,6 +100,8 @@ export class UserAuthFormService {
       isStatusUnconfirmed : new FormControl(false)
     });
   }
+
+
 }
 
 const samePasswordValidator :ValidatorFn = (control: AbstractControl): ValidationErrors | null => {

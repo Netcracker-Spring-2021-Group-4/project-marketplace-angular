@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-footer',
@@ -12,4 +13,13 @@ export class FooterComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  handlePageChange($event: PageEvent): void {
+    console.log("event")
+  //   if (!this.searchCriteria) return;
+  //   this.staffSearch.findStaff(this.searchCriteria, $event.pageIndex)
+  //     .subscribe(response => {
+  //       this.contentPage = response;
+  //       this.selectedPage = $event.pageIndex;
+  //     });
+   }
 }

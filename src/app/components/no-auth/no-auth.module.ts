@@ -17,6 +17,10 @@ import { FooterComponent } from './catalog/footer/footer.component';
 import { FiltersComponent } from './catalog/filters/filters.component';
 import { ProductsComponent } from './catalog/products/products.component';
 import { ProductComponent } from './catalog/products/product/product.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+
+
 
 
 
@@ -42,6 +46,9 @@ import { ProductComponent } from './catalog/products/product/product.component';
     SharedModule,
     NgxCaptchaModule,
     NgxMaskModule.forRoot(),
+    NgxSliderModule,
+    MatPaginatorModule
+
   ]
 })
 export class NoAuthModule { }
