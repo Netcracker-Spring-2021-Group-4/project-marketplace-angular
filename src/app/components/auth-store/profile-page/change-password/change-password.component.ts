@@ -5,9 +5,9 @@ import {AuthStoreApiService} from "../../../../api-services/auth-store-http.serv
 import {ValidationMessages} from "../../../../shared/models/labels/validation.message";
 import {finalize} from "rxjs/operators";
 import Labels from "../../../../shared/models/labels/labels.constant";
-import {Toaster} from "ngx-toast-notifications";
 import {Router} from "@angular/router";
 import {Route} from "../../../../shared/models/enums/route.enum";
+import {ToasterCustomService} from "../../../../services/toaster-custom.service";
 
 @Component({
   selector: 'app-change-password',
@@ -26,7 +26,7 @@ export class ChangePasswordComponent {
   constructor(
     private userAuthFormService: UserAuthFormService,
     private authStoreApiService: AuthStoreApiService,
-    private toaster: Toaster,
+    private toaster: ToasterCustomService,
     private router: Router
   ) {
     this.form = this.userAuthFormService.changePasswordForm();
@@ -41,21 +41,11 @@ export class ChangePasswordComponent {
         finalize(() => this.isLoading = false)
       )
       .subscribe( _ => {
-        this.toaster.open({
-          text: Labels.password.successfulChangePassword,
-          caption: Labels.caption.success,
-          duration: 4000,
-          type: 'success'
-        });
+        this.toaster.successfulNotification(Labels.password.successfulChangePassword);
         this.router.navigate([Route.PROFILE])
       }, err => {
         const text = err.error.message ?? Object.values(err.error.error).join('\n')
-        this.toaster.open({
-          text: text,
-          caption: Labels.caption.error,
-          duration: 4000,
-          type: 'danger'
-        });
+        this.toaster.errorNotification(text);
       })
   }
 
