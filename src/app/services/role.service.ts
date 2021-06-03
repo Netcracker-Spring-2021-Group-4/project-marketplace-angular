@@ -9,7 +9,7 @@ import {JwtTokenService} from "../auth/jwt-token.service";
 export class RoleService {
 
   private roleSource = new BehaviorSubject<UserRole>( UserRole.ROLE_NO_AUTH_CUSTOMER)
-  currentRole = this. roleSource.asObservable();
+  currentRole$ = this. roleSource.asObservable();
 
   constructor(
   ){

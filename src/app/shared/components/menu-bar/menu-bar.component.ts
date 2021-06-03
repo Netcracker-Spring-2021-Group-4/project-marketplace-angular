@@ -32,7 +32,7 @@ export class MenuBarComponent implements OnInit{
   ) {}
 
   ngOnInit() {
-    this.roleService.currentRole.subscribe(r => {
+    this.roleService.currentRole$.subscribe(r => {
       this.role = r
       this.links = linksMapper(this.role ?? UserRole.ROLE_NO_AUTH_CUSTOMER)
     })
