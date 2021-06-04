@@ -31,6 +31,10 @@ const Labels = {
   cart: {
     wrongFormatUUID: 'The added id is not a UUID',
     successfulAddingToCart: 'The item was successfully added to your cart'
+  },
+  product:{
+    success: 'Creation new product completed successfully',
+    error: 'Something went wrong with creation product'
   }
 }
 
