@@ -6,7 +6,6 @@ import {UserAuthFormService} from "../../no-auth/services/user-auth-form.service
 import {ManagerPlusApiService} from "../../../api-services/mgr-plus-http.service";
 import {finalize} from "rxjs/operators";
 import Labels from "../../../shared/models/labels/labels.constant";
-import {Toaster} from "ngx-toast-notifications";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {Observable, Subscription} from "rxjs";
@@ -14,6 +13,7 @@ import {ProfileModel} from "../../../shared/models/api/receive/profile.model";
 import {UserStatus} from "../../../shared/models/api/send/change-status.model";
 import {UserUpdateModel} from "../../../shared/models/api/send/user-update.model";
 import {AuthStoreApiService} from "../../../api-services/auth-store-http.service";
+import {ToasterCustomService} from "../../../services/toaster-custom.service";
 
 @Component({
   selector: 'app-profile-page',
@@ -38,7 +38,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     private authStoreApiService: AuthStoreApiService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private toaster: Toaster
+    private toaster: ToasterCustomService
   ) {
     this.setCurrentRoute()
     if (this.isStaffCreateRoute) this.isFormViewActive = true;
@@ -48,7 +48,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.roleSub = this.roleService.currentRole.subscribe(role => this.role = role)
+    this.roleSub = this.roleService.currentRole$.subscribe(role => this.role = role)
     let func;
     if (this.isStaffEditRoute) {
       func = this.managerPlusApiService.getStaffer(this.profileId)
@@ -66,12 +66,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         if(this.isFormNeeded) this.form = this.pageForm
       }, err => {
         const text = err.error?.message ?? 'Wrong id format'
-        this.toaster.open({
-          text,
-          caption: Labels.caption.error,
-          duration: 4000,
-          type: 'danger'
-        });
+        this.toaster.errorNotification(text);
         this.router.navigate([Route.STAFF_LIST])
       })
     } else {
@@ -179,20 +174,10 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
           this.profile = {...this.profile, ...updatedProfile}
           if (!updatedProfile.hasOwnProperty('phoneNumber')) this.profile.phoneNumber = undefined
         }
-        this.toaster.open({
-          text: successText,
-          caption: Labels.caption.success,
-          duration: 4000,
-          type: 'success'
-        });
+        this.toaster.successfulNotification(successText);
       }, err => {
         const text = err.error.message ?? Object.values(err.error.error).join('\n')
-        this.toaster.open({
-          text: text,
-          caption: Labels.caption.error,
-          duration: 4000,
-          type: 'danger'
-        });
+        this.toaster.errorNotification(text);
       })
   }
 

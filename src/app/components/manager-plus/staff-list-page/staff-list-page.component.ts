@@ -26,6 +26,7 @@ export class StaffListPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setSearchCriteria(new FormGroup({}));
   }
 
   setSearchCriteria(staffFilterForm: FormGroup): void {
