@@ -12,6 +12,7 @@ import {ManagerPlusModule} from "./components/manager-plus/manager-plus.module";
 import {NotFoundPageComponent} from './components/not-found-page/not-found-page.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {TokenAppenderInterceptor} from "./auth/token-appender.interceptor";
+import {FormsModule} from "@angular/forms";
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -26,6 +27,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpClientModule,
     SharedModule,
     NoAuthModule,
@@ -33,7 +35,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     CustomerModule,
     ManagerPlusModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [INTERCEPTOR_PROVIDER],
   bootstrap: [AppComponent]
