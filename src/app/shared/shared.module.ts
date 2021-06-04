@@ -26,6 +26,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ToastNotificationsModule} from "ngx-toast-notifications";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { RoleStripperPipe } from './helpers/pipes/role-stripper.pipe';
+import {CategoryPrettifierPipe} from "./helpers/pipes/category-prettifier.pipe";
 
 @NgModule({
   imports: [
@@ -80,8 +81,13 @@ import { RoleStripperPipe } from './helpers/pipes/role-stripper.pipe';
     MatTableModule,
     MenuBarComponent,
     MatCheckboxModule,
-    RoleStripperPipe
+    RoleStripperPipe,
+    CategoryPrettifierPipe
   ],
-  declarations: [MenuBarComponent, RoleStripperPipe]
+  declarations: [
+    MenuBarComponent,
+    RoleStripperPipe,
+    CategoryPrettifierPipe
+  ]
 })
 export class SharedModule { }
