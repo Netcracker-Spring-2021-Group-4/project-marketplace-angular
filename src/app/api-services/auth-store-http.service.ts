@@ -42,4 +42,8 @@ export class AuthStoreApiService {
   removeFromCart(obj: CartItemModel): Observable<any> {
     return this.httpClient.post(`${this.AUTH_CUSTOMER_URL}/remove-from-cart`, obj)
   }
+
+  getCart(): Observable<any> {
+    return this.httpClient.get(`${this.AUTH_CUSTOMER_URL}/cart`)
+  }
 }

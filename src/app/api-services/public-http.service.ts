@@ -5,6 +5,7 @@ import {LoginCredentials} from "../shared/models/api/send/credentials.model";
 import {Observable} from "rxjs";
 import {SignUpCredentials} from "../shared/models/api/send/sign-up-credentials.model";
 import {UpdatePasswordWrapper} from "../shared/models/api/send/update-password-wrapper.model";
+import {CartItemModel} from "../shared/models/api/send/cart-item.model";
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,21 @@ export class PublicApiService {
 
   getListOfCategories() : Observable<any> {
     return this.httpClient.get(`${this.PUBLIC_URL}/categories-all`)
+  }
+
+  checkAvailabilityOfProduct(productId: string, quantity: number): Observable<any> {
+    return this.httpClient.get(`${this.PUBLIC_URL}/${productId}/availability?quantity=${quantity}`, {observe: 'response'})
+  }
+
+  getCart(list: CartItemModel[]): Observable<any> {
+    return this.httpClient.get(`${this.PUBLIC_URL}/cart`)
+  }
+
+  makeReservation(list: CartItemModel[]): Observable<any> {
+    return this.httpClient.post(`${this.PUBLIC_URL}/reserve`, list)
+  }
+
+  cancelReservation(list: CartItemModel[]): Observable<any> {
+    return this.httpClient.post(`${this.PUBLIC_URL}/cancel-reservation`, list)
   }
 }
