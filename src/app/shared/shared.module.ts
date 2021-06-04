@@ -27,6 +27,7 @@ import {ToastNotificationsModule} from "ngx-toast-notifications";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { RoleStripperPipe } from './helpers/pipes/role-stripper.pipe';
 import {CategoryPrettifierPipe} from "./helpers/pipes/category-prettifier.pipe";
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import {CategoryPrettifierPipe} from "./helpers/pipes/category-prettifier.pipe";
     ReactiveFormsModule,
     ToastNotificationsModule,
     BrowserAnimationsModule,
+    MatTabsModule,
     MatButtonModule,
     MatStepperModule,
     MatFormFieldModule,
@@ -63,6 +65,7 @@ import {CategoryPrettifierPipe} from "./helpers/pipes/category-prettifier.pipe";
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastNotificationsModule,
+    MatTabsModule,
     MatStepperModule,
     MatFormFieldModule,
     MatInputModule,

@@ -27,6 +27,16 @@ export class CartManagementService {
     return uuidValidate(uuid);
   }
 
+  get cart() : CartItemModel[] {
+    const cartString = localStorage.getItem(CartManagementService.CART_STORAGE)
+    const parsed = JSON.parse(cartString ?? "")
+    return parsed === "" ? [] : parsed
+  }
+
+  emptyCart() {
+    localStorage.setItem(CartManagementService.CART_STORAGE, JSON.stringify([]))
+  }
+
   addToCart(item: CartItemModel) {
     if(!CartManagementService.isValidUUID(item.productId)) {
       this.wrongUUIDNotify()
