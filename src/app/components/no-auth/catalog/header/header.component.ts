@@ -12,13 +12,6 @@ interface SortOptions {
 })
 export class HeaderComponent implements OnInit {
 
-  options: SortOptions[] = [
-    {value: 'price-descending', viewValue: 'Price Descending'},
-    {value: 'price-ascending', viewValue: 'Price Ascending'},
-    {value: 'name', viewValue: 'Name'},
-    {value: 'newest', viewValue: 'Newest'}
-
-  ];
 
   constructor() { }
 

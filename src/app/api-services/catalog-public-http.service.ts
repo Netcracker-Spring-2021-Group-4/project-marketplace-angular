@@ -13,6 +13,7 @@ import {EagerContentPage} from "../shared/models/api/receive/cotent-page.model";
 import {ProfileModel} from "../shared/models/api/receive/profile.model";
 import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ProductFilterModel} from "../shared/models/api/send/product-filter.model";
+import {SortOptionEnum} from "../shared/models/enums/sort-option.enum";
 
 
 
@@ -29,7 +30,7 @@ export class CatalogPublicHttpService {
       price: new FormControl(),
       query: new FormControl(""),
       categories: new FormArray([]),
-      sortBy: new FormControl('product_name')
+      sortBy: new FormControl(SortOptionEnum.DATE)
     });
   }
 

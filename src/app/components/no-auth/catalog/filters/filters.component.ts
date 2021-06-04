@@ -1,10 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormArray,  FormControl, FormGroup} from "@angular/forms";
 import {CatalogPublicHttpService} from "../../../../api-services/catalog-public-http.service";
 import { Options, LabelType } from '@angular-slider/ngx-slider';
 import {FilterProperties} from "../../../../shared/models/api/receive/filter-props";
 import {MatOptionSelectionChange} from "@angular/material/core";
-import {BehaviorSubject} from "rxjs";
 
 
 @Component({
@@ -39,25 +38,17 @@ export class FiltersComponent implements OnInit {
       }
     }
   };
-  selectedIds:number[]
 
   get categoriesFormArray() {
     return this.productCatalogFilter.controls.categories as FormArray;
   }
 
-  private addCategories() {
-    this.properties.categories.forEach(() => this.categoriesFormArray.push(new FormControl(false)));
-  }
 
   search(): void
   {
-
-    console.log(this.productCatalogFilter.getRawValue())
-     const selectedCategoriesIds = this.productCatalogFilter.value.categories
+      const selectedCategoriesIds = this.productCatalogFilter.value.categories
        .map((checked:boolean, i:number) => checked ? this.properties.categories[i].categoryId : null)
        .filter((v: any) => v !== null);
-      console.log(selectedCategoriesIds);
-
 
       this.searchCriteriaEvent.emit(this.productCatalogFilter);
 
@@ -81,7 +72,7 @@ export class FiltersComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['properties']) {
       this.properties.categories.forEach(() => this.categoriesFormArray.push(new FormControl(false)));
-
+      this.options.ceil=this.properties.maxPrice;
     }
   }
 

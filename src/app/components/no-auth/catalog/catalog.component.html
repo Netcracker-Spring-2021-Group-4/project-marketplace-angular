@@ -1,25 +1,22 @@
 
-<div >
+<div>
 
-  <div class ="catalog-header">
-    <mat-toolbar>
-      <h1>Product catalog</h1></mat-toolbar>
-  </div>
+  <app-header></app-header>
 
   <div class = "row">
-  <div class="col filters" >
+  <div class="col" >
     <app-filters
       [productCatalogFilter]="formGroup"
       [properties]="filterProps"
-      (searchCriteriaEvent)="setSearchCriteria()"
+      (searchCriteriaEvent)="updatePage()"
     ></app-filters>
   </div>
 
-  <div class="col col-md-8 m-2 product-catalog">
+  <div class="col col-md-8 m-2">
     <app-products  [products]="products"></app-products>
   </div>
-  </div>
 
+  </div>
   <div>
     <mat-paginator
 
@@ -27,5 +24,6 @@
       [pageSizeOptions]="[9, 12, 24]"
       (page)="handlePageChange($event)"
     >
-    </mat-paginator>  </div>
+    </mat-paginator>
+</div>
 </div>

@@ -19,7 +19,7 @@
 }
 .card-title{
   font-weight: 300;
-  font-size: 32px;
+  font-size: 28px;
   margin: 0px 0px 0px 0px;
   line-height: 110%;
   font-family: 'Open sans', sans-serif;
@@ -28,15 +28,16 @@
 
 .container {
   position: relative;
-  margin: 0 auto; /* Center it */
 }
 
 .container .content {
   position: absolute; /* Position the background text */
-  bottom: 0; /* At the bottom. Use top:0 to append it to the top */
-  background: rgb(0, 0, 0); /* Fallback color */
   background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
-  color: lavenderblush; /* Grey text */
-  width: 100%; /* Full width */
-  padding: 20px; /* Some padding */
+  color: antiquewhite;
+  bottom: 20px;
+  right: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-weight: 600;
+  font-size: 20px;
 }

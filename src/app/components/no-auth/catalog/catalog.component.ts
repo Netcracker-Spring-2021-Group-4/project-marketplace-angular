@@ -27,7 +27,8 @@ export class CatalogComponent implements OnInit {
     this.formGroup = productService.catalogSearchForm() ;
     this.selectedPage = 0;
   }
-//rxJs
+
+
   ngOnInit(): void {
     let productPage = this.productService.getProductsPage(0, 9);
     let filterProperties = this.productService.getFilterProperties();
@@ -38,7 +39,6 @@ export class CatalogComponent implements OnInit {
         finalize(() => this.isLoading = false)
       ).subscribe(results => {
 
-        console.log("here")
       this.products = results[0].content;
       this.length = results[0].totalItems
       this.filterProps = results[1]
@@ -49,7 +49,8 @@ export class CatalogComponent implements OnInit {
 
 
   handlePageChange($event: PageEvent) {
-    this.productService.getProductsPage($event.pageIndex,$event.pageSize)
+    let searchCriteria = this.setSearchCriteria()
+    this.productService.postProductsPage(searchCriteria, $event.pageIndex,$event.pageSize)
        .subscribe(response => {
          this.products = response.content;
          this.length = response.totalItems;
@@ -58,7 +59,20 @@ export class CatalogComponent implements OnInit {
 
   }
 
-  setSearchCriteria() {
+
+
+  updatePage(){
+    let searchCriteria = this.setSearchCriteria();
+    this.selectedPage=0
+    this.productService.postProductsPage(searchCriteria,this.selectedPage,9)
+      .subscribe(response => {
+        this.products = response.content;
+        this.length = response.totalItems;
+        this.selectedPage = 0;
+      });
+  }
+
+  private setSearchCriteria():ProductFilterModel{
     let searchCriteria: ProductFilterModel = {}
 
     if (this.formGroup.get('query')?.value)
@@ -67,24 +81,18 @@ export class CatalogComponent implements OnInit {
       searchCriteria.minPrice = this.formGroup.get('price')?.value[0]
       searchCriteria.maxPrice = this.formGroup.get('price')?.value[1]
     }
-    if(this.formGroup.get('categories')?.value)
-      searchCriteria.categories = this.formGroup.get('sort')?.value
 
-    searchCriteria.sortBy = this.formGroup.get('sortBy')?.value
+    if(this.formGroup.get('categories')?.value) {
+      searchCriteria.categoryIds= this.formGroup.value.categories
+        .map((checked: boolean, i: number) => checked ? this.filterProps.categories[i].categoryId : null)
+        .filter((v: any) => v !== null);
+      if(searchCriteria.categoryIds?.length==0)
+        searchCriteria.categoryIds=this.filterProps.categories.map(category =>category.categoryId);
+    }
+    if (this.formGroup.get('sortBy')?.value)
+      searchCriteria.sortOption = this.formGroup.get('sortBy')?.value
 
-
-    this.updatePage(searchCriteria)
-  }
-
-
-  updatePage(searchCriteria: ProductFilterModel){
-    this.selectedPage=0
-    this.productService.postProductsPage(searchCriteria,this.selectedPage,9)
-      .subscribe(response => {
-        this.products = response.content;
-        this.length = response.totalItems;
-        this.selectedPage = 0;
-      });
+    return searchCriteria;
   }
 }
 

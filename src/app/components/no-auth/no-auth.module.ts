@@ -13,7 +13,6 @@ import { CheckoutPageComponent } from './checkout-page/checkout-page.component';
 import {NgxCaptchaModule} from "ngx-captcha";
 import {NgxMaskModule} from "ngx-mask";
 import { HeaderComponent } from './catalog/header/header.component';
-import { FooterComponent } from './catalog/footer/footer.component';
 import { FiltersComponent } from './catalog/filters/filters.component';
 import { ProductsComponent } from './catalog/products/products.component';
 import { ProductComponent } from './catalog/products/product/product.component';
@@ -36,7 +35,6 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
     CartPageComponent,
     CheckoutPageComponent,
     HeaderComponent,
-    FooterComponent,
     FiltersComponent,
     ProductsComponent,
     ProductComponent

@@ -5,22 +5,18 @@
 
 <div class="card filters">
 
-  <div>
     <h3>Filters</h3>
-  </div>
+
       <div class="input-group w-100">
         <input formControlName="query" type="text" class="form-control" placeholder="Search">
-        <div class="input-group-append">
-
       </div>
-  </div><!-- search-wrap .end// -->
   <span class="example-spacer"></span>
 <br>
 
   <mat-form-field>
     <mat-label>Sort by:</mat-label>
     <mat-select formControlName="sortBy">
-      <mat-option value="PRICE_DSC">Price Descending</mat-option>
+      <mat-option value="PRICE_DESC">Price Descending</mat-option>
       <mat-option value="PRICE_ASC">Price Ascending</mat-option>
       <mat-option value="NAME">Name</mat-option>
       <mat-option value="DATE">Newest</mat-option>
@@ -32,8 +28,7 @@
       <mat-select  multiple formArrayName="categories" >
         <mat-option
           *ngFor="let category of properties.categories; let i = index "
-                      (onSelectionChange)="onCategorySelect($event,i)"
-                      >
+                      (onSelectionChange)="onCategorySelect($event,i)">
           {{category.productCategoryName}}({{category.productsInCategory}})
 
         </mat-option>
@@ -41,7 +36,7 @@
     </mat-form-field>
     <hr>
   <ngx-slider formControlName="price"
-    [(value)]="minValue" [(highValue)]="maxValue" [options]="options"></ngx-slider>
+    [(value)]="minValue" [(highValue)]="maxValue" [options]="options" ></ngx-slider>
 
   <hr>
 
