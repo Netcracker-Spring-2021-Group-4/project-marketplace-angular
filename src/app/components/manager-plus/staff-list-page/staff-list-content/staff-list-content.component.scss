@@ -1,3 +1,48 @@
+.table-outer {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
 table {
   width: 100%;
+}
+
+//table {
+//  display: block;
+//  max-width: -moz-fit-content;
+//  max-width: fit-content;
+//  margin: 0 auto;
+//  overflow-x: auto;
+//  white-space: nowrap;
+//}
+
+//table {
+//  width: 100%;
+//  table-layout: auto;
+//  //display: block;
+//  //overflow-x: auto;
+//
+//}
+
+tr {
+  width: 100%;
+
+}
+
+th, td {
+  padding: 0 15px !important;
+}
+
+.narrow-col {
+  width: 10%;
+}
+
+.wide-col {
+  width: 20%;
+}
+
+.table-icon {
+  width: 25px;
+  margin: 10px;
+  cursor: pointer;
 }

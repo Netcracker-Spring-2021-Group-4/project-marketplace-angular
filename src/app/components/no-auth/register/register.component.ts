@@ -4,8 +4,8 @@ import {FormGroup} from "@angular/forms";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
 import {AuthApiService} from "../../../api-services/auth-http.service";
 import Labels from "../../../shared/models/labels/labels.constant";
-import {Toaster} from "ngx-toast-notifications";
 import {finalize} from "rxjs/operators";
+import {ToasterCustomService} from "../../../services/toaster-custom.service";
 
 @Component({
   selector: 'app-register',
@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private userAuthFormService: UserAuthFormService,
     private authApiService: AuthApiService,
-    private toaster: Toaster,
+    private toaster: ToasterCustomService,
   ) {
     this.form = this.userAuthFormService.registerForm();
   }
@@ -43,19 +43,9 @@ export class RegisterComponent implements OnInit {
         finalize(() => this.isLoading = false)
       )
       .subscribe( res => {
-      this.toaster.open({
-        text: Labels.register.successRequest,
-        caption: Labels.caption.success,
-        duration: 4000,
-        type: 'success'
-      });
+      this.toaster.successfulNotification(Labels.register.successRequest);
     }, err => {
-      this.toaster.open({
-        text: err.error.message,
-        caption: Labels.caption.error,
-        duration: 4000,
-        type: 'danger'
-      });
+      this.toaster.errorNotification(err.error.message);
     })
   }
 }

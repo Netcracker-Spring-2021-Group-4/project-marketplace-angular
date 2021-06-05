@@ -5,7 +5,7 @@ import {FormGroup} from "@angular/forms";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
 import {finalize} from "rxjs/operators";
 import Labels from "../../../shared/models/labels/labels.constant";
-import {Toaster} from "ngx-toast-notifications";
+import {ToasterCustomService} from "../../../services/toaster-custom.service";
 
 @Component({
   selector: 'app-recover-pwd',
@@ -22,7 +22,7 @@ export class RecoverPwdComponent{
   constructor(
     private authApiService: AuthApiService,
     private userAuthFormService: UserAuthFormService,
-    private toaster: Toaster,
+    private toaster: ToasterCustomService,
   ) {
     this.form = this.userAuthFormService.resetPasswordForm();
   }
@@ -35,19 +35,9 @@ export class RecoverPwdComponent{
         finalize(() => this.isLoading = false)
       )
       .subscribe(res =>{
-        this.toaster.open({
-          text: Labels.password.successfulRequestResetPassword,
-          caption: Labels.caption.success,
-          duration: 4000,
-          type: 'success'
-        });
+        this.toaster.successfulNotification(Labels.password.successfulRequestResetPassword);
       }, err => {
-        this.toaster.open({
-          text: err.error.message,
-          caption: Labels.caption.error,
-          duration: 4000,
-          type: 'danger'
-        });
+        this.toaster.errorNotification(err.error.message);
       })
   }
 

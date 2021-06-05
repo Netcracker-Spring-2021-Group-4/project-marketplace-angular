@@ -3,7 +3,6 @@ import {UserAuthFormService} from "../services/user-auth-form.service";
 import {FormGroup, Validators} from "@angular/forms";
 import {JwtTokenService} from "../../../auth/jwt-token.service";
 import {AuthApiService} from "../../../api-services/auth-http.service";
-import {Toaster} from "ngx-toast-notifications";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {RoleService} from "../../../services/role.service";
 import {Router} from "@angular/router";
@@ -11,6 +10,7 @@ import {UserRole} from "../../../shared/models/enums/role.enum";
 import {Route} from "../../../shared/models/enums/route.enum";
 import {environment} from "../../../../environments/environment";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
+import {ToasterCustomService} from "../../../services/toaster-custom.service";
 
 @Component({
   selector: 'app-login',
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     private userAuthFormService: UserAuthFormService,
     private roleService: RoleService,
     private authApiService: AuthApiService,
-    private toaster: Toaster,
+    private toaster: ToasterCustomService,
     private router: Router
   ) {
     this.form = this.userAuthFormService.loginForm()
@@ -62,33 +62,18 @@ export class LoginComponent implements OnInit {
         JwtTokenService.saveToken(token!)
       this.roleService.changeRole(JwtTokenService.role)
 
-      this.toaster.open({
-        text: Labels.login.success,
-        caption: Labels.caption.success,
-        duration: 4000,
-        type: 'success'
-      });
+      this.toaster.successfulNotification(Labels.login.success);
       this.router.navigate([this.defaultRoute])
     }, err => {
         this.attemptsCounter += 1
         if(!this.isCaptchaDisabled) this.setRequiredCaptcha()
 
-        this.toaster.open({
-          text: Labels.login.error,
-          caption: Labels.caption.error,
-          duration: 4000,
-          type: 'danger'
-        });
+        this.toaster.errorNotification(Labels.login.error);
     })
   }
 
   handleError() {
-    this.toaster.open({
-      text: Labels.login.robot,
-      caption: Labels.caption.error,
-      duration: 4000,
-      type: 'danger'
-    });
+    this.toaster.errorNotification(Labels.login.robot);
     this.form.disable()
     setTimeout(() => this.form.enable(), 5*60*1000)
   }

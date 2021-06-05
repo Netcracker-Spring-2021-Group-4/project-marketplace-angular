@@ -25,6 +25,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ToastNotificationsModule} from "ngx-toast-notifications";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { RoleStripperPipe } from './helpers/pipes/role-stripper.pipe';
+import {CategoryPrettifierPipe} from "./helpers/pipes/category-prettifier.pipe";
 
 @NgModule({
   imports: [
@@ -55,31 +57,37 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     MatSidenavModule,
     MatCheckboxModule
   ],
-    exports: [
-      BrowserModule,
-      FormsModule,
-      ReactiveFormsModule,
-      BrowserAnimationsModule,
-      ToastNotificationsModule,
-      MatStepperModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatButtonModule,
-      MatToolbarModule,
-      MatIconModule,
-      MatTooltipModule,
-      MatProgressSpinnerModule,
-      MatRadioModule,
-      MatCardModule,
-      MatDialogModule,
-      MatSelectModule,
-      MatSlideToggleModule,
-      MatListModule,
-      MatDividerModule,
-      MatTableModule,
-      MenuBarComponent,
-      MatCheckboxModule
-    ],
-  declarations: [MenuBarComponent]
+  exports: [
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastNotificationsModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatCardModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatListModule,
+    MatDividerModule,
+    MatTableModule,
+    MenuBarComponent,
+    MatCheckboxModule,
+    RoleStripperPipe,
+    CategoryPrettifierPipe
+  ],
+  declarations: [
+    MenuBarComponent,
+    RoleStripperPipe,
+    CategoryPrettifierPipe
+  ]
 })
 export class SharedModule { }

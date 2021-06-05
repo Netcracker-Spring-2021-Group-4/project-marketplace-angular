@@ -4,7 +4,6 @@ import {environment} from "../../environments/environment";
 import {LoginCredentials} from "../shared/models/api/send/credentials.model";
 import {Observable} from "rxjs";
 import {SignUpCredentials} from "../shared/models/api/send/sign-up-credentials.model";
-import {UpdatePasswordWrapper} from "../shared/models/api/send/update-password-wrapper.model";
 
 @Injectable({
   providedIn: 'root'

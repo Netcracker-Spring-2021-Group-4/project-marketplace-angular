@@ -38,4 +38,8 @@ export class AuthStoreApiService {
   addToCart(obj: CartItemModel): Observable<any> {
     return this.httpClient.post(`${this.AUTH_CUSTOMER_URL}/add-to-cart`, obj)
   }
+
+  removeFromCart(obj: CartItemModel): Observable<any> {
+    return this.httpClient.post(`${this.AUTH_CUSTOMER_URL}/remove-from-cart`, obj)
+  }
 }
