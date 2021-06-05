@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
-import {ProductManagerFormService} from "../../manager-plus/services/product-manager-form.service";
 import {Toaster} from "ngx-toast-notifications";
 import {finalize} from "rxjs/operators";
 import Labels from "../../../shared/models/labels/labels.constant";
@@ -10,6 +9,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {Subscription} from "rxjs";
 import {MatSelectChange} from "@angular/material/select";
 import {Categories} from "../../../shared/models/api/receive/categories";
+import {ProductManagerFormService} from "../services/product-manager-form.service";
 
 @Component({
   selector: 'app-create-product-page',
