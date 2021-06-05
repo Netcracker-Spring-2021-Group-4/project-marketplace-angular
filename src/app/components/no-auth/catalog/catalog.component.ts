@@ -26,6 +26,7 @@ export class CatalogComponent implements OnInit {
   {
     this.formGroup = productService.catalogSearchForm() ;
     this.selectedPage = 0;
+    this.filterProps=new FilterProperties({categories:[], maxPrice:1000});
   }
 
 
@@ -43,6 +44,8 @@ export class CatalogComponent implements OnInit {
       this.length = results[0].totalItems
       this.filterProps = results[1]
 
+    }, error => {
+      console.log({ error });
     });
   }
 

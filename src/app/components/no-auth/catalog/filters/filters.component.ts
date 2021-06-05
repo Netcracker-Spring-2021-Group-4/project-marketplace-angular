@@ -46,10 +46,6 @@ export class FiltersComponent implements OnInit {
 
   search(): void
   {
-      const selectedCategoriesIds = this.productCatalogFilter.value.categories
-       .map((checked:boolean, i:number) => checked ? this.properties.categories[i].categoryId : null)
-       .filter((v: any) => v !== null);
-
       this.searchCriteriaEvent.emit(this.productCatalogFilter);
 
   };
@@ -69,12 +65,6 @@ export class FiltersComponent implements OnInit {
   ngOnInit(): void {
  }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['properties']) {
-      this.properties.categories.forEach(() => this.categoriesFormArray.push(new FormControl(false)));
-      this.options.ceil=this.properties.maxPrice;
-    }
-  }
 
   onCategorySelect($event: MatOptionSelectionChange, index:number, ) {
     if($event.source.selected)
