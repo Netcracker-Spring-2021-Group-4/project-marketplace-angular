@@ -2,7 +2,7 @@ export class CartProductInfo {
   productId: string
   name: string
   description: string
-  imageURL: string
+  imageUrl: string
   price: number
   quantity: number
   category: string

@@ -27,10 +27,6 @@ export class PublicApiService {
     return this.httpClient.get(`${this.PUBLIC_URL}/categories-all`)
   }
 
-  checkAvailabilityOfProduct(productId: string, quantity: number): Observable<any> {
-    return this.httpClient.get(`${this.PUBLIC_URL}/${productId}/availability?quantity=${quantity}`, {observe: 'response'})
-  }
-
   getCart(list: CartItemModel[]): Observable<CartInfoResponse> {
     return this.httpClient.post<CartInfoResponse>(`${this.PUBLIC_URL}/cart`, list)
   }

@@ -36,16 +36,16 @@ export class AuthStoreApiService {
     return this.httpClient.patch(`${this.AUTH_STORE_URL}/change-password`, obj)
   }
 
-  addToCart(obj: CartItemModel): Observable<any> {
-    return this.httpClient.post(`${this.AUTH_CUSTOMER_URL}/add-to-cart`, obj)
+  addToCart(obj: CartItemModel): Observable<boolean> {
+    return this.httpClient.post<boolean>(`${this.AUTH_CUSTOMER_URL}/add-to-cart`, obj)
   }
 
-  addToCartIfPossible(obj: CartItemModel[]): Observable<any> {
+  addToCartListIfPossible(obj: CartItemModel[]): Observable<any> {
     return this.httpClient.post(`${this.AUTH_CUSTOMER_URL}/add-to-cart-if-possible`, obj)
   }
 
-  removeFromCart(obj: CartItemModel): Observable<any> {
-    return this.httpClient.post(`${this.AUTH_CUSTOMER_URL}/remove-from-cart`, obj)
+  removeFromCart(obj: CartItemModel): Observable<boolean> {
+    return this.httpClient.post<boolean>(`${this.AUTH_CUSTOMER_URL}/remove-from-cart`, obj)
   }
 
   getCart(): Observable<CartInfoResponse> {

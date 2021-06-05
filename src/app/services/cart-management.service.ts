@@ -6,6 +6,7 @@ import Labels from "../shared/models/labels/labels.constant";
 import {UserRole} from "../shared/models/enums/role.enum";
 import {CartItemModel} from "../shared/models/api/send/cart-item.model";
 import {ToasterCustomService} from "./toaster-custom.service";
+import {Observable, of} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -27,13 +28,17 @@ export class CartManagementService {
     return uuidValidate(uuid);
   }
 
-  get cart() : CartItemModel[] {
+  get localCart() : CartItemModel[] {
     const cartString = localStorage.getItem(CartManagementService.CART_STORAGE)
     const parsed = JSON.parse(cartString ?? "")
     return parsed === "" ? [] : parsed
   }
 
-  emptyCart() {
+  setNewCart(newCart: CartItemModel[]) {
+    localStorage.setItem(CartManagementService.CART_STORAGE, JSON.stringify(newCart))
+  }
+
+  emptyLocalCart() {
     localStorage.setItem(CartManagementService.CART_STORAGE, JSON.stringify([]))
   }
 
@@ -47,6 +52,32 @@ export class CartManagementService {
     } else if (this.role === UserRole.ROLE_NO_AUTH_CUSTOMER) {
       this.addToCartLocal(item)
     }
+  }
+
+  addToCartObservable(item: CartItemModel): Observable<any>{
+    if(!CartManagementService.isValidUUID(item.productId)) {
+      this.wrongUUIDNotify()
+      throw null
+    }
+    if( this.role === UserRole.ROLE_CUSTOMER ) {
+      return this.authStoreApiService.addToCart(item)
+    } else if (this.role === UserRole.ROLE_NO_AUTH_CUSTOMER) {
+      this.addToCartLocal(item)
+    }
+    return of(0)
+  }
+
+  removeFromCartObservable(item: CartItemModel) : Observable<any>{
+    if(!CartManagementService.isValidUUID(item.productId)) {
+      this.wrongUUIDNotify();
+      throw null
+    }
+    if( this.role === UserRole.ROLE_CUSTOMER ) {
+      return this.authStoreApiService.removeFromCart(item)
+    } else if (this.role === UserRole.ROLE_NO_AUTH_CUSTOMER) {
+      this.removeFromCartLocal(item)
+    }
+    return of(0);
   }
 
   removeFromCart(item: CartItemModel) {

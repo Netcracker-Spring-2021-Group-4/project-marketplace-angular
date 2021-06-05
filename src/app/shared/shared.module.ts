@@ -28,6 +28,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import { RoleStripperPipe } from './helpers/pipes/role-stripper.pipe';
 import {CategoryPrettifierPipe} from "./helpers/pipes/category-prettifier.pipe";
 import {MatTabsModule} from "@angular/material/tabs";
+import {CustomCurrencyPipe} from "./helpers/pipes/custom-currency.pipe";
 
 @NgModule({
   imports: [
@@ -85,12 +86,14 @@ import {MatTabsModule} from "@angular/material/tabs";
     MenuBarComponent,
     MatCheckboxModule,
     RoleStripperPipe,
-    CategoryPrettifierPipe
+    CategoryPrettifierPipe,
+    CustomCurrencyPipe
   ],
   declarations: [
     MenuBarComponent,
     RoleStripperPipe,
-    CategoryPrettifierPipe
+    CategoryPrettifierPipe,
+    CustomCurrencyPipe
   ]
 })
 export class SharedModule { }
