@@ -78,14 +78,14 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
       )
       .subscribe( res => {
         this.toaster.open({
-          text: Labels.product.success,
+          text: Labels.product.successfulCreationProduct,
           caption: Labels.caption.success,
           duration: 4000,
           type: 'success'
         });
       }, err => {
         this.toaster.open({
-          text: Labels.product.error,
+          text: Labels.product.errorCreationProduct,
           caption: Labels.caption.error,
           duration: 4000,
           type: 'danger'

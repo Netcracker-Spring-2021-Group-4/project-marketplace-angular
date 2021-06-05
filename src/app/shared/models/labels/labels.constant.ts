@@ -33,8 +33,8 @@ const Labels = {
     successfulAddingToCart: 'The item was successfully added to your cart'
   },
   product:{
-    success: 'Creation new product completed successfully',
-    error: 'Something went wrong with creation product'
+    successfulCreationProduct: 'Creation new product completed successfully',
+    errorCreationProduct: 'Something went wrong with creation product',
     successfulAddingToCart: 'The item was successfully added to your cart',
     successfulRemovingFromCart: 'The item was successfully removed from your cart',
     errorRemovingFromEmptyCart: 'Cannot remove item from empty cart',
