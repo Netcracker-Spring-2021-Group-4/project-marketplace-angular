@@ -20,54 +20,34 @@ export class FiltersComponent implements OnInit {
   @Output() searchCriteriaEvent = new EventEmitter<FormGroup>();
 
 
-
   private productService: CatalogPublicHttpService;
-  minValue: number ;
-  maxValue: number ;
-  options: Options = {
-    floor: 0,
-    ceil: 1000,
-    translate: (value: number, label: LabelType): string => {
-      switch (label) {
-        case LabelType.Low:
-          return '<b>Min price:</b> $' + value;
-        case LabelType.High:
-          return '<b>Max price:</b> $' + value;
-        default:
-          return '$' + value;
-      }
-    }
-  };
+  minValue: number;
+  maxValue: number;
 
   get categoriesFormArray() {
     return this.productCatalogFilter.controls.categories as FormArray;
   }
 
 
-  search(): void
-  {
-      this.searchCriteriaEvent.emit(this.productCatalogFilter);
+  search(): void {
+    this.searchCriteriaEvent.emit(this.productCatalogFilter);
 
   };
 
 
-
-
-
-
-  constructor(productsService:CatalogPublicHttpService) {
-    this.productService= productsService;
-    this.minValue=0;
-    this.maxValue=1000;
+  constructor(productsService: CatalogPublicHttpService) {
+    this.productService = productsService;
+    this.minValue = 0;
+    this.maxValue = 400;
   }
 
 
   ngOnInit(): void {
- }
+  }
 
 
-  onCategorySelect($event: MatOptionSelectionChange, index:number, ) {
-    if($event.source.selected)
+  onCategorySelect($event: MatOptionSelectionChange, index: number,) {
+    if ($event.source.selected)
       (this.categoriesFormArray.controls[index].setValue(true));
     else
       (this.categoriesFormArray.controls[index].setValue(false));
@@ -75,8 +55,20 @@ export class FiltersComponent implements OnInit {
   }
 
 
-
-
-
+  sliderOptions() {
+    return {
+      floor: 0,
+      ceil: this.properties.maxPrice,
+      translate: (value: number, label: LabelType): string => {
+        switch (label) {
+          case LabelType.Low:
+            return '<b>Min price:</b> $' + value;
+          case LabelType.High:
+            return '<b>Max price:</b> $' + value;
+          default:
+            return '$' + value;
+        }
+      }
+    };
+  }
 }
-

@@ -2,15 +2,10 @@ import { Injectable } from '@angular/core';
 import {Product} from "../shared/models/api/receive/product";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable, of} from "rxjs";
-import {Category} from "../shared/models/api/receive/category";
 import {environment} from "../../environments/environment";
 
 import {ContentPage} from "../shared/models/api/receive/content-page";
 import {FilterProperties} from '../shared/models/api/receive/filter-props';
-import {catchError} from "rxjs/operators";
-import Labels from "../shared/models/labels/labels.constant";
-import {EagerContentPage} from "../shared/models/api/receive/cotent-page.model";
-import {ProfileModel} from "../shared/models/api/receive/profile.model";
 import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ProductFilterModel} from "../shared/models/api/send/product-filter.model";
 import {SortOptionEnum} from "../shared/models/enums/sort-option.enum";
