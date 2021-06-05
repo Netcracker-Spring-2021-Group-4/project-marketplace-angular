@@ -39,4 +39,8 @@ export class ShoppingCartTabComponent{
   isProhibitedToAdd(productId: string) {
     return this.prohibitedToAddMoreList.indexOf(productId) !== -1
   }
+
+  areDifferentTotals() {
+    return this.cart.summaryPrice !== this.cart.summaryPriceWithoutDiscount
+  }
 }

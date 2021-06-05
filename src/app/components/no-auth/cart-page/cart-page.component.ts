@@ -4,7 +4,7 @@ import {AuthStoreApiService} from "../../../api-services/auth-store-http.service
 import {PublicApiService} from "../../../api-services/public-http.service";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {CartInfoResponse} from "../../../shared/models/api/receive/cart-info-response.model";
-import {finalize, switchMap} from "rxjs/operators";
+import {switchMap} from "rxjs/operators";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {CartManagementService} from "../../../services/cart-management.service";
 import {CartItemModel} from "../../../shared/models/api/send/cart-item.model";
@@ -51,6 +51,22 @@ export class CartPageComponent implements OnInit {
     )
   }
 
+  get isNoAuthCustomer() {
+    return this.currentRole === UserRole.ROLE_NO_AUTH_CUSTOMER
+  }
+
+  isCartEmpty() {
+    return !this.cart || this.cart.content.length === 0;
+  }
+
+  redirectToAuth(isLogin: boolean) {
+
+  }
+
+  checkout() {
+
+  }
+
   private changeQuantityThenFetchCart(obs$: Observable<any>, isAdding= false, productId: string = '') {
     this.isLoading = true
     obs$
@@ -63,10 +79,10 @@ export class CartPageComponent implements OnInit {
         return this.currentRole === UserRole.ROLE_NO_AUTH_CUSTOMER ?
           this.publicApiService.getCart(this.cartManagementService.localCart)
           : this.authStoreApiService.getCart()
-      }),
-      finalize(() => this.isLoading = false)
+      })
     )
     .subscribe(res => {
+      this.isLoading = false;
       const localCartItems = CartPageComponent.cartInfoToItemsList(this.cart.content)
       const serverCartItems = CartPageComponent.cartInfoToItemsList(res.content)
       if(CartPageComponent.equalCartItems(localCartItems, serverCartItems) && isAdding) this.addProductToProhibitedToAdd(productId)
@@ -74,6 +90,7 @@ export class CartPageComponent implements OnInit {
       this.sortCartByName(this.cart)
       this.setNewLocalCartForNonAuth(res)
     }, err => {
+      this.isLoading = false;
       this.toaster.errorNotification(err.error.message)
     })
   }
@@ -101,13 +118,14 @@ export class CartPageComponent implements OnInit {
             }
           }
           return of(cart)
-        }),
-        finalize(() => this.isLoading = false)
+        })
       ).subscribe(res => {
+        this.isLoading = false;
         this.cart = res;
         this.sortCartByName(this.cart)
         this.setNewLocalCartForNonAuth(res)
       }, err => {
+        this.isLoading = false;
         this.toaster.errorNotification(err.error.message)
     })
   }

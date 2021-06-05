@@ -29,6 +29,7 @@ import { RoleStripperPipe } from './helpers/pipes/role-stripper.pipe';
 import {CategoryPrettifierPipe} from "./helpers/pipes/category-prettifier.pipe";
 import {MatTabsModule} from "@angular/material/tabs";
 import {CustomCurrencyPipe} from "./helpers/pipes/custom-currency.pipe";
+import { CoverLoadingComponent } from './components/cover-loading/cover-loading.component';
 
 @NgModule({
   imports: [
@@ -87,13 +88,15 @@ import {CustomCurrencyPipe} from "./helpers/pipes/custom-currency.pipe";
     MatCheckboxModule,
     RoleStripperPipe,
     CategoryPrettifierPipe,
-    CustomCurrencyPipe
+    CustomCurrencyPipe,
+    CoverLoadingComponent
   ],
   declarations: [
     MenuBarComponent,
     RoleStripperPipe,
     CategoryPrettifierPipe,
-    CustomCurrencyPipe
+    CustomCurrencyPipe,
+    CoverLoadingComponent
   ]
 })
 export class SharedModule { }

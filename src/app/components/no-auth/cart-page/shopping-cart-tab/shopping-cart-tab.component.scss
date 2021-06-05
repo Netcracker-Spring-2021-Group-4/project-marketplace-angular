@@ -1,4 +1,5 @@
 @import 'src/styles/variables';
+@import 'src/styles/styles-breakpoints';
 
 img {
   width: 32px;
@@ -35,5 +36,14 @@ img {
 }
 
 .card-margin{
-  margin-right: 1rem;
+  &:last-child {
+    margin-right: 0
+  }
+  @include md{
+    margin-right: 1rem;
+  }
+}
+
+.bg-total{
+  background: #d4d4d4;
 }
