@@ -9,7 +9,7 @@ import {ProductPageComponent} from "../components/no-auth/product-page/product-p
 import {ComparePageComponent} from "../components/no-auth/compare-page/compare-page.component";
 import {CartPageComponent} from "../components/no-auth/cart-page/cart-page.component";
 import {CheckoutPageComponent} from "../components/no-auth/checkout-page/checkout-page.component";
-import {NonAuthCustomerGuard} from "../guards/role.guards";
+import {CheckoutGuard, NonAuthCustomerGuard} from "../guards/role.guards";
 
 const NoAuthRoutes: Routes = [
   {
@@ -56,7 +56,8 @@ const NoAuthRoutes: Routes = [
   },
   {
     path: Route.CHECK_OUT,
-    component: CheckoutPageComponent
+    component: CheckoutPageComponent,
+    canActivate: [CheckoutGuard]
   },
 ];
 

@@ -1,6 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {environment} from "../environments/environment";
 import {UserRole} from "./shared/models/enums/role.enum";
+import {CheckoutService} from "./services/checkout.service";
+import {PublicApiService} from "./api-services/public-http.service";
+import {ToasterCustomService} from "./services/toaster-custom.service";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +14,21 @@ export class AppComponent implements OnInit{
   title = 'projectMarketplaceAngular';
   secretMessage = environment.secretMessage;
 
+  @HostListener("window:beforeunload", ["$event"])
+  unloadHandler(event: Event) {
+    console.log("Processing beforeunload...");
+    if(this.checkoutService.isReserved) {
+      this.publicApiService
+        .cancelReservation(this.checkoutService.cart!.content)
+        .subscribe(_ => this.toaster.successfulNotification("The reservation was removed"));
+    }
+    event.returnValue = false;
+  }
+
   constructor(
+    private publicApiService: PublicApiService,
+    private checkoutService: CheckoutService,
+    private toaster: ToasterCustomService
     ) {
   }
 

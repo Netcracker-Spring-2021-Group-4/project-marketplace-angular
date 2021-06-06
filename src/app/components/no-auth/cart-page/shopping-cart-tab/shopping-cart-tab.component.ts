@@ -14,6 +14,8 @@ export class ShoppingCartTabComponent{
   cart: CartInfoResponse
   @Input()
   prohibitedToAddMoreList: string[]
+  @Input()
+  reservationExists: boolean
   @Output()
   addQuantityEvent = new EventEmitter<CartItemModel>()
   @Output()

@@ -4,6 +4,7 @@ import {JwtTokenService} from "../auth/jwt-token.service";
 import {UserRole} from "../shared/models/enums/role.enum";
 import {Route} from "../shared/models/enums/route.enum";
 import {RedirectAuthService} from "../services/redirect-auth.service";
+import {CheckoutService} from "../services/checkout.service";
 
 @Injectable({providedIn: 'root'})
 export class AuthStoreGuard implements CanActivate {
@@ -123,5 +124,27 @@ export class ManagerPlusGuard implements CanActivate {
     }
     this.router.navigate([Route.LOGIN]);
     return false;
+  }
+}
+
+@Injectable({providedIn: 'root'})
+export class CheckoutGuard implements CanActivate {
+
+  constructor(
+    private router: Router,
+    private checkoutService: CheckoutService
+  ) {}
+
+  public canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    const permitted = [UserRole.ROLE_NO_AUTH_CUSTOMER, UserRole.ROLE_CUSTOMER]
+    const isReserved = this.checkoutService.isReserved
+    if(!isReserved) {
+      this.router.navigate([Route.CART])
+      return false;
+    }
+    return isReserved && permitted.indexOf(JwtTokenService.role) !== -1
   }
 }
