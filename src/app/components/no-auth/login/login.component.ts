@@ -5,12 +5,12 @@ import {JwtTokenService} from "../../../auth/jwt-token.service";
 import {AuthApiService} from "../../../api-services/auth-http.service";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {RoleService} from "../../../services/role.service";
-import {Router} from "@angular/router";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {Route} from "../../../shared/models/enums/route.enum";
 import {environment} from "../../../../environments/environment";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
+import {RedirectAuthService} from "../../../services/redirect-auth.service";
 
 @Component({
   selector: 'app-login',
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     private roleService: RoleService,
     private authApiService: AuthApiService,
     private toaster: ToasterCustomService,
-    private router: Router
+    private redirectAuthService: RedirectAuthService
   ) {
     this.form = this.userAuthFormService.loginForm()
   }
@@ -53,7 +53,6 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-    // todo handle captcha
     const {username, password} = this.form.value
     const cred = {username, password}
     this.authApiService.login(cred).subscribe(
@@ -63,7 +62,7 @@ export class LoginComponent implements OnInit {
       this.roleService.changeRole(JwtTokenService.role)
 
       this.toaster.successfulNotification(Labels.login.success);
-      this.router.navigate([this.defaultRoute])
+      this.redirectAuthService.redirect()
     }, err => {
         this.attemptsCounter += 1
         if(!this.isCaptchaDisabled) this.setRequiredCaptcha()

@@ -11,6 +11,7 @@ import {CartItemModel} from "../../../shared/models/api/send/cart-item.model";
 import {CartProductInfo} from "../../../shared/models/api/receive/cart-product-info.model";
 import {Observable, of} from "rxjs";
 import Labels from "../../../shared/models/labels/labels.constant";
+import {RedirectAuthService} from "../../../services/redirect-auth.service";
 
 @Component({
   selector: 'app-cart-page',
@@ -29,6 +30,7 @@ export class CartPageComponent implements OnInit {
     private cartManagementService: CartManagementService,
     private authStoreApiService: AuthStoreApiService,
     private publicApiService: PublicApiService,
+    private redirectAuthService: RedirectAuthService,
     private toaster: ToasterCustomService
   ) { }
 
@@ -60,7 +62,7 @@ export class CartPageComponent implements OnInit {
   }
 
   redirectToAuth(isLogin: boolean) {
-
+    this.redirectAuthService.changeRedirectUrlAndGoAuth(isLogin)
   }
 
   checkout() {
