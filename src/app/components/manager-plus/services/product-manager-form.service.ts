@@ -19,7 +19,7 @@ export class ProductManagerFormService {
   ) {
   }
   public getCategories():Observable<Categories[]>{
-    return this.http.get<Categories[]>(`${this.apiServerUrl}/api/v1/public/categories`);
+    return this.http.get<Categories[]>(`${this.apiServerUrl}/api/v1/public/categories-all`);
   }
 
   public createProductForm()

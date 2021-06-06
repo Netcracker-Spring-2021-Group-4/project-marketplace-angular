@@ -46,7 +46,7 @@
       <mat-label>Choose categories</mat-label>
       <mat-select (selectionChange)="OnInput($event)" formControlName="categoryId">
         <mat-option *ngFor="let category of categories" [value]="category.categoryId">
-          {{category.productCategoryName}}
+          {{category.categoryName}}
         </mat-option>
       </mat-select>
     </mat-form-field>
