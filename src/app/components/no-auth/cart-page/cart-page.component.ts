@@ -4,7 +4,7 @@ import {AuthStoreApiService} from "../../../api-services/auth-store-http.service
 import {PublicApiService} from "../../../api-services/public-http.service";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {CartInfoResponse} from "../../../shared/models/api/receive/cart-info-response.model";
-import {finalize, switchMap} from "rxjs/operators";
+import {finalize, switchMap, take} from "rxjs/operators";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {CartManagementService} from "../../../services/cart-management.service";
 import {CartItemModel} from "../../../shared/models/api/send/cart-item.model";
@@ -122,10 +122,11 @@ export class CartPageComponent implements OnInit {
         return this.currentRole === UserRole.ROLE_NO_AUTH_CUSTOMER ?
           this.publicApiService.getCart(this.cartManagementService.localCart)
           : this.authStoreApiService.getCart()
-      })
+      }),
+      take(1),
+      finalize(() => this.isLoading = false)
     )
     .subscribe(res => {
-      this.isLoading = false;
       const localCartItems = cartInfoToItemsList(this.cart.content)
       const serverCartItems = cartInfoToItemsList(res.content)
       if(equalCartItems(localCartItems, serverCartItems) && isAdding) this.addProductToProhibitedToAdd(productId)
@@ -133,7 +134,6 @@ export class CartPageComponent implements OnInit {
       sortCartByName(this.cart)
       this.setNewLocalCartForNonAuth(res)
     }, err => {
-      this.isLoading = false;
       this.toaster.errorNotification(err.error.message)
     })
   }
@@ -161,14 +161,14 @@ export class CartPageComponent implements OnInit {
             }
           }
           return of(cart)
-        })
+        }),
+        take(1),
+        finalize(() => this.isLoading = false)
       ).subscribe(res => {
-        this.isLoading = false;
         this.cart = res;
         sortCartByName(this.cart)
         this.setNewLocalCartForNonAuth(res)
       }, err => {
-        this.isLoading = false;
         this.toaster.errorNotification(err.error.message)
     })
   }

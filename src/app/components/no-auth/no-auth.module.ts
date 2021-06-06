@@ -13,6 +13,8 @@ import { CheckoutPageComponent } from './checkout-page/checkout-page.component';
 import {NgxCaptchaModule} from "ngx-captcha";
 import {NgxMaskModule} from "ngx-mask";
 import { ShoppingCartTabComponent } from './cart-page/shopping-cart-tab/shopping-cart-tab.component';
+import { CheckoutStepOneComponent } from './checkout-page/checkout-step-one/checkout-step-one.component';
+import { CheckoutStepTwoComponent } from './checkout-page/checkout-step-two/checkout-step-two.component';
 
 
 
@@ -27,7 +29,9 @@ import { ShoppingCartTabComponent } from './cart-page/shopping-cart-tab/shopping
     ComparePageComponent,
     CartPageComponent,
     CheckoutPageComponent,
-    ShoppingCartTabComponent
+    ShoppingCartTabComponent,
+    CheckoutStepOneComponent,
+    CheckoutStepTwoComponent
   ],
   imports: [
     CommonModule,

@@ -30,6 +30,10 @@ import {CategoryPrettifierPipe} from "./helpers/pipes/category-prettifier.pipe";
 import {MatTabsModule} from "@angular/material/tabs";
 import {CustomCurrencyPipe} from "./helpers/pipes/custom-currency.pipe";
 import { CoverLoadingComponent } from './components/cover-loading/cover-loading.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatChipsModule} from "@angular/material/chips";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   imports: [
@@ -49,6 +53,7 @@ import { CoverLoadingComponent } from './components/cover-loading/cover-loading.
     MatIconModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatAutocompleteModule,
     MatRadioModule,
     MatCardModule,
     MatDialogModule,
@@ -59,7 +64,10 @@ import { CoverLoadingComponent } from './components/cover-loading/cover-loading.
     MatTableModule,
     LayoutModule,
     MatSidenavModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatChipsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
     BrowserModule,
@@ -76,6 +84,7 @@ import { CoverLoadingComponent } from './components/cover-loading/cover-loading.
     MatIconModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatAutocompleteModule,
     MatRadioModule,
     MatCardModule,
     MatDialogModule,
@@ -86,6 +95,9 @@ import { CoverLoadingComponent } from './components/cover-loading/cover-loading.
     MatTableModule,
     MenuBarComponent,
     MatCheckboxModule,
+    MatChipsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     RoleStripperPipe,
     CategoryPrettifierPipe,
     CustomCurrencyPipe,

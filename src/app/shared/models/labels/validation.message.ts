@@ -5,5 +5,6 @@ export const ValidationMessages = {
   passwordsAreTheSame: 'Your current password and new password are the same',
   firstName: 'First name must be from 2 to 30 characters long',
   lastName: 'Last name must be from 2 to 30 characters long',
-  phoneNumber:  'Must be a numeric value from 12 to 16 integers long'
+  phoneNumber:  'Must be a numeric value from 12 to 16 integers long',
+  flat: 'Must be a positive number'
 }
