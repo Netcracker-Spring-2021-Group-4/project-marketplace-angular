@@ -36,7 +36,7 @@
     </mat-form-field>
     <hr>
   <ngx-slider formControlName="price"
-
+              *ngIf="properties.maxPrice!=0"
     [(value)]="minValue" [(highValue)]="maxValue" [options]="sliderOptions()" ></ngx-slider>
 
   <hr>

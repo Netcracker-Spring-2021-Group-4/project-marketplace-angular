@@ -46,6 +46,13 @@ export class FiltersComponent implements OnInit {
   }
 
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['properties']) {
+      this.properties.categories.forEach(() => this.categoriesFormArray.push(new FormControl(false)));
+    }
+if(this.properties.maxPrice>0)
+  this.maxValue=this.properties.maxPrice
+  }
   onCategorySelect($event: MatOptionSelectionChange, index: number,) {
     if ($event.source.selected)
       (this.categoriesFormArray.controls[index].setValue(true));
@@ -58,7 +65,7 @@ export class FiltersComponent implements OnInit {
   sliderOptions() {
     return {
       floor: 0,
-      ceil: this.properties.maxPrice,
+      ceil: this.properties.maxPrice/100,
       translate: (value: number, label: LabelType): string => {
         switch (label) {
           case LabelType.Low:

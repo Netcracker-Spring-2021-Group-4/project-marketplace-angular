@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormArray, FormControl, FormGroup} from "@angular/forms";
+import {FormGroup} from "@angular/forms";
 import {Product} from "../../../shared/models/api/receive/product";
 import {CatalogPublicHttpService} from "../../../api-services/catalog-public-http.service";
 import {PageEvent} from "@angular/material/paginator";
@@ -81,8 +81,8 @@ export class CatalogComponent implements OnInit {
     if (this.formGroup.get('query')?.value)
       searchCriteria.nameQuery = this.formGroup.get('query')?.value
     if (this.formGroup.get('price')?.value) {
-      searchCriteria.minPrice = this.formGroup.get('price')?.value[0]
-      searchCriteria.maxPrice = this.formGroup.get('price')?.value[1]
+      searchCriteria.minPrice = this.formGroup.get('price')?.value[0]*100
+      searchCriteria.maxPrice = this.formGroup.get('price')?.value[1]*100
     }
 
     if(this.formGroup.get('categories')?.value) {

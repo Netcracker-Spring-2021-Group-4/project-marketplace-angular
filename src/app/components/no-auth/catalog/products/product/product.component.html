@@ -21,9 +21,9 @@
       <mat-card-content >
         <div class = "row ">
 
-        <p *ngIf="productItem.discount!=0" class="new-price col">US $ {{productItem.discount}}</p>
-        <p *ngIf="productItem.discount!=0" class="old-price col">{{productItem.price}}</p>
-        <p *ngIf="productItem.discount==0" class="price col">US $ {{productItem.price}}</p>
+        <p *ngIf="productItem.discount!=0" class="new-price col">US $ {{(productItem.discount/100).toFixed(2)}}</p>
+        <p *ngIf="productItem.discount!=0" class="old-price col">{{(productItem.price/100).toFixed(2)}}</p>
+        <p *ngIf="productItem.discount==0" class="price col">US $ {{(productItem.price/100).toFixed(2)}}</p>
         </div>
       </mat-card-content>
 
