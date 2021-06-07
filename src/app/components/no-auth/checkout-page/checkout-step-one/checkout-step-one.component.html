@@ -79,9 +79,18 @@
     </div>
     <div>
       <button
+        color="warn"
+        mat-raised-button
+        (click)="cancelReservation()"
+        class="me-2"
+      >
+        Cancel reservation
+      </button>
+      <button
         mat-raised-button
         matStepperNext
         [disabled]="firstStepForm.invalid"
+        (click)="nextPage()"
       >
         Next
       </button>

@@ -1,5 +1,5 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, Output, ViewChild, EventEmitter, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup} from "@angular/forms";
 import {ValidationMessages} from "../../../../shared/models/labels/validation.message";
 import {MatChipInputEvent} from "@angular/material/chips";
@@ -10,7 +10,7 @@ import {MatAutocomplete, MatAutocompleteSelectedEvent} from "@angular/material/a
   templateUrl: './checkout-step-one.component.html',
   styleUrls: ['./checkout-step-one.component.scss']
 })
-export class CheckoutStepOneComponent {
+export class CheckoutStepOneComponent implements OnInit{
 
   @ViewChild('commentInput') commentInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -18,6 +18,10 @@ export class CheckoutStepOneComponent {
 
   @Input()
   firstStepForm: FormGroup
+  @Output()
+  cancelReservationEvent = new EventEmitter<void>()
+  @Output()
+  nextStepEvent = new EventEmitter<void>()
 
   comment_ctrl = new FormControl()
   separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -28,7 +32,9 @@ export class CheckoutStepOneComponent {
   phoneNumberErrorMessage = ValidationMessages.phoneNumber
   flatErrorMessage = ValidationMessages.flat
 
-  constructor() { }
+  ngOnInit() {
+    this.commentField().setValue(this.commentChoices.join('\n'))
+  }
 
   addComment(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
@@ -71,4 +77,11 @@ export class CheckoutStepOneComponent {
     return `The field can contain at most ${isBuilding? 8 : 64} characters`
   }
 
+  cancelReservation() {
+    this.cancelReservationEvent.emit()
+  }
+
+  nextPage() {
+    this.nextStepEvent.emit();
+  }
 }

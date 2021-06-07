@@ -13,7 +13,7 @@
   >
     <mat-label>Choose time of delivery</mat-label>
     <mat-select
-      [(ngModel)]="time"
+      (selectionChange)="newSelectedTime($event)"
     >
       <mat-option
         *ngFor="let slot of timeslots"
@@ -25,12 +25,21 @@
     </mat-select>
   </mat-form-field>
 
-  <button
-    mat-raised-button
-    matStepperNext
-    [disabled]="!time"
-    (click)="saveTime()"
-  >
-    Next
-  </button>
+  <div class="mx-auto">
+    <button
+      mat-raised-button
+      matStepperPrevious
+      class="me-2"
+    >
+      Previous page
+    </button>
+    <button
+      mat-raised-button
+      matStepperNext
+      [disabled]="secondStepForm.invalid"
+      (click)="saveTime()"
+    >
+      Next
+    </button>
+  </div>
 </div>

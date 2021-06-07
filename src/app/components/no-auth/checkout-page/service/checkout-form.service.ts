@@ -29,6 +29,13 @@ export class CheckoutFormService {
     });
   }
 
+  public secondStepForm()
+    : FormGroup {
+    return this.formBuilder.group({
+      deliverySlot: [null, [Validators.required]]
+    });
+  }
+
 }
 
 const name = (maxLength: number, value?: string) => ([value ?? null, [Validators.required, Validators.minLength(2), Validators.maxLength(maxLength)]])

@@ -38,6 +38,9 @@ const Labels = {
     cartIsCorrupted: 'Your cart is corrupted',
     successfulReservationMade: 'Your reservation was made successfully',
     successfulReservationRemoved: 'Your reservation was removed successfully'
+  },
+  checkout: {
+    successfulOrderMade: 'Your order was made successfully'
   }
 }
 

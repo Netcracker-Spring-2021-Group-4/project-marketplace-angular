@@ -22,7 +22,6 @@ export class AppComponent implements OnInit{
         .cancelReservation(this.checkoutService.cart!.content)
         .subscribe(_ => this.toaster.successfulNotification("The reservation was removed"));
     }
-    event.returnValue = false;
   }
 
   constructor(

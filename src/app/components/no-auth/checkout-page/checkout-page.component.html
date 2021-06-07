@@ -1,28 +1,32 @@
-<mat-horizontal-stepper
+<mat-horizontal-stepper linear #stepper
   *ngIf="firstStepForm"
-  labelPosition="bottom" #stepper
+  labelPosition="bottom"
 >
-  <mat-step>
+  <mat-step [stepControl]="firstStepForm">
     <ng-template matStepLabel>Contact information</ng-template>
     <app-checkout-step-one
       [firstStepForm]="firstStepForm"
+      (cancelReservationEvent)="cancelReservation()"
     ></app-checkout-step-one>
   </mat-step>
 
-  <mat-step >
+  <mat-step [stepControl]="secondStepForm">
     <ng-template matStepLabel>Time of delivery</ng-template>
     <app-checkout-step-two
     [timeslots]="timeslots"
+    [secondStepForm]="secondStepForm"
     (dateChangedEvent)="getSlotsForDate($event)"
-    (timeSelectedEvent)="saveTimeOfDelivery($event)"
+    (formCompletedEvent)="getReadyForPreview()"
     ></app-checkout-step-two>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Order summary</ng-template>
-    <p>You are now done.</p>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-    </div>
+    <app-checkout-step-three
+      [result]="result"
+      [cart]="cart"
+      (makeOrderEvent)="makeOrder()"
+    >
+    </app-checkout-step-three>
   </mat-step>
 </mat-horizontal-stepper>
 

@@ -1,5 +1,6 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {getStringTime, TimeSlotModelFront} from "../../../../shared/models/api/receive/time-slot.model";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-checkout-step-two',
@@ -10,19 +11,20 @@ export class CheckoutStepTwoComponent{
 
   @Input()
   timeslots: TimeSlotModelFront[]
+  @Input()
+  secondStepForm: FormGroup;
   @Output()
   dateChangedEvent = new EventEmitter<string>()
   @Output()
-  timeSelectedEvent = new EventEmitter<string>()
+  formCompletedEvent = new EventEmitter<void>()
 
   minDate = new Date();
-  time: number[] | null= null;
   selectedDate: string
 
   constructor() { }
 
   dateChanged($event: any) {
-    this.time = null
+    this.secondStepForm.get('deliverySlot')!.setValue(null);
     this.selectedDate = this.formatDate($event.value)
     this.dateChangedEvent.emit(this.selectedDate)
   }
@@ -41,7 +43,15 @@ export class CheckoutStepTwoComponent{
   }
 
   saveTime() {
-    const res = `${this.selectedDate}T${getStringTime(this.time!)}`
-    this.timeSelectedEvent.emit(res)
+    this.formCompletedEvent.emit()
+  }
+
+  newSelectedTime($event: any) {
+    console.log($event)
+    this.secondStepForm.get('deliverySlot')!.setValue(this.getStringTimeFromList($event.value))
+  }
+
+  getStringTimeFromList(value: number[]): string {
+    return `${this.selectedDate}T${getStringTime(value)}`
   }
 }

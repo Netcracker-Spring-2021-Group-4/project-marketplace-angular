@@ -9,9 +9,13 @@ import {UserRole} from "../../../shared/models/enums/role.enum";
 import {of} from "rxjs";
 import {CheckoutFormService} from "./service/checkout-form.service";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
-import {ValidationMessages} from "../../../shared/models/labels/validation.message";
 import {PublicApiService} from "../../../api-services/public-http.service";
-import {OrderRequest} from "../../../shared/models/api/send/order-request.model";
+import {Router} from "@angular/router";
+import {Route} from "../../../shared/models/enums/route.enum";
+import {CartInfoResponse} from "../../../shared/models/api/receive/cart-info-response.model";
+import {cartInfoToItemsList} from "../cart-page/service/utils";
+import Labels from "../../../shared/models/labels/labels.constant";
+import {CartManagementService} from "../../../services/cart-management.service";
 
 @Component({
   selector: 'app-checkout-page',
@@ -23,18 +27,24 @@ export class CheckoutPageComponent implements OnInit {
   isLoading = false;
   currentRole: UserRole;
   firstStepForm: FormGroup;
+  secondStepForm: FormGroup;
   timeslots: TimeSlotModelFront[];
-  result = new OrderRequest({})
-
+  result: any
+  cart: CartInfoResponse
 
   constructor(
     private roleService: RoleService,
     private authStoreApiService: AuthStoreApiService,
     private publicApiService: PublicApiService,
     private checkoutService: CheckoutService,
+    private cartManagementService: CartManagementService,
     private checkoutFormService: CheckoutFormService,
-    private toaster: ToasterCustomService
-  ) { }
+    private toaster: ToasterCustomService,
+    private router: Router,
+  ) {
+    this.cart = this.checkoutService.cart!
+    this.secondStepForm = this.checkoutFormService.secondStepForm()
+  }
 
   ngOnInit(): void {
     this.isLoading = true
@@ -76,8 +86,39 @@ export class CheckoutPageComponent implements OnInit {
       })
   }
 
-  saveTimeOfDelivery($event: string) {
-    this.result.deliverySlot = $event
-    console.log(this.result)
+  getReadyForPreview() {
+    this.result = {...this.result, ...this.firstStepForm.value}
+    this.result.deliverySlot = this.secondStepForm.get('deliverySlot')!.value
+    this.result.products = this.checkoutService.cart!.content
+  }
+
+  cancelReservation() {
+    this.isLoading = true
+    this.checkoutService.cancelReservationOnline(() => {
+      this.isLoading = false
+      this.router.navigate([Route.CART])
+    })
+  }
+
+  makeOrder() {
+    this.result.products = cartInfoToItemsList(this.result.products)
+    this.isLoading = true
+    this.publicApiService.makeOrder(this.result)
+      .pipe(
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe(() => {
+        this.toaster.successfulNotification(Labels.checkout.successfulOrderMade)
+        this.checkoutService.removeReservation()
+        this.cartManagementService.emptyLocalCart()
+        const redirect = this.currentRole === UserRole.ROLE_CUSTOMER ? Route.ORDER_HISTORY : Route.CATALOG
+        this.router.navigate([redirect])
+      }, err => {
+        this.toaster.errorNotification(err.error.message)
+        this.publicApiService
+          .cancelReservation(this.checkoutService.cart!.content)
+          .subscribe(_ => this.toaster.successfulNotification("The reservation was removed"));
+        this.router.navigate([Route.CART]);
+      })
   }
 }
