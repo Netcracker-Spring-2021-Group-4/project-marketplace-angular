@@ -1,0 +1,49 @@
+@import 'src/styles/variables';
+@import 'src/styles/styles-breakpoints';
+
+img {
+  width: 32px;
+  height: 32px;
+  align-self: flex-start;
+}
+
+.cyan {
+  background: #4da79f;
+}
+
+.tomato {
+  background: #b34e4e;
+}
+
+.purple {
+  background: #b32ead;
+}
+
+.green {
+  background: #65b31a;
+}
+
+.total-price-color {
+  background: #1b7b88;
+}
+
+.cart-custom-text-font-size {
+  font-size: 0.8rem;
+}
+
+.actions-mt {
+  margin-top: -0.5rem;
+}
+
+.card-margin{
+  &:last-child {
+    margin-right: 0
+  }
+  @include md{
+    margin-right: 1rem;
+  }
+}
+
+.bg-total{
+  background: #d4d4d4;
+}

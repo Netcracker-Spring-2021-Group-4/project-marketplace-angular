@@ -20,6 +20,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 
+import { ShoppingCartTabComponent } from './cart-page/shopping-cart-tab/shopping-cart-tab.component';
 
 
 
@@ -33,6 +34,8 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
     ProductPageComponent,
     ComparePageComponent,
     CartPageComponent,
+    CheckoutPageComponent,
+    ShoppingCartTabComponent,
     CheckoutPageComponent,
     HeaderComponent,
     FiltersComponent,

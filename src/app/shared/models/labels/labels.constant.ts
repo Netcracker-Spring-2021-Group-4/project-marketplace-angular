@@ -34,7 +34,8 @@ const Labels = {
     successfulRemovingFromCart: 'The item was successfully removed from your cart',
     errorRemovingFromEmptyCart: 'Cannot remove item from empty cart',
     errorRemovingItemIfCartDoesntHaveIt: 'Cannot remove item from cart where the item is abscent',
-    errorRemoveNegativeQuantity: 'Cannot remove negative quantity'
+    errorRemoveNegativeQuantity: 'Cannot remove negative quantity',
+    cartIsCorrupted: 'Your cart is corrupted'
   }
 }
 

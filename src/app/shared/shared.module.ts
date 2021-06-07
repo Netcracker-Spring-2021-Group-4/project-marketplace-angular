@@ -27,6 +27,9 @@ import {ToastNotificationsModule} from "ngx-toast-notifications";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { RoleStripperPipe } from './helpers/pipes/role-stripper.pipe';
 import {CategoryPrettifierPipe} from "./helpers/pipes/category-prettifier.pipe";
+import {MatTabsModule} from "@angular/material/tabs";
+import {CustomCurrencyPipe} from "./helpers/pipes/custom-currency.pipe";
+import { CoverLoadingComponent } from './components/cover-loading/cover-loading.component';
 
 @NgModule({
   imports: [
@@ -37,6 +40,7 @@ import {CategoryPrettifierPipe} from "./helpers/pipes/category-prettifier.pipe";
     ReactiveFormsModule,
     ToastNotificationsModule,
     BrowserAnimationsModule,
+    MatTabsModule,
     MatButtonModule,
     MatStepperModule,
     MatFormFieldModule,
@@ -63,6 +67,7 @@ import {CategoryPrettifierPipe} from "./helpers/pipes/category-prettifier.pipe";
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastNotificationsModule,
+    MatTabsModule,
     MatStepperModule,
     MatFormFieldModule,
     MatInputModule,
@@ -82,12 +87,16 @@ import {CategoryPrettifierPipe} from "./helpers/pipes/category-prettifier.pipe";
     MenuBarComponent,
     MatCheckboxModule,
     RoleStripperPipe,
-    CategoryPrettifierPipe
+    CategoryPrettifierPipe,
+    CustomCurrencyPipe,
+    CoverLoadingComponent
   ],
   declarations: [
     MenuBarComponent,
     RoleStripperPipe,
-    CategoryPrettifierPipe
+    CategoryPrettifierPipe,
+    CustomCurrencyPipe,
+    CoverLoadingComponent
   ]
 })
 export class SharedModule { }

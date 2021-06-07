@@ -29,14 +29,13 @@
         <mat-option
           *ngFor="let category of properties.categories; let i = index "
                       (onSelectionChange)="onCategorySelect($event,i)">
-          {{category.productCategoryName}}({{category.productsInCategory}})
+          {{category.productCategoryName | prettyCategory}}({{category.productsInCategory}})
 
         </mat-option>
       </mat-select>
     </mat-form-field>
     <hr>
   <ngx-slider formControlName="price"
-              *ngIf="properties.maxPrice!=0"
     [(value)]="minValue" [(highValue)]="maxValue" [options]="sliderOptions()" ></ngx-slider>
 
   <hr>

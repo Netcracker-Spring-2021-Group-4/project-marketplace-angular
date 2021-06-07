@@ -5,8 +5,10 @@ import {CatalogPublicHttpService} from "../../../api-services/catalog-public-htt
 import {PageEvent} from "@angular/material/paginator";
 import {FilterProperties} from "../../../shared/models/api/receive/filter-props";
 import {ProductFilterModel} from "../../../shared/models/api/send/product-filter.model";
-import {finalize} from "rxjs/operators";
+import {finalize, map} from "rxjs/operators";
 import {forkJoin} from "rxjs";
+import {CategoryPrettifierPipe} from "../../../shared/helpers/pipes/category-prettifier.pipe";
+import {Category} from "../../../shared/models/api/receive/category";
 
 @Component({
   selector: 'app-catalog',
@@ -39,8 +41,7 @@ export class CatalogComponent implements OnInit {
       .pipe(
         finalize(() => this.isLoading = false)
       ).subscribe(results => {
-
-      this.products = results[0].content;
+      this.products = results[0].content
       this.length = results[0].totalItems
       this.filterProps = results[1]
 

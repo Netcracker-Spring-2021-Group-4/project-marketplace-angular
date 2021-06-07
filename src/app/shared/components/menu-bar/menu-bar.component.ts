@@ -8,6 +8,7 @@ import {Link} from "../../models/internal/link.model";
 import {MatDrawer} from "@angular/material/sidenav";
 import {RoleService} from "../../../services/role.service";
 import {JwtTokenService} from "../../../auth/jwt-token.service";
+import {RedirectAuthService} from "../../../services/redirect-auth.service";
 
 @Component({
   selector: 'app-menu-bar',
@@ -28,8 +29,9 @@ export class MenuBarComponent implements OnInit{
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private roleService: RoleService
-  ) {}
+    private roleService: RoleService,
+    private redirectAuthService: RedirectAuthService
+  ){}
 
   ngOnInit() {
     this.roleService.currentRole$.subscribe(r => {
@@ -39,12 +41,20 @@ export class MenuBarComponent implements OnInit{
   }
 
   closeDrawer(label: string) {
-    this.logOut(label)
+    this.checkForLogOut(label)
     this.drawer.close()
   }
 
   checkForLogOut(label: string) {
     this.logOut(label)
+    this.setAuthRedirect(label)
+  }
+
+  setAuthRedirect(label: string) {
+    if(label.toUpperCase() === "LOGIN" || label.toUpperCase() === "SIGN UP"){
+      const toLogin = label.toUpperCase() === "LOGIN"
+      this.redirectAuthService.changeRedirectUrlAndGoAuth(toLogin)
+    }
   }
 
   logOut(label: string) {

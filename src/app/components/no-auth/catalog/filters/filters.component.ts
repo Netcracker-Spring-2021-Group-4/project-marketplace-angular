@@ -38,7 +38,6 @@ export class FiltersComponent implements OnInit {
   constructor(productsService: CatalogPublicHttpService) {
     this.productService = productsService;
     this.minValue = 0;
-    this.maxValue = 400;
   }
 
 
@@ -50,8 +49,8 @@ export class FiltersComponent implements OnInit {
     if (changes['properties']) {
       this.properties.categories.forEach(() => this.categoriesFormArray.push(new FormControl(false)));
     }
-if(this.properties.maxPrice>0)
-  this.maxValue=this.properties.maxPrice
+    if(this.properties.maxPrice>0)
+      this.maxValue=this.properties.maxPrice
   }
   onCategorySelect($event: MatOptionSelectionChange, index: number,) {
     if ($event.source.selected)

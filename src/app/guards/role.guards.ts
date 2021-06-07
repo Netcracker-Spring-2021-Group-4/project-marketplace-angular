@@ -3,6 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "
 import {JwtTokenService} from "../auth/jwt-token.service";
 import {UserRole} from "../shared/models/enums/role.enum";
 import {Route} from "../shared/models/enums/route.enum";
+import {RedirectAuthService} from "../services/redirect-auth.service";
 
 @Injectable({providedIn: 'root'})
 export class AuthStoreGuard implements CanActivate {
@@ -34,6 +35,23 @@ export class CustomerGuard implements CanActivate {
       return true;
     }
     this.router.navigate([Route.LOGIN]);
+    return false;
+  }
+}
+
+@Injectable({providedIn: 'root'})
+export class NonAuthCustomerGuard implements CanActivate {
+
+  constructor(private router: Router) {}
+
+  public canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    if (JwtTokenService.role === UserRole.ROLE_NO_AUTH_CUSTOMER) {
+      return true;
+    }
+    this.router.navigate([RedirectAuthService.defaultRoute()]);
     return false;
   }
 }
