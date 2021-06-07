@@ -19,6 +19,7 @@
   </div>
   <div>
     <mat-paginator
+      *ngIf = "products.length>0"
       [length]="length"
       [pageSizeOptions]="[9, 12, 24]"
       (page)="handlePageChange($event)"
