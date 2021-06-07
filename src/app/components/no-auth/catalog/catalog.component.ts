@@ -9,6 +9,8 @@ import {finalize, map} from "rxjs/operators";
 import {forkJoin} from "rxjs";
 import {CategoryPrettifierPipe} from "../../../shared/helpers/pipes/category-prettifier.pipe";
 import {Category} from "../../../shared/models/api/receive/category";
+import {RoleService} from "../../../services/role.service";
+import {UserRole} from "../../../shared/models/enums/role.enum";
 
 @Component({
   selector: 'app-catalog',
@@ -22,14 +24,21 @@ export class CatalogComponent implements OnInit {
   length:number
   products:Product[]=[]
   filterProps:FilterProperties
+  role:UserRole
   private isLoading: boolean;
 
-  constructor(private productService:CatalogPublicHttpService )
+  constructor(private productService:CatalogPublicHttpService, private roleService:RoleService)
   {
     this.formGroup = productService.catalogSearchForm() ;
     this.selectedPage = 0;
     this.filterProps=new FilterProperties({categories:[], maxPrice:1000});
+
+    this.roleService.currentRole$.subscribe(response => {
+      this.role = response
+    });
+    console.log(this.role)
   }
+
 
 
   ngOnInit(): void {

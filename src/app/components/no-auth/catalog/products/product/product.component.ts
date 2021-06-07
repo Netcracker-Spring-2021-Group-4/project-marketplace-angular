@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {Product} from "../../../../../shared/models/api/receive/product";
+import {UserRole} from "../../../../../shared/models/enums/role.enum";
 
 @Component({
   selector: 'app-product',
@@ -8,10 +9,13 @@ import {Product} from "../../../../../shared/models/api/receive/product";
 })
 export class ProductComponent implements OnInit {
 
-  @Input() productItem:Product
-  constructor() { }
+  @Input() role: UserRole
+  @Input() productItem: Product
+
+  constructor() {
+
+  }
 
   ngOnInit(): void {
   }
-
 }
