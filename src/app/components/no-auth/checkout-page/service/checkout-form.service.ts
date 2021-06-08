@@ -4,6 +4,7 @@ import {
   Validators
 } from "@angular/forms";
 import {Injectable} from "@angular/core";
+import {ProfileModel} from "../../../../shared/models/api/receive/profile.model";
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,11 @@ export class CheckoutFormService {
   ) {
   }
 
-  public firstStepForm(obj: any = {})
+  public firstStepForm(obj: Partial<ProfileModel> = {})
     : FormGroup {
     return this.formBuilder.group({
+      firstName: name(32, obj.firstName ?? null),
+      lastName: name(32, obj.lastName ?? null),
       phoneNumber: phoneNumber(obj.phoneNumber ?? null),
       comment: [null],
       address: this.formBuilder.group({
@@ -38,5 +41,5 @@ export class CheckoutFormService {
 
 }
 
-const name = (maxLength: number, value?: string) => ([value ?? null, [Validators.required, Validators.minLength(2), Validators.maxLength(maxLength)]])
-const phoneNumber = (value?: string) => ([value ?? null, [Validators.required]])
+const name = (maxLength: number, value?: string | null) => ([value ?? null, [Validators.required, Validators.minLength(2), Validators.maxLength(maxLength)]])
+const phoneNumber = (value?: string | null) => ([value ?? null, [Validators.required]])

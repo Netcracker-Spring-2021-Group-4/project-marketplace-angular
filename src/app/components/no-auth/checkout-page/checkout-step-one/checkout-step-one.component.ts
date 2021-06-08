@@ -31,6 +31,8 @@ export class CheckoutStepOneComponent implements OnInit{
 
   phoneNumberErrorMessage = ValidationMessages.phoneNumber
   flatErrorMessage = ValidationMessages.flat
+  firstNameErrorMessage = ValidationMessages.firstName
+  lastNameErrorMessage = ValidationMessages.lastName
 
   ngOnInit() {
     this.commentField().setValue(this.commentChoices.join('\n'))

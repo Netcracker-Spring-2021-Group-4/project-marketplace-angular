@@ -59,7 +59,7 @@ export class CheckoutPageComponent implements OnInit {
             .getMyProfile()
             .pipe(
               switchMap(profile =>
-                of(this.checkoutFormService.firstStepForm({phoneNumber: profile.body.phoneNumber}))
+                of(this.checkoutFormService.firstStepForm(profile.body))
               )
             )
         }),

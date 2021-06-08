@@ -3,7 +3,20 @@
     [formGroup]="firstStepForm"
     class="d-flex flex-column align-items-center"
   >
-    <ng-template matStepLabel>Fill out your name</ng-template>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>First name</mat-label>
+      <input matInput formControlName="firstName">
+      <mat-error *ngIf="firstStepForm.get('firstName')?.invalid">{{firstNameErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Last name</mat-label>
+      <input matInput formControlName="lastName">
+      <mat-error *ngIf="firstStepForm.get('lastName')?.invalid">{{lastNameErrorMessage}}</mat-error>
+    </mat-form-field>
     <mat-form-field
       appearance="outline"
       class="mb-3">
