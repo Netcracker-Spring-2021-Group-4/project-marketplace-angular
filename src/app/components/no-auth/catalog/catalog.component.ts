@@ -7,8 +7,6 @@ import {FilterProperties} from "../../../shared/models/api/receive/filter-props"
 import {ProductFilterModel} from "../../../shared/models/api/send/product-filter.model";
 import {finalize, map} from "rxjs/operators";
 import {forkJoin} from "rxjs";
-import {CategoryPrettifierPipe} from "../../../shared/helpers/pipes/category-prettifier.pipe";
-import {Category} from "../../../shared/models/api/receive/category";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 
