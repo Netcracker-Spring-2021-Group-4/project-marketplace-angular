@@ -59,6 +59,8 @@ export class CatalogComponent implements OnInit {
 
 
 
+
+
   handlePageChange($event: PageEvent) {
     let searchCriteria = this.setSearchCriteria()
     this.productService.postProductsPage(searchCriteria, $event.pageIndex,$event.pageSize)
@@ -69,8 +71,6 @@ export class CatalogComponent implements OnInit {
        });
 
   }
-
-
 
   updatePage(){
     let searchCriteria = this.setSearchCriteria();

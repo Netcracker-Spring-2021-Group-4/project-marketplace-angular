@@ -1,21 +1,20 @@
 export class Product {
-  id:String;
-  name:String;
-  description:String;
-  imageUrl:String;
+  productId:string;
+  name:string;
+  description:string;
+  imageUrl:string;
   price:number;
   inStock:number;
-  reserved:number;
   discount:number;
 
-  constructor(id: String, name: String , description: String, imageUrl: String, price: number, inStock: number, reserved: number , discount: number) {
-    this.id = id;
+  constructor(id: string, name: string , description: string, imageUrl: string, price: number, inStock: number, discount: number) {
+    this.productId = id;
     this.name = name;
     this.description = description;
     this.imageUrl = imageUrl;
     this.price = price;
     this.inStock = inStock;
-    this.reserved = reserved;
+
     this.discount = discount;
   }
 }

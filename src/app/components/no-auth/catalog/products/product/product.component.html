@@ -15,7 +15,7 @@
     <mat-card-content >
 
       <mat-card-title >
-        <h4 ><a class="card-title" href="/product/{{productItem.id}}">{{productItem.name}}</a></h4>
+        <h4 ><a class="card-title" href="/product/{{productItem.productId}}">{{productItem.name}}</a></h4>
       </mat-card-title>
 
       <mat-card-content >
@@ -29,11 +29,10 @@
 
       <hr>
 
-      <!--Card footer-->
 
       <mat-card-actions *ngIf="role!='ROLE_PRODUCT_MGR' && role!='ROLE_ADMIN'">
 
-        <button mat-button>Add to cart <i class="fas fa-shopping-cart"></i></button>
+        <button mat-button (click)="addToCart(productItem.productId)">Add to cart <i class="fas fa-shopping-cart"></i></button>
         <button mat-button>Compare</button>
 
       </mat-card-actions>
@@ -41,6 +40,5 @@
 
     </mat-card-content>
   </mat-card>
-  <!--/.Card-->
 
 

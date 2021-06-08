@@ -1,3 +1,6 @@
-.products{
-  margin-right: 25px;
+@media (min-width: 600px) and (orientation:landscape) {
+
+  .products {
+    margin-right: 25px;
+  }
 }
