@@ -33,7 +33,7 @@
       <mat-card-actions *ngIf="role!='ROLE_PRODUCT_MGR' && role!='ROLE_ADMIN'">
 
         <button mat-button (click)="addToCart(productItem.productId)">Add to cart <i class="fas fa-shopping-cart"></i></button>
-        <button mat-button>Compare</button>
+        <button mat-button (click)="addToCompare(productItem.productId)">Compare</button>
 
       </mat-card-actions>
 
