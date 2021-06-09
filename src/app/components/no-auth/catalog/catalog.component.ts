@@ -29,7 +29,7 @@ export class CatalogComponent implements OnInit {
   {
     this.formGroup = productService.catalogSearchForm() ;
     this.selectedPage = 0;
-    this.filterProps=new FilterProperties({categories:[], maxPrice:1000});
+    this.filterProps=new FilterProperties({categories:[], maxPrice:99000});
 
     this.roleService.currentRole$.subscribe(response => {
       this.role = response
