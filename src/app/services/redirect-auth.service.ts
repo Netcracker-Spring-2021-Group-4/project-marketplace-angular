@@ -15,7 +15,9 @@ export class RedirectAuthService {
   ){}
 
   changeRedirectUrl() {
-    this.currentRedirect = this.router.url.slice(1)
+    const url = this.router.url.slice(1)
+    const isRedundant = url === Route.LOGIN || url === Route.REGISTER
+    this.currentRedirect = isRedundant ? RedirectAuthService.defaultRoute() : url;
   }
 
   changeRedirectUrlAndGoAuth(toLogin: boolean) {

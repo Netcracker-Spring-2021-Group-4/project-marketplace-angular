@@ -4,7 +4,7 @@ import {AuthStoreApiService} from "../../../api-services/auth-store-http.service
 import {PublicApiService} from "../../../api-services/public-http.service";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {CartInfoResponse} from "../../../shared/models/api/receive/cart-info-response.model";
-import {switchMap} from "rxjs/operators";
+import {finalize, switchMap, take} from "rxjs/operators";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {CartManagementService} from "../../../services/cart-management.service";
 import {CartItemModel} from "../../../shared/models/api/send/cart-item.model";
@@ -12,6 +12,10 @@ import {CartProductInfo} from "../../../shared/models/api/receive/cart-product-i
 import {Observable, of} from "rxjs";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {RedirectAuthService} from "../../../services/redirect-auth.service";
+import {getDifferenceInCarts, equalCartItems, cartInfoToItemsList, sortCartByName} from './service/utils';
+import {CheckoutService} from "../../../services/checkout.service";
+import {Router} from "@angular/router";
+import {Route} from "../../../shared/models/enums/route.enum";
 
 @Component({
   selector: 'app-cart-page',
@@ -31,6 +35,8 @@ export class CartPageComponent implements OnInit {
     private authStoreApiService: AuthStoreApiService,
     private publicApiService: PublicApiService,
     private redirectAuthService: RedirectAuthService,
+    private checkoutService: CheckoutService,
+    private router: Router,
     private toaster: ToasterCustomService
   ) { }
 
@@ -57,6 +63,10 @@ export class CartPageComponent implements OnInit {
     return this.currentRole === UserRole.ROLE_NO_AUTH_CUSTOMER
   }
 
+  get reservationExists() {
+    return this.checkoutService.isReserved
+  }
+
   isCartEmpty() {
     return !this.cart || this.cart.content.length === 0;
   }
@@ -66,7 +76,38 @@ export class CartPageComponent implements OnInit {
   }
 
   checkout() {
+    this.isLoading = true
+    this.publicApiService
+      .makeReservation(cartInfoToItemsList(this.cart.content))
+      .pipe(
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe( _ => {
+        this.toaster.successfulNotification(Labels.cart.successfulReservationMade)
+        this.checkoutService.setReserved(this.cart)
+        this.goToCheckout()
+      }, err => {
+        this.toaster.errorNotification(err.error.message)
+      })
+  }
 
+  goToCheckout() {
+    this.router.navigate([Route.CHECK_OUT])
+  }
+
+  cancelReservation() {
+    this.isLoading = true
+    this.publicApiService
+      .cancelReservation(this.checkoutService.cart!.content)
+      .pipe(
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe( _ => {
+        this.toaster.successfulNotification(Labels.cart.successfulReservationRemoved)
+        this.checkoutService.removeReservation()
+      }, err => {
+        this.toaster.errorNotification(err.error.message)
+      })
   }
 
   private changeQuantityThenFetchCart(obs$: Observable<any>, isAdding= false, productId: string = '') {
@@ -81,18 +122,18 @@ export class CartPageComponent implements OnInit {
         return this.currentRole === UserRole.ROLE_NO_AUTH_CUSTOMER ?
           this.publicApiService.getCart(this.cartManagementService.localCart)
           : this.authStoreApiService.getCart()
-      })
+      }),
+      take(1),
+      finalize(() => this.isLoading = false)
     )
     .subscribe(res => {
-      this.isLoading = false;
-      const localCartItems = CartPageComponent.cartInfoToItemsList(this.cart.content)
-      const serverCartItems = CartPageComponent.cartInfoToItemsList(res.content)
-      if(CartPageComponent.equalCartItems(localCartItems, serverCartItems) && isAdding) this.addProductToProhibitedToAdd(productId)
+      const localCartItems = cartInfoToItemsList(this.cart.content)
+      const serverCartItems = cartInfoToItemsList(res.content)
+      if(equalCartItems(localCartItems, serverCartItems) && isAdding) this.addProductToProhibitedToAdd(productId)
       this.cart = res
-      this.sortCartByName(this.cart)
+      sortCartByName(this.cart)
       this.setNewLocalCartForNonAuth(res)
     }, err => {
-      this.isLoading = false;
       this.toaster.errorNotification(err.error.message)
     })
   }
@@ -111,23 +152,23 @@ export class CartPageComponent implements OnInit {
         switchMap( cart => {
           if(this.currentRole !== UserRole.ROLE_CUSTOMER) return of(cart);
           this.cartManagementService.emptyLocalCart();
-          const serverItems = CartPageComponent.cartInfoToItemsList(cart.content)
-          if(!CartPageComponent.equalCartItems(serverItems, localCartItems)){
-            const diff = this.getDifferenceInCarts(serverItems, localCartItems)
+          const serverItems = cartInfoToItemsList(cart.content)
+          if(!equalCartItems(serverItems, localCartItems)){
+            const diff = getDifferenceInCarts(serverItems, localCartItems)
             if(diff.length > 0) {
               return this.authStoreApiService.addToCartListIfPossible(diff)
                 .pipe(switchMap(_ => this.authStoreApiService.getCart()))
             }
           }
           return of(cart)
-        })
+        }),
+        take(1),
+        finalize(() => this.isLoading = false)
       ).subscribe(res => {
-        this.isLoading = false;
         this.cart = res;
-        this.sortCartByName(this.cart)
+        sortCartByName(this.cart)
         this.setNewLocalCartForNonAuth(res)
       }, err => {
-        this.isLoading = false;
         this.toaster.errorNotification(err.error.message)
     })
   }
@@ -138,41 +179,11 @@ export class CartPageComponent implements OnInit {
       [...this.prohibitedToAddMoreList, productId]
   }
 
-  private sortCartByName(cart: CartInfoResponse) {
-    cart.content.sort((a,b) => a.name > b.name? 1: -1)
-  }
 
   private setNewLocalCartForNonAuth(res: CartInfoResponse) {
     if(this.currentRole === UserRole.ROLE_NO_AUTH_CUSTOMER){
-      const newCart = CartPageComponent.cartInfoToItemsList(res.content)
+      const newCart = cartInfoToItemsList(res.content)
       this.cartManagementService.setNewCart(newCart)
     }
-  }
-
-  private static cartInfoToItemsList(cartInfo: CartProductInfo[]): CartItemModel[] {
-    return cartInfo.map(item => ({productId: item.productId, quantity: item.quantity}))
-  }
-
-  private static equalCartItems(serverItems: CartItemModel[], localItems: CartItemModel[]): boolean {
-    const sortFun = (a: CartItemModel, b: CartItemModel) => a.productId > b.productId ? 1 : -1;
-    const sortedServer = serverItems.sort(sortFun)
-    const sortedLocal = localItems.sort(sortFun)
-    return JSON.stringify(sortedServer) === JSON.stringify(sortedLocal)
-  }
-
-  private getDifferenceInCarts(serverItems: CartItemModel[], localItems: CartItemModel[]): CartItemModel[] {
-    const localProductsList = localItems.map(item => item.productId)
-    const temp = serverItems.filter(item => localProductsList.indexOf(item.productId) !== -1)
-    if(temp.length === 0) return localItems
-    const tempIds = temp.map(item => item.productId)
-    localItems.forEach(item =>{
-      const idx = tempIds.indexOf(item.productId)
-      if ( idx !== -1) {
-        const newQuantity = item.quantity - temp[idx].quantity
-        if (newQuantity <= 0 ) item.quantity = 0
-        else item.quantity = newQuantity
-      }
-    })
-    return localItems.filter(i => i.quantity !== 0)
   }
 }

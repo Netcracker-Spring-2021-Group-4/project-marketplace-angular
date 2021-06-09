@@ -45,7 +45,10 @@
         </span>
         </div>
       </mat-card-content>
-      <mat-card-actions class="actions-mt mb-2 d-flex justify-content-center">
+      <mat-card-actions
+        *ngIf="!reservationExists"
+        class="actions-mt mb-2 d-flex justify-content-center"
+      >
         <button
           mat-mini-fab
           color="primary"
