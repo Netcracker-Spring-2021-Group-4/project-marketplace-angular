@@ -3,6 +3,7 @@
 <app-shopping-cart-tab
   [cart]="cart"
   [prohibitedToAddMoreList]="prohibitedToAddMoreList"
+  [reservationExists]="reservationExists"
   (addQuantityEvent)="addToCart($event)"
   (removeQuantityEvent)="removeFromCart($event)"
 >
@@ -12,38 +13,62 @@
   *ngIf="!isLoading"
   class="form-width mx-auto d-flex flex-column justify-content-around"
 >
-  <div class="d-flex justify-content-around">
+  <div class="d-flex flex-column justify-content-around">
+    <div
+      *ngIf="!reservationExists"
+      class="mx-auto"
+    >
+      <button
+        *ngIf="isNoAuthCustomer"
+        mat-raised-button
+        color="accent"
+        class="me-2"
+        (click)="redirectToAuth(true)"
+      >
+        Login
+      </button>
+      <button
+        *ngIf="isNoAuthCustomer"
+        mat-raised-button
+        color="primary"
+        class="me-2"
+        (click)="redirectToAuth(false)"
+      >
+        Sign up
+      </button>
+      <button
+        mat-raised-button
+        color="warn"
+        class="me-2"
+        [disabled]="isCartEmpty()"
+        (click)="checkout()"
+      >
+        Checkout
+      </button>
+    </div>
+
+    <p *ngIf="isNoAuthCustomer" class="text-center text-muted my-2">
+      *If you login or register, your cart will not get lost
+    </p>
+  </div>
+  <div *ngIf="reservationExists">
     <button
-      *ngIf="isNoAuthCustomer"
       mat-raised-button
       color="accent"
       class="me-2"
-      (click)="redirectToAuth(true)"
+      (click)="cancelReservation()"
     >
-      Login
-    </button>
-    <button
-      *ngIf="isNoAuthCustomer"
-      mat-raised-button
-      color="primary"
-      class="me-2"
-      (click)="redirectToAuth(false)"
-    >
-      Sign up
+      Cancel reservation
     </button>
     <button
       mat-raised-button
       color="warn"
       class="me-2"
-      [disabled]="isCartEmpty()"
-      (click)="checkout()"
+      (click)="goToCheckout()"
     >
-      Checkout
+      resume checkout
     </button>
   </div>
-  <p *ngIf="isNoAuthCustomer" class="text-center text-muted my-2">
-    *If you login or register, your cart will not get lost
-  </p>
 </div>
 
 <app-cover-loading *ngIf="isLoading"></app-cover-loading>

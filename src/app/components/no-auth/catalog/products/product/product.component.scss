@@ -23,7 +23,14 @@
   margin: 0px 0px 0px 0px;
   line-height: 110%;
   font-family: 'Open sans', sans-serif;
-  color:#6e1414
+  color:#6e1414;
+
+}
+
+.text-oneline {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .container {

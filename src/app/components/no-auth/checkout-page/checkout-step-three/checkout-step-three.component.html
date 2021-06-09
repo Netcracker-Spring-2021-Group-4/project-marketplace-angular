@@ -1,0 +1,46 @@
+<div
+  *ngIf="result"
+  class="mx-auto my-3"
+>
+  <div class="form-width mx-auto">
+    <div class="text-center"><span class="font-monospace fw-bold">Phone number: </span>{{result.phoneNumber}}</div>
+    <div class="text-center" style="white-space: pre-line"><span class="font-monospace fw-bold">comment: </span><br>{{result.comment}}</div>
+    <div class="d-flex flex-column">
+      <h3 class="text-center fw-bold mb-1">Address</h3>
+      <div class="text-center"><span class="font-monospace fw-bold">City: </span>{{result.address.city}}</div>
+      <div class="text-center"><span class="font-monospace fw-bold">Street: </span>{{result.address.street}}</div>
+      <div class="text-center"><span class="font-monospace fw-bold">Building: </span>{{result.address.building}}</div>
+      <div class="text-center" *ngIf="result.address.flat">
+        <span class="font-monospace fw-bold">Flat: </span>{{result.address.flat}}
+      </div>
+    </div>
+    <div class="text-center">
+      <span class="font-monospace fw-bold">Waiting for delivery from:
+      <br>
+      </span>{{getPrettifiedDate(result.deliverySlot)}}
+    </div>
+  </div>
+
+</div>
+<h2 class="text-center">Products</h2>
+<app-shopping-cart-tab
+  [cart]="cart"
+  [reservationExists]="true"
+>
+</app-shopping-cart-tab>
+<div class="d-flex justify-content-center">
+  <button
+    mat-raised-button
+    matStepperPrevious
+    class="me-2"
+  >
+    Back
+  </button>
+  <button
+    mat-raised-button
+    color="warn"
+    (click)="makeOrder()"
+  >
+    Make order
+  </button>
+</div>

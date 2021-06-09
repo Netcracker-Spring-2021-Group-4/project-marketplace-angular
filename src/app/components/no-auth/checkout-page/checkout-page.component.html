@@ -1,1 +1,33 @@
-<p>checkout-page works!</p>
+<mat-horizontal-stepper linear #stepper
+  *ngIf="firstStepForm"
+  labelPosition="bottom"
+>
+  <mat-step [stepControl]="firstStepForm">
+    <ng-template matStepLabel>Contact information</ng-template>
+    <app-checkout-step-one
+      [firstStepForm]="firstStepForm"
+      (cancelReservationEvent)="cancelReservation()"
+    ></app-checkout-step-one>
+  </mat-step>
+
+  <mat-step [stepControl]="secondStepForm">
+    <ng-template matStepLabel>Time of delivery</ng-template>
+    <app-checkout-step-two
+    [timeslots]="timeslots"
+    [secondStepForm]="secondStepForm"
+    (dateChangedEvent)="getSlotsForDate($event)"
+    (formCompletedEvent)="getReadyForPreview()"
+    ></app-checkout-step-two>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Order summary</ng-template>
+    <app-checkout-step-three
+      [result]="result"
+      [cart]="cart"
+      (makeOrderEvent)="makeOrder()"
+    >
+    </app-checkout-step-three>
+  </mat-step>
+</mat-horizontal-stepper>
+
+<app-cover-loading *ngIf="isLoading"></app-cover-loading>

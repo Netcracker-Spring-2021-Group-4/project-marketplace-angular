@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {LoginComponent} from "./login/login.component";
 import {RegisterComponent} from "./register/register.component";
 import {SharedModule} from "../../shared/shared.module";
@@ -21,6 +21,9 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 
 import { ShoppingCartTabComponent } from './cart-page/shopping-cart-tab/shopping-cart-tab.component';
+import { CheckoutStepOneComponent } from './checkout-page/checkout-step-one/checkout-step-one.component';
+import { CheckoutStepTwoComponent } from './checkout-page/checkout-step-two/checkout-step-two.component';
+import { CheckoutStepThreeComponent } from './checkout-page/checkout-step-three/checkout-step-three.component';
 
 
 
@@ -40,7 +43,11 @@ import { ShoppingCartTabComponent } from './cart-page/shopping-cart-tab/shopping
     HeaderComponent,
     FiltersComponent,
     ProductsComponent,
-    ProductComponent
+    ProductComponent,
+    ShoppingCartTabComponent,
+    CheckoutStepOneComponent,
+    CheckoutStepTwoComponent,
+    CheckoutStepThreeComponent
   ],
   imports: [
     CommonModule,
