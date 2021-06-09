@@ -26,7 +26,7 @@ export class CheckoutFormService {
       address: this.formBuilder.group({
         city: name(64),
         street: name(64),
-        building: name(8),
+        building: name(8, null, 1),
         flat: [null, [Validators.min(1)]]
       })
     });
@@ -41,5 +41,5 @@ export class CheckoutFormService {
 
 }
 
-const name = (maxLength: number, value?: string | null) => ([value ?? null, [Validators.required, Validators.minLength(2), Validators.maxLength(maxLength)]])
+const name = (maxLength: number, value?: string | null, minLength = 2) => ([value ?? null, [Validators.required, Validators.minLength(minLength), Validators.maxLength(maxLength)]])
 const phoneNumber = (value?: string | null) => ([value ?? null, [Validators.required]])

@@ -8,7 +8,6 @@ import {finalize, switchMap, take} from "rxjs/operators";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {CartManagementService} from "../../../services/cart-management.service";
 import {CartItemModel} from "../../../shared/models/api/send/cart-item.model";
-import {CartProductInfo} from "../../../shared/models/api/receive/cart-product-info.model";
 import {Observable, of} from "rxjs";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {RedirectAuthService} from "../../../services/redirect-auth.service";
@@ -28,6 +27,7 @@ export class CartPageComponent implements OnInit {
   cart: CartInfoResponse
   currentRole: UserRole
   prohibitedToAddMoreList: string[] = []
+  catalogLink = '/' + Route.CATALOG
 
   constructor(
     private roleService: RoleService,

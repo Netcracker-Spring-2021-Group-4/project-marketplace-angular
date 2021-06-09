@@ -76,7 +76,9 @@
       </mat-card-actions>
     </mat-card>
   </div>
-  <div class="p-3 my-3 mx-auto bg-total form-width total-block d-flex justify-content-between">
+  <div
+    *ngIf="cart.content.length != 0"
+    class="p-3 my-3 mx-auto bg-total form-width total-block d-flex justify-content-between">
     <div class="font-monospace badge total-price-color">Cart price:</div>
     <div class="">
       <span

@@ -42,6 +42,10 @@ export class CheckoutStepTwoComponent{
     return [year, month, day].join('-');
   }
 
+  alreadyPassed(value: number[]) {
+    return new Date() > new Date(this.getStringTimeFromList(value))
+  }
+
   saveTime() {
     this.formCompletedEvent.emit()
   }
