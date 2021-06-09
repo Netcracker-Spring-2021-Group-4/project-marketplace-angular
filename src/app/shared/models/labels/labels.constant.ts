@@ -42,6 +42,12 @@ const Labels = {
   },
   checkout: {
     successfulOrderMade: 'Your order was made successfully'
+  },
+  comparison: {
+    alreadyInTheList: 'This item is already in the list',
+    listIsMaxedOut: 'The comparison list is maxed out',
+    itemAdded: 'The item was added to your comparison list',
+    itemRemoved: 'The item was removed from your comparison list'
   }
 }
 

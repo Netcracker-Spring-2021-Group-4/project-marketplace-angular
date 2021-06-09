@@ -5,6 +5,7 @@ import {CartItemModel} from "../../../../../shared/models/api/send/cart-item.mod
 import {CartManagementService} from "../../../../../services/cart-management.service";
 import Labels from "../../../../../shared/models/labels/labels.constant";
 import {ToasterCustomService} from "../../../../../services/toaster-custom.service";
+import {CompareManagementService} from "../../../../../services/compare-management.service";
 
 @Component({
   selector: 'app-product',
@@ -16,7 +17,9 @@ export class ProductComponent implements OnInit {
   @Input() role: UserRole
   @Input() productItem: Product
 
-  constructor(private cartManager:CartManagementService,    private toaster: ToasterCustomService
+  constructor(private cartManager:CartManagementService,
+              private toaster: ToasterCustomService,
+              private compareService: CompareManagementService
   ) {
   }
 
@@ -30,6 +33,10 @@ export class ProductComponent implements OnInit {
     else
      this.cartManager.addToCart(new CartItemModel({quantity:1,productId:id}));
      }
+
+  addToCompare(id: string) {
+      this.compareService.addToList(id);
+  }
 
   private outOfStockNotify() {
     this.toaster.errorNotification(Labels.cart.outOfStock)
