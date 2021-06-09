@@ -47,7 +47,6 @@ export class CheckoutStepTwoComponent{
   }
 
   newSelectedTime($event: any) {
-    console.log($event)
     this.secondStepForm.get('deliverySlot')!.setValue(this.getStringTimeFromList($event.value))
   }
 

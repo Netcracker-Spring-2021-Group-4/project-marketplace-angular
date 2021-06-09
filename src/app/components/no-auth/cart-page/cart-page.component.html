@@ -47,7 +47,7 @@
       </button>
     </div>
 
-    <p *ngIf="isNoAuthCustomer" class="text-center text-muted my-2">
+    <p *ngIf="isNoAuthCustomer && !reservationExists" class="text-center text-muted my-2">
       *If you login or register, your cart will not get lost
     </p>
   </div>
