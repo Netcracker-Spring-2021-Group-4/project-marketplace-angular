@@ -1,9 +1,10 @@
 import {Time} from "@angular/common";
+import {OrderStatus} from "../../enums/order-status.enum";
 
 export class DeliveryModel{
   orderId:string
-  timeStart:Time
-  timeEnd: Time
+  timeStart:Date
+  timeEnd: Date
   phoneNumber: string
   firstName: string
   lastName: string
@@ -11,7 +12,7 @@ export class DeliveryModel{
   street:string
   building:string
   flat: number
-  statusName: string
+  statusName: OrderStatus
 
   constructor(init: Partial<DeliveryModel>) {
     Object.assign(this, init);

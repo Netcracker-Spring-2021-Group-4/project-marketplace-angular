@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import {CourierApiService} from "../../../api-services/courier-http.service";
 import {DeliveryModel} from "../../../shared/models/api/receive/delivery.model";
+import {DatePipe, Time} from '@angular/common';
+
 
 @Component({
   selector: 'app-deliveries-page',
@@ -9,6 +11,7 @@ import {DeliveryModel} from "../../../shared/models/api/receive/delivery.model";
   styleUrls: ['./deliveries-page.component.scss']
 })
 export class DeliveriesPageComponent implements OnInit {
+  dateStart:Date
   deliveries: DeliveryModel[];
   displayedColumns: string[] = ['time', 'phoneNumber', 'name', 'address','status','open'];
 
@@ -34,6 +37,7 @@ export class DeliveriesPageComponent implements OnInit {
   }
 
   constructor(private courierService:CourierApiService) {
+    this.dateStart=new Date();
   }
 
   ngOnInit(): void {
@@ -44,4 +48,10 @@ export class DeliveriesPageComponent implements OnInit {
       });
   }
 
+
+  private prettyDate2(time:string){
+    var date = new Date(parseInt(time));
+    var localeSpecificTime = date.toLocaleTimeString();
+    return localeSpecificTime.replace(/:\d+ /, ' ');
+  }
 }

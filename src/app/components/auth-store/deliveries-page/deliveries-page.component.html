@@ -4,6 +4,8 @@
   <mat-label>Choose a date</mat-label>
   <input matInput [matDatepickerFilter]="myFilter"
          [matDatepicker]="picker"
+         [(ngModel)]="dateStart"
+
          (dateChange)="addEvent('change', $event)">
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
@@ -19,7 +21,7 @@
 
     <ng-container matColumnDef="time">
       <th mat-header-cell *matHeaderCellDef> Timeslot: </th>
-      <td mat-cell *matCellDef="let element">  <a href="/order-details/{{element.orderId}}"> {{element.timeStart}}-{{element.timeEnd}} </a></td>
+      <td mat-cell *matCellDef="let element">  <a href="/order-details/{{element.orderId}}"> {{element.timeStart.toString().substr(0,5)}}-{{element.timeEnd.toString().substr(0,5)}} </a></td>
     </ng-container>
 
     <ng-container matColumnDef="phoneNumber">
@@ -39,7 +41,11 @@
 
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef> Status: </th>
-      <td mat-cell *matCellDef="let element"> {{element.statusName}} </td>
+      <td mat-cell *matCellDef="let element">
+        <button type="button" class="btn btn-success btn-sm" disabled> {{element.statusName}}  </button>
+
+
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="open">

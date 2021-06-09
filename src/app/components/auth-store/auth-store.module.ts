@@ -11,6 +11,7 @@ import { ProfilePageViewComponent } from './profile-page/profile-page-view/profi
 import { ChangePasswordComponent } from './profile-page/change-password/change-password.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from "@angular/material/core";
+import {DatePipe} from '@angular/common';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {MatNativeDateModule} from "@angular/material/core";
     ProfilePageComponent,
     ProfilePageFormComponent,
     ProfilePageViewComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+
   ],
   imports: [
     CommonModule,
@@ -29,6 +31,9 @@ import {MatNativeDateModule} from "@angular/material/core";
     NgxMaskModule.forRoot(),
     MatNativeDateModule,
     MatDatepickerModule,
-  ]
+
+  ],
+  providers: [DatePipe],
+
 })
 export class AuthStoreModule { }
