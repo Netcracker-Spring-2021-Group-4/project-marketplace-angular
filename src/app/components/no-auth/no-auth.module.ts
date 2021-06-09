@@ -12,6 +12,14 @@ import { CartPageComponent } from './cart-page/cart-page.component';
 import { CheckoutPageComponent } from './checkout-page/checkout-page.component';
 import {NgxCaptchaModule} from "ngx-captcha";
 import {NgxMaskModule} from "ngx-mask";
+import { HeaderComponent } from './catalog/header/header.component';
+import { FiltersComponent } from './catalog/filters/filters.component';
+import { ProductsComponent } from './catalog/products/products.component';
+import { ProductComponent } from './catalog/products/product/product.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+
+
 import { ShoppingCartTabComponent } from './cart-page/shopping-cart-tab/shopping-cart-tab.component';
 import { CheckoutStepOneComponent } from './checkout-page/checkout-step-one/checkout-step-one.component';
 import { CheckoutStepTwoComponent } from './checkout-page/checkout-step-two/checkout-step-two.component';
@@ -31,6 +39,12 @@ import { CheckoutStepThreeComponent } from './checkout-page/checkout-step-three/
     CartPageComponent,
     CheckoutPageComponent,
     ShoppingCartTabComponent,
+    CheckoutPageComponent,
+    HeaderComponent,
+    FiltersComponent,
+    ProductsComponent,
+    ProductComponent,
+    ShoppingCartTabComponent,
     CheckoutStepOneComponent,
     CheckoutStepTwoComponent,
     CheckoutStepThreeComponent
@@ -40,6 +54,9 @@ import { CheckoutStepThreeComponent } from './checkout-page/checkout-step-three/
     SharedModule,
     NgxCaptchaModule,
     NgxMaskModule.forRoot(),
+    NgxSliderModule,
+    MatPaginatorModule
+
   ]
 })
 export class NoAuthModule { }

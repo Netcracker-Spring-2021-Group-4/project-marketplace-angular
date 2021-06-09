@@ -1,0 +1,47 @@
+
+<form [formGroup]="productCatalogFilter" (ngSubmit)="search()">
+
+
+
+<div class="card filters">
+
+    <h3>Filters</h3>
+
+      <div class="input-group w-100">
+        <input formControlName="query" type="text" class="form-control" placeholder="Search">
+      </div>
+  <span class="example-spacer"></span>
+<br>
+
+  <mat-form-field>
+    <mat-label>Sort by:</mat-label>
+    <mat-select formControlName="sortBy">
+      <mat-option value="PRICE_DESC">Price Descending</mat-option>
+      <mat-option value="PRICE_ASC">Price Ascending</mat-option>
+      <mat-option value="NAME">Name</mat-option>
+      <mat-option value="DATE">Newest</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+    <mat-form-field appearance="fill" class="form-group">
+      <mat-label>Categories</mat-label>
+      <mat-select  multiple formArrayName="categories" >
+        <mat-option
+          *ngFor="let category of properties.categories; let i = index "
+                      (onSelectionChange)="onCategorySelect($event,i)">
+          {{category.productCategoryName | prettyCategory}}({{category.productsInCategory}})
+
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <hr>
+  <ngx-slider formControlName="price"
+    [(value)]="minValue" [(highValue)]="maxValue" [options]="sliderOptions()" ></ngx-slider>
+
+  <hr>
+
+  <button mat-button type="reset" onClick="window.location.reload()">Discard</button>
+  <button mat-raised-button color="primary" type="submit" >Filter</button>
+  </div>
+
+</form>

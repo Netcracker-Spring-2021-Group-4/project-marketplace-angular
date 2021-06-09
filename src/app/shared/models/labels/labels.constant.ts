@@ -35,6 +35,7 @@ const Labels = {
     errorRemovingFromEmptyCart: 'Cannot remove item from empty cart',
     errorRemovingItemIfCartDoesntHaveIt: 'Cannot remove item from cart where the item is abscent',
     errorRemoveNegativeQuantity: 'Cannot remove negative quantity',
+    outOfStock: 'This product is temporary not available!',
     cartIsCorrupted: 'Your cart is corrupted',
     successfulReservationMade: 'Your reservation was made successfully',
     successfulReservationRemoved: 'Your reservation was removed successfully'
