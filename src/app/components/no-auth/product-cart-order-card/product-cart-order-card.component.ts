@@ -11,8 +11,6 @@ export class ProductCartOrderCardComponent{
   @Input()
   product: CartProductInfo
   @Input()
-  reservationExists: boolean
-  @Input()
   showQuantity: boolean
 
   discountExist(discount: number) {

@@ -26,6 +26,7 @@ import { CheckoutStepTwoComponent } from './checkout-page/checkout-step-two/chec
 import { CheckoutStepThreeComponent } from './checkout-page/checkout-step-three/checkout-step-three.component';
 import {RouterModule} from "@angular/router";
 import { ProductCartOrderCardComponent } from './product-cart-order-card/product-cart-order-card.component';
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 
 
@@ -55,6 +56,7 @@ import { ProductCartOrderCardComponent } from './product-cart-order-card/product
   imports: [
     CommonModule,
     RouterModule,
+    DragDropModule,
     SharedModule,
     NgxCaptchaModule,
     NgxMaskModule.forRoot(),
