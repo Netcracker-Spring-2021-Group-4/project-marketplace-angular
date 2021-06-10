@@ -10,4 +10,33 @@ table {
   margin-right:auto
 }
 
-
+.submitted{
+background-color: #4da79f;
+  color: white;
+  border-radius: 15px;
+}
+.failed{
+  background-color: firebrick;
+  color: white;
+  border-radius: 15px;
+}
+.submitted{
+  background-color: #4da79f;
+  color: white;
+  border-radius: 15px;
+}
+.canceled{
+  background-color: coral;
+  color: white;
+  border-radius: 15px;
+}
+.delivered{
+  background-color:green ;
+  color: white;
+  border-radius: 15px;
+}
+.in_delivery{
+  background-color: goldenrod;
+  color: white;
+  border-radius: 15px;
+}

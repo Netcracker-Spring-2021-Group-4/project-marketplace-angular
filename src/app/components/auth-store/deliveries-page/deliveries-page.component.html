@@ -41,8 +41,8 @@
 
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef> Status: </th>
-      <td mat-cell *matCellDef="let element">
-        <button type="button" class="{{element.statusName.toString().toLowerCase()}}" disabled> {{element.statusName}}  </button>
+      <td mat-cell *matCellDef="let element; ">
+        <button  type="button" class="{{element.statusName.toString().toLowerCase()}}" disabled> {{element.statusName}}  </button>
 
 
       </td>
@@ -50,7 +50,12 @@
 
     <ng-container matColumnDef="open">
       <th mat-header-cell *matHeaderCellDef>  </th>
-      <td mat-cell *matCellDef="let element"> <button mat-button color="primary"  *ngIf="element.statusName=='IN_DELIVERY'"> Mark delivered</button> </td>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button color="primary"
+                *ngIf="element.statusName=='IN_DELIVERY'||element.statusName=='FAILED' " (click)="changeStatus()">
+          Change Status</button> </td>
+
+
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

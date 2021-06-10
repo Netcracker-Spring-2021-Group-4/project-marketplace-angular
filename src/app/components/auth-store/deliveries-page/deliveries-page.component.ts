@@ -11,6 +11,7 @@ import {DatePipe, Time} from '@angular/common';
   styleUrls: ['./deliveries-page.component.scss']
 })
 export class DeliveriesPageComponent implements OnInit {
+  changeStats:boolean
   dateStart:Date
   deliveries: DeliveryModel[];
   displayedColumns: string[] = ['time', 'phoneNumber', 'name', 'address','status','open'];
@@ -38,6 +39,7 @@ export class DeliveriesPageComponent implements OnInit {
 
   constructor(private courierService:CourierApiService) {
     this.dateStart=new Date();
+    this.changeStats=false
   }
 
   ngOnInit(): void {
@@ -53,5 +55,9 @@ export class DeliveriesPageComponent implements OnInit {
     var date = new Date(parseInt(time));
     var localeSpecificTime = date.toLocaleTimeString();
     return localeSpecificTime.replace(/:\d+ /, ' ');
+  }
+
+  changeStatus() {
+    this.changeStats=true
   }
 }
