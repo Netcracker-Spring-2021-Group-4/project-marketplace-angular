@@ -14,6 +14,7 @@
   <h2 *ngIf="deliveries && deliveries.length==0" >
     It seems you dont have deliveries for this day!
   </h2>
+  <div class="table-outer">
   <table mat-table *ngIf="deliveries && deliveries.length>0" [dataSource]="deliveries" class="mat-elevation-z8">
 
     <!--- Note that these columns can be defined in any order.
@@ -48,12 +49,18 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="open">
+    <ng-container matColumnDef="open" >
       <th mat-header-cell *matHeaderCellDef>  </th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-raised-button color="primary"
-                *ngIf="element.statusName=='IN_DELIVERY'||element.statusName=='FAILED' " (click)="changeStatus()">
-          Change Status</button> </td>
+      <td mat-cell *matCellDef="let element" class="button-row" >
+        <button mat-raised-button color="primary" class="button-row"
+                *ngIf="element.statusName=='IN_DELIVERY'||element.statusName=='FAILED' "
+                (click)="changeStatus()"
+        >Delivered</button>
+        <button mat-raised-button color="warn"
+                *ngIf="element.statusName=='IN_DELIVERY'||element.statusName=='FAILED' "
+                (click)="changeStatus()"
+        >Canceled</button>
+      </td>
 
 
     </ng-container>
@@ -61,4 +68,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  </div>
 </div>

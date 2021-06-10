@@ -40,3 +40,21 @@ background-color: #4da79f;
   color: white;
   border-radius: 15px;
 }
+.button-row{
+  display: table-cell;
+  margin-right: 15px;
+  margin-left: 25px;
+
+}
+
+.table-outer {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+mat-cell,
+.mat-cell,
+mat-footer-cell,
+.mat-footer-cell,
+mat-header-cell .mat-header-cell {
+  padding: 0.75rem !important;
+}
