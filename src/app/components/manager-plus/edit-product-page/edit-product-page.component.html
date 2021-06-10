@@ -1,0 +1,132 @@
+<section class="container" *ngIf="!isLoading">
+  <form [formGroup]="editForm"
+        (ngSubmit)="submit(editForm.value)"
+  >
+    <div class="wrapper">
+      <div class="img-form">
+        <img mat-card-image
+             [src]=product.imageUrl
+             alt="Photo"
+             *ngIf="!isLoading || product.imageUrl !== null || product.imageUrl !== undefined"
+        >
+        <input type="file"
+               name="file"
+               (change)="onFileSelected($event)"
+               formControlName="file"
+                class="custom"
+        >
+        <p *ngIf="success" class="fs-6 take"> It may take a while for the picture to update. </p>
+        <mat-error *ngIf="isNotPng">{{fileErrorMessage}}</mat-error>
+      </div>
+
+      <div class="mb-2">
+        <div class="name-div">
+          <p class="fw-bold"> Name: </p>
+          <mat-form-field class="example-form-field">
+            <input matInput type="text"
+                   autocomplete="off"
+                   formControlName="productName"
+            >
+            <mat-error *ngIf="editForm.get('productName')?.invalid" class="mat-er">
+              {{productNameErrorMessage}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <p class="fw-bold"> Description: </p>
+        <mat-form-field class="example-form-field textarea-field">
+            <textarea matInput
+                      formControlName="description"
+                      class="d-inline-block"
+            >
+            </textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Choose another category</mat-label>
+          <mat-select formControlName="categoryId"
+                      [(value)]="product.categoryId"
+          >
+            <mat-option *ngFor="let category of categories"
+                        [value]="category.categoryId"
+            >
+              {{category.productCategoryName | prettyCategory}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="two-num mb-3 ">
+          <p class="fw-bold"> Price: </p>
+          <mat-form-field class="example-form-field number-fiel">
+            <input matInput
+                   min="0"
+                   type="number"
+                   autocomplete="off"
+                   formControlName="price"
+            >
+            <mat-error *ngIf="editForm.get('price')?.invalid">
+              {{priceErrorMessage}}
+            </mat-error>
+          </mat-form-field>
+
+          <p class="fw-bold fff"> In stock:</p>
+          <mat-form-field class="example-form-field number-field">
+            <input matInput
+                   min="0"
+                   type="number"
+                   autocomplete="off"
+                   formControlName="inStock"
+                   class="text-lg-center"
+            >
+            <mat-error *ngIf="editForm.get('inStock')?.invalid">
+              {{quantityErrorMessage}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="reserved">
+          <p>
+            <span class="fw-bold">Now reserved:  </span>
+            {{ product.reserved}} items
+          </p>
+        </div>
+
+        <button mat-raised-button
+                class="disc-but"
+                [routerLink]="['./discounts']"
+                type="button"
+        >
+          Discounts information
+        </button>
+
+        <div class="action-button">
+          <span class="deactivate first-span">Deactivate</span>
+          <mat-slide-toggle
+            class="mt-4"
+            color="warn"
+            [checked]="checked"
+            [disabled]="isLoading"
+            (change)="patchActivateDeactivateProduct(product.productId)"
+          >
+            <span class="deactivate">Activate</span>
+          </mat-slide-toggle>
+        </div>
+      </div>
+    </div>
+    <div class="bot-but">
+      <button class="action first-but"
+              mat-raised-button color="primary"
+              type="submit"
+              [disabled]="editForm.invalid || isLoading || isNotPng"
+      > Apply
+      </button>
+      <button class="action scnd-but"
+              mat-raised-button color="primary"
+              [routerLink]="['../']"
+              type="button"
+      >
+        Go back
+      </button>
+    </div>
+  </form>
+</section>

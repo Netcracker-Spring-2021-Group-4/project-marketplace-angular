@@ -48,6 +48,17 @@ const Labels = {
     listIsMaxedOut: 'The comparison list is maxed out',
     itemAdded: 'The item was added to your comparison list',
     itemRemoved: 'The item was removed from your comparison list'
+  },
+  product:{
+    successfulCreationProduct: 'Creation new product completed successfully',
+    errorCreationProduct: 'Something went wrong with creation product',
+    successfulUpdatingProduct: 'Successfully updated',
+    errorUpdatingProduct: 'Incorrect data for updating please recheck',
+    successfulAddingToCart: 'The item was successfully added to your cart',
+    successfulRemovingFromCart: 'The item was successfully removed from your cart',
+    errorRemovingFromEmptyCart: 'Cannot remove item from empty cart',
+    errorRemovingItemIfCartDoesntHaveIt: 'Cannot remove item from cart where the item is abscent',
+    errorRemoveNegativeQuantity: 'Cannot remove negative quantity'
   }
 }
 

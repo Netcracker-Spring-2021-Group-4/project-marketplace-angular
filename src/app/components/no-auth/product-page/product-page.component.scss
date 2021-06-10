@@ -1,0 +1,135 @@
+.container {
+  max-width: 1000px;
+  font-family: serif;
+  font-size: 20px;
+  margin: 150px auto 50px auto;
+}
+.wrapper{
+  display: flex;
+}
+.name{
+  font-weight: bold;
+  font-style: italic;
+  font-size: 36px;
+  margin-top: 0px;
+  margin-bottom: 25px;
+}
+
+img{
+  width: 350px;
+  height: 350px;
+  margin-right: 20px;
+}
+.price{
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding-top: 15px;
+  padding-bottom: 5px;
+}
+.old-price{
+  color: grey;
+  text-decoration: line-through;
+}
+.new-price{
+  padding-left: 15px;
+  font-size: 30px;
+  color: #ff0000;
+}
+
+.date{
+  color: #0059ff;
+  margin-top: -5px;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: normal;
+}
+
+input{
+  text-align: center;
+  max-width: 60px;
+  margin-right: 3em;
+}
+.action{
+  font-size: 16px;
+  width: 100px;
+  height: 50px;
+  margin: 25px 50px 15px 0px;
+  text-align: center;
+  padding: inherit;
+}
+
+.edit{
+  margin-right: auto;
+}
+.warn{
+  margin-top: 10px;
+  height: 100px;
+}
+.warning{
+  color: #ff0000;
+}
+.warning-avail{
+  color: #00075a;
+}
+
+.custom{
+  margin-bottom: 15px;
+  content: 'Select some files';
+  display: inline-block;
+  background: #f0eef0;
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 10px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  font-size: 10pt;
+}
+
+@media screen and (max-width: 375px){
+  .name{
+    text-align: center;
+    font-weight: bold;
+    font-size: 26px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+  }
+  .container{
+    max-width: 375px;
+    margin-top: 20px;
+  }
+  img{
+    width: 300px;
+    height: 300px;
+    margin-bottom: 10px;
+  }
+  .disc-but{
+    margin-left: 0px;
+
+  }
+  .wrapper{
+    display: block;
+  }
+  input{
+    margin-top: 5px;
+  }
+  .action{
+    margin: 25px 35px 0px 35px;
+  }
+  .action-button{
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+  }
+  .editing{
+    margin-top: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .edit{
+    margin: 0;
+  }
+}

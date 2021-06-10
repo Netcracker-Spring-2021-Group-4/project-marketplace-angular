@@ -3,15 +3,11 @@ import {Product} from "../shared/models/api/receive/product";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {environment} from "../../environments/environment";
-
 import {ContentPage} from "../shared/models/api/receive/content-page";
 import {FilterProperties} from '../shared/models/api/receive/filter-props';
 import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ProductFilterModel} from "../shared/models/api/send/product-filter.model";
 import {SortOptionEnum} from "../shared/models/enums/sort-option.enum";
-
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +15,6 @@ import {SortOptionEnum} from "../shared/models/enums/sort-option.enum";
 export class CatalogPublicHttpService {
 
   private URL: string;
-
   public catalogSearchForm() :FormGroup {
     return this.formBuilder.group({
       price: new FormControl(),
@@ -34,8 +29,6 @@ export class CatalogPublicHttpService {
 ) {
     this.URL = `${environment.backURL}`
   }
-
-
 
   getProductsPage(page:number, size:number):Observable<ContentPage<Product>> {
     let params = new HttpParams().set('page', page).set('size',size);
