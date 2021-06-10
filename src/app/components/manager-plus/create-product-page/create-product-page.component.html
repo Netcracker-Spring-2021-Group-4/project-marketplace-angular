@@ -1,1 +1,66 @@
-<p>create-product-page works!</p>
+<div
+  class="h-100per container d-flex justify-content-center align-items-center"
+>
+  <form
+    [formGroup]="form"
+    class="container d-flex justify-content-center flex-column form-width mt-3 mb-3">
+    <h1 class="text-center">Create new product</h1>
+
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Product Name</mat-label>
+      <input matInput formControlName="productName">
+      <mat-error *ngIf="form.get('productName')?.invalid">{{productNameErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description">
+    </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Price $</mat-label>
+      <input matInput formControlName="price" type="number" step="100" min="0" autocomplete="off">
+      <mat-error *ngIf="form.get('price')?.invalid">{{priceErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>In Stock</mat-label>
+      <input matInput formControlName="inStock" type="number" min="0" autocomplete="off">
+      <mat-error *ngIf="form.get('inStock')?.invalid">{{quantityErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mr-auto ml-auto mb-3">
+      <mat-label>Reserved</mat-label>
+      <input matInput formControlName="reserved" type="number" min="0" autocomplete="off">
+      <mat-error *ngIf="form.get('reserved')?.invalid">{{quantityErrorMessage}}</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="fill">
+      <mat-label>Choose categories</mat-label>
+      <mat-select (selectionChange)="OnInput($event)" formControlName="categoryId">
+        <mat-option *ngFor="let category of categories" [value]="category.categoryId">
+          {{category.categoryName| prettyCategory}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <input class="custom" type="file" value="1"   (change)="onFileSelected($event)" formControlName="file" >
+    <mat-error *ngIf= "isNotPng||isHeavier">{{fileErrorMessage}}</mat-error>
+    <button
+      mat-raised-button color="accent"
+      [disabled]="form.invalid || isLoading || selectedFile.type != 'image/png'||isHeavier"
+      class="name-input mr-auto ml-auto"
+      (click)="submit()"
+    >
+      Create
+    </button>
+  </form>
+
+</div>
