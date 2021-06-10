@@ -24,6 +24,7 @@ import { ShoppingCartTabComponent } from './cart-page/shopping-cart-tab/shopping
 import { CheckoutStepOneComponent } from './checkout-page/checkout-step-one/checkout-step-one.component';
 import { CheckoutStepTwoComponent } from './checkout-page/checkout-step-two/checkout-step-two.component';
 import { CheckoutStepThreeComponent } from './checkout-page/checkout-step-three/checkout-step-three.component';
+import {RouterModule} from "@angular/router";
 
 
 
@@ -51,6 +52,7 @@ import { CheckoutStepThreeComponent } from './checkout-page/checkout-step-three/
   ],
   imports: [
     CommonModule,
+    RouterModule,
     SharedModule,
     NgxCaptchaModule,
     NgxMaskModule.forRoot(),

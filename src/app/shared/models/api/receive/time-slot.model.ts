@@ -11,6 +11,7 @@ export class TimeSlotModel {
 
 export class TimeSlotModelFront {
   timeStart: number[]
+  timeEnd: number[]
   label: string
   taken: boolean
 
@@ -22,6 +23,7 @@ export class TimeSlotModelFront {
     const label = `${getStringTime(model.timeStart)}`
     return {
       timeStart: model.timeStart,
+      timeEnd: model.timeEnd,
       taken: model.taken,
       label: `${getStringTime(model.timeStart)}-${getStringTime(model.timeEnd)}`
     }

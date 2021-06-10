@@ -17,7 +17,7 @@
     >
       <mat-option
         *ngFor="let slot of timeslots"
-        [disabled]="slot.taken"
+        [disabled]="slot.taken || alreadyPassed(slot.timeStart)"
         [value]="slot.timeStart"
       >
         {{slot.label}}
