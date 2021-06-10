@@ -48,6 +48,10 @@ const Labels = {
     listIsMaxedOut: 'The comparison list is maxed out',
     itemAdded: 'The item was added to your comparison list',
     itemRemoved: 'The item was removed from your comparison list'
+  },
+  product:{
+    successfulCreationProduct: 'Creation new product completed successfully',
+    errorCreationProduct: 'Something went wrong with creation product'
   }
 }
 
