@@ -7,6 +7,7 @@ import {CartItemModel} from "../shared/models/api/send/cart-item.model";
 import {ToasterCustomService} from "./toaster-custom.service";
 import {Observable, of} from "rxjs";
 import {isValidUUID} from "../shared/helpers/util-functions.helper";
+import {PublicApiService} from "../api-services/public-http.service";
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class CartManagementService {
   constructor(
     private roleService: RoleService,
     private authStoreApiService: AuthStoreApiService,
+    private publicApiService: PublicApiService,
     private toaster: ToasterCustomService
   ) {
     this.roleService.currentRole$.subscribe(role => this.role = role)
@@ -28,6 +30,10 @@ export class CartManagementService {
     const cartString = localStorage.getItem(CartManagementService.CART_STORAGE)
     const parsed = JSON.parse(cartString ?? "")
     return parsed === "" ? [] : parsed
+  }
+
+  findItemInCart(id: string) : CartItemModel | undefined {
+    return this.localCart.find(item => item.productId === id)
   }
 
   setNewCart(newCart: CartItemModel[]) {
@@ -46,7 +52,21 @@ export class CartManagementService {
     if( this.role === UserRole.ROLE_CUSTOMER ) {
       this.addToCartServer(item)
     } else if (this.role === UserRole.ROLE_NO_AUTH_CUSTOMER) {
-      this.addToCartLocal(item)
+      this.publicApiService.getProductAvailability(item.productId).subscribe( res => {
+        const available = res.content
+        const error = res.error
+        if(error) {
+          this.toaster.errorNotification(error)
+          return
+        } else {
+          const itemLocal = this.findItemInCart(item.productId)
+          if((itemLocal && itemLocal.quantity + item.quantity <= available) || (!itemLocal && item.quantity <= available)){
+            this.addToCartLocal(item)
+          } else {
+            this.toaster.errorNotification("No more available items of the product to add to the cart")
+          }
+        }
+      })
     }
   }
 
@@ -60,7 +80,7 @@ export class CartManagementService {
     } else if (this.role === UserRole.ROLE_NO_AUTH_CUSTOMER) {
       this.addToCartLocal(item)
     }
-    return of(0)
+    return of({content: true, error: null})
   }
 
   removeFromCartObservable(item: CartItemModel) : Observable<any>{
@@ -102,8 +122,16 @@ export class CartManagementService {
   }
 
   private addToCartServer(item: CartItemModel) {
-    this.authStoreApiService.addToCart(item).subscribe(_ => {
-      this.toaster.successfulNotification(Labels.cart.successfulAddingToCart)
+    this.authStoreApiService.addToCart(item).subscribe(res => {
+      const result = res.content
+      const error = res.error
+      if(result) {
+        if(error) this.toaster.infoNotification(error)
+        else this.toaster.successfulNotification(Labels.cart.successfulAddingToCart)
+      }
+      else {
+        this.toaster.errorNotification(error)
+      }
     }, err => {
       this.toaster.errorNotification(err.error.message)
     })
