@@ -1,1 +1,29 @@
-<p>catalog works!</p>
+
+<div>
+
+  <app-header></app-header>
+
+  <div class = "row">
+  <div class="col" >
+    <app-filters
+      [productCatalogFilter]="formGroup"
+      [properties]="filterProps"
+      (searchCriteriaEvent)="updatePage()"
+    ></app-filters>
+  </div>
+
+  <div class="col col-md-8">
+    <app-products  [products]="products" [role]="role"></app-products>
+  </div>
+
+  </div>
+  <div>
+    <mat-paginator
+      *ngIf = "products.length>0"
+      [length]="length"
+      [pageSizeOptions]="[9, 12, 24]"
+      (page)="handlePageChange($event)"
+    >
+    </mat-paginator>
+</div>
+</div>

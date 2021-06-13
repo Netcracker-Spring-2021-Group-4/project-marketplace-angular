@@ -30,6 +30,10 @@ export class PublicApiService {
     return this.httpClient.get(`${this.PUBLIC_URL}/categories-all`)
   }
 
+  getListForComparison(ids: string[]) : Observable<any> {
+    return this.httpClient.post(`${this.PUBLIC_URL}/list-comparison`, ids)
+  }
+
   getCart(list: CartItemModel[]): Observable<CartInfoResponse> {
     return this.httpClient.post<CartInfoResponse>(`${this.PUBLIC_URL}/cart`, list)
   }

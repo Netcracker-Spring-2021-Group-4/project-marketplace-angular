@@ -35,12 +35,19 @@ const Labels = {
     errorRemovingFromEmptyCart: 'Cannot remove item from empty cart',
     errorRemovingItemIfCartDoesntHaveIt: 'Cannot remove item from cart where the item is abscent',
     errorRemoveNegativeQuantity: 'Cannot remove negative quantity',
+    outOfStock: 'This product is temporary not available!',
     cartIsCorrupted: 'Your cart is corrupted',
     successfulReservationMade: 'Your reservation was made successfully',
     successfulReservationRemoved: 'Your reservation was removed successfully'
   },
   checkout: {
     successfulOrderMade: 'Your order was made successfully'
+  },
+  comparison: {
+    alreadyInTheList: 'This item is already in the list',
+    listIsMaxedOut: 'The comparison list is maxed out',
+    itemAdded: 'The item was added to your comparison list',
+    itemRemoved: 'The item was removed from your comparison list'
   }
 }
 

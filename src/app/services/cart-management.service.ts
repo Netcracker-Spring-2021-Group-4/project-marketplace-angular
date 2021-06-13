@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {RoleService} from "./role.service";
 import {AuthStoreApiService} from "../api-services/auth-store-http.service";
-import {validate as uuidValidate} from 'uuid';
 import Labels from "../shared/models/labels/labels.constant";
 import {UserRole} from "../shared/models/enums/role.enum";
 import {CartItemModel} from "../shared/models/api/send/cart-item.model";
 import {ToasterCustomService} from "./toaster-custom.service";
 import {Observable, of} from "rxjs";
+import {isValidUUID} from "../shared/helpers/util-functions.helper";
 
 @Injectable({
   providedIn: 'root'
@@ -24,10 +24,6 @@ export class CartManagementService {
     this.roleService.currentRole$.subscribe(role => this.role = role)
   }
 
-  static isValidUUID(uuid: string): boolean {
-    return uuidValidate(uuid);
-  }
-
   get localCart() : CartItemModel[] {
     const cartString = localStorage.getItem(CartManagementService.CART_STORAGE)
     const parsed = JSON.parse(cartString ?? "")
@@ -43,7 +39,7 @@ export class CartManagementService {
   }
 
   addToCart(item: CartItemModel) {
-    if(!CartManagementService.isValidUUID(item.productId)) {
+    if(!isValidUUID(item.productId)) {
       this.wrongUUIDNotify()
       return
     }
@@ -55,7 +51,7 @@ export class CartManagementService {
   }
 
   addToCartObservable(item: CartItemModel): Observable<any>{
-    if(!CartManagementService.isValidUUID(item.productId)) {
+    if(!isValidUUID(item.productId)) {
       this.wrongUUIDNotify()
       throw null
     }
@@ -68,7 +64,7 @@ export class CartManagementService {
   }
 
   removeFromCartObservable(item: CartItemModel) : Observable<any>{
-    if(!CartManagementService.isValidUUID(item.productId)) {
+    if(!isValidUUID(item.productId)) {
       this.wrongUUIDNotify();
       throw null
     }
@@ -81,7 +77,7 @@ export class CartManagementService {
   }
 
   removeFromCart(item: CartItemModel) {
-    if(!CartManagementService.isValidUUID(item.productId)) {
+    if(!isValidUUID(item.productId)) {
       this.wrongUUIDNotify();
       return
     }

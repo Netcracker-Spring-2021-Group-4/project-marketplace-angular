@@ -1,0 +1,50 @@
+.example-card {
+  max-width: 250px;
+}
+
+
+.new-price{
+  color: crimson;
+  font-weight: bold;
+  font-size: large;
+}
+.old-price{
+  text-decoration: line-through;
+  font-size: large;
+
+}
+.price{
+  font-size: large;
+  font-weight: bold;
+}
+.card-title{
+  font-weight: 300;
+  font-size: 28px;
+  margin: 0px 0px 0px 0px;
+  line-height: 110%;
+  font-family: 'Open sans', sans-serif;
+  color:#6e1414;
+
+}
+
+.text-oneline {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.container {
+  position: relative;
+}
+
+.container .content {
+  position: absolute; /* Position the background text */
+  background: rgba(224, 224, 224, 0.5); /* Black background with 0.5 opacity */
+  color: red;
+  bottom: 20px;
+  right: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-weight: 600;
+  font-size: 20px;
+}

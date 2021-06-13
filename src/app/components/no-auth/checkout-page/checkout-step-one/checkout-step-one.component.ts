@@ -25,12 +25,16 @@ export class CheckoutStepOneComponent implements OnInit{
 
   comment_ctrl = new FormControl()
   separatorKeysCodes: number[] = [ENTER, COMMA];
+  NO_PREFERENCES = 'No preferences'
   commentChoicesList = ['Do not disturb', 'Please call before arriving',
-    'Morning delivery', 'Evening delivery', 'No Preferences']
-  commentChoices = ['No preferences'];
+    'Morning delivery', 'Evening delivery', this.NO_PREFERENCES]
+  commentChoices = [this.NO_PREFERENCES];
 
   phoneNumberErrorMessage = ValidationMessages.phoneNumber
   flatErrorMessage = ValidationMessages.flat
+  firstNameErrorMessage = ValidationMessages.firstName
+  lastNameErrorMessage = ValidationMessages.lastName
+
 
   ngOnInit() {
     this.commentField().setValue(this.commentChoices.join('\n'))
@@ -39,9 +43,13 @@ export class CheckoutStepOneComponent implements OnInit{
   addComment(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    const index = this.commentChoices.indexOf(value);
-    if (value && index < 0) {
+    let index = this.commentChoices.indexOf(value);
+    if (value === this.NO_PREFERENCES) {
+      this.commentChoices = [this.NO_PREFERENCES]
+    } else if (value && index < 0) {
       this.commentChoices.push(value);
+      index = this.commentChoices.indexOf(this.NO_PREFERENCES)
+      if (index > -1) this.commentChoices.splice(index, 1)
     }
 
     event.chipInput!.clear();
@@ -52,7 +60,7 @@ export class CheckoutStepOneComponent implements OnInit{
   removeComment(comment: string): void {
     const index = this.commentChoices.indexOf(comment);
 
-    if (index >= 0) {
+    if (index >= 0 || comment !== this.NO_PREFERENCES) {
       this.commentChoices.splice(index, 1);
       this.commentField().setValue(this.commentChoices.join('\n'))
     }
@@ -60,9 +68,13 @@ export class CheckoutStepOneComponent implements OnInit{
 
   selectedComment(event: MatAutocompleteSelectedEvent): void {
     const value = event.option.viewValue
-    const index = this.commentChoices.indexOf(value);
-    if(index < 0 ) {
+    let index = this.commentChoices.indexOf(value);
+    if (value === this.NO_PREFERENCES) {
+      this.commentChoices = [this.NO_PREFERENCES]
+    } else if(index < 0 ) {
       this.commentChoices.push(value);
+      index = this.commentChoices.indexOf(this.NO_PREFERENCES)
+      if (index > -1) this.commentChoices.splice(index, 1)
       this.commentInput.nativeElement.value = '';
       this.comment_ctrl.setValue(null);
       this.commentField().setValue(this.commentChoices.join('\n'))

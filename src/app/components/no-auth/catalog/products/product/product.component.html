@@ -1,0 +1,44 @@
+
+  <!--Card-->
+  <mat-card class="container mb-5 ">
+
+
+    <div class="container">
+      <img mat-card-image src="{{productItem.imageUrl}}">
+      <div *ngIf="productItem.inStock==0" class="content">
+        OUT OF STOCK!
+      </div>
+    </div>
+
+
+
+    <mat-card-content >
+
+      <mat-card-title class="text-oneline">
+        <h4 ><a class="card-title"  href="/product/{{productItem.productId}}">{{productItem.name}}</a></h4>
+      </mat-card-title>
+
+      <mat-card-content >
+        <div class = "row ">
+
+        <p *ngIf="productItem.discount!=0" class="new-price col">US $ {{(productItem.discount/100).toFixed(2)}}</p>
+        <p *ngIf="productItem.discount!=0" class="old-price col">{{(productItem.price/100).toFixed(2)}}</p>
+        <p *ngIf="productItem.discount==0" class="price col">US $ {{(productItem.price/100).toFixed(2)}}</p>
+        </div>
+      </mat-card-content>
+
+      <hr>
+
+
+      <mat-card-actions *ngIf="role!='ROLE_PRODUCT_MGR' && role!='ROLE_ADMIN'">
+
+        <button mat-button (click)="addToCart(productItem.productId)">Add to cart <i class="fas fa-shopping-cart"></i></button>
+        <button mat-button (click)="addToCompare(productItem.productId)">Compare</button>
+
+      </mat-card-actions>
+
+
+    </mat-card-content>
+  </mat-card>
+
+
