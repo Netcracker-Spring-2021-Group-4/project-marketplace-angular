@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {CartItemModel} from "../shared/models/api/send/cart-item.model";
 import {CartInfoResponse} from "../shared/models/api/receive/cart-info-response.model";
 import {OrderRequest} from "../shared/models/api/send/order-request.model";
+import {ContentErrorListWrapper} from "../shared/models/api/receive/content-error-list-wrapper.model";
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +32,16 @@ export class PublicApiService {
     return this.httpClient.request('GET', `${this.PUBLIC_URL}/categories-all/${productId}/category-name`, {responseType:'text'});
   }
 
-  getCart(list: CartItemModel[]): Observable<CartInfoResponse> {
-    return this.httpClient.post<CartInfoResponse>(`${this.PUBLIC_URL}/cart`, list)
+  getListForComparison(ids: string[]) : Observable<any> {
+    return this.httpClient.post(`${this.PUBLIC_URL}/list-comparison`, ids)
+  }
+
+  getProductAvailability(id: string) : Observable<any> {
+    return this.httpClient.get(`${this.PUBLIC_URL}/product-availability?id=${id}`)
+  }
+
+  getCart(list: CartItemModel[]): Observable<ContentErrorListWrapper<CartInfoResponse>> {
+    return this.httpClient.post<ContentErrorListWrapper<CartInfoResponse>>(`${this.PUBLIC_URL}/cart`, list)
   }
 
   makeReservation(list: CartItemModel[]): Observable<any> {

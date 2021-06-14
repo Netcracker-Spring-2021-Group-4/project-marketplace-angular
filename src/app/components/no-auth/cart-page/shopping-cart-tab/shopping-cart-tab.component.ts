@@ -23,9 +23,7 @@ export class ShoppingCartTabComponent{
 
   constructor() { }
 
-  discountExist(discount: number) {
-    return discount !== -1
-  }
+
 
   addQuantity(p: CartProductInfo) {
     let {productId} = p

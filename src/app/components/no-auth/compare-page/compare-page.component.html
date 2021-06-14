@@ -1,1 +1,62 @@
-<p>compare-page works!</p>
+<div class="h-100per container-fluid d-flex flex-column justify-content-center align-items-center">
+  <h1 class="text-center mt-3">Compare products</h1>
+  <div
+    *ngIf="!isLoading &&  products.length === 0"
+    class="d-flex flex-column align-items-center"
+  >
+    <h3>Your comparison list is empty</h3>
+    <a [routerLink]="[catalogLink]">
+      <button
+        mat-raised-button
+        color="accent"
+
+      >
+        Go to catalog
+      </button>
+    </a>
+  </div>
+  <div
+    *ngIf="!isLoading && products.length > 0"
+    cdkDropList
+    [cdkDropListOrientation]="(isHandset$ | async) ? 'vertical': 'horizontal'"
+    class="example-list mt-3"
+    [ngClass]="{
+      'd-flex flex-column me-0 align-items-center':(isHandset$ | async),
+      'scrolling-wrapper-flexbox': !(isHandset$ | async)
+    }"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <app-product-cart-order-card
+      *ngFor="let product of products"
+      [product]="product"
+      [showQuantity]="false"
+      class="example-box"
+      cdkDrag
+    >
+      <mat-card-actions
+        class="actions-mt mb-2 d-flex justify-content-center"
+      >
+        <button
+          mat-mini-fab
+          color="accent"
+          class="me-2"
+          *ngIf="!reservationExists"
+          (click)="addToCart(product.productId)"
+        >
+          <i class="fas fa-shopping-cart"></i>
+        </button>
+        <button
+          mat-mini-fab
+          color="warn"
+          (click)="removeQuantity(product.productId)"
+        >
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </mat-card-actions>
+    </app-product-cart-order-card>
+  </div>
+</div>
+
+
+
+<app-cover-loading *ngIf="isLoading"></app-cover-loading>

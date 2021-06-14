@@ -8,11 +8,10 @@ import {finalize, switchMap, take} from "rxjs/operators";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {CartManagementService} from "../../../services/cart-management.service";
 import {CartItemModel} from "../../../shared/models/api/send/cart-item.model";
-import {CartProductInfo} from "../../../shared/models/api/receive/cart-product-info.model";
 import {Observable, of} from "rxjs";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {RedirectAuthService} from "../../../services/redirect-auth.service";
-import {getDifferenceInCarts, equalCartItems, cartInfoToItemsList, sortCartByName} from './service/utils';
+import {cartInfoToItemsList, equalCartItems, getDifferenceInCarts, sortCartByName} from './service/utils';
 import {CheckoutService} from "../../../services/checkout.service";
 import {Router} from "@angular/router";
 import {Route} from "../../../shared/models/enums/route.enum";
@@ -28,6 +27,7 @@ export class CartPageComponent implements OnInit {
   cart: CartInfoResponse
   currentRole: UserRole
   prohibitedToAddMoreList: string[] = []
+  catalogLink = '/' + Route.CATALOG
 
   constructor(
     private roleService: RoleService,
@@ -114,11 +114,16 @@ export class CartPageComponent implements OnInit {
     this.isLoading = true
     obs$
     .pipe(
-      switchMap(successful => {
-        if(successful) {
-          const text = isAdding? Labels.cart.successfulAddingToCart : Labels.cart.successfulRemovingFromCart
-          isAdding ? this.toaster.successfulNotification(text): this.toaster.infoNotification(text)
+      switchMap(res => {
+        if(isAdding) {
+          const result = res.content
+          const error = res.error
+          if(result && !error) {
+            if(this.currentRole !== UserRole.ROLE_NO_AUTH_CUSTOMER)
+              this.toaster.successfulNotification(Labels.cart.successfulAddingToCart)
+          } else this.toaster.infoNotification(error)
         }
+
         return this.currentRole === UserRole.ROLE_NO_AUTH_CUSTOMER ?
           this.publicApiService.getCart(this.cartManagementService.localCart)
           : this.authStoreApiService.getCart()
@@ -127,12 +132,13 @@ export class CartPageComponent implements OnInit {
       finalize(() => this.isLoading = false)
     )
     .subscribe(res => {
+      const cart = res.content
       const localCartItems = cartInfoToItemsList(this.cart.content)
-      const serverCartItems = cartInfoToItemsList(res.content)
+      const serverCartItems = cartInfoToItemsList(cart.content)
       if(equalCartItems(localCartItems, serverCartItems) && isAdding) this.addProductToProhibitedToAdd(productId)
-      this.cart = res
+      this.cart = cart
       sortCartByName(this.cart)
-      this.setNewLocalCartForNonAuth(res)
+      this.setNewLocalCartForNonAuth(cart)
     }, err => {
       this.toaster.errorNotification(err.error.message)
     })
@@ -150,14 +156,18 @@ export class CartPageComponent implements OnInit {
             : this.authStoreApiService.getCart()
         }),
         switchMap( cart => {
+          this.toaster.infoNotificationList(cart.errors)
           if(this.currentRole !== UserRole.ROLE_CUSTOMER) return of(cart);
           this.cartManagementService.emptyLocalCart();
-          const serverItems = cartInfoToItemsList(cart.content)
+          const serverItems = cartInfoToItemsList(cart.content.content)
           if(!equalCartItems(serverItems, localCartItems)){
             const diff = getDifferenceInCarts(serverItems, localCartItems)
             if(diff.length > 0) {
               return this.authStoreApiService.addToCartListIfPossible(diff)
-                .pipe(switchMap(_ => this.authStoreApiService.getCart()))
+                .pipe(switchMap(res => {
+                  this.toaster.infoNotificationList(res)
+                  return this.authStoreApiService.getCart()
+                }))
             }
           }
           return of(cart)
@@ -165,9 +175,10 @@ export class CartPageComponent implements OnInit {
         take(1),
         finalize(() => this.isLoading = false)
       ).subscribe(res => {
-        this.cart = res;
+        const cart = res.content
+        this.cart = cart;
         sortCartByName(this.cart)
-        this.setNewLocalCartForNonAuth(res)
+        this.setNewLocalCartForNonAuth(cart)
       }, err => {
         this.toaster.errorNotification(err.error.message)
     })

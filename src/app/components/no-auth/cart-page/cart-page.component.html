@@ -13,7 +13,9 @@
   *ngIf="!isLoading"
   class="form-width mx-auto d-flex flex-column justify-content-around"
 >
-  <div class="d-flex flex-column justify-content-around">
+  <div
+    *ngIf="!isLoading && cart && cart.content.length > 0"
+    class="d-flex flex-column justify-content-around">
     <div
       *ngIf="!reservationExists"
       class="mx-auto"
@@ -50,6 +52,20 @@
     <p *ngIf="isNoAuthCustomer && !reservationExists" class="text-center text-muted my-2">
       *If you login or register, your cart will not get lost
     </p>
+  </div>
+  <div *ngIf="!isLoading && cart && cart.content.length === 0"
+       class="d-flex flex-column align-items-center"
+  >
+    <h3>Your cart is empty</h3>
+    <a [routerLink]="[catalogLink]">
+      <button
+        mat-raised-button
+        color="accent"
+
+      >
+        Go to catalog
+      </button>
+    </a>
   </div>
   <div *ngIf="reservationExists">
     <button

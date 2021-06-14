@@ -1,0 +1,53 @@
+<mat-card class="form-width mb-3" >
+  <mat-card-header>
+    <div mat-card-avatar>
+      <img [src]="product.imageUrl" alt="image of {{product.name}}">
+    </div>
+    <mat-card-title>{{product.name}}</mat-card-title>
+    <mat-card-subtitle>{{product.category | prettyCategory}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="d-flex flex-column">
+    <p class="badge cyan text-wrap cart-custom-text-font-size">
+      {{product.description}}
+    </p>
+    <div>
+      <span class="font-monospace badge bg-warning me-3">Product id: </span>
+      <br>
+      <div class="mt-1">{{product.productId}}</div>
+    </div>
+    <p
+      class="mb-0"
+      *ngIf="showQuantity"
+    >
+      <span class="font-monospace badge tomato mt-2 me-3">Quantity: </span>{{product.quantity}}
+    </p>
+    <div class="mt-2">
+      <span class="font-monospace badge green me-2">Price: </span>
+      <span
+        class="me-2"
+        [class.text-decoration-line-through]="discountExist(product.discount)"
+      >
+          {{product.price | customCurrency}}
+        </span>
+      <span *ngIf="discountExist(product.discount)" class="font-monospace badge purple cart-custom-text-font-size">
+          {{product.discount | customCurrency}}
+        </span>
+    </div>
+    <div
+      *ngIf="showQuantity"
+      class="mt-2"
+    >
+      <span class="font-monospace badge total-price-color me-2">Total price: </span>
+      <span
+        class="me-2"
+        [class.text-decoration-line-through]="discountExist(product.discount)"
+      >
+          {{product.totalPriceWithoutDiscount | customCurrency}}
+        </span>
+      <span *ngIf="discountExist(product.discount)" class="font-monospace badge purple cart-custom-text-font-size">
+          {{product.totalPrice | customCurrency}}
+        </span>
+    </div>
+  </mat-card-content>
+  <ng-content></ng-content>
+</mat-card>

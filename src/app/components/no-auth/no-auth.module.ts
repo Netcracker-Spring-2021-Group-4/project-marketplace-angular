@@ -25,6 +25,8 @@ import { CheckoutStepOneComponent } from './checkout-page/checkout-step-one/chec
 import { CheckoutStepTwoComponent } from './checkout-page/checkout-step-two/checkout-step-two.component';
 import { CheckoutStepThreeComponent } from './checkout-page/checkout-step-three/checkout-step-three.component';
 import {RouterModule} from "@angular/router";
+import { ProductCartOrderCardComponent } from './product-cart-order-card/product-cart-order-card.component';
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 
 
@@ -48,7 +50,8 @@ import {RouterModule} from "@angular/router";
     ShoppingCartTabComponent,
     CheckoutStepOneComponent,
     CheckoutStepTwoComponent,
-    CheckoutStepThreeComponent
+    CheckoutStepThreeComponent,
+    ProductCartOrderCardComponent
   ],
     imports: [
         CommonModule,
@@ -57,8 +60,8 @@ import {RouterModule} from "@angular/router";
         NgxMaskModule.forRoot(),
         NgxSliderModule,
         MatPaginatorModule,
-        RouterModule
-
+        RouterModule,
+        DragDropModule,
     ]
 })
 export class NoAuthModule { }
