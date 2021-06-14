@@ -29,7 +29,7 @@
         <mat-option
           *ngFor="let category of properties.categories; let i = index "
                       (onSelectionChange)="onCategorySelect($event,i)">
-          {{category.productCategoryName | prettyCategory}}({{category.productsInCategory}})
+          {{category.categoryName | prettyCategory}}({{category.productsInCategory}})
 
         </mat-option>
       </mat-select>

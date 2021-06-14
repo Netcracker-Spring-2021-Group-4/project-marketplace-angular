@@ -1,6 +1,6 @@
 export class Category {
   categoryId: number;
-  productCategoryName: string;
+  categoryName: string;
   productsInCategory: number
 
 

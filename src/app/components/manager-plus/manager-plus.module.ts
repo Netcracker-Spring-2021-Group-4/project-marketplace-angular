@@ -11,6 +11,7 @@ import {RouterModule} from "@angular/router";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {EditProductPageComponent} from "./edit-product-page/edit-product-page.component";
 import {DiscountPageComponent} from "./edit-product-page/discount-page/discount-page.component";
+import {NgxMaskModule} from "ngx-mask";
 
 
 @NgModule({
@@ -28,7 +29,9 @@ import {DiscountPageComponent} from "./edit-product-page/discount-page/discount-
         CommonModule,
         SharedModule,
         RouterModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        NgxMaskModule.forRoot(),
+
     ]
 })
 export class ManagerPlusModule {

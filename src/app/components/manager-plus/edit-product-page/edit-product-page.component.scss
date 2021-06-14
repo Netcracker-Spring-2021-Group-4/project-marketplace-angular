@@ -1,29 +1,6 @@
-* {
-  font-family: serif;
-}
+@import 'src/styles/variables';
 
-.container {
-  max-width: 1000px;
-  font-size: 20px;
-  margin: 20px auto 50px auto;
-}
-
-.wrapper {
-  display: flex;
-}
-
-.img-form {
-  margin-right: 100px;
-  margin-top: 75px;
-  max-width: 400px;
-}
-
-img {
-  width: 350px;
-  height: 350px;
-}
-
-.custom {
+.custom{
   margin-bottom: 15px;
   content: 'Select some files';
   display: inline-block;
@@ -36,134 +13,33 @@ img {
   -webkit-user-select: none;
   cursor: pointer;
   font-size: 10pt;
-  margin-left: 50px;
 }
-
-//.example-form-field {
-//  width: 250px;
-//}
-//.example-form-field input[type=number] {
-//  width: 180px;
-//}
-
-textarea {
-  height: 60px;
-}
-
-p {
-  margin-bottom: -20px;
-}
-
-.two-num {
-  display: flex;
-}
-
-input {
-  text-align: center;
-}
-
-.action-button {
-  width: 550px;
-}
-
-.action {
-  font-size: 16px;
-  width: 120px;
-  height: 50px;
-  margin-top: 40px;
-  text-align: center;
-  padding: inherit;
-}
-
-.take {
-  margin-left: 40px;
-}
-
-.disc-but {
-  height: 50px;
-  margin-top: 40px;
-  margin-bottom: 10px;
-  font-size: 20px;
-  background-color: #f0eef0;
-}
-
-.deactivate {
-  font-size: 22px;
-}
-
-.first-span {
-  margin-right: 10px;
-}
-
-.number-field {
-  width: 80px;
-}
-
-.pick-one {
-  margin-right: 10px;
-}
-
-.mat-form-field-wrapper {
-  margin-right: 5px;
-}
-
-.categoryName {
-  margin-bottom: 20px;
+.but{
   margin-top: 20px;
-}
-
-.simple-input {
-  font-weight: bolder;
-}
-
-.mat-form-field {
-  display: contents;
-}
-
-.reserved {
-  margin-bottom: 10px;
-}
-
-.bot-but {
+  height: 20px;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
+  margin-bottom: 50px;
+}
+.bottom-button{
+  width: 100px;
+  height: 40px;
+}
+.disc{
+  height: 45px;
+  background-color: #f0f0f0;
+  color: black;
+}
+img{
+  width: 150px;
+  height: 150px;
+  display: flex;
+  margin-bottom: 5px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.scnd-but {
-  margin-left: 300px;
+.number-field{
+  width: 100px;
 }
-
-@media screen and (max-width: 375px) {
-  .container {
-    max-width: 375px;
-    margin: 20px auto 150px;
-  }
-  input[type=file] {
-    margin-bottom: 40px;
-  }
-  .wrapper {
-    display: block;
-  }
-  input {
-    margin-top: 5px;
-  }
-  .two-num {
-    display: block;
-  }
-  .action-button {
-    display: table-cell;
-    margin-top: 10px;
-  }
-  .scnd-but {
-    margin-left: 30px;
-  }
-  .first-but {
-    margin-left: 30px;
-  }
-  .bot-but {
-    display: contents;
-
-  }
-}
-
 

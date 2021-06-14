@@ -10,9 +10,11 @@ export const ValidationMessages = {
   productName: "The name must be of size between 2 and 30, start with 2 characters, contain only characters, spaces and numbers",
   price: "The price must be greater than 0",
   quantity: "Must be equal or greater than 0",
-  file: "The file extension should be only .png",
+  file: "The file extension should be only '.png', and should be less than 1Mb",
   offeredPrice: "The offered price must be greater than 0",
-  startAt: "Wrong format date",
+  startAt: "The discount cannot start no earlier than tomorrow!!!",
   endsAt: "Wrong format date",
-  required: "The field can not be empty"
+  required: "The field can not be empty",
+  past: "You cannot create a discount for the past tense!",
+  time: "Еhe field must be filled in the format: 'HH:MM:SS'"
 }
