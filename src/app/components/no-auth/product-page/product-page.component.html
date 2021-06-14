@@ -10,6 +10,7 @@
     </div>
     <div>
       <p class="name">{{product.name}}</p>
+
       <p class="pt-3 pb-3">{{categoryName | prettyCategory}}</p>
       <span class="pt-3 pb-3 fw-normal fs-3">Price: </span>
       <span class="fw-bold fs-2" *ngIf="!discount"> {{product.price | customCurrency}}</span>
@@ -28,20 +29,17 @@
         <span class="fw-bold">{{product.inStock}} </span>
         items
       </p>
-      <form [formGroup]="amountForm"
-            (ngSubmit)="addToCart(product.productId, amountForm.value)"
-      >
+
       <div *ngIf="role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'">
 
         <span class="pt-3 mb-5"> Amount </span>
         <input type="number"
                step="1"
                value="1"
-               min="0"
+               min="1"
                max="{{product.inStock}}"
                (input)="OnInput($event)"
                (keydown)="OnInput($event)"
-               formControlName="quantity"
         >
       </div>
 
@@ -50,14 +48,17 @@
                 mat-raised-button color="primary"
                 [disabled]="currentValue > product.inStock || currentValue < 1"
                 *ngIf="role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
-                type="submit"
+                (click)="addToCart(product.productId)"
         >
           Add to card
         </button>
-             <button class="action edit"
+
+        <button class="action edit"
                 mat-raised-button color="primary"
                 *ngIf="role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
         >
+          <!--                (click)="addToCompare(product.productId)"-->
+
           Compare
         </button>
       </div>
@@ -71,7 +72,6 @@
           Edit
         </button>
       </div>
-      </form>
       <div class="warn">
         <span class="warning" *ngIf="currentValue > product.inStock">
           Sorry now available only {{product.inStock}} items

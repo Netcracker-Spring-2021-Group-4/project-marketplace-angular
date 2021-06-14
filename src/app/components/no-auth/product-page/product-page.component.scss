@@ -3,10 +3,12 @@
   font-size: 20px;
   margin: 150px auto 100px auto;
 }
-.wrapper{
+
+.wrapper {
   display: flex;
 }
-.name{
+
+.name {
   font-weight: bold;
   font-size: 36px;
   margin-top: 0px;
@@ -14,30 +16,31 @@
   margin-bottom: 25px;
 }
 
-img{
+img {
   width: 450px;
   height: 450px;
   margin-right: 20px;
   margin-left: -50px;
 }
 
-.old-price{
+.old-price {
   color: grey;
   text-decoration: line-through;
 }
-.new-price{
+
+.new-price {
   padding-left: 15px;
   font-size: 30px;
   color: #ff0000;
 }
 
 
-input{
+input {
   text-align: center;
   max-width: 60px;
 }
 
-.action{
+.action {
   font-size: 16px;
   width: 100px;
   height: 50px;
@@ -45,68 +48,111 @@ input{
   text-align: center;
   padding: inherit;
 }
-.buttons{
+
+.buttons {
   width: 100%;
   display: flex;
 }
 
-.edit{
+.edit {
   margin-right: auto;
 }
-.warn{
+
+.warn {
   margin-top: 10px;
   height: 100px;
 }
-.warning{
+
+.warning {
   color: #ff0000;
 }
-.warning-avail{
+
+.warning-avail {
   color: #00075a;
 }
-
-@media screen and (max-width: 375px){
-.name{
+@media screen and (max-width: 770px){
+  .name {
     text-align: center;
     font-weight: bold;
     font-size: 26px;
     margin-top: 10px;
     margin-bottom: 40px;
   }
-.container{
+  .container {
     max-width: 375px;
     margin-top: 30px;
   }
-img{
-  margin-left: 30px;
-  margin-right: auto;
+  img {
+    margin-left: 30px;
+    margin-right: auto;
     width: 300px;
     height: 300px;
     margin-bottom: 10px;
   }
-.wrapper{
+  .wrapper {
     display: block;
   }
-input{
+  input {
     margin-top: 5px;
   }
-.action{
-    //padding-left: 5px;
-    //padding-right: 5px;
-    //margin: 25px 35px 0px 35px;
-  }
-  .buttons{
+
+  .buttons {
     margin-top: 35px;
     display: flex;
     justify-content: space-between;
   }
 
-.editing{
+  .editing {
     margin-top: 15px;
     width: 100%;
     display: flex;
     justify-content: center;
   }
-.edit{
+  .edit {
+    margin: 0;
+  }
+
+}
+
+@media screen and (max-width: 375px) {
+  .name {
+    text-align: center;
+    font-weight: bold;
+    font-size: 26px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+  }
+  .container {
+    max-width: 375px;
+    margin-top: 30px;
+  }
+  img {
+    margin-left: 30px;
+    margin-right: auto;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 10px;
+  }
+  .wrapper {
+    display: block;
+  }
+  input {
+    margin-top: 5px;
+  }
+
+  .buttons {
+    margin-top: 35px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .editing {
+    margin-top: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .edit {
     margin: 0;
   }
 }

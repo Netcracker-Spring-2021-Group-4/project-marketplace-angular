@@ -1,18 +1,15 @@
 <div class="h-100per container d-flex justify-content-center align-items-center">
 
-
   <form [formGroup]="editForm"
         (ngSubmit)="submit(editForm.value)"
         class="container d-flex justify-content-center flex-column form-width mt-3 mb-3"
   >
-
     <img mat-card-image
          [src]=product.imageUrl
          alt="Photo"
          *ngIf="!isLoading || product.imageUrl !== null || product.imageUrl !== undefined"
          class=""
     >
-
     <input type="file"
            name="file"
            (change)="onFileSelected($event)"
@@ -38,17 +35,15 @@
   <mat-error *ngIf="editForm.get('description')?.invalid">{{descriptionErrorMessage}}</mat-error>
 </mat-form-field>
 
-
 <mat-form-field
   appearance="fill"
   class="name-input mr-auto ml-auto mb-3">
   <mat-label>Price in $</mat-label>
   <input matInput
          formControlName="price"
-         step="100"
+         step="1"
          type="number" min="0"
          autocomplete="off"
-
   >
   <mat-error *ngIf="editForm.get('price')?.invalid">{{priceErrorMessage}}</mat-error>
 </mat-form-field>

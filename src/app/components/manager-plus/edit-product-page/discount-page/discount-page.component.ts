@@ -9,26 +9,12 @@ import {finalize} from "rxjs/operators";
 import {DiscountsHttpService} from "../../../../api-services/discounts-http.service";
 import Labels from "../../../../shared/models/labels/labels.constant";
 import {ToasterCustomService} from "../../../../services/toaster-custom.service";
-import {
-  MAT_MOMENT_DATE_FORMATS,
-  MomentDateAdapter,
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS
-} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
 
 @Component({
   selector: 'app-discount-page',
   templateUrl: './discount-page.component.html',
   styleUrls: ['./discount-page.component.scss'],
-  providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'uk'},
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
-  ],
+
 })
 export class DiscountPageComponent implements OnInit {
 
@@ -41,17 +27,9 @@ export class DiscountPageComponent implements OnInit {
   discountForm: FormGroup;
   today = new Date();
   minDate: Date = new Date();
-  isPast: boolean = false;
-  isWrongStart: boolean = false;
-  isWrongEnd: boolean = false;
-  startTime: string = '';
-  endTime: string = '';
   isIncorrectTime: boolean = false;
   newDate: any;
   offeredPriceErrorMessage = ValidationMessages.offeredPrice;
-  startAtErrorMessage = ValidationMessages.startAt;
-  pastErrorMessage = ValidationMessages.past;
-  endsAtErrorMessage = ValidationMessages.endsAt;
   requiredErrorMessage = ValidationMessages.required;
   timeErrorMessage = ValidationMessages.time;
   firstInputTime: any;
@@ -67,10 +45,8 @@ export class DiscountPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.today.setHours(0, 0, 0)
     this.minDate.setDate(this.today.getDate() + 1);
-    // // this.minDate.setUTCHours(-3,0,0)
-    // console.log(this.minDate)
+    this.minDate.setHours(0,0,0)
     this.isLoading = true;
     this.discountForm = this.createDiscountForm();
     this.myProductId = this.route.snapshot.paramMap.get('productId');
@@ -108,7 +84,6 @@ export class DiscountPageComponent implements OnInit {
       })
   }
 
-
   public fetchStart(event: any) {
     this.firstInputTime = this.discountForm.get('timeStart')?.value.match(/.{1,2}/g).join(':');
   }
@@ -118,7 +93,6 @@ export class DiscountPageComponent implements OnInit {
   }
 
   public submit(discountData: any, formDirective: FormGroupDirective) {
-    console.log(discountData)
     const res = /21:00:00/gi;
     const firstString = JSON
       .parse(JSON
@@ -136,20 +110,12 @@ export class DiscountPageComponent implements OnInit {
         this.getUnexpiredDiscounts(this.myProductId);
         this.toaster.successfulNotification(Labels.discount.successfulCreationDiscount);
       }, err => {
-        console.log(err)
-        this.toaster.errorNotification(Labels.discount.errorCreationDiscount);
+        this.toaster.errorNotification(err.error.message);
       })
     if (this.discountForm.valid) {
       formDirective.resetForm()
       this.discountForm.reset()
       this.discountForm.markAsUntouched()
-    }
-  }
-
-  public Check() {
-    let a = 1625392800
-
-    for (let i = 0; i <= this.discounts.length; i++) {
     }
   }
 

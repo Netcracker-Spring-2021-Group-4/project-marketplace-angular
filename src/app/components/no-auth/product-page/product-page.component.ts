@@ -12,8 +12,6 @@ import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {CartItemModel} from "../../../shared/models/api/send/cart-item.model";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {PublicApiService} from "../../../api-services/public-http.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Product} from "../../../shared/models/api/receive/product";
 
 @Component({
   selector: 'app-product-page',
@@ -22,13 +20,12 @@ import {Product} from "../../../shared/models/api/receive/product";
 })
 export class ProductPageComponent implements OnInit {
 
-  currentValue: Number;
+  currentValue: number;
   product: ProductInfo;
   discount: Discount;
   role: UserRole;
   categoryName: string;
   isLoading = false;
-  amountForm: FormGroup;
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
@@ -37,12 +34,10 @@ export class ProductPageComponent implements OnInit {
               private roleService: RoleService,
               private cartManager: CartManagementService,
               private toaster: ToasterCustomService,
-              private formBuilder: FormBuilder,
   ) {
   }
 
   ngOnInit(): void {
-    this.amountForm = this.createAmountForm();
     this.isLoading = true;
     this.roleService.currentRole$.subscribe(
       data => {
@@ -66,29 +61,22 @@ export class ProductPageComponent implements OnInit {
 
   }
 
-  public createAmountForm(): FormGroup {
-    return this.formBuilder.group({
-      quantity: quantity()
-    })
-  }
-
   public OnInput(event: any) {
     this.currentValue = event.target.value;
   }
 
-  addToCart(id: string, amount: number) {
+  addToCart(id: string) {
     if (this.product.inStock == 0)
       this.outOfStockNotify()
     else
-      this.cartManager.addToCart(new CartItemModel({quantity: amount, productId: id,}));
-    console.log(amount)
-    console.log(CartItemModel)
-    console.log(id)
+      this.cartManager.addToCart(new CartItemModel({quantity:this.currentValue, productId:id}));
   }
 
   private outOfStockNotify() {
     this.toaster.errorNotification(Labels.cart.outOfStock)
   }
-}
 
-const quantity = (value?: number) => ([value ?? null, [Validators.required, Validators.min(0)]]);
+  // addToCompare(id: string) {
+  //   this.compareService.addToList(id);
+  // }
+}

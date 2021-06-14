@@ -12,9 +12,6 @@ export const ValidationMessages = {
   quantity: "Must be equal or greater than 0",
   file: "The file extension should be only '.png', and should be less than 1Mb",
   offeredPrice: "The offered price must be greater than 0",
-  startAt: "The discount cannot start no earlier than tomorrow!!!",
-  endsAt: "Wrong format date",
   required: "The field can not be empty",
-  past: "You cannot create a discount for the past tense!",
   time: "Еhe field must be filled in the format: 'HH:MM:SS'"
 }
