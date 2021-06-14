@@ -28,8 +28,8 @@ export class CartManagementService {
 
   get localCart() : CartItemModel[] {
     const cartString = localStorage.getItem(CartManagementService.CART_STORAGE)
-    const parsed = JSON.parse(cartString ?? "")
-    return parsed === "" ? [] : parsed
+    const parsed = JSON.parse(cartString ?? "[]")
+    return parsed === [] ? [] : parsed
   }
 
   findItemInCart(id: string) : CartItemModel | undefined {
