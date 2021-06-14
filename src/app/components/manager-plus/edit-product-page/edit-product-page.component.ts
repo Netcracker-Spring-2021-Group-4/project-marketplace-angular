@@ -8,9 +8,9 @@ import Labels from "../../../shared/models/labels/labels.constant";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
 import {finalize} from "rxjs/operators";
 import {ProductsHttpService} from "../../../api-services/products-http.service";
-import {Category} from "../../../shared/models/api/receive/category";
 import {PublicApiService} from "../../../api-services/public-http.service";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
+import {Category_DUBLICAT} from "../../../shared/models/api/receive/category_dublicat";
 
 
 @Component({
@@ -20,7 +20,7 @@ import {ToasterCustomService} from "../../../services/toaster-custom.service";
 })
 export class EditProductPageComponent implements OnInit {
 
-  categories: Category[];
+  categories: Category_DUBLICAT[];
   product: ProductInfo;
   editForm: FormGroup;
   categoryName: string;
@@ -99,7 +99,7 @@ export class EditProductPageComponent implements OnInit {
 
   public getCategories(): void {
     this.publicApiService.getListOfCategories().subscribe(
-      (response: Category[]) => {
+      (response: Category_DUBLICAT[]) => {
         this.categories = response;
         this.selected = this.product.categoryId;
       }
