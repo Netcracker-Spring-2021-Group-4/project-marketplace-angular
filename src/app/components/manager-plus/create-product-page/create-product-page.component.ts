@@ -8,7 +8,7 @@ import {ManagerApiService} from "../../../api-services/manager-http.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Subscription} from "rxjs";
 import {MatSelectChange} from "@angular/material/select";
-import {Category} from "../../../shared/models/api/receive/category";
+import {Category} from "../../../shared/models/api/receive/category_dublicat";
 import {ProductManagerFormService} from "../services/product-manager-form.service";
 
 @Component({

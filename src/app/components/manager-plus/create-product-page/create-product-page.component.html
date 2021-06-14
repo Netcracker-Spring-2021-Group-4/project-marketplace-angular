@@ -23,7 +23,7 @@
       appearance="fill"
       class="name-input mr-auto ml-auto mb-3">
       <mat-label>Price $</mat-label>
-      <input matInput formControlName="price" type="number" step="100" min="0" autocomplete="off">
+      <input matInput formControlName="price" type="number"  min="0" autocomplete="off">
       <mat-error *ngIf="form.get('price')?.invalid">{{priceErrorMessage}}</mat-error>
     </mat-form-field>
     <mat-form-field

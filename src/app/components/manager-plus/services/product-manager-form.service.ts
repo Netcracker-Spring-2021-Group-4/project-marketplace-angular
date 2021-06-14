@@ -7,7 +7,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
-import {Category} from "../../../shared/models/api/receive/category";
+import {Category} from "../../../shared/models/api/receive/category_dublicat";
 @Injectable({
   providedIn: 'root'
 })
