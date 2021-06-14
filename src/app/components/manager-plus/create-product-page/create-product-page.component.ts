@@ -87,7 +87,7 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
         });
       }, err => {
         this.toaster.open({
-          text: Labels.product.errorCreationProduct,
+          text: err.error.message,
           caption: Labels.caption.error,
           duration: 4000,
           type: 'danger'
