@@ -1,0 +1,111 @@
+<p *ngIf="!isLoading && discounts.length == 0"> This product has no discounts</p>
+
+<table mat-table [dataSource]="discountsDatasource" class="mat-elevation-z8"
+       *ngIf="!isLoading && discounts.length !== 0">
+
+  <ng-container matColumnDef="offered price">
+    <th mat-header-cell *matHeaderCellDef>Offered price</th>
+    <td mat-cell *matCellDef="let discount"> {{discount.offeredPrice | customCurrency}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="starts at">
+    <th mat-header-cell *matHeaderCellDef>Starts at</th>
+    <td mat-cell *matCellDef="let discount"> {{discount.startsAt | date:'d, MMMM, y, hh:mm:ss': '+2400'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="ends at">
+    <th mat-header-cell *matHeaderCellDef>Ends at</th>
+    <td mat-cell *matCellDef="let discount"> {{discount.endsAt | date:'d, MMMM, y, hh:mm:ss': '+2400'}}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef>Delete</th>
+    <td mat-cell *matCellDef="let discount">
+      <button mat-raised-button color="warn"
+              (click)="deleteDiscount(discount.discountId)">
+        Delete
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+
+<form [formGroup]="discountForm"
+      (ngSubmit)="submit(discountForm.value, formDirective)"
+      #formDirective="ngForm"
+>
+
+  <p mat-raised-button color="primary">Add another discount</p>
+  <mat-form-field appearance="fill" class="name-input mr-auto ml-auto mb-3">
+    <mat-label>Date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker" disabled="true" [min]="minDate">
+      <input matStartDate placeholder="Start date" formControlName="startsAt">
+      <input matEndDate placeholder="End date" formControlName="endsAt">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker" disabled="false"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker disabled="false" touchUi></mat-date-range-picker>
+  </mat-form-field>
+
+  <div class="date-pick">
+    <div class="pick-one">
+      <mat-form-field color="accent" appearance="fill" class="mb-3">
+        <mat-label>Start time (HH:MM:SS)</mat-label>
+        <div class="mask">
+          <input matInput mask="Hh:m0:s0"
+                 formControlName="timeStart"
+                 (input)="fetchStart($event)"
+                 autocomplete="off"
+          />
+        </div>
+        <mat-error *ngIf="discountForm.get('timeStart')?.invalid" class="mb-5">{{timeErrorMessage}}</mat-error>
+      </mat-form-field>
+
+
+    </div>
+    <mat-form-field color="accent" appearance="fill" class="mb-3">
+      <mat-label>End time (HH:MM:SS)</mat-label>
+      <input
+        matInput mask="Hh:m0:s0"
+        class="mask"
+        formControlName="timeEnd"
+        (input)="fetchEnd($event)"
+        autocomplete="off"
+      />
+      <mat-error *ngIf="discountForm.get('timeEnd')?.invalid" class="mb-5">{{timeErrorMessage}}</mat-error>
+    </mat-form-field>
+
+  </div>
+  <mat-form-field class="example-form-field mb-5">
+    <mat-label>Offered price</mat-label>
+    <input matInput
+           min="0"
+           type="number"
+           autocomplete="off"
+           formControlName="offeredPrice"
+           class="text-lg-center"
+    >
+    <mat-error *ngIf="discountForm.get('offeredPrice')?.invalid" class="mb-5">
+      {{offeredPriceErrorMessage}}
+    </mat-error>
+
+  </mat-form-field>
+  <br>
+  <button class="me-lg-5 back"
+          mat-raised-button color="primary"
+          [routerLink]="['../']"
+          type="button"
+  >
+    Go Back
+  </button>
+  <button class="me-5"
+          mat-raised-button color="primary"
+          type="submit"
+          [disabled]="discountForm.invalid || discountForm.untouched || isIncorrectTime"
+  >
+    Create
+  </button>
+</form>

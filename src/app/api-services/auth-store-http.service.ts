@@ -6,6 +6,7 @@ import {UserUpdateModel} from "../shared/models/api/send/user-update.model";
 import {UpdatePasswordWrapper} from "../shared/models/api/send/update-password-wrapper.model";
 import {CartItemModel} from "../shared/models/api/send/cart-item.model";
 import {CartInfoResponse} from "../shared/models/api/receive/cart-info-response.model";
+import {ContentErrorListWrapper} from "../shared/models/api/receive/content-error-list-wrapper.model";
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ export class AuthStoreApiService {
     return this.httpClient.patch(`${this.AUTH_STORE_URL}/change-password`, obj)
   }
 
-  addToCart(obj: CartItemModel): Observable<boolean> {
+  addToCart(obj: CartItemModel): Observable<any> {
     return this.httpClient.post<boolean>(`${this.AUTH_CUSTOMER_URL}/add-to-cart`, obj)
   }
 
@@ -44,11 +45,11 @@ export class AuthStoreApiService {
     return this.httpClient.post(`${this.AUTH_CUSTOMER_URL}/add-to-cart-if-possible`, obj)
   }
 
-  removeFromCart(obj: CartItemModel): Observable<boolean> {
+  removeFromCart(obj: CartItemModel): Observable<any> {
     return this.httpClient.post<boolean>(`${this.AUTH_CUSTOMER_URL}/remove-from-cart`, obj)
   }
 
-  getCart(): Observable<CartInfoResponse> {
-    return this.httpClient.get<CartInfoResponse>(`${this.AUTH_CUSTOMER_URL}/cart`)
+  getCart(): Observable<ContentErrorListWrapper<CartInfoResponse>> {
+    return this.httpClient.get<ContentErrorListWrapper<CartInfoResponse>>(`${this.AUTH_CUSTOMER_URL}/cart`)
   }
 }

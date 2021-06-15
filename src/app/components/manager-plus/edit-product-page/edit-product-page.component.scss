@@ -1,0 +1,45 @@
+@import 'src/styles/variables';
+
+.custom{
+  margin-bottom: 15px;
+  content: 'Select some files';
+  display: inline-block;
+  background: #f0eef0;
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 10px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  font-size: 10pt;
+}
+.but{
+  margin-top: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 50px;
+}
+.bottom-button{
+  width: 100px;
+  height: 40px;
+}
+.disc{
+  height: 45px;
+  background-color: #f0f0f0;
+  color: black;
+}
+img{
+  width: 150px;
+  height: 150px;
+  display: flex;
+  margin-bottom: 5px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.number-field{
+  width: 100px;
+}
+

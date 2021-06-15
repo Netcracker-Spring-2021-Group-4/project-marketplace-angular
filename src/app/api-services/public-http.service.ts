@@ -1,13 +1,11 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {LoginCredentials} from "../shared/models/api/send/credentials.model";
 import {Observable} from "rxjs";
-import {SignUpCredentials} from "../shared/models/api/send/sign-up-credentials.model";
-import {UpdatePasswordWrapper} from "../shared/models/api/send/update-password-wrapper.model";
 import {CartItemModel} from "../shared/models/api/send/cart-item.model";
 import {CartInfoResponse} from "../shared/models/api/receive/cart-info-response.model";
 import {OrderRequest} from "../shared/models/api/send/order-request.model";
+import {ContentErrorListWrapper} from "../shared/models/api/receive/content-error-list-wrapper.model";
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +28,20 @@ export class PublicApiService {
     return this.httpClient.get(`${this.PUBLIC_URL}/categories-all`)
   }
 
-  getCart(list: CartItemModel[]): Observable<CartInfoResponse> {
-    return this.httpClient.post<CartInfoResponse>(`${this.PUBLIC_URL}/cart`, list)
+  public getCategoryName(productId: string | null):Observable<string>{
+    return this.httpClient.request('GET', `${this.PUBLIC_URL}/categories-all/${productId}/category-name`, {responseType:'text'});
+  }
+
+  getListForComparison(ids: string[]) : Observable<any> {
+    return this.httpClient.post(`${this.PUBLIC_URL}/list-comparison`, ids)
+  }
+
+  getProductAvailability(id: string) : Observable<any> {
+    return this.httpClient.get(`${this.PUBLIC_URL}/product-availability?id=${id}`)
+  }
+
+  getCart(list: CartItemModel[]): Observable<ContentErrorListWrapper<CartInfoResponse>> {
+    return this.httpClient.post<ContentErrorListWrapper<CartInfoResponse>>(`${this.PUBLIC_URL}/cart`, list)
   }
 
   makeReservation(list: CartItemModel[]): Observable<any> {

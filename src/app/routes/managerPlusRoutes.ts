@@ -6,6 +6,8 @@ import {CreateAuctionPageComponent} from "../components/manager-plus/create-auct
 import {StockSetterPageComponent} from "../components/manager-plus/stock-setter-page/stock-setter-page.component";
 import {AdminGuard, ManagerPlusGuard} from "../guards/role.guards";
 import {ProfilePageComponent} from "../components/auth-store/profile-page/profile-page.component";
+import {EditProductPageComponent} from "../components/manager-plus/edit-product-page/edit-product-page.component";
+import {DiscountPageComponent} from "../components/manager-plus/edit-product-page/discount-page/discount-page.component";
 
 const ManagerPlusRoutes: Routes = [
   {
@@ -24,6 +26,11 @@ const ManagerPlusRoutes: Routes = [
     canActivate: [AdminGuard]
   },
   {
+    path: Route.EDIT_PRODUCT,
+    component: EditProductPageComponent,
+    canActivate: [ManagerPlusGuard]
+  },
+  {
     path: Route.CREATE_PRODUCT,
     component: CreateProductPageComponent,
     canActivate: [ManagerPlusGuard]
@@ -36,6 +43,11 @@ const ManagerPlusRoutes: Routes = [
   {
     path: Route.STOCK,
     component: StockSetterPageComponent,
+    canActivate: [ManagerPlusGuard]
+  },
+  {
+    path: Route.DISCOUNTS,
+    component: DiscountPageComponent,
     canActivate: [ManagerPlusGuard]
   },
 ];

@@ -25,6 +25,8 @@ import { CheckoutStepOneComponent } from './checkout-page/checkout-step-one/chec
 import { CheckoutStepTwoComponent } from './checkout-page/checkout-step-two/checkout-step-two.component';
 import { CheckoutStepThreeComponent } from './checkout-page/checkout-step-three/checkout-step-three.component';
 import {RouterModule} from "@angular/router";
+import { ProductCartOrderCardComponent } from './product-cart-order-card/product-cart-order-card.component';
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 import {CarouselModule} from 'primeng/carousel';
 import { CarouselComponent } from './catalog/carousel/carousel.component';
@@ -54,7 +56,8 @@ import {IvyCarouselModule} from 'angular-responsive-carousel';
     CheckoutStepOneComponent,
     CheckoutStepTwoComponent,
     CheckoutStepThreeComponent,
-    CarouselComponent
+    CarouselComponent,
+    ProductCartOrderCardComponent
   ],
   imports: [
     CommonModule,
@@ -65,7 +68,9 @@ import {IvyCarouselModule} from 'angular-responsive-carousel';
     NgxSliderModule,
     MatPaginatorModule,
     CarouselModule,
+    RouterModule,
     IvyCarouselModule
   ]
+
 })
 export class NoAuthModule { }

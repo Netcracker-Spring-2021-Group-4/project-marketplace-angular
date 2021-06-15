@@ -1,0 +1,53 @@
+table.mat-table {
+  width: 100%;
+  border-spacing: 0;
+  padding-bottom: 20px;
+}
+
+.mat-column-demo-position {
+  width: 32px;
+  border-right: 1px solid currentColor;
+  padding-right: 24px;
+  text-align: center;
+}
+
+.mat-column-demo-name {
+  padding-left: 16px;
+  font-size: 20px;
+}
+
+.mat-column-demo-weight {
+  font-style: italic;
+}
+
+.mat-column-demo-symbol {
+  width: 32px;
+  text-align: center;
+  font-weight: bold;
+}
+
+form {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.number-field {
+  width: 147px;
+}
+
+button{
+  text-align: center;
+  width: 75px;
+
+}
+
+@media screen and (max-width: 400px) {
+
+form {
+  margin-top: 40px;
+  margin-left: 60px;
+}
+.back{
+  margin-right: 30px;
+}
+}

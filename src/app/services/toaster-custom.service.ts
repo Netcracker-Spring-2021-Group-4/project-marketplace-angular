@@ -17,6 +17,12 @@ export class ToasterCustomService {
     this.notify({text, caption: Labels.caption.info}, 'primary')
   }
 
+  infoNotificationList(infos: string[]) {
+    for(let info of infos) {
+      this.infoNotification(info)
+    }
+  }
+
   successfulNotification(text: string) {
     this.notify({text, caption: Labels.caption.success}, 'success')
   }
