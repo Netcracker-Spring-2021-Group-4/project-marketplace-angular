@@ -26,6 +26,11 @@ import { CheckoutStepTwoComponent } from './checkout-page/checkout-step-two/chec
 import { CheckoutStepThreeComponent } from './checkout-page/checkout-step-three/checkout-step-three.component';
 import {RouterModule} from "@angular/router";
 
+import {CarouselModule} from 'primeng/carousel';
+import { CarouselComponent } from './catalog/carousel/carousel.component';
+import {IvyCarouselModule} from 'angular-responsive-carousel';
+
+
 
 
 @NgModule({
@@ -48,7 +53,8 @@ import {RouterModule} from "@angular/router";
     ShoppingCartTabComponent,
     CheckoutStepOneComponent,
     CheckoutStepTwoComponent,
-    CheckoutStepThreeComponent
+    CheckoutStepThreeComponent,
+    CarouselComponent
   ],
   imports: [
     CommonModule,
@@ -57,8 +63,9 @@ import {RouterModule} from "@angular/router";
     NgxCaptchaModule,
     NgxMaskModule.forRoot(),
     NgxSliderModule,
-    MatPaginatorModule
-
+    MatPaginatorModule,
+    CarouselModule,
+    IvyCarouselModule
   ]
 })
 export class NoAuthModule { }

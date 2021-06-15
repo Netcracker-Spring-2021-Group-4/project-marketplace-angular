@@ -6,4 +6,17 @@
   font-size: 14px;
 
 }
+.sample-center {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  max-width: 500px;
+}
+
 

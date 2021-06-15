@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {FormArray,  FormControl, FormGroup} from "@angular/forms";
 import {CatalogPublicHttpService} from "../../../../api-services/catalog-public-http.service";
 import { Options, LabelType } from '@angular-slider/ngx-slider';
@@ -14,10 +14,11 @@ import {MatOptionSelectionChange} from "@angular/material/core";
 
 
 export class FiltersComponent implements OnInit {
+
   @Input() productCatalogFilter: FormGroup;
   @Input() properties: FilterProperties;
-
   @Output() searchCriteriaEvent = new EventEmitter<FormGroup>();
+
 
 
   private productService: CatalogPublicHttpService;
@@ -77,4 +78,5 @@ export class FiltersComponent implements OnInit {
       }
     };
   }
+
 }
