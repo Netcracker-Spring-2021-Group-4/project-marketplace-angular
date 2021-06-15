@@ -34,6 +34,8 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import { AddressPipe } from './helpers/pipes/address.pipe';
+import { DeEnumPipe } from './helpers/pipes/de-enum.pipe';
 
 @NgModule({
   imports: [
@@ -101,14 +103,18 @@ import {MatNativeDateModule} from "@angular/material/core";
     RoleStripperPipe,
     CategoryPrettifierPipe,
     CustomCurrencyPipe,
-    CoverLoadingComponent
+    CoverLoadingComponent,
+    AddressPipe,
+    DeEnumPipe
   ],
   declarations: [
     MenuBarComponent,
     RoleStripperPipe,
     CategoryPrettifierPipe,
     CustomCurrencyPipe,
-    CoverLoadingComponent
+    CoverLoadingComponent,
+    AddressPipe,
+    DeEnumPipe
   ]
 })
 export class SharedModule { }

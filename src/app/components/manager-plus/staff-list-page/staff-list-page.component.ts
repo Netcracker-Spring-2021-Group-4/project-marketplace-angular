@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {UserSearchModel} from "../../../shared/models/api/send/user-search.model";
 import {UserRole} from "../../../shared/models/enums/role.enum";
-import {UserAuthFormService} from "../../no-auth/services/user-auth-form.service";
 import {FormGroup} from "@angular/forms";
 import {UserStatus} from "../../../shared/models/enums/user-status.enum";
 import {ProfileModel} from "../../../shared/models/api/receive/profile.model";
 import {StaffSearchHttpService} from "../../../api-services/staff-search-http.service";
 import {EagerContentPage} from "../../../shared/models/api/receive/cotent-page.model";
 import {PageEvent} from "@angular/material/paginator";
+import {ProdMgrService} from "../services/prod-mgr.service";
 
 @Component({
   selector: 'app-staff-list-page',
@@ -20,8 +20,8 @@ export class StaffListPageComponent implements OnInit {
   contentPage ?: EagerContentPage<ProfileModel>;
   selectedPage: number;
 
-  constructor(private userAuthFormService: UserAuthFormService, private staffSearch: StaffSearchHttpService) {
-    this.formControlsGroup = userAuthFormService.staffSearchForm();
+  constructor(private mgrFormService: ProdMgrService, private staffSearch: StaffSearchHttpService) {
+    this.formControlsGroup = mgrFormService.staffSearchForm();
     this.selectedPage = 0;
   }
 

@@ -1,1 +1,10 @@
-<p>order-history-page works!</p>
+<div class="container py-3">
+  <h3 class="text-center">Order history</h3>
+  <hr>
+  <app-order-filters [orderForm]="orderForm"
+  (orderFilterEvent)="filterOrders($event)"></app-order-filters>
+  <div *ngIf="filteredOrders">
+    <app-orders-preview-listing [orders]="filteredOrders"></app-orders-preview-listing>
+  </div>
+</div>
+
