@@ -53,12 +53,12 @@
       <th mat-header-cell *matHeaderCellDef>  </th>
       <td mat-cell *matCellDef="let element" class="button-row" >
         <button mat-raised-button color="primary" class="button-row"
-                *ngIf="element.statusName=='IN_DELIVERY'||element.statusName=='FAILED' "
-                (click)="changeStatus()"
+                *ngIf="element.statusName=='IN_DELIVERY' "
+                (click)="changeStatusDeliver(element.orderId)"
         >Delivered</button>
         <button mat-raised-button color="warn"
-                *ngIf="element.statusName=='IN_DELIVERY'||element.statusName=='FAILED' "
-                (click)="changeStatus()"
+                *ngIf="element.statusName=='IN_DELIVERY' "
+                (click)="changeStatusCancel(element.orderId)"
         >Canceled</button>
       </td>
 

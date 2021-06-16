@@ -57,7 +57,8 @@ import {IvyCarouselModule} from 'angular-responsive-carousel';
     CheckoutStepTwoComponent,
     CheckoutStepThreeComponent,
     CarouselComponent,
-    ProductCartOrderCardComponent
+    ProductCartOrderCardComponent,
+
   ],
   imports: [
     CommonModule,
@@ -69,7 +70,8 @@ import {IvyCarouselModule} from 'angular-responsive-carousel';
     MatPaginatorModule,
     CarouselModule,
     RouterModule,
-    IvyCarouselModule
+    IvyCarouselModule,
+    DragDropModule
   ]
 
 })

@@ -3,6 +3,8 @@ import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import {CourierApiService} from "../../../api-services/courier-http.service";
 import {DeliveryModel} from "../../../shared/models/api/receive/delivery.model";
 import {DatePipe, Time} from '@angular/common';
+import {OrderService} from "../../../services/order.service";
+import {OrderStatus} from "../../../shared/models/enums/order-status";
 
 
 @Component({
@@ -11,7 +13,6 @@ import {DatePipe, Time} from '@angular/common';
   styleUrls: ['./deliveries-page.component.scss']
 })
 export class DeliveriesPageComponent implements OnInit {
-  changeStats:boolean
   dateStart:Date
   deliveries: DeliveryModel[];
   displayedColumns: string[] = ['time', 'phoneNumber', 'name', 'address','status','open'];
@@ -37,9 +38,8 @@ export class DeliveriesPageComponent implements OnInit {
 
   }
 
-  constructor(private courierService:CourierApiService) {
+  constructor(private courierService:CourierApiService, private orderService:OrderService) {
     this.dateStart=new Date();
-    this.changeStats=false
   }
 
   ngOnInit(): void {
@@ -57,7 +57,13 @@ export class DeliveriesPageComponent implements OnInit {
     return localeSpecificTime.replace(/:\d+ /, ' ');
   }
 
-  changeStatus() {
-    this.changeStats=true
+  changeStatusCancel(id:string) {
+    this.orderService.updateOrderState(id,OrderStatus.CANCELLED)
+  }
+
+
+  changeStatusDeliver(id:string) {
+    this.orderService.updateOrderState(id,OrderStatus.DELIVERED)
+
   }
 }
