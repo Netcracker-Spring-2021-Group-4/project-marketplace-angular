@@ -36,7 +36,6 @@
         matInput
         type='text'
         mask="separator.2"
-        thousandSeparator=","
         formControlName="startPriceDollars"
       />
       <mat-error *ngIf="form.get('startPriceDollars')?.invalid">{{priceErrorMessage}}</mat-error>
@@ -49,7 +48,6 @@
         matInput
         type='text'
         mask="separator.0"
-        thousandSeparator=","
         formControlName="productQuantity"
       />
       <mat-error *ngIf="form.get('productQuantity')?.invalid">{{quantityErrorMessage}}</mat-error>
@@ -93,7 +91,6 @@
           matInput
           type='text'
           mask="separator.0"
-          thousandSeparator=","
           formControlName="timeToBid"
         />
         <mat-error
@@ -109,7 +106,6 @@
           matInput
           type='text'
           mask="separator.2"
-          thousandSeparator=","
           formControlName="minRiseDollars"
         />
         <mat-error *ngIf="form.get('jsonDetails.minRiseDollars')?.invalid">{{minRiseErrorMessage}}</mat-error>
@@ -123,7 +119,6 @@
           matInput
           type='text'
           mask="separator.2"
-          thousandSeparator=","
           formControlName="loweringStepDollars"
         />
         <mat-error *ngIf="form.get('jsonDetails.loweringStepDollars')?.invalid">{{loweringStepErrorMessage}}</mat-error>
@@ -137,7 +132,6 @@
           matInput
           type='text'
           mask="separator.0"
-          thousandSeparator=","
           formControlName="stepPeriod"
         />
         <mat-error *ngIf="form.get('jsonDetails.stepPeriod')?.invalid">{{stepPeriodErrorMessage}}</mat-error>
@@ -151,7 +145,6 @@
           matInput
           type='text'
           mask="separator.0"
-          thousandSeparator=","
           formControlName="numSteps"
         />
         <mat-error *ngIf="form.get('jsonDetails.numSteps')?.invalid">{{numStepsErrorMessage}}</mat-error>
