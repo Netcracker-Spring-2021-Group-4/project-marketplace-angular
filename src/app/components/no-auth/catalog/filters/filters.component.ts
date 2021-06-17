@@ -56,9 +56,8 @@ export class FiltersComponent implements OnInit {
   clearAll(): void{
     this.matRef.options.forEach((data: MatOption) => data.deselect());
     this.productCatalogFilter.reset()
+    this.productCatalogFilter.controls.price.setValue([0, this.properties.maxPrice]);
     this.searchCriteriaEvent.emit(this.productCatalogFilter);
-    this.maxValue=this.properties.maxPrice/100
-
   }
 
   ngOnInit(): void {
