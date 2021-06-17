@@ -1,70 +1,171 @@
-<!--<div-->
-<!--  class="h-100per container d-flex justify-content-center align-items-center"-->
-<!--&gt;-->
-<!--  <form-->
-<!--    [formGroup]="form"-->
-<!--    class="container d-flex justify-content-center flex-column form-width mt-3 mb-3">-->
-<!--    <h1 class="text-center">Sign Up</h1>-->
-<!--    <mat-form-field-->
-<!--      appearance="fill"-->
-<!--      class="name-input mr-auto ml-auto mb-3">-->
-<!--      <mat-label>Email</mat-label>-->
-<!--      <input matInput formControlName="email">-->
-<!--      <mat-error *ngIf="form.get('email')?.invalid">{{emailErrorMessage}}</mat-error>-->
-<!--    </mat-form-field>-->
-<!--    <mat-form-field-->
-<!--      appearance="fill"-->
-<!--      class="name-input mr-auto ml-auto mb-3">-->
-<!--      <mat-label>Password</mat-label>-->
-<!--      <input type="password" matInput formControlName="plainPassword">-->
-<!--      <mat-error *ngIf="form.get('plainPassword')?.invalid">{{passwordErrorMessage}}</mat-error>-->
-<!--    </mat-form-field>-->
-<!--    <mat-form-field-->
-<!--      appearance="fill"-->
-<!--      class="name-input mr-auto ml-auto mb-3">-->
-<!--      <mat-label>First name</mat-label>-->
-<!--      <input matInput formControlName="firstName">-->
-<!--      <mat-error *ngIf="form.get('firstName')?.invalid">{{firstNameErrorMessage}}</mat-error>-->
-<!--    </mat-form-field>-->
-<!--    <mat-form-field-->
-<!--      appearance="fill"-->
-<!--      class="name-input mr-auto ml-auto mb-3">-->
-<!--      <mat-label>Last name</mat-label>-->
-<!--      <input matInput formControlName="lastName">-->
-<!--      <mat-error *ngIf="form.get('lastName')?.invalid">{{lastNameErrorMessage}}</mat-error>-->
-<!--    </mat-form-field>-->
-<!--    <mat-form-field-->
-<!--      appearance="outline"-->
-<!--      class="name-input mr-auto ml-auto mb-3">-->
-<!--      <mat-label>Phone number</mat-label>-->
-<!--      <input type="text" matInput-->
-<!--             mask="(000) 000 00 00"-->
-<!--             prefix="+38"-->
-<!--             [clearIfNotMatch]="true"-->
-<!--             formControlName="phoneNumber"-->
-<!--      >-->
-<!--      <mat-error *ngIf="form.get('phoneNumber')?.invalid">{{phoneNumberErrorMessage}}</mat-error>-->
-<!--    </mat-form-field>-->
-<!--    <button-->
-<!--      mat-raised-button color="accent"-->
-<!--      [disabled]="form.invalid || isLoading"-->
-<!--      class="name-input mr-auto ml-auto"-->
-<!--      (click)="submit()"-->
-<!--    >-->
-<!--      sign up-->
-<!--    </button>-->
-<!--    <div-->
-<!--      *ngIf="isLoading"-->
-<!--      class="d-flex justify-content-center mt-2"-->
-<!--    >-->
-<!--      <mat-spinner-->
-<!--        class="mr-auto"-->
-<!--        [diameter]="36"-->
-<!--      ></mat-spinner>-->
-<!--    </div>-->
-<!--  </form>-->
-<!--</div>-->
-
-<div class="ngx-timepicker-field-example">
-  <ngx-timepicker-field [format]="24" [defaultTime]="'03:00'"></ngx-timepicker-field>
+<div
+  class="h-100per container d-flex justify-content-center align-items-center"
+>
+  <form
+    [formGroup]="form"
+    class="container d-flex justify-content-center flex-column form-width mt-3 mb-3">
+    <h1 class="text-center">Create Auction</h1>
+    <mat-form-field
+      class=""
+      appearance="fill"
+    >
+      <mat-label>Auction starts at (date)</mat-label>
+      <input matInput [min]="minDate" [matDatepicker]="picker" formControlName="startsAtDate">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <div class="ngx-timepicker-field-example mb-3">
+      <ngx-timepicker-field
+        [format]="24"
+        [defaultTime]="'03:00'"
+        formControlName="startsAtTime"
+      >
+      </ngx-timepicker-field>
+      <mat-error
+        class="mt-2 mb-2"
+        *ngIf="form.get('startsAtDate')!.dirty && form.errors?.dateTimeInPast"
+      >
+        {{dateTimeInPastErrorMessage}}
+      </mat-error>
+    </div>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mb-3">
+      <mat-label>Price $</mat-label>
+      <input
+        matInput
+        type='text'
+        mask="separator.2"
+        thousandSeparator=","
+        formControlName="startPriceDollars"
+      />
+      <mat-error *ngIf="form.get('startPriceDollars')?.invalid">{{priceErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      class="name-input mb-3">
+      <mat-label>Quantity</mat-label>
+      <input
+        matInput
+        type='text'
+        mask="separator.0"
+        thousandSeparator=","
+        formControlName="productQuantity"
+      />
+      <mat-error *ngIf="form.get('productQuantity')?.invalid">{{quantityErrorMessage}}</mat-error>
+    </mat-form-field>
+      <mat-form-field
+      appearance="fill"
+      class="name-input mb-3">
+      <mat-label>Product id</mat-label>
+      <input matInput formControlName="productId">
+      <mat-error *ngIf="form.get('productId')?.invalid">{{idErrorMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      class="mb-3"
+      appearance="outline"
+      *ngIf="auctionTypesList"
+    >
+      <mat-label>Type of auction</mat-label>
+      <mat-select
+        (selectionChange)="changeTypeOfAuction($event)"
+        formControlName="typeId"
+      >
+        <mat-option
+          *ngFor="let type of auctionTypesList"
+          [value]="type.typeId"
+        >
+          {{type.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div
+      *ngIf="isTypeSelected"
+      formGroupName="jsonDetails"
+      class="d-flex flex-column align-items-center"
+    >
+      <mat-form-field
+        *ngIf="isAscendingTypeSelected"
+        appearance="fill"
+        class="name-input mb-3 w-100">
+        <mat-label>Time to bid (seconds)</mat-label>
+        <input
+          matInput
+          type='text'
+          mask="separator.0"
+          thousandSeparator=","
+          formControlName="timeToBid"
+        />
+        <mat-error
+          *ngIf="form.get('jsonDetails.timeToBid')?.invalid"
+        >{{timeToBidErrorMessage}}</mat-error>
+      </mat-form-field>
+      <mat-form-field
+        *ngIf="isAscendingTypeSelected"
+        appearance="fill"
+        class="name-input mb-3 w-100">
+        <mat-label>Minimum rise $</mat-label>
+        <input
+          matInput
+          type='text'
+          mask="separator.2"
+          thousandSeparator=","
+          formControlName="minRiseDollars"
+        />
+        <mat-error *ngIf="form.get('jsonDetails.minRiseDollars')?.invalid">{{minRiseErrorMessage}}</mat-error>
+      </mat-form-field>
+      <mat-form-field
+        *ngIf="!isAscendingTypeSelected"
+        appearance="fill"
+        class="name-input mb-3 w-100">
+        <mat-label>Lowering step $</mat-label>
+        <input
+          matInput
+          type='text'
+          mask="separator.2"
+          thousandSeparator=","
+          formControlName="loweringStepDollars"
+        />
+        <mat-error *ngIf="form.get('jsonDetails.loweringStepDollars')?.invalid">{{loweringStepErrorMessage}}</mat-error>
+      </mat-form-field>
+      <mat-form-field
+        *ngIf="!isAscendingTypeSelected"
+        appearance="fill"
+        class="name-input mb-3 w-100">
+        <mat-label>Step period (seconds)</mat-label>
+        <input
+          matInput
+          type='text'
+          mask="separator.0"
+          thousandSeparator=","
+          formControlName="stepPeriod"
+        />
+        <mat-error *ngIf="form.get('jsonDetails.stepPeriod')?.invalid">{{stepPeriodErrorMessage}}</mat-error>
+      </mat-form-field>
+      <mat-form-field
+        *ngIf="!isAscendingTypeSelected"
+        appearance="fill"
+        class="name-input mb-3 w-100">
+        <mat-label>Number of steps</mat-label>
+        <input
+          matInput
+          type='text'
+          mask="separator.0"
+          thousandSeparator=","
+          formControlName="numSteps"
+        />
+        <mat-error *ngIf="form.get('jsonDetails.numSteps')?.invalid">{{numStepsErrorMessage}}</mat-error>
+      </mat-form-field>
+    </div>
+    <button
+      mat-raised-button color="accent"
+      class="name-input"
+      (click)="submit()"
+      [disabled]="form.invalid || isLoading"
+    >
+      create auction
+    </button>
+  </form>
 </div>
+
+<app-cover-loading *ngIf="isLoading"></app-cover-loading>

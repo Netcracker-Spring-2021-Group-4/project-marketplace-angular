@@ -6,6 +6,7 @@ import {
 } from "@angular/forms";
 import {Injectable} from "@angular/core";
 import {isValidUUID} from "../../../shared/helpers/util-functions.helper";
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,18 +22,18 @@ export class AuctionFormService {
     : FormGroup {
     return this.formBuilder.group({
       startsAtDate: [null, [Validators.required]],
-      startsAtTime: [null, [Validators.required]],
+      startsAtTime: ['03:00', [Validators.required]],
       startPriceDollars: [null, [Validators.required, Validators.min(100)]],
       productQuantity: [null, [Validators.required, Validators.min(3)]],
       productId: [null, [Validators.required, UUIDValidator]],
       typeId: [null, [Validators.required, Validators.min(1)]],
-    });
+    }, {validators: [dateTimeValidator]});
   }
 
   public descendingJsonDetails()
     : FormGroup {
     return this.formBuilder.group({
-      loweringStep: [null, [Validators.required, Validators.min(5)]],
+      loweringStepDollars: [null, [Validators.required, Validators.min(0.05)]],
       stepPeriod: [null, [Validators.required, Validators.min(60)]],
       numSteps: [null, [Validators.required, Validators.min(1)]],
     })
@@ -52,6 +53,19 @@ export class AuctionFormService {
 }
 
 const UUIDValidator :ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  const id = control.get('productId')?.value
+  const id = control.value
   return isValidUUID(id) ? null : {UUIDInvalid: true};
+}
+
+const dateTimeValidator :ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const date = control.get('startsAtDate')!.value
+  const time = control.get('startsAtTime')!.value
+  const dateWTime = addTimeToDate(date, time)
+
+  return dateWTime > new Date() ? null : {dateTimeInPast: true};
+}
+
+export const addTimeToDate = (date: Date, time: string): Date => {
+  const [hours, minutes] = time.split(':')
+  return moment(date).add(hours, "hours").add(minutes, 'minutes').toDate()
 }
