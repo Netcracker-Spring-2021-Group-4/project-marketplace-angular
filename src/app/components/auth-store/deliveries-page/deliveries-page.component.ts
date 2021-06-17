@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import {CourierApiService} from "../../../api-services/courier-http.service";
 import {DeliveryModel} from "../../../shared/models/api/receive/delivery.model";
-import {DatePipe, Time} from '@angular/common';
 import {OrderService} from "../../../services/order.service";
 import {OrderStatus} from "../../../shared/models/enums/order-status";
+import {catchError} from "rxjs/operators";
+import {ToasterCustomService} from "../../../services/toaster-custom.service";
 
 
 @Component({
@@ -15,7 +16,7 @@ import {OrderStatus} from "../../../shared/models/enums/order-status";
 export class DeliveriesPageComponent implements OnInit {
   dateStart:Date
   deliveries: DeliveryModel[];
-  displayedColumns: string[] = ['time', 'phoneNumber', 'name', 'address','status','open'];
+  displayedColumns: string[] = ['time', 'phoneNumber', 'name', 'address','status','open', 'show'];
 
   myFilter = (d: Date | null): boolean => {
     const date = (d || new Date());
@@ -29,7 +30,6 @@ export class DeliveriesPageComponent implements OnInit {
       this.courierService.getDeliveries(event.value)
         .subscribe(deliveryModels => {
           this.deliveries = deliveryModels;
-          console.log(deliveryModels)
         });
     }
 
@@ -38,7 +38,7 @@ export class DeliveriesPageComponent implements OnInit {
 
   }
 
-  constructor(private courierService:CourierApiService, private orderService:OrderService) {
+  constructor(private courierService:CourierApiService, private toaster:ToasterCustomService) {
     this.dateStart=new Date();
   }
 
@@ -46,24 +46,22 @@ export class DeliveriesPageComponent implements OnInit {
     this.courierService.getDeliveries(new Date())
       .subscribe(deliveryModels => {
         this.deliveries=deliveryModels;
-        console.log(deliveryModels)
       });
   }
 
 
-  private prettyDate2(time:string){
-    var date = new Date(parseInt(time));
-    var localeSpecificTime = date.toLocaleTimeString();
-    return localeSpecificTime.replace(/:\d+ /, ' ');
+
+  changeStatus(id:string, status:string) {
+
+
+    this.courierService.changeStatus(status,id).pipe(
+      catchError<any, any>(error => {
+        this.toaster.errorNotification(error?.message ?? 'Could not cancel change state of the order.')
+      })
+    ).subscribe(()=>{
+      this.ngOnInit();
+    });
   }
 
-  changeStatusCancel(id:string) {
-    this.orderService.updateOrderState(id,OrderStatus.CANCELLED)
-  }
 
-
-  changeStatusDeliver(id:string) {
-    this.orderService.updateOrderState(id,OrderStatus.DELIVERED)
-
-  }
 }

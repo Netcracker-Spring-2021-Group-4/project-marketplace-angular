@@ -22,7 +22,8 @@
 
     <ng-container matColumnDef="time">
       <th mat-header-cell *matHeaderCellDef> Timeslot: </th>
-      <td mat-cell *matCellDef="let element">  <a href="/order-details/{{element.orderId}}"> {{element.timeStart.toString().substr(0,5)}}-{{element.timeEnd.toString().substr(0,5)}} </a></td>
+      <td mat-cell *matCellDef="let element">   {{element.timeStart.toString().substr(0,5)}}-{{element.timeEnd.toString().substr(0,5)}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="phoneNumber">
@@ -37,7 +38,11 @@
 
     <ng-container matColumnDef="address">
       <th mat-header-cell *matHeaderCellDef> Address: </th>
-      <td mat-cell *matCellDef="let element"> {{element.city}}, {{element.street}} {{element.building}} ap.{{element.flat}} </td>
+      <td mat-cell *matCellDef="let element">
+        <p *ngIf="element.flat">{{element.city}}, {{element.street}} {{element.building}}
+          ap.{{element.flat}}</p>
+        <p *ngIf="element.flat==0">{{element.city}}, {{element.street}} {{element.building}}</p>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="status">
@@ -54,16 +59,28 @@
       <td mat-cell *matCellDef="let element" class="button-row" >
         <button mat-raised-button color="primary" class="button-row"
                 *ngIf="element.statusName=='IN_DELIVERY' "
-                (click)="changeStatusDeliver(element.orderId)"
+                (click)="changeStatus(element.orderId, 'DELIVERED')"
         >Delivered</button>
+        <button mat-raised-button color="accent" class="button-row"
+                *ngIf="element.statusName=='IN_DELIVERY' "
+                (click)="changeStatus(element.orderId,'CANCELLED')"
+        >Cancelled</button>
         <button mat-raised-button color="warn"
                 *ngIf="element.statusName=='IN_DELIVERY' "
-                (click)="changeStatusCancel(element.orderId)"
-        >Canceled</button>
+                (click)="changeStatus(element.orderId,'FAILED')"
+        >Failed</button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="show" >
+      <th mat-header-cell *matHeaderCellDef>  </th>
+      <td mat-cell *matCellDef="let element" class="button-row" >
+        <a mat-raised-button color="link" href="/order-details/{{element.orderId}}"> Show more</a>
       </td>
 
-
     </ng-container>
+
+
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

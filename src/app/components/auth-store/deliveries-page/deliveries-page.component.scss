@@ -25,8 +25,8 @@ background-color: #4da79f;
   color: white;
   border-radius: 15px;
 }
-.canceled{
-  background-color: coral;
+.cancelled{
+  background-color: deeppink;
   color: white;
   border-radius: 15px;
 }
@@ -40,12 +40,7 @@ background-color: #4da79f;
   color: white;
   border-radius: 15px;
 }
-.button-row{
-  display: table-cell;
-  margin-right: 15px;
-  margin-left: 25px;
 
-}
 
 .table-outer {
   overflow-x: auto;
@@ -55,6 +50,10 @@ mat-cell,
 .mat-cell,
 mat-footer-cell,
 .mat-footer-cell,
-mat-header-cell .mat-header-cell {
+mat-header-cell, .mat-header-cell{
   padding: 0.75rem !important;
+}
+
+.button-row{
+  margin-right: 5px;
 }
