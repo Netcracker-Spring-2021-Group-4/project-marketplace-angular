@@ -13,5 +13,8 @@ export const ValidationMessages = {
   file: "The file extension should be only '.png', should be less than 1Mb and 512x512 px",
   offeredPrice: "The offered price must be greater than 0",
   required: "The field can not be empty",
-  time: "Еhe field must be filled in the format: 'HH:MM:SS'"
+  time: "Еhe field must be filled in the format: 'HH:MM:SS'",
+  expansion: "Picture expansion should only be 'png'",
+  weight: "Picture resolution can only be 512 px by 512 px",
+  resolution: "The file must not weigh more than 1 MB"
 }

@@ -4,18 +4,18 @@
        *ngIf="!isLoading && discounts.length !== 0">
 
   <ng-container matColumnDef="offered price">
-    <th mat-header-cell *matHeaderCellDef>Offered price</th>
+    <th mat-header-cell *matHeaderCellDef>Offered price $</th>
     <td mat-cell *matCellDef="let discount"> {{discount.offeredPrice | customCurrency}} </td>
   </ng-container>
 
   <ng-container matColumnDef="starts at">
     <th mat-header-cell *matHeaderCellDef>Starts at</th>
-    <td mat-cell *matCellDef="let discount"> {{discount.startsAt | date:'d, MMMM, y, hh:mm:ss': '+2400'}} </td>
+    <td mat-cell *matCellDef="let discount"> {{discount.startsAt | date:'medium'}} </td>
   </ng-container>
 
   <ng-container matColumnDef="ends at">
     <th mat-header-cell *matHeaderCellDef>Ends at</th>
-    <td mat-cell *matCellDef="let discount"> {{discount.endsAt | date:'d, MMMM, y, hh:mm:ss': '+2400'}}
+    <td mat-cell *matCellDef="let discount"> {{discount.endsAt | date:'medium'}}
     </td>
   </ng-container>
 
@@ -33,13 +33,13 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-
+<div class="wrap">
+  <div>
 <form [formGroup]="discountForm"
       (ngSubmit)="submit(discountForm.value, formDirective)"
       #formDirective="ngForm"
 >
-
-  <p class="add">Add another discount</p>
+  <p class="add">Add discount</p>
   <mat-form-field appearance="fill" class="name-input mr-auto ml-auto mb-3">
     <mat-label>Date range</mat-label>
     <mat-date-range-input [rangePicker]="picker" disabled="true" [min]="minDate">
@@ -47,7 +47,7 @@
       <input matEndDate placeholder="End date" formControlName="endsAt">
     </mat-date-range-input>
     <mat-datepicker-toggle matSuffix [for]="picker" disabled="false"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker disabled="false" touchUi></mat-date-range-picker>
+    <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
   </mat-form-field>
 
   <div class="date-pick">
@@ -57,13 +57,12 @@
         <div class="mask">
           <input matInput mask="Hh:m0:s0"
                  formControlName="timeStart"
-                 (input)="fetchStart($event)"
+                 (input)="fetchStart()"
                  autocomplete="off"
           />
         </div>
         <mat-error *ngIf="discountForm.get('timeStart')?.invalid" class="mb-5">{{timeErrorMessage}}</mat-error>
       </mat-form-field>
-
 
     </div>
     <mat-form-field color="accent" appearance="fill" class="mb-3">
@@ -72,7 +71,7 @@
         matInput mask="Hh:m0:s0"
         class="mask"
         formControlName="timeEnd"
-        (input)="fetchEnd($event)"
+        (input)="fetchEnd()"
         autocomplete="off"
       />
       <mat-error *ngIf="discountForm.get('timeEnd')?.invalid" class="mb-5">{{timeErrorMessage}}</mat-error>
@@ -80,13 +79,12 @@
 
   </div>
   <mat-form-field class="example-form-field mb-5">
-    <mat-label>Offered price</mat-label>
+    <mat-label>Offered price $</mat-label>
     <input matInput
-           min="0"
-           type="number"
-           autocomplete="off"
+           type="text"
+           mask="separator.2"
            formControlName="offeredPrice"
-           class="text-lg-center"
+           autocomplete="off"
     >
     <mat-error *ngIf="discountForm.get('offeredPrice')?.invalid" class="mb-5">
       {{offeredPriceErrorMessage}}
@@ -94,18 +92,37 @@
 
   </mat-form-field>
   <br>
-  <button class="me-lg-5 back"
+  <div class="butt">
+  <button class="go-back"
           mat-raised-button color="primary"
           [routerLink]="['../']"
           type="button"
   >
     Go Back
   </button>
-  <button class="me-5"
+  <button class=" create"
           mat-raised-button color="primary"
           type="submit"
           [disabled]="discountForm.invalid || discountForm.untouched || isIncorrectTime"
   >
     Create
   </button>
+  </div>
 </form>
+  </div>
+  <div *ngIf="product$ | async as product">
+    <div class="cont">
+     <img mat-card-image
+           src="{{product.imageUrl}}"
+           alt="Photo"
+           *ngIf="!isLoading || product.imageUrl"
+      >
+      <p>{{product.name}}</p>
+      <p>Price: {{product.price | customCurrency}}</p>
+    </div>
+  </div>
+</div>
+
+
+
+

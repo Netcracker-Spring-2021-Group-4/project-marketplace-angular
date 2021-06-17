@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {Discount} from "../../../shared/models/api/receive/discount";
@@ -12,6 +12,8 @@ import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {CartItemModel} from "../../../shared/models/api/send/cart-item.model";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {PublicApiService} from "../../../api-services/public-http.service";
+import {Observable} from "rxjs";
+import {isValidUUID} from "../../../shared/helpers/util-functions.helper";
 
 @Component({
   selector: 'app-product-page',
@@ -22,9 +24,9 @@ export class ProductPageComponent implements OnInit {
 
   currentValue: number;
   product: ProductInfo;
-  discount: Discount;
-  role: UserRole;
-  categoryName: string;
+  discount$: Observable<Discount>;
+  role$: Observable<UserRole>;
+  categoryName$: Observable<string>;
   isLoading = false;
 
   constructor(private productService: ProductsHttpService,
@@ -34,49 +36,39 @@ export class ProductPageComponent implements OnInit {
               private roleService: RoleService,
               private cartManager: CartManagementService,
               private toaster: ToasterCustomService,
+              private router: Router
   ) {
+
   }
 
   ngOnInit(): void {
-    this.isLoading = true;
-    this.roleService.currentRole$.subscribe(
-      data => {
-        this.role = data;
-      });
     const productId = this.route.snapshot.paramMap.get('productId');
+    this.isLoading = true;
+    this.role$ = this.roleService.currentRole$
+
     this.productService.getProduct(productId).pipe(finalize(() => {
       this.isLoading = false
     })).subscribe(
       data => {
         this.product = data;
       });
-    this.discountsService.getActiveDiscount(productId).subscribe(
-      data => {
-        this.discount = data;
-      });
-    this.publicApiService.getCategoryName(productId).subscribe(
-      data => {
-        this.categoryName = (data);
-      });
-
+    this.discount$ = this.discountsService.getActiveDiscount(productId)
+    this.categoryName$ = this.publicApiService.getCategoryName(productId)
   }
 
-  public OnInput(event: any) {
+  public onInput(event: any) {
     this.currentValue = event.target.value;
   }
 
   addToCart(id: string) {
     if (this.product.inStock == 0)
-      this.outOfStockNotify()
+      this.toaster.errorNotification(Labels.cart.outOfStock)
     else
-      this.cartManager.addToCart(new CartItemModel({quantity:this.currentValue, productId:id}));
-  }
-
-  private outOfStockNotify() {
-    this.toaster.errorNotification(Labels.cart.outOfStock)
+      this.cartManager.addToCart(new CartItemModel({quantity: this.currentValue, productId: id}));
   }
 
   // addToCompare(id: string) {
   //   this.compareService.addToList(id);
   // }
+
 }

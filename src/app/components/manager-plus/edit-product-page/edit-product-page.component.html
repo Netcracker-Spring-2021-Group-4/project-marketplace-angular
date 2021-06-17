@@ -1,24 +1,27 @@
-<div class="h-100per container d-flex justify-content-center align-items-center">
+<div class="h-100per container-xl d-flex justify-content-center align-items-center">
 
   <form [formGroup]="editForm"
         (ngSubmit)="submit(editForm.value)"
-        class="container d-flex justify-content-center flex-column form-width mt-3 mb-3"
+        class="container d-flex justify-content-center flex-column mt-3 mb-3"
   >
     <img mat-card-image
-         [src]=product.imageUrl
+         src="{{product.imageUrl}}"
          alt="Photo"
-         *ngIf="!isLoading || product.imageUrl !== null || product.imageUrl !== undefined"
+         *ngIf="!isLoading || product.imageUrl"
          class=""
     >
     <input type="file"
            name="file"
            (change)="onFileSelected($event)"
+           (load)="onFileSelected($event)"
            formControlName="file"
            class="custom"
     >
     <p *ngIf="success && this.editForm.pristine" class="fs-6 take text-dark"> It may take a while for the picture to update. </p>
-    <mat-error *ngIf="isNotPng">{{fileErrorMessage}}</mat-error>
-    <mat-error *ngIf="isHeavier">{{fileErrorMessage}}</mat-error>
+    <mat-error *ngIf="isNotPng">{{fileExpansionErrorMessage}}</mat-error>
+    <mat-error *ngIf="isHeavier">{{fileWeightErrorMessage}}</mat-error>
+    <mat-error *ngIf="isWrongResolution">{{fileResolutionErrorMessage}}</mat-error>
+
 
 <mat-form-field
   appearance="fill"
@@ -38,11 +41,11 @@
 <mat-form-field
   appearance="fill"
   class="name-input mr-auto ml-auto mb-3">
-  <mat-label>Price in $</mat-label>
+  <mat-label>Price $</mat-label>
   <input matInput
+         type="text"
+         mask="separator.2"
          formControlName="price"
-         step="1"
-         type="number" min="0"
          autocomplete="off"
   >
   <mat-error *ngIf="editForm.get('price')?.invalid">{{priceErrorMessage}}</mat-error>
@@ -50,20 +53,15 @@
 
 <mat-form-field
   appearance="fill"
-  class="name-input mr-auto ml-auto mb-3">
+  class="name-input mr-auto ml-auto mb-2">
   <mat-label>In Stock</mat-label>
   <input matInput formControlName="inStock" type="number" min="0" autocomplete="off">
   <mat-error *ngIf="editForm.get('inStock')?.invalid">{{quantityErrorMessage}}</mat-error>
 </mat-form-field>
 
-<mat-form-field
-  appearance="fill"
-  class="name-input mr-auto ml-auto mb-3">
-  <mat-label>Reserved (you can't change this field) </mat-label>
-  <input matInput formControlName="reserved" type="number" autocomplete="off" readonly>
-  <mat-error *ngIf="editForm.get('reserved')?.invalid">{{quantityErrorMessage}}</mat-error>
-</mat-form-field>
-
+  <p class="name-input mr-auto ml-auto mb-3 fs-6">
+    Reserved: {{product.reserved}}
+  </p>
 
 <mat-form-field appearance="fill">
   <mat-label>Choose another category</mat-label>
@@ -80,7 +78,7 @@
       class="mt-2 mb-2 disc"
       [routerLink]="['./discounts']"
       type="button" >
-                Discounts information
+    Discounts information
     </button>
 
 <mat-slide-toggle
@@ -105,7 +103,7 @@
 
   <button
     mat-raised-button color="accent"
-    [disabled]="isNotPng || isHeavier
+    [disabled]="isNotPng || isHeavier || isWrongResolution
                 || editForm.pristine && !isChange
                 || editForm.untouched && !isChange
                 || editForm.invalid"
@@ -116,6 +114,5 @@
   </button>
 </div>
 </form>
+
 </div>
-
-

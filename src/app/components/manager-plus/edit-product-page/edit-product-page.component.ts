@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ProductInfo} from "../../../shared/models/api/receive/productInfo";
 import {ActivatedRoute} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
@@ -30,14 +30,17 @@ export class EditProductPageComponent implements OnInit {
   myProductId: string | null;
   selectedFile: File;
   success: boolean = false;
-  productNameErrorMessage = ValidationMessages.productName
-  quantityErrorMessage = ValidationMessages.quantity
-  priceErrorMessage = ValidationMessages.price
-  fileErrorMessage = ValidationMessages.file
-  descriptionErrorMessage = ValidationMessages.required
+  productNameErrorMessage = ValidationMessages.productName;
+  quantityErrorMessage = ValidationMessages.quantity;
+  priceErrorMessage = ValidationMessages.price;
+  descriptionErrorMessage = ValidationMessages.required;
+  fileExpansionErrorMessage = ValidationMessages.expansion;
+  fileWeightErrorMessage = ValidationMessages.weight;
+  fileResolutionErrorMessage = ValidationMessages.resolution;
   isHeavier: boolean = false;
   isChange: boolean = false;
   isNotPng: boolean = false;
+  isWrongResolution: boolean = false;
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
@@ -71,12 +74,29 @@ export class EditProductPageComponent implements OnInit {
   }
 
   public onFileSelected($event: any) {
+    let ff = this;
     this.selectedFile = $event.target.files[0];
     if (this.selectedFile) {
       this.isChange = true
     }
     this.isNotPng = (this.selectedFile.type != 'image/png');
     this.isHeavier = (this.selectedFile.size >= 1000000);
+    const reader = new FileReader();
+    reader.readAsDataURL(this.selectedFile)
+    reader.onload = function ($event): any{
+      const img = new Image();
+      // @ts-ignore
+      img.src = <string>$event.target.result
+
+      img.onload = function () {
+       if(img.height != 512 && img.width != 512){
+          ff.isWrongResolution = true;
+       }
+        console.log()
+      }
+    }
+
+
   }
 
   public pictureForm(): FormGroup {
@@ -132,7 +152,6 @@ export class EditProductPageComponent implements OnInit {
     }
      this.editForm.markAsUntouched();
     this.isChange = false;
-
   }
 }
 

@@ -1,14 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Discount} from "../../../../shared/models/api/receive/discount";
 import {ActivatedRoute} from "@angular/router";
 import {MatTableDataSource} from "@angular/material/table";
-import {DiscountModel} from "../../../../shared/models/api/send/discount-model";
 import {FormBuilder, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {ValidationMessages} from "../../../../shared/models/labels/validation.message";
 import {finalize} from "rxjs/operators";
 import {DiscountsHttpService} from "../../../../api-services/discounts-http.service";
 import Labels from "../../../../shared/models/labels/labels.constant";
 import {ToasterCustomService} from "../../../../services/toaster-custom.service";
+import {ProductsHttpService} from "../../../../api-services/products-http.service";
+import {ProductInfo} from "../../../../shared/models/api/receive/productInfo";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-discount-page',
@@ -18,6 +20,7 @@ import {ToasterCustomService} from "../../../../services/toaster-custom.service"
 })
 export class DiscountPageComponent implements OnInit {
 
+  product$: Observable<ProductInfo>;
   myProductId: string | null;
   discountsDatasource: any;
   discounts: Discount[] = [];
@@ -28,29 +31,30 @@ export class DiscountPageComponent implements OnInit {
   today = new Date();
   minDate: Date = new Date();
   isIncorrectTime: boolean = false;
-  newDate: any;
   offeredPriceErrorMessage = ValidationMessages.offeredPrice;
-  requiredErrorMessage = ValidationMessages.required;
   timeErrorMessage = ValidationMessages.time;
-  firstInputTime: any;
-  secondInputTime: any;
+  firstInputTime: string;
+  secondInputTime: string;
 
   constructor(
     private discountService: DiscountsHttpService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private toaster: ToasterCustomService
-  ) {
-
-  }
+    private toaster: ToasterCustomService,
+    private productService: ProductsHttpService
+  ) {}
 
   ngOnInit(): void {
+    this.myProductId = this.route.snapshot.paramMap.get('productId');
+    this.product$ = this.productService.getProduct(this.myProductId).pipe(finalize(() => {
+      this.isLoading = false;
+    }))
     this.minDate.setDate(this.today.getDate() + 1);
     this.minDate.setHours(0,0,0)
-    this.isLoading = true;
     this.discountForm = this.createDiscountForm();
     this.myProductId = this.route.snapshot.paramMap.get('productId');
     this.getUnexpiredDiscounts(this.myProductId);
+
   }
 
   public createDiscountForm(): FormGroup {
@@ -84,29 +88,25 @@ export class DiscountPageComponent implements OnInit {
       })
   }
 
-  public fetchStart(event: any) {
+  public fetchStart() {
     this.firstInputTime = this.discountForm.get('timeStart')?.value.match(/.{1,2}/g).join(':');
   }
 
-  public fetchEnd(event: any) {
+  public fetchEnd() {
     this.secondInputTime = this.discountForm.get('timeEnd')?.value.match(/.{1,2}/g).join(':');
   }
 
   public submit(discountData: any, formDirective: FormGroupDirective) {
-    const res = /21:00:00/gi;
-    const firstString = JSON
-      .parse(JSON
-        .stringify(this.discountForm.get('startsAt')?.value)
-        .replace(res, this.firstInputTime));
-    const secondString = JSON
-      .parse(JSON
-        .stringify(this.discountForm.get('endsAt')?.value)
+    const res = /00:00:00/gi;
+    const firstString = new Date(new Date(this.discountForm.get('startsAt')?.value).toString()
+    .replace(res, this.firstInputTime))
+    const secondString = new Date(new Date(this.discountForm.get('endsAt')?.value).toString()
         .replace(res, this.secondInputTime));
         discountData.startsAt = firstString;
         discountData.endsAt = secondString;
         discountData.offeredPrice = discountData.offeredPrice * 100;
     this.discountService.createDiscount(this.myProductId, discountData).subscribe(
-      (response: DiscountModel) => {
+      () => {
         this.getUnexpiredDiscounts(this.myProductId);
         this.toaster.successfulNotification(Labels.discount.successfulCreationDiscount);
       }, err => {
@@ -118,7 +118,6 @@ export class DiscountPageComponent implements OnInit {
       this.discountForm.markAsUntouched()
     }
   }
-
 }
 
 const offeredPrice = (value?: number) => ([value ?? null, [Validators.required, Validators.min(0)]]);

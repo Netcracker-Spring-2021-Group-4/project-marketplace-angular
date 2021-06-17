@@ -3,15 +3,17 @@
 
   <div class="wrapper">
     <div>
-      <img mat-card-image src={{product.imageUrl}}
+      <img mat-card-image src="{{product.imageUrl}}"
            alt="Photo"
-           *ngIf="!isLoading || product.imageUrl !== null || product.imageUrl !== undefined"
+           *ngIf="!isLoading || product.imageUrl"
       >
     </div>
     <div>
       <p class="name">{{product.name}}</p>
-
-      <p class="pt-3 pb-3">{{categoryName | prettyCategory}}</p>
+      <p class="pt-3 pb-3" *ngIf="categoryName$ | async as categoryName">
+        {{categoryName | prettyCategory}}
+      </p>
+      <div *ngIf="discount$ | async as discount">
       <span class="pt-3 pb-3 fw-normal fs-3">Price: </span>
       <span class="fw-bold fs-2" *ngIf="!discount"> {{product.price | customCurrency}}</span>
       <span class="text-secondary text-decoration-line-through"
@@ -22,43 +24,41 @@
         Hurry up, the discount is valid until
         {{ discount.endsAt | date: 'd, MMMM, y, hh:mm:ss': '+2400'}}
       </p>
-
+      </div>
       <p class="pb-3 pt-3"> {{product.description}} </p>
-
       <p class="pt-2 pb-4"> Available for purchase:
         <span class="fw-bold">{{product.inStock}} </span>
         items
       </p>
-
+      <div *ngIf="role$ | async as role">
       <div *ngIf="role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'">
-
         <span class="pt-3 mb-5"> Amount </span>
         <input type="number"
                step="1"
                value="1"
                min="1"
                max="{{product.inStock}}"
-               (input)="OnInput($event)"
-               (keydown)="OnInput($event)"
+               (input)="onInput($event)"
+               (keydown)="onInput($event)"
         >
       </div>
 
       <div class="buttons">
         <button class="action edit"
                 mat-raised-button color="primary"
-                [disabled]="currentValue > product.inStock || currentValue < 1"
+                [disabled]="currentValue > product.inStock || currentValue < 1 || product.inStock == 0"
                 *ngIf="role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
                 (click)="addToCart(product.productId)"
+
         >
           Add to card
         </button>
 
         <button class="action edit"
                 mat-raised-button color="primary"
-                *ngIf="role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
+                *ngIf="role == 'ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
         >
-          <!--                (click)="addToCompare(product.productId)"-->
-
+<!--               (click)="addToCompare(product.productId)"-->
           Compare
         </button>
       </div>
@@ -71,6 +71,7 @@
         >
           Edit
         </button>
+      </div>
       </div>
       <div class="warn">
         <span class="warning" *ngIf="currentValue > product.inStock">
