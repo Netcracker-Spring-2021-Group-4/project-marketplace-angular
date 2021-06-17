@@ -52,4 +52,8 @@ export class AuthStoreApiService {
   getCart(): Observable<ContentErrorListWrapper<CartInfoResponse>> {
     return this.httpClient.get<ContentErrorListWrapper<CartInfoResponse>>(`${this.AUTH_CUSTOMER_URL}/cart`)
   }
+
+  getAuctionTypes(): Observable<any> {
+    return this.httpClient.get(`${this.AUTH_STORE_URL}/auction/types`)
+  }
 }

@@ -14,6 +14,7 @@ export class ManagerPlusApiService {
   private readonly URL: string;
   private readonly ADMIN_URL: string;
   private readonly ADMIN_STAFF_URL: string;
+  private readonly MANAGER_URL: string;
 
   constructor(
     private httpClient: HttpClient
@@ -21,6 +22,7 @@ export class ManagerPlusApiService {
     this.URL = `${environment.backURL}`
     this.ADMIN_URL = `${this.URL}/api/v1/admin`
     this.ADMIN_STAFF_URL = `${this.ADMIN_URL}/staff`
+    this.MANAGER_URL = `${this.URL}/api/v1/manager`
   }
 
   dummy(): Observable<any> {
@@ -45,5 +47,9 @@ export class ManagerPlusApiService {
 
   changeStafferStatus(body: ChangeStatusModel): Observable<any> {
     return this.httpClient.patch(`${this.ADMIN_STAFF_URL}/change-status`, body)
+  }
+
+  createAuction(body: any): Observable<any> {
+    return this.httpClient.post(`${this.MANAGER_URL}/auction`, body);
   }
 }

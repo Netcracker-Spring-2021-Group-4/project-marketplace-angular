@@ -16,5 +16,14 @@ export const ValidationMessages = {
   endsAt: "Wrong format date",
   required: "The field can not be empty",
   past: "You cannot create a discount for the past tense!",
-  time: "Еhe field must be filled in the format: 'HH:MM:SS'"
+  time: "Еhe field must be filled in the format: 'HH:MM:SS'",
+  id: "Wrong UUID format",
+  minRise: "Minimum bid rise is 5$",
+  loweringStep: "Minimum lowering step is 5 cents",
+  stepPeriod: "Minimum step period is 60 seconds",
+  numSteps: "Minimum number of steps is 1",
+  timeToBid: "Minimum time to bid is 10 seconds",
+  dateTimeInPast: "Your date and time must be in the future",
+  quantityAuction: "Auction must offer more than 3 items of the given product",
+  priceAuction: "Auction must start at price at least 100$"
 }
