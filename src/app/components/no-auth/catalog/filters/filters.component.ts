@@ -1,19 +1,32 @@
-import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges, ViewChild,
+} from '@angular/core';
 import {FormArray,  FormControl, FormGroup} from "@angular/forms";
-import {CatalogPublicHttpService} from "../../../../api-services/catalog-public-http.service";
-import { Options, LabelType } from '@angular-slider/ngx-slider';
+import { LabelType } from '@angular-slider/ngx-slider';
 import {FilterProperties} from "../../../../shared/models/api/receive/filter-props";
-import {MatOptionSelectionChange} from "@angular/material/core";
+import {MatOption, MatOptionSelectionChange} from "@angular/material/core";
+import {MatSelect} from "@angular/material/select";
 
 
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
-  styleUrls: ['./filters.component.scss']
+  styleUrls: ['./filters.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 
 
 export class FiltersComponent implements OnInit {
+
+  @ViewChild('matRef') matRef: MatSelect;
+
 
   @Input() productCatalogFilter: FormGroup;
   @Input() properties: FilterProperties;
@@ -21,7 +34,6 @@ export class FiltersComponent implements OnInit {
 
 
 
-  private productService: CatalogPublicHttpService;
   minValue: number;
   maxValue: number;
 
@@ -36,23 +48,33 @@ export class FiltersComponent implements OnInit {
   };
 
 
-  constructor(productsService: CatalogPublicHttpService) {
-    this.productService = productsService;
-    this.minValue = 0;
+  constructor() {
+
   }
 
+
+  clearAll(): void{
+    this.matRef.options.forEach((data: MatOption) => data.deselect());
+    this.productCatalogFilter.reset()
+    this.searchCriteriaEvent.emit(this.productCatalogFilter);
+    this.maxValue=this.properties.maxPrice/100
+
+  }
 
   ngOnInit(): void {
   }
 
 
   ngOnChanges(changes: SimpleChanges) {
+
     if (changes['properties']) {
       this.properties.categories.forEach(() => this.categoriesFormArray.push(new FormControl(false)));
     }
     if(this.properties.maxPrice>0)
-      this.maxValue=this.properties.maxPrice
+      this.maxValue=this.properties.maxPrice/100
   }
+
+
   onCategorySelect($event: MatOptionSelectionChange, index: number,) {
     if ($event.source.selected)
       (this.categoriesFormArray.controls[index].setValue(true));
@@ -65,7 +87,8 @@ export class FiltersComponent implements OnInit {
   sliderOptions() {
     return {
       floor: 0,
-      ceil: this.properties.maxPrice/100,
+      ceil: (this.properties.maxPrice)/100,
+
       translate: (value: number, label: LabelType): string => {
         switch (label) {
           case LabelType.Low:

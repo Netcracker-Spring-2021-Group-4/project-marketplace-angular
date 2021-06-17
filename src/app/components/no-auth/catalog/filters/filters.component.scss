@@ -19,4 +19,32 @@
   max-width: 500px;
 }
 
+::ng-deep {
+  .custom-slider .ngx-slider .ngx-slider-bar {
+    background: #868DB7;
+    height: 4px;
+  }
+  .custom-slider .ngx-slider .ngx-slider-selection {
+    background: #5656c3;
+  }
+
+  .custom-slider .ngx-slider .ngx-slider-pointer {
+    background-color: #4c4cd7;
+
+  }
+
+
+
+  .custom-slider .ngx-slider .ngx-slider-bubble {
+    bottom: 14px;
+  }
+  .custom-slider{
+    z-index: 0;
+
+  }
+
+
+
+
+}
 

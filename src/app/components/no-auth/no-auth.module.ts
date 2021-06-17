@@ -28,9 +28,6 @@ import {RouterModule} from "@angular/router";
 import { ProductCartOrderCardComponent } from './product-cart-order-card/product-cart-order-card.component';
 import {DragDropModule} from "@angular/cdk/drag-drop";
 
-import {CarouselModule} from 'primeng/carousel';
-import { CarouselComponent } from './catalog/carousel/carousel.component';
-import {IvyCarouselModule} from 'angular-responsive-carousel';
 
 
 
@@ -56,7 +53,6 @@ import {IvyCarouselModule} from 'angular-responsive-carousel';
     CheckoutStepOneComponent,
     CheckoutStepTwoComponent,
     CheckoutStepThreeComponent,
-    CarouselComponent,
     ProductCartOrderCardComponent,
 
   ],
@@ -68,9 +64,8 @@ import {IvyCarouselModule} from 'angular-responsive-carousel';
     NgxMaskModule.forRoot(),
     NgxSliderModule,
     MatPaginatorModule,
-    CarouselModule,
     RouterModule,
-    IvyCarouselModule,
+
     DragDropModule
   ]
 

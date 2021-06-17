@@ -20,7 +20,7 @@ export class CatalogPublicHttpService {
       price: new FormControl(),
       query: new FormControl(""),
       categories: new FormArray([]),
-      sortBy: new FormControl(SortOptionEnum.DATE)
+      sortBy: new FormControl()
     });
   }
 

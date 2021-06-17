@@ -2,8 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import {CourierApiService} from "../../../api-services/courier-http.service";
 import {DeliveryModel} from "../../../shared/models/api/receive/delivery.model";
-import {OrderService} from "../../../services/order.service";
-import {OrderStatus} from "../../../shared/models/enums/order-status";
 import {catchError} from "rxjs/operators";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 
@@ -52,7 +50,6 @@ export class DeliveriesPageComponent implements OnInit {
 
 
   changeStatus(id:string, status:string) {
-
 
     this.courierService.changeStatus(status,id).pipe(
       catchError<any, any>(error => {
