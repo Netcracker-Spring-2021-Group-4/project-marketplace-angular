@@ -1,7 +1,7 @@
 .container {
   max-width: 1000px;
   font-size: 20px;
-  margin: 150px auto 100px auto;
+  margin: 110px auto 0 auto;
 }
 
 .wrapper {
@@ -11,7 +11,7 @@
 .name {
   font-weight: bold;
   font-size: 36px;
-  margin-top: 0px;
+  margin-top: 0;
   font-style: italic;
   margin-bottom: 25px;
 }
@@ -33,7 +33,6 @@ img {
   font-size: 30px;
   color: #ff0000;
 }
-
 
 input {
   text-align: center;
@@ -60,7 +59,6 @@ input {
 
 .warn {
   margin-top: 10px;
-  height: 100px;
 }
 
 .warning {
@@ -145,7 +143,9 @@ input {
     display: flex;
     justify-content: space-between;
   }
-
+  .warn{
+    height: 0;
+  }
   .editing {
     margin-top: 15px;
     width: 100%;

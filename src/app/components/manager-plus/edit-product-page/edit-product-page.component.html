@@ -55,7 +55,11 @@
   appearance="fill"
   class="name-input mr-auto ml-auto mb-2">
   <mat-label>In Stock</mat-label>
-  <input matInput formControlName="inStock" type="number" min="0" autocomplete="off">
+  <input matInput
+         formControlName="inStock"
+         type="text"
+         mask="separator.0"
+         autocomplete="off">
   <mat-error *ngIf="editForm.get('inStock')?.invalid">{{quantityErrorMessage}}</mat-error>
 </mat-form-field>
 
@@ -84,7 +88,7 @@
 <mat-slide-toggle
   color="warn"
   [checked]="checked"
-  (change)="patchActivateDeactivateProduct(product.productId)"
+  (change)="activateDeactivateProduct(product.productId)"
   class="mt-3"
 >
   Activate
@@ -100,13 +104,22 @@
 >
   Go back
 </button>
-
   <button
-    mat-raised-button color="accent"
+    mat-raised-button color="warn"
+    type="button"
+    class="bottom-button"
+    (click)="discardChanges()"
+    [disabled]="editForm.pristine"
+  >
+    Discard
+  </button>
+  <button
+    mat-raised-button color="primary"
     [disabled]="isNotPng || isHeavier || isWrongResolution
                 || editForm.pristine && !isChange
                 || editForm.untouched && !isChange
-                || editForm.invalid"
+                || editForm.invalid
+                "
     type="submit"
     class="bottom-button"
   >

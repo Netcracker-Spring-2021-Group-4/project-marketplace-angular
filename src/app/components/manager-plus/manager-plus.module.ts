@@ -41,7 +41,6 @@ import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
         NgxMaskModule.forRoot(),
     ],
     providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'uk'},
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,

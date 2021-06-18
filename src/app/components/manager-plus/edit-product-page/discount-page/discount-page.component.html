@@ -33,96 +33,101 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<div class="wrap">
-  <div>
-<form [formGroup]="discountForm"
-      (ngSubmit)="submit(discountForm.value, formDirective)"
-      #formDirective="ngForm"
->
-  <p class="add">Add discount</p>
-  <mat-form-field appearance="fill" class="name-input mr-auto ml-auto mb-3">
-    <mat-label>Date range</mat-label>
-    <mat-date-range-input [rangePicker]="picker" disabled="true" [min]="minDate">
-      <input matStartDate placeholder="Start date" formControlName="startsAt">
-      <input matEndDate placeholder="End date" formControlName="endsAt">
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker" disabled="false"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
-  </mat-form-field>
+<!--<div class="wrap">-->
 
-  <div class="date-pick">
-    <div class="pick-one">
-      <mat-form-field color="accent" appearance="fill" class="mb-3">
-        <mat-label>Start time (HH:MM:SS)</mat-label>
-        <div class="mask">
-          <input matInput mask="Hh:m0:s0"
-                 formControlName="timeStart"
-                 (input)="fetchStart()"
-                 autocomplete="off"
-          />
+
+<div class="container d-flex justify-content-center flex-column form-width mt-3 mb-3 cont-war">
+  <div class="row">
+
+    <div class="col-sm">
+      <form [formGroup]="discountForm"
+            (ngSubmit)="submit(discountForm.value, formDirective)"
+            #formDirective="ngForm"
+            class="container d-flex justify-content-center flex-column mt-3 mb-3"
+      >
+        <p>Add discount</p>
+
+        <mat-form-field appearance="fill" class="name-input mr-auto ml-auto mb-3">
+          <mat-label>Date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker" disabled="true" [min]="minDate">
+            <input matStartDate placeholder="Start date" formControlName="startsAt">
+            <input matEndDate placeholder="End date" formControlName="endsAt">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker" disabled="false"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+        </mat-form-field>
+
+
+        <div class="ngx-timepicker-field-example mb-3">
+          <ngx-timepicker-field
+            [format]="24"
+            [defaultTime]="'03:00'"
+            formControlName="timeStart"
+          >
+          </ngx-timepicker-field>
+          <mat-error
+            class="mt-2 mb-2"
+            *ngIf="discountForm.get('startsAt')!.dirty && discountForm.errors?.dateTimeInPast"
+          >
+            {{dateTimeInPastErrorMessage}}
+          </mat-error>
         </div>
-        <mat-error *ngIf="discountForm.get('timeStart')?.invalid" class="mb-5">{{timeErrorMessage}}</mat-error>
-      </mat-form-field>
 
+        <div class="ngx-timepicker-field-example mb-3">
+          <ngx-timepicker-field
+            [format]="24"
+            [defaultTime]="'03:00'"
+            formControlName="timeEnd"
+          >
+          </ngx-timepicker-field>
+        </div>
+
+        <mat-form-field class="example-form-field mb-5">
+          <mat-label>Offered price $</mat-label>
+          <input matInput
+                 type="text"
+                 mask="separator.2"
+                 formControlName="offeredPrice"
+                 autocomplete="off"
+          >
+          <mat-error *ngIf="discountForm.get('offeredPrice')?.invalid" class="mb-5">
+            {{offeredPriceErrorMessage}}
+          </mat-error>
+
+        </mat-form-field>
+        <br>
+        <div>
+          <button class=""
+                  mat-raised-button color="primary"
+                  [routerLink]="['../']"
+                  type="button"
+          >
+            Go Back
+          </button>
+          <button class=" create"
+                  mat-raised-button color="primary"
+                  type="submit"
+                  [disabled]="discountForm.invalid || discountForm.untouched || isIncorrectTime"
+          >
+            Create
+          </button>
+        </div>
+      </form>
     </div>
-    <mat-form-field color="accent" appearance="fill" class="mb-3">
-      <mat-label>End time (HH:MM:SS)</mat-label>
-      <input
-        matInput mask="Hh:m0:s0"
-        class="mask"
-        formControlName="timeEnd"
-        (input)="fetchEnd()"
-        autocomplete="off"
-      />
-      <mat-error *ngIf="discountForm.get('timeEnd')?.invalid" class="mb-5">{{timeErrorMessage}}</mat-error>
-    </mat-form-field>
-
-  </div>
-  <mat-form-field class="example-form-field mb-5">
-    <mat-label>Offered price $</mat-label>
-    <input matInput
-           type="text"
-           mask="separator.2"
-           formControlName="offeredPrice"
-           autocomplete="off"
-    >
-    <mat-error *ngIf="discountForm.get('offeredPrice')?.invalid" class="mb-5">
-      {{offeredPriceErrorMessage}}
-    </mat-error>
-
-  </mat-form-field>
-  <br>
-  <div class="butt">
-  <button class="go-back"
-          mat-raised-button color="primary"
-          [routerLink]="['../']"
-          type="button"
-  >
-    Go Back
-  </button>
-  <button class=" create"
-          mat-raised-button color="primary"
-          type="submit"
-          [disabled]="discountForm.invalid || discountForm.untouched || isIncorrectTime"
-  >
-    Create
-  </button>
-  </div>
-</form>
-  </div>
-  <div *ngIf="product$ | async as product">
-    <div class="cont">
-     <img mat-card-image
+    <div *ngIf="product$ | async as product" class="col-sm mt-3 mb-3">
+      <img mat-card-image
            src="{{product.imageUrl}}"
            alt="Photo"
            *ngIf="!isLoading || product.imageUrl"
       >
-      <p>{{product.name}}</p>
-      <p>Price: {{product.price | customCurrency}}</p>
+      <div class="product-info">
+        <p class="fs-5">{{product.name}}</p>
+        <p class="fs-5"> Price: {{product.price | customCurrency}}</p>
+      </div>
     </div>
+
+
   </div>
 </div>
-
-
 
 

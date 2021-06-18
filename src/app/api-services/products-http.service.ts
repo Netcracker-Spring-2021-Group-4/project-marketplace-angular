@@ -19,7 +19,7 @@ export class ProductsHttpService{
     return this.http.get<ProductInfo>(`${this.apiServerUrl}/api/v1/public/products/${productId}`);
   }
 
-  public patchActivateDeactivateProduct(productId: string): Observable<ProductInfo> {
+  public activateDeactivateProduct(productId: string): Observable<ProductInfo> {
     return this.http.patch<ProductInfo>(`${this.apiServerUrl}/api/v1/manager/products/${productId}/activate-deactivate`, {});
   }
 
@@ -30,9 +30,7 @@ export class ProductsHttpService{
   }
 
   public updateProductInfo(productId: string | null, productUpdateModel: ProductUpdateModel): Observable<ProductUpdateModel> {
-
     return this.http.put<ProductUpdateModel>(`${this.apiServerUrl}/api/v1/manager/products/${productId}/edit-info`, productUpdateModel);
-    console.log(productUpdateModel)
   }
 
 }

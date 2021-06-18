@@ -41,7 +41,6 @@ export class EditProductPageComponent implements OnInit {
   isChange: boolean = false;
   isNotPng: boolean = false;
   isWrongResolution: boolean = false;
-
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
               private route: ActivatedRoute,
@@ -74,7 +73,7 @@ export class EditProductPageComponent implements OnInit {
   }
 
   public onFileSelected($event: any) {
-    let ff = this;
+    const global = this;
     this.selectedFile = $event.target.files[0];
     if (this.selectedFile) {
       this.isChange = true
@@ -87,16 +86,12 @@ export class EditProductPageComponent implements OnInit {
       const img = new Image();
       // @ts-ignore
       img.src = <string>$event.target.result
-
       img.onload = function () {
        if(img.height != 512 && img.width != 512){
-          ff.isWrongResolution = true;
+          global.isWrongResolution = true;
        }
-        console.log()
       }
     }
-
-
   }
 
   public pictureForm(): FormGroup {
@@ -109,8 +104,8 @@ export class EditProductPageComponent implements OnInit {
     this.editForm = this.formBuilder.group({
       productName: new FormControl(this.product.name, [Validators.required, Validators.pattern(productNameRegExp)]),
       description: new FormControl(this.product.description, [Validators.required, Validators.min(2)]),
-      inStock: new FormControl(this.product.inStock, [Validators.required, Validators.min(1)]),
-      price: new FormControl(this.product.price/100, [Validators.required, Validators.min(0)]),
+      inStock: new FormControl(this.product.inStock, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
+      price: new FormControl(this.product.price/100, [Validators.required, Validators.min(0), Validators.max(23598)]),
       reserved: new FormControl(this.product.reserved, [Validators.min(0)]),
       categoryId: new FormControl(this.product.categoryId, [Validators.required]),
       file: new FormControl(this.product.imageUrl)
@@ -126,13 +121,17 @@ export class EditProductPageComponent implements OnInit {
     );
   }
 
-  public patchActivateDeactivateProduct(productId: string) {
+  public activateDeactivateProduct(productId: string) {
     this.checked = !this.checked;
-    this.productService.patchActivateDeactivateProduct(productId).subscribe();
+    this.productService.activateDeactivateProduct(productId).subscribe(
+      res =>{
+          this.toaster.successfulNotification(Labels.product.successfulActivateProduct)
+      }
+    );
 
   }
 
-  submit(updateInfo: ProductUpdateModel) {
+  public submit(updateInfo: ProductUpdateModel) {
     if(this.editForm.pristine || this.editForm.dirty) {
       updateInfo.price = updateInfo.price * 100;
       this.productService.updateProductInfo(this.myProductId, updateInfo)
@@ -152,6 +151,10 @@ export class EditProductPageComponent implements OnInit {
     }
      this.editForm.markAsUntouched();
     this.isChange = false;
+  }
+
+  public discardChanges() {
+    this.initForm()
   }
 }
 
