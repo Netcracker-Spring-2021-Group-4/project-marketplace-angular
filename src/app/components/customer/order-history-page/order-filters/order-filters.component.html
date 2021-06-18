@@ -1,33 +1,43 @@
 <form [formGroup]="orderForm" (ngSubmit)="applyFilter()">
-  <div class="d-flex justify-content-around">
-    <mat-form-field appearance="fill">
-      <mat-label>Orders made between</mat-label>
-      <mat-date-range-input [rangePicker]="placedPicker">
-        <input matStartDate formControlName="placedDateStart" placeholder="Start date">
-        <input matEndDate formControlName="placedDateEnd" placeholder="End date">
-      </mat-date-range-input>
-      <mat-datepicker-toggle matSuffix [for]="placedPicker"></mat-datepicker-toggle>
-      <mat-date-range-picker #placedPicker></mat-date-range-picker>
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <mat-form-field appearance="fill">
+          <mat-label>Orders made between</mat-label>
+          <mat-date-range-input [rangePicker]="placedPicker">
+            <input matStartDate formControlName="placedDateStart" placeholder="Start date">
+            <input matEndDate formControlName="placedDateEnd" placeholder="End date">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="placedPicker"></mat-datepicker-toggle>
+          <mat-date-range-picker #placedPicker></mat-date-range-picker>
 
-      <mat-error *ngIf="orderForm.controls.placedDateStart.hasError('matStartDateInvalid')">Invalid start date
-      </mat-error>
-      <mat-error *ngIf="orderForm.controls.placedDateEnd.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-    </mat-form-field>
+          <mat-error *ngIf="orderForm.controls.placedDateStart.hasError('matStartDateInvalid')">Invalid start date
+          </mat-error>
+          <mat-error *ngIf="orderForm.controls.placedDateEnd.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Deliveries assigned between</mat-label>
-      <mat-date-range-input [rangePicker]="deliveryPicker">
-        <input matStartDate formControlName="deliveryDateStart" placeholder="Start date">
-        <input matEndDate formControlName="deliveryDateEnd" placeholder="End date">
-      </mat-date-range-input>
-      <mat-datepicker-toggle matSuffix [for]="deliveryPicker"></mat-datepicker-toggle>
-      <mat-date-range-picker #deliveryPicker></mat-date-range-picker>
+    <div class="row">
+      <div class="col text-center">
+        <mat-form-field appearance="fill">
+          <mat-label>Deliveries assigned between</mat-label>
+          <mat-date-range-input [rangePicker]="deliveryPicker">
+            <input matStartDate formControlName="deliveryDateStart" placeholder="Start date">
+            <input matEndDate formControlName="deliveryDateEnd" placeholder="End date">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="deliveryPicker"></mat-datepicker-toggle>
+          <mat-date-range-picker #deliveryPicker></mat-date-range-picker>
 
-      <mat-error *ngIf="orderForm.controls.deliveryDateStart.hasError('matStartDateInvalid')">Invalid start date
-      </mat-error>
-      <mat-error *ngIf="orderForm.controls.deliveryDateEnd.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-    </mat-form-field>
+          <mat-error *ngIf="orderForm.controls.deliveryDateStart.hasError('matStartDateInvalid')">Invalid start date
+          </mat-error>
+          <mat-error *ngIf="orderForm.controls.deliveryDateEnd.hasError('matEndDateInvalid')">Invalid end date
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
   </div>
+
   <fieldset class="my-3">
     <legend class="text-center">Select target order statuses:</legend>
     <div class="d-flex justify-content-center">
@@ -40,6 +50,6 @@
   </fieldset>
 
   <div class="d-flex justify-content-center my-3">
-    <button mat-raised-button type="submit" class="">Filter</button>
+    <button mat-raised-button type="submit" class="">Apply</button>
   </div>
 </form>
