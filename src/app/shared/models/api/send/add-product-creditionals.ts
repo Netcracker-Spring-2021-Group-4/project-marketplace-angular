@@ -3,7 +3,6 @@ export class AddProductCreditionals {
   description : string
   price : number
   inStock : number
-  reserved : number
   categoryId ?: number
   file: File
 

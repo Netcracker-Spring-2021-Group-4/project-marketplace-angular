@@ -23,27 +23,25 @@
       appearance="fill"
       class="name-input mr-auto ml-auto mb-3">
       <mat-label>Price $</mat-label>
-      <input matInput formControlName="price" type="number"  min="0" autocomplete="off">
+      <input
+        matInput
+        type='text'
+        mask="separator.2"
+        formControlName="price"
+      />
       <mat-error *ngIf="form.get('price')?.invalid">{{priceErrorMessage}}</mat-error>
-    </mat-form-field>
-    <mat-form-field
+    </mat-form-field>    <mat-form-field
       appearance="fill"
       class="name-input mr-auto ml-auto mb-3">
       <mat-label>In Stock</mat-label>
       <input matInput formControlName="inStock" type="number" min="0" autocomplete="off">
       <mat-error *ngIf="form.get('inStock')?.invalid">{{quantityErrorMessage}}</mat-error>
     </mat-form-field>
-    <mat-form-field
-      appearance="fill"
-      class="name-input mr-auto ml-auto mb-3">
-      <mat-label>Reserved</mat-label>
-      <input matInput formControlName="reserved" type="number" min="0" autocomplete="off">
-      <mat-error *ngIf="form.get('reserved')?.invalid">{{quantityErrorMessage}}</mat-error>
-    </mat-form-field>
+
 
 
     <mat-form-field appearance="fill">
-      <mat-label>Choose categories</mat-label>
+      <mat-label>Choose category</mat-label>
       <mat-select (selectionChange)="OnInput($event)" formControlName="categoryId">
         <mat-option *ngFor="let category of categories" [value]="category.categoryId">
           {{category.categoryName| prettyCategory}}
