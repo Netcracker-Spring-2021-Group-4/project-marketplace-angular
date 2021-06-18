@@ -14,6 +14,7 @@ import Labels from "../../../shared/models/labels/labels.constant";
 import {PublicApiService} from "../../../api-services/public-http.service";
 import {Observable} from "rxjs";
 import {isValidUUID} from "../../../shared/helpers/util-functions.helper";
+import {CompareManagementService} from "../../../services/compare-management.service";
 
 @Component({
   selector: 'app-product-page',
@@ -36,7 +37,7 @@ export class ProductPageComponent implements OnInit {
               private roleService: RoleService,
               private cartManager: CartManagementService,
               private toaster: ToasterCustomService,
-              private router: Router
+              private compareService: CompareManagementService
   ) {
 
   }
@@ -67,8 +68,8 @@ export class ProductPageComponent implements OnInit {
       this.cartManager.addToCart(new CartItemModel({quantity: this.currentValue, productId: id}));
   }
 
-  // addToCompare(id: string) {
-  //   this.compareService.addToList(id);
-  // }
+  addToCompare(id: string) {
+    this.compareService.addToList(id);
+  }
 
 }
