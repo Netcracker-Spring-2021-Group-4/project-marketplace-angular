@@ -1,6 +1,6 @@
 <div>
   <div class="table-outer">
-    <table mat-table [dataSource]="orders$">
+    <table mat-table [dataSource]="orders$" class="mat-elevation-z8">
         <ng-component matColumnDef="placedAt">
           <th mat-header-cell *matHeaderCellDef>Placed at</th>
           <td *matCellDef="let order">{{order.placedAt | date: 'short'}}</td>
@@ -15,7 +15,11 @@
       </ng-component>
       <ng-component matColumnDef="orderStatus">
         <th mat-header-cell *matHeaderCellDef>Order status</th>
-        <td *matCellDef="let order">{{order.status | deEnum}}</td>
+        <td *matCellDef="let order">
+          <button type="button" class="{{order.status.toString().toLowerCase()}}" disabled>
+            {{order.status | deEnum}}
+          </button>
+        </td>
       </ng-component>
       <ng-component matColumnDef="address">
         <th mat-header-cell *matHeaderCellDef>Address</th>
