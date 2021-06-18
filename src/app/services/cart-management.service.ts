@@ -60,7 +60,7 @@ export class CartManagementService {
           return
         } else {
           const itemLocal = this.findItemInCart(item.productId)
-          if((itemLocal && itemLocal.quantity + item.quantity <= available) || (!itemLocal && item.quantity <= available)){
+          if((itemLocal && itemLocal.quantity + (+item.quantity) <= available) || (!itemLocal && (+item.quantity) <= available)){
             this.addToCartLocal(item)
           } else {
             this.toaster.errorNotification("No more available items of the product to add to the cart")
