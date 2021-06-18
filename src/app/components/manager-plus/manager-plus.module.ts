@@ -18,6 +18,7 @@ import {
   MAT_MOMENT_DATE_FORMATS,
   MomentDateAdapter
 } from "@angular/material-moment-adapter";
+import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 
 
 @NgModule({
@@ -29,15 +30,15 @@ import {
     StaffListContentComponent,
     StaffListFilterFormComponent,
     EditProductPageComponent,
-    DiscountPageComponent
+    DiscountPageComponent,
   ],
     imports: [
         CommonModule,
         SharedModule,
         RouterModule,
         MatPaginatorModule,
+        NgxMaterialTimepickerModule,
         NgxMaskModule.forRoot(),
-
     ],
     providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'uk'},

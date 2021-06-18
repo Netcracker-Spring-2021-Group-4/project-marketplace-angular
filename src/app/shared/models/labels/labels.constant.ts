@@ -63,6 +63,9 @@ const Labels = {
   discount:{
     successfulCreationDiscount: 'Discount successfully created',
     errorCreationDiscount: 'Incorrect data for new Discount',
+  },
+  auction: {
+    successfulCreationAuction: 'Auction was successfully created'
   }
 }
 
