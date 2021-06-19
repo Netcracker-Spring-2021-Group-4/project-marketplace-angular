@@ -10,6 +10,7 @@ import {Subscription} from "rxjs";
 import {MatSelectChange} from "@angular/material/select";
 import {Category_DUBLICAT} from "../../../shared/models/api/receive/category_dublicat";
 import {ProductManagerFormService} from "../services/product-manager-form.service";
+import {ValidFile} from "../../../shared/components/file-uploader/file-uploader";
 
 @Component({
   selector: 'app-create-product-page',
@@ -26,12 +27,15 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
   selected2:any
   isNotPng: boolean
   isHeavier:boolean
+  isWrongResolution: boolean;
+
   private subscriptions: Subscription[] = []
 
   productNameErrorMessage =ValidationMessages.productName
   quantityErrorMessage = ValidationMessages.quantity
   priceErrorMessage = ValidationMessages.price
   fileErrorMessage = ValidationMessages.file
+
 
   constructor(
     private productManagerFormService: ProductManagerFormService,
@@ -44,6 +48,7 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
     this.getCategories();
   }
+
   OnInput(event: MatSelectChange): void {
     this.currentValue = {
       value: event.value,
@@ -62,12 +67,6 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
           console.log(error.message)
         }
       ));
-  }
-
-  onFileSelected($event:any) {
-    this.selectedFile = $event.target.files[0];
-    this.isNotPng=(this.selectedFile.type != 'image/png');
-    this.isHeavier = (this.selectedFile.size >= 1000000)
   }
 
   submit() {
@@ -103,5 +102,12 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
       (subscriptions)=>subscriptions.unsubscribe()
     );
     this.subscriptions=[];
+  }
+
+  getFile(validFile: ValidFile) {
+    this.selectedFile = validFile.selectedFile;
+    this.isHeavier = validFile.isHeavier;
+    this.isWrongResolution = validFile.isWrongResolution;
+    this.isNotPng = validFile.isNotPng;
   }
 }

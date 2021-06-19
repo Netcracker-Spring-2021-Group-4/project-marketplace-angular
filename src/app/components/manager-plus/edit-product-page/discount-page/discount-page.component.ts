@@ -41,6 +41,7 @@ export class DiscountPageComponent implements OnInit {
   isIncorrectTime: boolean = false;
   offeredPriceErrorMessage = ValidationMessages.offeredPrice;
   dateTimeInPastErrorMessage = ValidationMessages.dateTimeInPast;
+  val: number;
 
   constructor(
     private discountService: DiscountsHttpService,
@@ -64,13 +65,12 @@ export class DiscountPageComponent implements OnInit {
 
   public createDiscountForm(): FormGroup {
     return this.formBuilder.group({
-      offeredPrice: [null, [Validators.required, Validators.min(0)]],
+      offeredPrice: [null, [Validators.required, Validators.min(1), Validators.max(23598)]],
       startsAt: [null, [Validators.required]],
       endsAt: [null, [Validators.required]],
       timeStart: ['03:00', [Validators.required]],
       timeEnd: ['03:00', [Validators.required]]
     },{validators: [this.dateTimeValidator]})
-
   }
 
   public getUnexpiredDiscounts(productId: string | null) {
@@ -86,7 +86,6 @@ export class DiscountPageComponent implements OnInit {
       });
   }
 
-
   public deleteDiscount(discountId: string): void {
     this.discountService.deleteDiscount(discountId).subscribe(
       () => {
@@ -101,12 +100,12 @@ export class DiscountPageComponent implements OnInit {
     return dateWTime > new Date() ? null : {dateTimeInPast: true};
   }
 
-  public submit(discountData: any, formDirective: FormGroupDirective) {
+
+  public submit(discountData: any) {
     const result = this.discountForm.value;
     discountData.startsAt = addTimeToDate(result.startsAt, result.timeStart)
     discountData.endsAt = addTimeToDate(result.endsAt, result.timeEnd)
     discountData.offeredPrice = discountData.offeredPrice * 100;
-
     this.discountService.createDiscount(this.myProductId, discountData).subscribe(
       () => {
         this.getUnexpiredDiscounts(this.myProductId);
@@ -114,11 +113,7 @@ export class DiscountPageComponent implements OnInit {
       }, err => {
         this.toaster.errorNotification(err.error.message);
       })
-    if (this.discountForm.valid) {
-      formDirective.resetForm()
-      this.discountForm.reset()
-      this.discountForm.markAsUntouched()
-    }
+
   }
 
 }

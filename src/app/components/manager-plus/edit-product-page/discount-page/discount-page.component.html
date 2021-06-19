@@ -33,16 +33,12 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<!--<div class="wrap">-->
-
 
 <div class="container d-flex justify-content-center flex-column form-width mt-3 mb-3 cont-war">
   <div class="row">
-
     <div class="col-sm">
       <form [formGroup]="discountForm"
-            (ngSubmit)="submit(discountForm.value, formDirective)"
-            #formDirective="ngForm"
+            (ngSubmit)="submit(discountForm.value)"
             class="container d-flex justify-content-center flex-column mt-3 mb-3"
       >
         <p>Add discount</p>
@@ -89,6 +85,7 @@
                  mask="separator.2"
                  formControlName="offeredPrice"
                  autocomplete="off"
+                 [(ngModel)]="val"
           >
           <mat-error *ngIf="discountForm.get('offeredPrice')?.invalid" class="mb-5">
             {{offeredPriceErrorMessage}}

@@ -34,6 +34,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import { FileUploader } from './components/file-uploader/file-uploader';
 
 
 @NgModule({
@@ -70,46 +71,48 @@ import {MatNativeDateModule} from "@angular/material/core";
     MatDatepickerModule,
     MatNativeDateModule
   ],
-    exports: [
-        BrowserModule,
-        FormsModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        ToastNotificationsModule,
-        MatTabsModule,
-        MatStepperModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatTooltipModule,
-        MatProgressSpinnerModule,
-        MatAutocompleteModule,
-        MatRadioModule,
-        MatCardModule,
-        MatDialogModule,
-        MatSelectModule,
-        MatSlideToggleModule,
-        MatListModule,
-        MatDividerModule,
-        MatTableModule,
-        MenuBarComponent,
-        MatCheckboxModule,
-        MatChipsModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        RoleStripperPipe,
-        CategoryPrettifierPipe,
-        CustomCurrencyPipe,
-        CoverLoadingComponent
-    ],
+  exports: [
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastNotificationsModule,
+    MatTabsModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    MatAutocompleteModule,
+    MatRadioModule,
+    MatCardModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatListModule,
+    MatDividerModule,
+    MatTableModule,
+    MenuBarComponent,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    RoleStripperPipe,
+    CategoryPrettifierPipe,
+    CustomCurrencyPipe,
+    CoverLoadingComponent,
+    FileUploader
+  ],
   declarations: [
     MenuBarComponent,
     RoleStripperPipe,
     CategoryPrettifierPipe,
     CustomCurrencyPipe,
-    CoverLoadingComponent
+    CoverLoadingComponent,
+    FileUploader
   ]
 })
 export class SharedModule { }

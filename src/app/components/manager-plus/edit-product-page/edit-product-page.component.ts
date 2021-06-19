@@ -11,7 +11,7 @@ import {ProductsHttpService} from "../../../api-services/products-http.service";
 import {PublicApiService} from "../../../api-services/public-http.service";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {Category_DUBLICAT} from "../../../shared/models/api/receive/category_dublicat";
-
+import {ValidFile} from "../../../shared/components/file-uploader/file-uploader";
 
 @Component({
   selector: 'app-edit-product-page',
@@ -20,6 +20,11 @@ import {Category_DUBLICAT} from "../../../shared/models/api/receive/category_dub
 })
 export class EditProductPageComponent implements OnInit {
 
+  selectedFile: File
+  isHeavier: boolean = false;
+  isChange: boolean = false;
+  isNotPng: boolean = false;
+  isWrongResolution: boolean = false;
   categories: Category_DUBLICAT[];
   product: ProductInfo;
   editForm: FormGroup;
@@ -28,19 +33,15 @@ export class EditProductPageComponent implements OnInit {
   checked: boolean;
   isLoading = false;
   myProductId: string | null;
-  selectedFile: File;
   success: boolean = false;
   productNameErrorMessage = ValidationMessages.productName;
   quantityErrorMessage = ValidationMessages.quantity;
   priceErrorMessage = ValidationMessages.price;
-  descriptionErrorMessage = ValidationMessages.required;
   fileExpansionErrorMessage = ValidationMessages.expansion;
   fileWeightErrorMessage = ValidationMessages.weight;
   fileResolutionErrorMessage = ValidationMessages.resolution;
-  isHeavier: boolean = false;
-  isChange: boolean = false;
-  isNotPng: boolean = false;
-  isWrongResolution: boolean = false;
+  isDisabled: boolean = false;
+
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
               private route: ActivatedRoute,
@@ -52,47 +53,21 @@ export class EditProductPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.getCategories();
     this.editForm = this.pictureForm();
     this.myProductId = this.route.snapshot.paramMap.get('productId');
     this.productService.getProduct(this.myProductId).pipe(finalize(() => {
-      this.isLoading = false;
     })).subscribe(
       data => {
         this.product = data;
         this.checked = this.product.isActive;
         this.initForm();
-        this.getCategories();
-      }
-    );
-    this.publicApiService.getCategoryName(this.myProductId).subscribe(
-      data => {
-        this.categoryName = (data);
-      }
-    );
-  }
-
-  public onFileSelected($event: any) {
-    const global = this;
-    this.selectedFile = $event.target.files[0];
-    if (this.selectedFile) {
-      this.isChange = true
-    }
-    this.isNotPng = (this.selectedFile.type != 'image/png');
-    this.isHeavier = (this.selectedFile.size >= 1000000);
-    const reader = new FileReader();
-    reader.readAsDataURL(this.selectedFile)
-    reader.onload = function ($event): any{
-      const img = new Image();
-      // @ts-ignore
-      img.src = <string>$event.target.result
-      img.onload = function () {
-       if(img.height != 512 && img.width != 512){
-          global.isWrongResolution = true;
-       }
-      }
-    }
-  }
+        this.publicApiService.getCategoryName(this.myProductId).subscribe(
+          data => {
+            this.categoryName = (data);
+            this.getCategories();
+          });
+      });
+   }
 
   public pictureForm(): FormGroup {
     return this.formBuilder.group({
@@ -103,9 +78,9 @@ export class EditProductPageComponent implements OnInit {
   private initForm() {
     this.editForm = this.formBuilder.group({
       productName: new FormControl(this.product.name, [Validators.required, Validators.pattern(productNameRegExp)]),
-      description: new FormControl(this.product.description, [Validators.required, Validators.min(2)]),
-      inStock: new FormControl(this.product.inStock, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
-      price: new FormControl(this.product.price/100, [Validators.required, Validators.min(0), Validators.max(23598)]),
+      description: new FormControl(this.product.description),
+      inStock: new FormControl(this.product.inStock, [Validators.required, Validators.min(1)]),
+      price: new FormControl(this.product.price / 100, [Validators.required, Validators.min(0), Validators.max(23598)]),
       reserved: new FormControl(this.product.reserved, [Validators.min(0)]),
       categoryId: new FormControl(this.product.categoryId, [Validators.required]),
       file: new FormControl(this.product.imageUrl)
@@ -117,6 +92,7 @@ export class EditProductPageComponent implements OnInit {
       (response: Category_DUBLICAT[]) => {
         this.categories = response;
         this.selected = this.product.categoryId;
+        this.isLoading = false;
       }
     );
   }
@@ -124,15 +100,14 @@ export class EditProductPageComponent implements OnInit {
   public activateDeactivateProduct(productId: string) {
     this.checked = !this.checked;
     this.productService.activateDeactivateProduct(productId).subscribe(
-      res =>{
-          this.toaster.successfulNotification(Labels.product.successfulActivateProduct)
+      res => {
+        this.toaster.successfulNotification(Labels.product.successfulActivateProduct)
       }
     );
-
   }
 
   public submit(updateInfo: ProductUpdateModel) {
-    if(this.editForm.pristine || this.editForm.dirty) {
+    if (this.editForm.pristine || this.editForm.dirty) {
       updateInfo.price = updateInfo.price * 100;
       this.productService.updateProductInfo(this.myProductId, updateInfo)
         .subscribe(
@@ -149,12 +124,26 @@ export class EditProductPageComponent implements OnInit {
           this.success = true;
         });
     }
-     this.editForm.markAsUntouched();
+    this.editForm.markAsUntouched();
     this.isChange = false;
+    this.isDisabled = true;
+
   }
 
   public discardChanges() {
     this.initForm()
+  }
+
+  public onFormChange(event: any) {
+    this.isDisabled = false
+  }
+
+  getFile(validFile: ValidFile) {
+    this.selectedFile = validFile.selectedFile;
+    this.isHeavier = validFile.isHeavier;
+    this.isChange = validFile.isChange;
+    this.isWrongResolution = validFile.isWrongResolution;
+    this.isNotPng = validFile.isNotPng;
   }
 }
 

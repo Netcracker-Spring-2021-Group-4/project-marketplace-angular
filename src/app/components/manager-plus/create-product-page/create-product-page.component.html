@@ -51,11 +51,14 @@
       </mat-select>
     </mat-form-field>
 
-    <input class="custom" type="file" value="1"   (change)="onFileSelected($event)" formControlName="file" >
-    <mat-error *ngIf= "isNotPng||isHeavier">{{fileErrorMessage}}</mat-error>
+    <app-file-uploader (correctFile)="getFile($event)" class="correct-file">
+    </app-file-uploader>
+
+
+    <mat-error *ngIf= "isNotPng || isHeavier">{{fileErrorMessage}}</mat-error>
     <button
       mat-raised-button color="accent"
-      [disabled]="form.invalid || isLoading || selectedFile.type != 'image/png'||isHeavier"
+      [disabled]="form.invalid || isLoading"
       class="name-input mr-auto ml-auto"
       (click)="submit()"
     >

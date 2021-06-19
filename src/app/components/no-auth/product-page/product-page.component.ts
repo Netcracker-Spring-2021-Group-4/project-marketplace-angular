@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
@@ -15,6 +15,7 @@ import {PublicApiService} from "../../../api-services/public-http.service";
 import {Observable} from "rxjs";
 import {CompareManagementService} from "../../../services/compare-management.service";
 import {cartInfoToItemsList} from "../cart-page/service/utils";
+import {CartProductInfo} from "../../../shared/models/api/receive/cart-product-info.model";
 
 @Component({
   selector: 'app-product-page',
@@ -28,6 +29,8 @@ export class ProductPageComponent implements OnInit {
   role$: Observable<UserRole>;
   categoryName$: Observable<string>;
   isLoading = false;
+  availableQuantity: number;
+
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
@@ -42,7 +45,6 @@ export class ProductPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.check()
     const productId = this.route.snapshot.paramMap.get('productId');
     this.isLoading = true;
     this.role$ = this.roleService.currentRole$
@@ -52,6 +54,7 @@ export class ProductPageComponent implements OnInit {
     })).subscribe(
       data => {
         this.product = data;
+        this.availableQuantity = this.product.inStock - this.product.reserved
       });
     this.discountsService.getActiveDiscount(productId).subscribe(
       data =>{
@@ -71,11 +74,5 @@ export class ProductPageComponent implements OnInit {
   addToCompare(id: string) {
     this.compareService.addToList(id);
   }
-
-  public check(){
-    console.log(cartInfoToItemsList)
-  }
-
-
 
 }

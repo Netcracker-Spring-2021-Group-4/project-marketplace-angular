@@ -9,7 +9,7 @@ export const ValidationMessages = {
   flat: 'Must be a positive number',
   productName: "The name must be of size between 2 and 30, start with 2 characters, contain only characters, spaces and numbers",
   price: "The price must be greater than 0, and less than 23 598",
-  quantity: "Must be equal or greater than 0, and less than 2 147 483 647",
+  quantity: "Must be equal or greater than 0",
   file: "The file extension should be only '.png', should be less than 1Mb and 512x512 px",
   offeredPrice: "The offered price must be greater than 0, and less than 23 598",
   required: "The field can not be empty",

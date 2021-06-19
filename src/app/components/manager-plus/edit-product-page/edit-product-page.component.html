@@ -1,8 +1,9 @@
-<div class="h-100per container-xl d-flex justify-content-center align-items-center">
+<div class="h-100per container-xl d-flex justify-content-center align-items-center" *ngIf="!isLoading">
 
   <form [formGroup]="editForm"
         (ngSubmit)="submit(editForm.value)"
         class="container d-flex justify-content-center flex-column mt-3 mb-3"
+
   >
     <img mat-card-image
          src="{{product.imageUrl}}"
@@ -10,13 +11,10 @@
          *ngIf="!isLoading || product.imageUrl"
          class=""
     >
-    <input type="file"
-           name="file"
-           (change)="onFileSelected($event)"
-           (load)="onFileSelected($event)"
-           formControlName="file"
-           class="custom"
-    >
+
+    <app-file-uploader (correctFile)="getFile($event)" class="correct-file">
+    </app-file-uploader>
+
     <p *ngIf="success && this.editForm.pristine" class="fs-6 take text-dark"> It may take a while for the picture to update. </p>
     <mat-error *ngIf="isNotPng">{{fileExpansionErrorMessage}}</mat-error>
     <mat-error *ngIf="isHeavier">{{fileWeightErrorMessage}}</mat-error>
@@ -26,7 +24,7 @@
 <mat-form-field
   appearance="fill"
   class="name-input mr-auto ml-auto mb-3">
-  <input matInput formControlName="productName">
+  <input matInput formControlName="productName" (ngModelChange)="onFormChange($event)">
   <mat-error *ngIf="editForm.get('productName')?.invalid">{{productNameErrorMessage}}</mat-error>
 </mat-form-field>
 
@@ -34,8 +32,7 @@
   appearance="fill"
   class="name-input mr-auto ml-auto mb-3">
   <mat-label>Description</mat-label>
-  <textarea matInput formControlName="description"></textarea>
-  <mat-error *ngIf="editForm.get('description')?.invalid">{{descriptionErrorMessage}}</mat-error>
+  <textarea matInput formControlName="description" (ngModelChange)="onFormChange($event)"></textarea>
 </mat-form-field>
 
 <mat-form-field
@@ -47,6 +44,7 @@
          mask="separator.2"
          formControlName="price"
          autocomplete="off"
+         (ngModelChange)="onFormChange($event)"
   >
   <mat-error *ngIf="editForm.get('price')?.invalid">{{priceErrorMessage}}</mat-error>
 </mat-form-field>
@@ -59,7 +57,9 @@
          formControlName="inStock"
          type="text"
          mask="separator.0"
-         autocomplete="off">
+         autocomplete="off"
+         (ngModelChange)="onFormChange($event)"
+  >
   <mat-error *ngIf="editForm.get('inStock')?.invalid">{{quantityErrorMessage}}</mat-error>
 </mat-form-field>
 
@@ -69,7 +69,7 @@
 
 <mat-form-field appearance="fill">
   <mat-label>Choose another category</mat-label>
-  <mat-select formControlName="categoryId">
+  <mat-select formControlName="categoryId" (ngModelChange)="onFormChange($event)">
     <mat-option *ngFor="let category of categories"
                 [value]="category.categoryId"
     >
@@ -89,7 +89,7 @@
   color="warn"
   [checked]="checked"
   (change)="activateDeactivateProduct(product.productId)"
-  class="mt-3"
+  class="mt-3 mb-2"
 >
   Activate
 </mat-slide-toggle>
@@ -109,7 +109,7 @@
     type="button"
     class="bottom-button"
     (click)="discardChanges()"
-    [disabled]="editForm.pristine"
+    [disabled]="editForm.pristine || isDisabled"
   >
     Discard
   </button>

@@ -33,7 +33,7 @@
       </p>
       <p class="pb-1 pt-3"> {{product.description}} </p>
       <p class="pt-0 pb-2" *ngIf="product.isActive"> Available for purchase:
-        <span class="fw-bold">{{product.inStock - product.reserved}} </span>
+        <span class="fw-bold">{{availableQuantity}} </span>
         items
       </p>
       <div *ngIf="role$ | async as role">
@@ -49,7 +49,7 @@
         <div class="buttons">
           <button class="action edit"
                   mat-raised-button color="primary"
-                  [disabled]="currentValue > product.inStock-product.reserved
+                  [disabled]="currentValue > availableQuantity
                 || currentValue < 1
                 || product.inStock == 0
                 || product.inStock == product.reserved
@@ -61,10 +61,10 @@
           >
             Add to card
           </button>
-
           <button class="action edit"
                   mat-raised-button color="accent"
                   *ngIf="role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
+
           >
             Remove from card
           </button>
@@ -90,10 +90,10 @@
       </div>
       <div class="warn">
         <span class="warning" *ngIf="currentValue > product.inStock">
-          Sorry now available only {{product.inStock-product.reserved}} items
+          Sorry now available only {{availableQuantity}} items
         </span>
         <span class="warning" *ngIf="currentValue < 1">Add at least one items</span>
-        <span class="warning warning-avail" *ngIf="currentValue == product.inStock-product.reserved">
+        <span class="warning warning-avail" *ngIf="currentValue == availableQuantity">
           This is the maximum available amount
         </span>
       </div>

@@ -1,6 +1,11 @@
 @import 'src/styles/variables';
 
-
+.correct-file{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+}
 .but{
   margin-top: 20px;
   height: 20px;
@@ -34,3 +39,4 @@ textarea{
 form{
   width: 400px;
 }
+
