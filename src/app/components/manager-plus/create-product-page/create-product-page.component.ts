@@ -93,9 +93,9 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
           type: 'danger'
         });
       })
-    if(this.form.valid) {
-      this.form.reset();
-    }
+
+    this.form.reset();
+
   }
 
   ngOnDestroy(): void {
