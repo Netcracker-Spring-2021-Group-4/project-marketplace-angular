@@ -34,7 +34,11 @@
       appearance="fill"
       class="name-input mr-auto ml-auto mb-3">
       <mat-label>In Stock</mat-label>
-      <input matInput formControlName="inStock" type="number" min="0" autocomplete="off">
+      <input matInput
+             formControlName="inStock"
+             type="text"
+             mask="separator.0"
+             >
       <mat-error *ngIf="form.get('inStock')?.invalid">{{quantityErrorMessage}}</mat-error>
     </mat-form-field>
 
