@@ -29,7 +29,6 @@ export class ProductManagerFormService {
       description: description(),
       price: price(),
       inStock: inStock(),
-      reserved: reserved(),
       categoryId: categoryId(),
       file: file()
     });}
@@ -38,9 +37,8 @@ export class ProductManagerFormService {
 }
 const productNameRegExp = "^[^\\d\\s]{2}[\\w\\s]{0,28}$"
 const productName = () => ([null, [Validators.required, Validators.pattern(productNameRegExp)]])
-const inStock = (value?: number) => ([value ?? null, [Validators.required, Validators.min(1)]])
-const reserved = (value?: number) => ([value ?? null, [Validators.required, Validators.min(0)]])
-const price = (value?: number) => ([value ?? null, [Validators.required, Validators.min(0)]])
+const inStock = (value?: number) => ([value ?? null, [Validators.required,  Validators.min(1)]])
+const price = (value?: number) => ([value ?? null, [Validators.required, Validators.max(23598),Validators.min(0.05)]])
 const categoryId = (value?: number) => ([value ?? null, [Validators.required, Validators.min(0)]])
-const description = () => ([null, [Validators.required]])
+const description = (value?: string) => ([value ?? null])
 const file = (value?: any) => ([value ?? null, [Validators.required]])

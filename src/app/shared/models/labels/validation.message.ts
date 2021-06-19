@@ -8,7 +8,7 @@ export const ValidationMessages = {
   phoneNumber:  'Must be a numeric value from 12 to 16 integers long',
   flat: 'Must be a positive number',
   productName: "The name must be of size between 2 and 30, start with 2 characters, contain only characters, spaces and numbers",
-  price: "The price must be greater than 0",
+  price: "The price must be between 0.05 and 23598 ",
   quantity: "Must be equal or greater than 0",
   file: "The file extension should be only '.png', and should be less than 1Mb",
   offeredPrice: "The offered price must be greater than 0",
