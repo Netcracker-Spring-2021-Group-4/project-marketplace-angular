@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Discount} from "../../../../shared/models/api/receive/discount";
 import {ActivatedRoute} from "@angular/router";
 import {MatTableDataSource} from "@angular/material/table";
@@ -6,7 +6,6 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  FormGroupDirective,
   ValidationErrors,
   ValidatorFn,
   Validators

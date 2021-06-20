@@ -1,4 +1,4 @@
-import {Component, Output, EventEmitter, Input} from '@angular/core';
+import {Component, Output, EventEmitter, Input, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 
 export class ValidFile  {
@@ -38,9 +38,9 @@ export class FileUploader {
        img.src = reader.result as string
        img.onload = () => {
          this.updatedFile.isWrongResolution = img.height != 512 && img.width != 512;
+         this.correctFile.emit(this.updatedFile);
        }
      }
-    this.correctFile.emit(this.updatedFile);
   }
 
 }

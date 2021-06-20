@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ProductInfo} from "../../../shared/models/api/receive/productInfo";
 import {ActivatedRoute} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
@@ -20,6 +20,7 @@ import {ValidFile} from "../../../shared/components/file-uploader/file-uploader"
 })
 export class EditProductPageComponent implements OnInit {
 
+  @ViewChild('image') image: any;
   selectedFile: File
   isHeavier: boolean = false;
   isChange: boolean = false;
@@ -100,7 +101,7 @@ export class EditProductPageComponent implements OnInit {
   public activateDeactivateProduct(productId: string) {
     this.checked = !this.checked;
     this.productService.activateDeactivateProduct(productId).subscribe(
-      res => {
+      () => {
         this.toaster.successfulNotification(Labels.product.successfulActivateProduct)
       }
     );
@@ -111,16 +112,16 @@ export class EditProductPageComponent implements OnInit {
       updateInfo.price = updateInfo.price * 100;
       this.productService.updateProductInfo(this.myProductId, updateInfo)
         .subscribe(
-          res => {
+          () => {
             this.toaster.successfulNotification(Labels.product.successfulUpdatingProduct);
-          }, err => {
+          }, () => {
             this.toaster.errorNotification(Labels.product.errorUpdatingProduct);
           })
     }
     if (this.selectedFile !== undefined) {
       this.productService
         .updateProductPicture(this.myProductId, this.selectedFile)
-        .subscribe(res => {
+        .subscribe(() => {
           this.success = true;
         });
     }
@@ -139,13 +140,13 @@ export class EditProductPageComponent implements OnInit {
   }
 
   getFile(validFile: ValidFile) {
-    console.log(validFile)
     this.selectedFile = validFile.selectedFile;
     this.isHeavier = validFile.isHeavier;
     this.isChange = validFile.isChange;
     this.isWrongResolution = validFile.isWrongResolution;
     this.isNotPng = validFile.isNotPng;
   }
+
 }
 
 const productNameRegExp = "^[^\\d\\s]{2}[\\w\\s]{0,28}$";

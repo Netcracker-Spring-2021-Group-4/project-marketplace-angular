@@ -36,6 +36,7 @@
         <span class="fw-bold">{{availableQuantity}} </span>
         items
       </p>
+
       <div *ngIf="role$ | async as role">
         <div *ngIf="product.isActive && role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'">
 
@@ -61,7 +62,13 @@
           >
             Add to card
           </button>
-
+          <button class="action edit remove"
+                  mat-raised-button color="warn"
+                  *ngIf="role == 'ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
+                  (click)="removeFromCart()"
+          >
+            Remove from card
+          </button>
           <button class="action edit"
                   mat-raised-button color="primary"
                   *ngIf="role == 'ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"

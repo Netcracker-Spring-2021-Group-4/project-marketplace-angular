@@ -14,8 +14,6 @@ import Labels from "../../../shared/models/labels/labels.constant";
 import {PublicApiService} from "../../../api-services/public-http.service";
 import {Observable} from "rxjs";
 import {CompareManagementService} from "../../../services/compare-management.service";
-import {cartInfoToItemsList} from "../cart-page/service/utils";
-import {CartProductInfo} from "../../../shared/models/api/receive/cart-product-info.model";
 
 @Component({
   selector: 'app-product-page',
@@ -23,6 +21,7 @@ import {CartProductInfo} from "../../../shared/models/api/receive/cart-product-i
   styleUrls: ['./product-page.component.scss']
 })
 export class ProductPageComponent implements OnInit {
+
   currentValue: number = 1;
   product: ProductInfo;
   discount:Discount;
@@ -30,7 +29,6 @@ export class ProductPageComponent implements OnInit {
   categoryName$: Observable<string>;
   isLoading = false;
   availableQuantity: number;
-
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
@@ -48,31 +46,35 @@ export class ProductPageComponent implements OnInit {
     const productId = this.route.snapshot.paramMap.get('productId');
     this.isLoading = true;
     this.role$ = this.roleService.currentRole$
-
     this.productService.getProduct(productId).pipe(finalize(() => {
       this.isLoading = false
     })).subscribe(
       data => {
         this.product = data;
         this.availableQuantity = this.product.inStock - this.product.reserved
+        this.discountsService.getActiveDiscount(productId).subscribe(
+          data =>{
+            this.discount = data;
+            this.categoryName$ = this.publicApiService.getCategoryName(productId)
+          })
       });
-    this.discountsService.getActiveDiscount(productId).subscribe(
-      data =>{
-        this.discount = data;
-      }
-    )
-    this.categoryName$ = this.publicApiService.getCategoryName(productId)
   }
+
+
 
   addToCart(id: string) {
     if (this.product.inStock == 0)
-      this.toaster.errorNotification(Labels.cart.outOfStock)
+      this.toaster.errorNotification(Labels.cart.outOfStock);
     else
       this.cartService.addToCart(new CartItemModel({quantity: this.currentValue, productId: id}));
   }
 
   addToCompare(id: string) {
     this.compareService.addToList(id);
+  }
+
+  removeFromCart(): void{
+    this.cartService.removeFromCart({quantity: 1, productId: this.product.productId})
   }
 
 }
