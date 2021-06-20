@@ -1,5 +1,5 @@
 <form [formGroup]="staffFilterForm" (ngSubmit)="search()">
-  <h3 class="text-center">Enter your search criteria</h3>
+  <h1 class="text-center" id="heading">Enter your search criteria</h1>
 
   <div class="d-flex justify-content-around">
     <mat-form-field appearance="fill">
@@ -26,6 +26,6 @@
   </fieldset>
 
   <div class="d-flex justify-content-center">
-    <button mat-raised-button type="submit">Search</button>
+    <button mat-raised-button type="submit" color="primary">Search</button>
   </div>
 </form>
