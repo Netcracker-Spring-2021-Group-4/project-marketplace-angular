@@ -9,7 +9,6 @@
          src="{{product.imageUrl}}"
          alt="Photo"
          *ngIf="!isLoading || product.imageUrl"
-         class=""
     >
 
     <app-file-uploader (correctFile)="getFile($event)"

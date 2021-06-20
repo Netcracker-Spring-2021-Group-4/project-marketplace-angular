@@ -24,7 +24,6 @@ export class FileUploader {
   constructor() { }
 
    public onFileSelected($event: any) {
-     const global = this;
      this.updatedFile.selectedFile = $event.target.files[0];
      if (this.updatedFile.selectedFile) {
        this.updatedFile.isChange = true;
@@ -34,16 +33,14 @@ export class FileUploader {
 
      const reader = new FileReader();
      reader.readAsDataURL(this.updatedFile.selectedFile)
-     reader.onload = function ($event): any {
+     reader.onload = () => {
        const img = new Image();
-       // @ts-ignore
-       img.src = $event.target.result
-       img.onload = function () {
-         global.updatedFile.isWrongResolution = img.height != 512 && img.width != 512;
+       img.src = reader.result as string
+       img.onload = () => {
+         this.updatedFile.isWrongResolution = img.height != 512 && img.width != 512;
        }
      }
     this.correctFile.emit(this.updatedFile);
-     console.log(this.updatedFile)
   }
 
 }
