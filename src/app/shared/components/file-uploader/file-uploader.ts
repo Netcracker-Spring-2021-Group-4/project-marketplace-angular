@@ -1,4 +1,5 @@
 import {Component, Output, EventEmitter, Input} from '@angular/core';
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 export class ValidFile  {
   selectedFile: File;
@@ -15,6 +16,8 @@ export class ValidFile  {
 })
 
 export class FileUploader {
+
+  @Input() public form:FormGroup
   @Output() correctFile = new EventEmitter<ValidFile>()
   updatedFile: ValidFile = new ValidFile()
 
@@ -28,6 +31,7 @@ export class FileUploader {
      }
      this.updatedFile.isNotPng = (this.updatedFile.selectedFile.type != 'image/png');
      this.updatedFile.isHeavier = (this.updatedFile.selectedFile.size >= 1000000);
+
      const reader = new FileReader();
      reader.readAsDataURL(this.updatedFile.selectedFile)
      reader.onload = function ($event): any {
@@ -39,6 +43,7 @@ export class FileUploader {
        }
      }
     this.correctFile.emit(this.updatedFile);
+     console.log(this.updatedFile)
   }
 
 }

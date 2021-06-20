@@ -1,7 +1,7 @@
 <div class="h-100per container-xl d-flex justify-content-center align-items-center" *ngIf="!isLoading">
 
-  <form [formGroup]="editForm"
-        (ngSubmit)="submit(editForm.value)"
+  <form [formGroup]="form"
+        (ngSubmit)="submit(form.value)"
         class="container d-flex justify-content-center flex-column mt-3 mb-3"
 
   >
@@ -12,10 +12,13 @@
          class=""
     >
 
-    <app-file-uploader (correctFile)="getFile($event)" class="correct-file">
+    <app-file-uploader (correctFile)="getFile($event)"
+                       class="correct-file"
+                       [form]="form"
+    >
     </app-file-uploader>
 
-    <p *ngIf="success && this.editForm.pristine" class="fs-6 take text-dark"> It may take a while for the picture to update. </p>
+    <p *ngIf="success && this.form.pristine" class="fs-6 take text-dark"> It may take a while for the picture to update. </p>
     <mat-error *ngIf="isNotPng">{{fileExpansionErrorMessage}}</mat-error>
     <mat-error *ngIf="isHeavier">{{fileWeightErrorMessage}}</mat-error>
     <mat-error *ngIf="isWrongResolution">{{fileResolutionErrorMessage}}</mat-error>
@@ -25,7 +28,7 @@
   appearance="fill"
   class="name-input mr-auto ml-auto mb-3">
   <input matInput formControlName="productName" (ngModelChange)="onFormChange($event)">
-  <mat-error *ngIf="editForm.get('productName')?.invalid">{{productNameErrorMessage}}</mat-error>
+  <mat-error *ngIf="form.get('productName')?.invalid">{{productNameErrorMessage}}</mat-error>
 </mat-form-field>
 
 <mat-form-field
@@ -46,7 +49,7 @@
          autocomplete="off"
          (ngModelChange)="onFormChange($event)"
   >
-  <mat-error *ngIf="editForm.get('price')?.invalid">{{priceErrorMessage}}</mat-error>
+  <mat-error *ngIf="form.get('price')?.invalid">{{priceErrorMessage}}</mat-error>
 </mat-form-field>
 
 <mat-form-field
@@ -60,7 +63,7 @@
          autocomplete="off"
          (ngModelChange)="onFormChange($event)"
   >
-  <mat-error *ngIf="editForm.get('inStock')?.invalid">{{quantityErrorMessage}}</mat-error>
+  <mat-error *ngIf="form.get('inStock')?.invalid">{{quantityErrorMessage}}</mat-error>
 </mat-form-field>
 
   <p class="name-input mr-auto ml-auto mb-3 fs-6">
@@ -109,16 +112,16 @@
     type="button"
     class="bottom-button"
     (click)="discardChanges()"
-    [disabled]="editForm.pristine || isDisabled"
+    [disabled]="form.pristine || isDisabled"
   >
     Discard
   </button>
   <button
     mat-raised-button color="primary"
     [disabled]="isNotPng || isHeavier || isWrongResolution
-                || editForm.pristine && !isChange
-                || editForm.untouched && !isChange
-                || editForm.invalid
+                || form.pristine && !isChange
+                || form.untouched && !isChange
+                || form.invalid
                 "
     type="submit"
     class="bottom-button"

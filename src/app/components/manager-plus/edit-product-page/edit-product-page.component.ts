@@ -27,7 +27,7 @@ export class EditProductPageComponent implements OnInit {
   isWrongResolution: boolean = false;
   categories: Category_DUBLICAT[];
   product: ProductInfo;
-  editForm: FormGroup;
+  form: FormGroup;
   categoryName: string;
   selected: any;
   checked: boolean;
@@ -53,7 +53,7 @@ export class EditProductPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.editForm = this.pictureForm();
+    this.form = this.pictureForm();
     this.myProductId = this.route.snapshot.paramMap.get('productId');
     this.productService.getProduct(this.myProductId).pipe(finalize(() => {
     })).subscribe(
@@ -76,7 +76,7 @@ export class EditProductPageComponent implements OnInit {
   }
 
   private initForm() {
-    this.editForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       productName: new FormControl(this.product.name, [Validators.required, Validators.pattern(productNameRegExp)]),
       description: new FormControl(this.product.description),
       inStock: new FormControl(this.product.inStock, [Validators.required, Validators.min(1)]),
@@ -107,7 +107,7 @@ export class EditProductPageComponent implements OnInit {
   }
 
   public submit(updateInfo: ProductUpdateModel) {
-    if (this.editForm.pristine || this.editForm.dirty) {
+    if (this.form.pristine || this.form.dirty) {
       updateInfo.price = updateInfo.price * 100;
       this.productService.updateProductInfo(this.myProductId, updateInfo)
         .subscribe(
@@ -124,7 +124,7 @@ export class EditProductPageComponent implements OnInit {
           this.success = true;
         });
     }
-    this.editForm.markAsUntouched();
+    this.form.markAsUntouched();
     this.isChange = false;
     this.isDisabled = true;
 
@@ -139,6 +139,7 @@ export class EditProductPageComponent implements OnInit {
   }
 
   getFile(validFile: ValidFile) {
+    console.log(validFile)
     this.selectedFile = validFile.selectedFile;
     this.isHeavier = validFile.isHeavier;
     this.isChange = validFile.isChange;

@@ -1,5 +1,8 @@
+<div [formGroup]="form">
 <input type="file"
        (change)="onFileSelected($event)"
        (load)="onFileSelected($event)"
        class="custom"
+       formControlName="file"
 >
+</div>
