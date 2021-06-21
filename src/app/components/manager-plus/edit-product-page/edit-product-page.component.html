@@ -24,7 +24,7 @@
 <mat-form-field
   appearance="fill"
   class="name-input mr-auto ml-auto mt-2 mb-3">
-  <input matInput formControlName="productName" (ngModelChange)="onFormChange($event)">
+  <input matInput formControlName="productName" (ngModelChange)="onFormChange($event)" >
   <mat-error *ngIf="form.get('productName')?.invalid">{{productNameErrorMessage}}</mat-error>
 </mat-form-field>
 

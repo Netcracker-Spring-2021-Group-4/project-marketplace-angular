@@ -43,6 +43,7 @@ export class EditProductPageComponent implements OnInit {
   fileWeightErrorMessage = ValidationMessages.weight;
   fileResolutionErrorMessage = ValidationMessages.resolution;
   isDisabled: boolean = false;
+  doSend: boolean = false;
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
@@ -109,7 +110,7 @@ export class EditProductPageComponent implements OnInit {
   }
 
   public submit(updateInfo: ProductUpdateModel) {
-    if (this.form.pristine || this.form.dirty) {
+    if (this.doSend) {
       updateInfo.price = updateInfo.price * 100;
       this.productService.updateProductInfo(this.myProductId, updateInfo)
         .subscribe(
@@ -126,9 +127,10 @@ export class EditProductPageComponent implements OnInit {
           this.success = true;
         });
     }
-    this.form.markAsUntouched();
+    this.form.markAsPristine()
     this.isChange = false;
     this.isDisabled = true;
+    this.doSend = false;
 
   }
 
@@ -138,6 +140,7 @@ export class EditProductPageComponent implements OnInit {
 
   public onFormChange(event: any) {
     this.isDisabled = false
+    this.doSend = true;
   }
 
   getFile(validFile: ValidFile) {
