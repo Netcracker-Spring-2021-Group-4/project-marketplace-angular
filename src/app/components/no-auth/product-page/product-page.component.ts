@@ -60,8 +60,6 @@ export class ProductPageComponent implements OnInit {
       });
   }
 
-
-
   addToCart(id: string) {
     if (this.product.inStock == 0)
       this.toaster.errorNotification(Labels.cart.outOfStock);
