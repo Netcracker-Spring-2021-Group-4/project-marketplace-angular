@@ -8,7 +8,7 @@ export const ValidationMessages = {
   phoneNumber:  'Must be a numeric value from 12 to 16 integers long',
   flat: 'Must be a positive number',
   productName: "The name must be of size between 2 and 30, start with 2 characters, contain only characters, spaces and numbers",
-  price: "The price must be greater than 0",
+  price: "The price must be between 0.05 and 23598 ",
   quantity: "Must be equal or greater than 0",
   file: "The file extension should be only '.png', and should be less than 1Mb",
   offeredPrice: "The offered price must be greater than 0",
@@ -25,5 +25,5 @@ export const ValidationMessages = {
   timeToBid: "Minimum time to bid is 10 seconds",
   dateTimeInPast: "Your date and time must be in the future",
   quantityAuction: "Auction must offer more than 3 items of the given product",
-  priceAuction: "Auction must start at price at least 100$"
+  priceAuction: "Auction must start at price at least 100$ and no more than $120 567"
 }

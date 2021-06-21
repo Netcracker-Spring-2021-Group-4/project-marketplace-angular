@@ -79,7 +79,9 @@ export class CreateAuctionPageComponent implements OnInit {
       .subscribe( _ => {
         this.toaster.successfulNotification(Labels.auction.successfulCreationAuction)
       }, err => {
-        this.toaster.errorNotification(err.error.message)
+        const text = err?.error?.message ??
+          'Cannot create that auction with such parameters. Please check the filled fields'
+        this.toaster.errorNotification(text)
       })
   }
 
