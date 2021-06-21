@@ -20,6 +20,7 @@ import {ValidFile} from "../../../shared/components/file-uploader/file-uploader"
 })
 export class EditProductPageComponent implements OnInit {
 
+
   @Input() reset: any;
   @ViewChild('reset') fileReset: ElementRef;
   selectedFile: File
@@ -126,11 +127,16 @@ export class EditProductPageComponent implements OnInit {
         .subscribe(() => {
           this.success = true;
         });
+      // @ts-ignore
+      document.getElementById("uploadCaptureInputFile").value = "";
     }
     this.form.markAsPristine()
     this.isChange = false;
     this.isDisabled = true;
     this.doSend = false;
+
+
+
 
   }
 
