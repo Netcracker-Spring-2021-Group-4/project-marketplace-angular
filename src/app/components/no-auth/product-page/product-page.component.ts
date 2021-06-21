@@ -29,7 +29,9 @@ export class ProductPageComponent implements OnInit {
   categoryName$: Observable<string>;
   isLoading = false;
   availableQuantity: number;
-
+  currentItem: any;
+  currentItemQuantity: any;
+  private readonly CART_STORAGE = 'cart'
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
               private discountsService: DiscountsHttpService,
@@ -58,6 +60,8 @@ export class ProductPageComponent implements OnInit {
             this.categoryName$ = this.publicApiService.getCategoryName(productId)
           })
       });
+
+
   }
 
   addToCart(id: string) {
@@ -72,7 +76,18 @@ export class ProductPageComponent implements OnInit {
   }
 
   removeFromCart(): void{
-    this.cartService.removeFromCart({quantity: 1, productId: this.product.productId})
+    this.getItem()
+    this.cartService.removeFromCart({quantity:this.currentItemQuantity, productId:this.product.productId})
   }
 
+  get localCart() : CartItemModel[] {
+    const cartString = localStorage.getItem(this.CART_STORAGE)
+    const parsed = JSON.parse(cartString ?? "[]")
+    return parsed === [] ? [] : parsed
+  }
+
+  getItem(){
+    this.currentItem = this.localCart.filter(obj => obj.productId == this.product.productId)
+    this.currentItemQuantity = this.currentItem[0].quantity
+  }
 }
