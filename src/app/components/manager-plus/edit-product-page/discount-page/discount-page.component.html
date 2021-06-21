@@ -1,4 +1,4 @@
-<p *ngIf="!isLoading && discounts.length == 0"> This product has no discounts</p>
+<p *ngIf="!isLoading && discounts.length == 0" class="text-center fw-bold fs-5 mt-3 mb-1"> This product has no discounts</p>
 
 <table mat-table [dataSource]="discountsDatasource" class="mat-elevation-z8"
        *ngIf="!isLoading && discounts.length !== 0">
@@ -36,12 +36,12 @@
 
 <div class="container d-flex justify-content-center flex-column form-width mt-3 mb-3 cont-war">
   <div class="row">
-    <div class="col-sm">
+    <div class="col-sm col1">
       <form [formGroup]="discountForm"
             (ngSubmit)="submit(discountForm.value)"
             class="container d-flex justify-content-center flex-column mt-3 mb-3"
       >
-        <p>Add discount</p>
+        <p class="text-center">Add discount</p>
 
         <mat-form-field appearance="fill" class="name-input mr-auto ml-auto mb-3">
           <mat-label>Date range</mat-label>
@@ -78,7 +78,7 @@
           </ngx-timepicker-field>
         </div>
 
-        <mat-form-field class="example-form-field mb-5">
+        <mat-form-field class="example-form-field mb-4">
           <mat-label>Offered price $</mat-label>
           <input matInput
                  type="text"
@@ -92,7 +92,6 @@
           </mat-error>
 
         </mat-form-field>
-        <br>
         <div>
           <button class=""
                   mat-raised-button color="primary"
@@ -111,14 +110,14 @@
         </div>
       </form>
     </div>
-    <div *ngIf="product$ | async as product" class="col-sm mt-3 mb-3">
+    <div *ngIf="product$ | async as product" class="col-sm mt-3 mb-3 col2">
       <img mat-card-image
            src="{{product.imageUrl}}"
            alt="Photo"
            *ngIf="!isLoading || product.imageUrl"
       >
       <div class="product-info">
-        <p class="fs-5">{{product.name}}</p>
+        <p class="fs-5 fst-italic">{{product.name}}</p>
         <p class="fs-5"> Price: {{product.price | customCurrency}}</p>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import {Component, Output, EventEmitter, Input, ViewChild} from '@angular/core';
+import {Component, Output, EventEmitter, Input, ViewChild, ElementRef} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 
 export class ValidFile  {
@@ -30,7 +30,6 @@ export class FileUploader {
      }
      this.updatedFile.isNotPng = (this.updatedFile.selectedFile.type != 'image/png');
      this.updatedFile.isHeavier = (this.updatedFile.selectedFile.size >= 1000000);
-
      const reader = new FileReader();
      reader.readAsDataURL(this.updatedFile.selectedFile)
      reader.onload = () => {

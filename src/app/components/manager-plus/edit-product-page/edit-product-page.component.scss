@@ -40,3 +40,23 @@ form{
   width: 400px;
 }
 
+.err{
+  margin-left: 55px;
+  margin-bottom: 15px;
+  margin-top: -6px;
+}
+@media (min-width: 375px) {
+  form{
+    width: 370px;
+  }
+  .butt{
+    margin-top: 15px;
+  }
+  .bottom-button{
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .err{
+    margin-left: 44px;
+  }
+}

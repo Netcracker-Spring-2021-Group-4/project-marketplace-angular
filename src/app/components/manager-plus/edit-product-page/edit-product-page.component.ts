@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {ProductInfo} from "../../../shared/models/api/receive/productInfo";
 import {ActivatedRoute} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
@@ -20,7 +20,8 @@ import {ValidFile} from "../../../shared/components/file-uploader/file-uploader"
 })
 export class EditProductPageComponent implements OnInit {
 
-  @ViewChild('image') image: any;
+  @Input() reset: any;
+  @ViewChild('reset') fileReset: ElementRef;
   selectedFile: File
   isHeavier: boolean = false;
   isChange: boolean = false;

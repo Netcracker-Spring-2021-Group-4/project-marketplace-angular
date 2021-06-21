@@ -2,6 +2,7 @@ table.mat-table {
   width: 100%;
   border-spacing: 0;
   padding-bottom: 20px;
+  box-shadow: none !important;
 }
 
 .mat-column-demo-position {
@@ -26,16 +27,18 @@ table.mat-table {
   font-weight: bold;
 }
 
+
 img {
-  width: 300px;
-  height: 300px;
+  width: 275px;
+  height: 275px;
 }
 form{
   width: 250px;
 }
 
 .product-info{
-  margin-left: 90px;
+  margin-top: 10px;
+  margin-left: 55px;
 }
 .create{
   margin-left: 40px;
@@ -43,8 +46,57 @@ form{
 .container{
   display: flex;
 }
-@media (min-width: 768px) {
+.up-p{
+  font-weight: bold;
+}
+@media (max-width: 768px) {
   .create{
     margin-left: 30px;
   }
+
 }
+@media (max-width: 665px) {
+  img{
+    width: 200px;
+    height: 200px;
+  }
+  .row{
+    display: flex;
+    flex-flow: wrap;
+  }
+  .col2{
+    order:1;
+    justify-content: center;
+    text-align: center;
+  }
+  .col1{
+    order:2;
+  }
+
+}
+
+@media (max-width: 375px) {
+
+  img{
+    width: 150px;
+    height: 150px;
+  }
+  .product-info{
+    margin-top: 15px;
+    margin-left: 0px;
+    //text-align: center;
+  }
+  .row{
+    display: flex;
+    flex-flow: wrap;
+  }
+  .col2{
+    order:1;
+    justify-content: center;
+    text-align: center;
+  }
+  .col1{
+    order:2;
+  }
+}
+

@@ -28,13 +28,14 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
   isNotPng: boolean
   isHeavier:boolean
   isWrongResolution: boolean;
-
+  fileExpansionErrorMessage = ValidationMessages.expansion;
+  fileWeightErrorMessage = ValidationMessages.weight;
+  fileResolutionErrorMessage = ValidationMessages.resolution;
   private subscriptions: Subscription[] = []
-
   productNameErrorMessage =ValidationMessages.productName
   quantityErrorMessage = ValidationMessages.quantity
   priceErrorMessage = ValidationMessages.price
-  fileErrorMessage = ValidationMessages.file
+
 
 
   constructor(

@@ -56,13 +56,15 @@
                        [form]="form"
     >
     </app-file-uploader>
-
-
-    <mat-error *ngIf= "isNotPng || isHeavier">{{fileErrorMessage}}</mat-error>
+    <div class="error">
+    <mat-error *ngIf="isNotPng">{{fileExpansionErrorMessage}}</mat-error>
+    <mat-error *ngIf="isHeavier">{{fileWeightErrorMessage}}</mat-error>
+    <mat-error *ngIf="isWrongResolution">{{fileResolutionErrorMessage}}</mat-error>
+    </div>
     <button
       mat-raised-button color="accent"
       [disabled]="form.invalid || isLoading || isHeavier || isNotPng || isWrongResolution"
-      class="name-input mr-auto ml-auto"
+      class="name-input mr-auto ml-auto mt-2"
       (click)="submit()"
     >
       Create
