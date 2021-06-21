@@ -28,7 +28,6 @@ export class ManagerApiService {
       description: addProductCreds.description,
       price: addProductCreds.price,
       inStock: addProductCreds.inStock,
-      reserved: addProductCreds.reserved,
       categoryId: addProductCreds.categoryId,
     })],{
       type: "application/json"

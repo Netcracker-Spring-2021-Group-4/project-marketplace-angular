@@ -23,7 +23,7 @@ export class AuctionFormService {
     return this.formBuilder.group({
       startsAtDate: [null, [Validators.required]],
       startsAtTime: ['03:00', [Validators.required]],
-      startPriceDollars: [null, [Validators.required, Validators.min(100)]],
+      startPriceDollars: [null, [Validators.required, Validators.min(100), Validators.max(120_567)]],
       productQuantity: [null, [Validators.required, Validators.min(3)]],
       productId: [null, [Validators.required, UUIDValidator]],
       typeId: [null, [Validators.required, Validators.min(1)]],

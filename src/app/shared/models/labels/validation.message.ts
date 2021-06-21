@@ -25,5 +25,5 @@ export const ValidationMessages = {
   timeToBid: "Minimum time to bid is 10 seconds",
   dateTimeInPast: "Your date and time must be in the future",
   quantityAuction: "Auction must offer more than 3 items of the given product",
-  priceAuction: "Auction must start at price at least 100$"
+  priceAuction: "Auction must start at price at least 100$ and no more than $120 567"
 }
