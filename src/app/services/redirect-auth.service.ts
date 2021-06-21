@@ -26,7 +26,12 @@ export class RedirectAuthService {
   }
 
   redirect() {
-    this.router.navigate([this.currentRedirect ?? RedirectAuthService.defaultRoute()])
+    this.router.navigate([this.redirectRoute])
+  }
+
+  get redirectRoute() {
+    return JwtTokenService.role === UserRole.ROLE_COURIER ?
+      Route.DELIVERIES : (this.currentRedirect ?? RedirectAuthService.defaultRoute())
   }
 
   setDefaultRedirect() {
