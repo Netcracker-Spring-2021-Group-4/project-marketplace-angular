@@ -35,8 +35,8 @@
     </mat-form-field>
     <hr>
   <div class="custom-slider" *ngIf="properties">
-  <ngx-slider formControlName="price"
-    [(value)]="minValue" [(highValue)]="maxValue" [options]="sliderOptions()" ></ngx-slider>
+  <ngx-slider formControlName="price" *ngIf="properties.maxPrice"
+    [(value)]="minValue" [(highValue)]="maxValue" [options]="sliderOptions" ></ngx-slider>
   </div>
   <hr>
   <button mat-button type="reset" (click)="clearAll()">Clear All</button>

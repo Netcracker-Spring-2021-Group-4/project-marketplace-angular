@@ -36,6 +36,7 @@ export class FiltersComponent implements OnInit {
 
   minValue: number;
   maxValue: number;
+  sliderOptions: any;
 
   get categoriesFormArray() {
     return this.productCatalogFilter.controls.categories as FormArray;
@@ -69,8 +70,28 @@ export class FiltersComponent implements OnInit {
     if (changes['properties']) {
       this.properties.categories.forEach(() => this.categoriesFormArray.push(new FormControl(false)));
     }
-    if(this.properties.maxPrice>0)
-      this.maxValue=this.properties.maxPrice/100
+    if(this.properties.maxPrice>0) {
+
+
+      this.sliderOptions = {
+        floor: 0,
+          ceil: (this.properties.maxPrice)/100,
+
+        translate: (value: number, label: LabelType): string => {
+        switch (label) {
+          case LabelType.Low:
+            return '<b>Min price:</b> $' + value;
+          case LabelType.High:
+            return '<b>Max price:</b> $' + value;
+          default:
+            return '$' + value;
+        }
+      }
+      };
+      this.maxValue = this.properties.maxPrice / 100
+
+
+    }
   }
 
 
@@ -82,23 +103,5 @@ export class FiltersComponent implements OnInit {
 
   }
 
-
-  sliderOptions() {
-    return {
-      floor: 0,
-      ceil: (this.properties.maxPrice)/100,
-
-      translate: (value: number, label: LabelType): string => {
-        switch (label) {
-          case LabelType.Low:
-            return '<b>Min price:</b> $' + value;
-          case LabelType.High:
-            return '<b>Max price:</b> $' + value;
-          default:
-            return '$' + value;
-        }
-      }
-    };
-  }
 
 }
