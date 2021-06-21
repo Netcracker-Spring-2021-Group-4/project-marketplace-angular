@@ -7,6 +7,8 @@ export class ValidFile  {
   isChange: boolean;
   isNotPng: boolean;
   isWrongResolution: boolean;
+  isEmpty: boolean = false;
+  imgUrl: any;
 }
 
 @Component({
@@ -17,9 +19,11 @@ export class ValidFile  {
 
 export class FileUploader {
 
-  @Input() public form:FormGroup
-  @Output() correctFile = new EventEmitter<ValidFile>()
-  updatedFile: ValidFile = new ValidFile()
+  @ViewChild('toHide') hide: ElementRef;
+  @Input() public form:FormGroup;
+  @Output() correctFile = new EventEmitter<ValidFile>();
+  updatedFile: ValidFile = new ValidFile();
+
 
   constructor() { }
 
@@ -27,6 +31,9 @@ export class FileUploader {
      this.updatedFile.selectedFile = $event.target.files[0];
      if (this.updatedFile.selectedFile) {
        this.updatedFile.isChange = true;
+     }
+     else if (!this.hide.nativeElement.value) {
+       this.updatedFile.isEmpty = true;
      }
      this.updatedFile.isNotPng = (this.updatedFile.selectedFile.type != 'image/png');
      this.updatedFile.isHeavier = (this.updatedFile.selectedFile.size >= 1000000);
@@ -36,6 +43,7 @@ export class FileUploader {
        const img = new Image();
        img.src = reader.result as string
        img.onload = () => {
+         this.updatedFile.imgUrl = reader.result;
          this.updatedFile.isWrongResolution = img.height != 512 && img.width != 512;
          this.correctFile.emit(this.updatedFile);
        }

@@ -6,7 +6,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ProductUpdateModel} from "../../../shared/models/api/send/product-update.model";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
-import {finalize} from "rxjs/operators";
+import {finalize, isEmpty} from "rxjs/operators";
 import {ProductsHttpService} from "../../../api-services/products-http.service";
 import {PublicApiService} from "../../../api-services/public-http.service";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
@@ -20,9 +20,8 @@ import {ValidFile} from "../../../shared/components/file-uploader/file-uploader"
 })
 export class EditProductPageComponent implements OnInit {
 
-
-  @Input() reset: any;
-  @ViewChild('reset') fileReset: ElementRef;
+  @ViewChild('start') firstImage: ElementRef;
+  imgUrl: any;
   selectedFile: File
   isHeavier: boolean = false;
   isChange: boolean = false;
@@ -45,6 +44,7 @@ export class EditProductPageComponent implements OnInit {
   fileResolutionErrorMessage = ValidationMessages.resolution;
   isDisabled: boolean = false;
   doSend: boolean = false;
+  isEmpty: boolean = false;
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
@@ -126,22 +126,21 @@ export class EditProductPageComponent implements OnInit {
         .updateProductPicture(this.myProductId, this.selectedFile)
         .subscribe(() => {
           this.success = true;
-        });
-      // @ts-ignore
-      document.getElementById("uploadCaptureInputFile").value = "";
-    }
+          this.toaster.successfulNotification(Labels.product.successfulUpdatingProductPicture);
+          (<HTMLInputElement>document.getElementById("uploadCaptureInputFile")).value = "";
+        }, () => {
+          this.toaster.errorNotification(Labels.product.errorUpdatingProductPicture);
+        })}
     this.form.markAsPristine()
     this.isChange = false;
     this.isDisabled = true;
     this.doSend = false;
-
-
-
-
   }
 
   public discardChanges() {
-    this.initForm()
+    (<HTMLInputElement>document.getElementById("uploadCaptureInputFile")).value = "";
+    this.initForm();
+    this.firstImage.nativeElement.src = this.product.imageUrl
   }
 
   public onFormChange(event: any) {
@@ -155,6 +154,8 @@ export class EditProductPageComponent implements OnInit {
     this.isChange = validFile.isChange;
     this.isWrongResolution = validFile.isWrongResolution;
     this.isNotPng = validFile.isNotPng;
+    this.isEmpty = validFile.isEmpty;
+    this.imgUrl = validFile.imgUrl
   }
 
 }

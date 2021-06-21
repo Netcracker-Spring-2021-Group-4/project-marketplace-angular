@@ -6,20 +6,21 @@
 
   >
     <img mat-card-image
-         src="{{product.imageUrl}}"
          alt="Photo"
          *ngIf="!isLoading || product.imageUrl"
+         [src]="imgUrl || product.imageUrl"
+         height="150"
+         #start
     >
     <app-file-uploader (correctFile)="getFile($event)"
                        class="correct-file"
                        [form]="form"
     >
     </app-file-uploader>
-    <div class="err" *ngIf="selectedFile">
+    <div class="err">
     <mat-error *ngIf="isNotPng">{{fileExpansionErrorMessage}}</mat-error>
     <mat-error *ngIf="isHeavier">{{fileWeightErrorMessage}}</mat-error>
     <mat-error *ngIf="isWrongResolution">{{fileResolutionErrorMessage}}</mat-error>
-    <p *ngIf="success && this.form.pristine" class="fs-6 take text-dark"> It may take a while for the picture to update. </p>
     </div>
 <mat-form-field
   appearance="fill"
@@ -109,7 +110,7 @@
     type="button"
     class="bottom-button"
     (click)="discardChanges()"
-    [disabled]="form.pristine || isDisabled"
+    [disabled]="isDisabled || form.pristine && !isChange "
   >
     Discard
   </button>
