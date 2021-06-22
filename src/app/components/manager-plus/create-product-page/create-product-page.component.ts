@@ -20,14 +20,14 @@ import {ValidFile} from "../../../shared/components/file-uploader/file-uploader"
 export class CreateProductPageComponent implements OnInit,OnDestroy {
 
   form: FormGroup
-  selectedFile: File
+  selectedFile?: File
   categories: Category_DUBLICAT[]
   isLoading = false
   currentValue:any
   selected2:any
-  isNotPng: boolean
-  isHeavier:boolean
-  isWrongResolution: boolean;
+  isNotPng?: boolean
+  isHeavier?:boolean
+  isWrongResolution?: boolean;
   fileExpansionErrorMessage = ValidationMessages.expansion;
   fileWeightErrorMessage = ValidationMessages.weight;
   fileResolutionErrorMessage = ValidationMessages.resolution;
@@ -74,25 +74,27 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
     this.isLoading = true;
     this.form.patchValue({price: this.form.get('price')?.value * 100})
     const result = this.form.value
-    this.managerApiService.createProduct(this.selectedFile,result)
-      .pipe(
-        finalize(() => this.isLoading = false)
-      )
-      .subscribe( res => {
-        this.toaster.open({
-          text: Labels.product.successfulCreationProduct,
-          caption: Labels.caption.success,
-          duration: 4000,
-          type: 'success'
-        });
-      }, err => {
-        this.toaster.open({
-          text: err.error.message,
-          caption: Labels.caption.error,
-          duration: 4000,
-          type: 'danger'
-        });
-      })
+    if(this.selectedFile) {
+      this.managerApiService.createProduct(this.selectedFile, result)
+        .pipe(
+          finalize(() => this.isLoading = false)
+        )
+        .subscribe(res => {
+          this.toaster.open({
+            text: Labels.product.successfulCreationProduct,
+            caption: Labels.caption.success,
+            duration: 4000,
+            type: 'success'
+          });
+        }, err => {
+          this.toaster.open({
+            text: err.error.message,
+            caption: Labels.caption.error,
+            duration: 4000,
+            type: 'danger'
+          });
+        })
+    }
 
     this.form.reset();
 

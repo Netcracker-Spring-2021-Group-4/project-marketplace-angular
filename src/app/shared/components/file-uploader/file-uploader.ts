@@ -2,13 +2,13 @@ import {Component, Output, EventEmitter, Input, ViewChild, ElementRef} from '@an
 import {FormBuilder, FormGroup} from "@angular/forms";
 
 export class ValidFile  {
-  selectedFile: File;
-  isHeavier: boolean;
-  isChange: boolean;
-  isNotPng: boolean;
-  isWrongResolution: boolean;
-  isEmpty: boolean = false;
-  imgUrl: any;
+  selectedFile?: File;
+  isHeavier?: boolean;
+  isChange?: boolean;
+  isNotPng?: boolean;
+  isWrongResolution?: boolean;
+  isEmpty?: boolean = false;
+  imgUrl?: any;
 }
 
 @Component({
@@ -28,25 +28,29 @@ export class FileUploader {
   constructor() { }
 
    public onFileSelected($event: any) {
-     this.updatedFile.selectedFile = $event.target.files[0];
-     if (this.updatedFile.selectedFile) {
-       this.updatedFile.isChange = true;
-     }
-     else if (!this.hide.nativeElement.value) {
+    this.updatedFile.selectedFile = $event.target.files[0];
+    if (!this.hide.nativeElement.value) {
        this.updatedFile.isEmpty = true;
      }
-     this.updatedFile.isNotPng = (this.updatedFile.selectedFile.type != 'image/png');
-     this.updatedFile.isHeavier = (this.updatedFile.selectedFile.size >= 1000000);
-     const reader = new FileReader();
-     reader.readAsDataURL(this.updatedFile.selectedFile)
-     reader.onload = () => {
-       const img = new Image();
-       img.src = reader.result as string
-       img.onload = () => {
-         this.updatedFile.imgUrl = reader.result;
-         this.updatedFile.isWrongResolution = img.height != 512 && img.width != 512;
-         this.correctFile.emit(this.updatedFile);
+     else if (this.updatedFile.selectedFile) {
+       this.updatedFile.isChange = true;
+       this.updatedFile.isNotPng = (this.updatedFile.selectedFile.type != 'image/png');
+       this.updatedFile.isHeavier = (this.updatedFile.selectedFile.size >= 1000000);
+       const reader = new FileReader();
+       reader.readAsDataURL(this.updatedFile.selectedFile)
+       reader.onload = () => {
+         const img = new Image();
+         img.src = reader.result as string
+         img.onload = () => {
+           this.updatedFile.imgUrl = reader.result;
+           this.updatedFile.isWrongResolution = img.height != 512 && img.width != 512;
+           this.correctFile.emit(this.updatedFile);
+         }
        }
      }
-  }
+     else {
+      this.updatedFile.selectedFile = undefined;
+      this.correctFile.emit(this.updatedFile);
+    }
+   }
 }

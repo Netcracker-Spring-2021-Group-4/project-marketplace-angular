@@ -20,7 +20,7 @@ export class ManagerApiService {
   }
 
 
-  createProduct(file:File,addProductCreds: AddProductCreditionals): Observable<any> {
+  createProduct(file:File, addProductCreds: AddProductCreditionals): Observable<any> {
     let formdata: FormData = new FormData();
     formdata.append('file', file);
     formdata.append('product',new Blob([JSON.stringify({

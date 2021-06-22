@@ -22,11 +22,11 @@ export class EditProductPageComponent implements OnInit {
 
   @ViewChild('start') firstImage: ElementRef;
   imgUrl: any;
-  selectedFile: File
-  isHeavier: boolean = false;
-  isChange: boolean = false;
-  isNotPng: boolean = false;
-  isWrongResolution: boolean = false;
+  selectedFile: File | undefined
+  isHeavier?: boolean = false;
+  isChange?: boolean = false;
+  isNotPng?: boolean = false;
+  isWrongResolution?: boolean = false;
   categories: Category_DUBLICAT[];
   product: ProductInfo;
   form: FormGroup;
@@ -44,7 +44,7 @@ export class EditProductPageComponent implements OnInit {
   fileResolutionErrorMessage = ValidationMessages.resolution;
   isDisabled: boolean = false;
   doSend: boolean = false;
-  isEmpty: boolean = false;
+  isEmpty?: boolean = false;
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
