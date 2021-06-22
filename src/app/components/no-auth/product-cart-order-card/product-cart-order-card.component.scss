@@ -38,3 +38,16 @@ img {
 .bg-total{
   background: #d4d4d4;
 }
+
+.product-card {
+  height: 460px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.cart-desc {
+  max-height: 150px;
+  overflow-y: auto;
+}

@@ -1,0 +1,126 @@
+<div class="h-100per container d-flex justify-content-center align-items-center">
+
+
+  <form [formGroup]="editForm"
+        (ngSubmit)="submit(editForm.value)"
+        class="container d-flex justify-content-center flex-column form-width mt-3 mb-3"
+  >
+
+    <img mat-card-image
+         [src]=product.imageUrl
+         alt="Photo"
+         *ngIf="!isLoading || product.imageUrl !== null || product.imageUrl !== undefined"
+         class=""
+    >
+
+    <input type="file"
+           name="file"
+           (change)="onFileSelected($event)"
+           formControlName="file"
+           class="custom"
+    >
+    <p *ngIf="success && this.editForm.pristine" class="fs-6 take text-dark"> It may take a while for the picture to update. </p>
+    <mat-error *ngIf="isNotPng">{{fileErrorMessage}}</mat-error>
+    <mat-error *ngIf="isHeavier">{{fileErrorMessage}}</mat-error>
+
+<mat-form-field
+  appearance="fill"
+  class="name-input mr-auto ml-auto mb-3">
+  <input matInput formControlName="productName">
+  <mat-error *ngIf="editForm.get('productName')?.invalid">{{productNameErrorMessage}}</mat-error>
+</mat-form-field>
+
+<mat-form-field
+  appearance="fill"
+  class="name-input mr-auto ml-auto mb-3">
+  <mat-label>Description</mat-label>
+  <textarea matInput formControlName="description"></textarea>
+  <mat-error *ngIf="editForm.get('description')?.invalid">{{descriptionErrorMessage}}</mat-error>
+</mat-form-field>
+
+
+<mat-form-field
+  appearance="fill"
+  class="name-input mr-auto ml-auto mb-3">
+  <mat-label>Price in $</mat-label>
+  <input matInput
+         formControlName="price"
+         step="100"
+         type="number" min="0"
+         autocomplete="off"
+
+  >
+  <mat-error *ngIf="editForm.get('price')?.invalid">{{priceErrorMessage}}</mat-error>
+</mat-form-field>
+
+<mat-form-field
+  appearance="fill"
+  class="name-input mr-auto ml-auto mb-3">
+  <mat-label>In Stock</mat-label>
+  <input matInput formControlName="inStock" type="number" min="0" autocomplete="off">
+  <mat-error *ngIf="editForm.get('inStock')?.invalid">{{quantityErrorMessage}}</mat-error>
+</mat-form-field>
+
+<mat-form-field
+  appearance="fill"
+  class="name-input mr-auto ml-auto mb-3">
+  <mat-label>Reserved (you can't change this field) </mat-label>
+  <input matInput formControlName="reserved" type="number" autocomplete="off" readonly>
+  <mat-error *ngIf="editForm.get('reserved')?.invalid">{{quantityErrorMessage}}</mat-error>
+</mat-form-field>
+
+
+<mat-form-field appearance="fill">
+  <mat-label>Choose another category</mat-label>
+  <mat-select formControlName="categoryId">
+    <mat-option *ngFor="let category of categories"
+                [value]="category.categoryId"
+    >
+      {{category.categoryName | prettyCategory}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+    <button mat-raised-button color="primary"
+      class="mt-2 mb-2 disc"
+      [routerLink]="['./discounts']"
+      type="button" >
+                Discounts information
+    </button>
+
+<mat-slide-toggle
+  color="warn"
+  [checked]="checked"
+  (change)="patchActivateDeactivateProduct(product.productId)"
+  class="mt-3"
+>
+  Activate
+</mat-slide-toggle>
+
+<div class = "d-flex justify-content-evenly mt-lg-4">
+
+<button
+  mat-raised-button color="primary"
+  [routerLink]="['../']"
+  type="button"
+  class="bottom-button"
+>
+  Go back
+</button>
+
+  <button
+    mat-raised-button color="accent"
+    [disabled]="isNotPng || isHeavier
+                || editForm.pristine && !isChange
+                || editForm.untouched && !isChange
+                || editForm.invalid"
+    type="submit"
+    class="bottom-button"
+  >
+    Apply
+  </button>
+</div>
+</form>
+</div>
+
+

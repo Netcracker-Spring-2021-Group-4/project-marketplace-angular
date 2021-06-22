@@ -9,6 +9,10 @@ import {StaffListContentComponent} from './staff-list-page/staff-list-content/st
 import {StaffListFilterFormComponent} from './staff-list-page/staff-list-filter-form/staff-list-filter-form.component';
 import {RouterModule} from "@angular/router";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {EditProductPageComponent} from "./edit-product-page/edit-product-page.component";
+import {DiscountPageComponent} from "./edit-product-page/discount-page/discount-page.component";
+import {NgxMaskModule} from "ngx-mask";
+import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 
 
 @NgModule({
@@ -18,13 +22,17 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     CreateAuctionPageComponent,
     StockSetterPageComponent,
     StaffListContentComponent,
-    StaffListFilterFormComponent
+    StaffListFilterFormComponent,
+    EditProductPageComponent,
+    DiscountPageComponent,
   ],
     imports: [
         CommonModule,
         SharedModule,
         RouterModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        NgxMaterialTimepickerModule,
+        NgxMaskModule.forRoot(),
     ]
 })
 export class ManagerPlusModule {

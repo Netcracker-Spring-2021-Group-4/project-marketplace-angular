@@ -24,6 +24,24 @@ export class AuthStoreGuard implements CanActivate {
 }
 
 @Injectable({providedIn: 'root'})
+export class AuthStoreWoCourierGuard implements CanActivate {
+
+  constructor(private router: Router) {}
+
+  public canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    if (JwtTokenService.role !== UserRole.ROLE_NO_AUTH_CUSTOMER &&
+        JwtTokenService.role !== UserRole.ROLE_COURIER) {
+      return true;
+    }
+    this.router.navigate([Route.LOGIN]);
+    return false;
+  }
+}
+
+@Injectable({providedIn: 'root'})
 export class CustomerGuard implements CanActivate {
 
   constructor(private router: Router) {}
@@ -73,6 +91,24 @@ export class CourierGuard implements CanActivate {
     return false;
   }
 }
+
+@Injectable({providedIn: 'root'})
+export class AllButCourierGuard implements CanActivate {
+
+  constructor(private router: Router) {}
+
+  public canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    if (JwtTokenService.role !== UserRole.ROLE_COURIER) {
+      return true;
+    }
+    this.router.navigate([Route.LOGIN]);
+    return false;
+  }
+}
+
 
 @Injectable({providedIn: 'root'})
 export class AdminGuard implements CanActivate {
@@ -126,6 +162,27 @@ export class ManagerPlusGuard implements CanActivate {
     return false;
   }
 }
+
+@Injectable({providedIn: 'root'})
+export class ClientsGuard implements CanActivate {
+
+  constructor(
+    private router: Router
+  ) {}
+
+  public canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    const permitted = [UserRole.ROLE_NO_AUTH_CUSTOMER, UserRole.ROLE_CUSTOMER]
+    if (permitted.indexOf(JwtTokenService.role) !== -1) {
+      return true;
+    }
+    this.router.navigate([Route.LOGIN]);
+    return false;
+  }
+}
+
 
 @Injectable({providedIn: 'root'})
 export class CheckoutGuard implements CanActivate {

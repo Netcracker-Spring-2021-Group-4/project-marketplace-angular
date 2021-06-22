@@ -7,7 +7,7 @@ export enum Route {
   PASSWORD = "reset-password",
   CHANGE_PASSWORD = "change-password",
   CATALOG = "catalog",
-  PRODUCT = "product",
+  PRODUCT = "product/:productId",
   COMPARE = "compare",
   CART = "cart",
   CHECK_OUT = "check-out",
@@ -22,5 +22,7 @@ export enum Route {
   CREATE_PRODUCT = "mgr/create-product",
   CREATE_AUCTION = "mgr/create-auction",
   STOCK = "mgr/stock",
-  DELIVERIES = "courier/deliveries"
+  DELIVERIES = "courier/deliveries",
+  EDIT_PRODUCT = "product/:productId/edit",
+  DISCOUNTS = "product/:productId/edit/discounts"
 }

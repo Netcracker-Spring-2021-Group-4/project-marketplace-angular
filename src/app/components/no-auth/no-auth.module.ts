@@ -30,6 +30,8 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
 
 
 
+
+
 @NgModule({
   declarations: [
     LoginComponent,
@@ -51,18 +53,21 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     CheckoutStepOneComponent,
     CheckoutStepTwoComponent,
     CheckoutStepThreeComponent,
-    ProductCartOrderCardComponent
+    ProductCartOrderCardComponent,
+
   ],
   imports: [
     CommonModule,
     RouterModule,
-    DragDropModule,
     SharedModule,
     NgxCaptchaModule,
     NgxMaskModule.forRoot(),
     NgxSliderModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    RouterModule,
 
+    DragDropModule
   ]
+
 })
 export class NoAuthModule { }
