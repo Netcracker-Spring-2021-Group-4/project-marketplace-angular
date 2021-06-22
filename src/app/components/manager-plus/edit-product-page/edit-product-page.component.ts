@@ -130,6 +130,7 @@ export class EditProductPageComponent implements OnInit {
         }, () => {
           this.toaster.errorNotification(Labels.product.errorUpdatingProductPicture);
         })}
+    this.selectedFile = undefined;
     this.form.markAsPristine()
     this.isChange = false;
     this.isDisabled = true;
@@ -138,6 +139,11 @@ export class EditProductPageComponent implements OnInit {
 
   public discardChanges() {
     (<HTMLInputElement>document.getElementById("uploadCaptureInputFile")).value = "";
+    this.isChange = false;
+    this.isHeavier = false;
+    this.isWrongResolution = false
+    this.isNotPng = false
+    this.selectedFile = undefined
     this.initForm();
     this.firstImage.nativeElement.src = this.product.imageUrl
   }
@@ -156,14 +162,6 @@ export class EditProductPageComponent implements OnInit {
     this.imgUrl = validFile.imgUrl
   }
 
-  show() {
-    console.log(this.selectedFile)
-    console.log('Change',this.isChange)
-    console.log('PNG',this.isNotPng)
-    console.log('RESOLUTION',this.isWrongResolution)
-    console.log('Weight',this.isHeavier)
-    console.log('URL', this.imgUrl)
-  }
 }
 
 const productNameRegExp = "^[^\\d\\s]{2}[\\w\\s]{0,28}$";

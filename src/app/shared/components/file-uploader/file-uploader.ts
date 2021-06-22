@@ -28,6 +28,7 @@ export class FileUploader {
 
    public onFileSelected($event: any) {
     this.updatedFile.selectedFile = $event.target.files[0];
+
     if (this.updatedFile.selectedFile) {
        this.updatedFile.isChange = true;
        this.updatedFile.isNotPng = (this.updatedFile.selectedFile.type != 'image/png');
