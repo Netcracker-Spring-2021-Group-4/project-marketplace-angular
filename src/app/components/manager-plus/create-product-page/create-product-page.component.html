@@ -17,7 +17,7 @@
       appearance="fill"
       class="name-input mr-auto ml-auto mb-3">
       <mat-label>Description</mat-label>
-      <input matInput formControlName="description">
+      <textarea matInput formControlName="description"></textarea>
     </mat-form-field>
     <mat-form-field
       appearance="fill"
@@ -67,8 +67,6 @@
          alt="Photo"
          *ngIf="imgUrl"
          [src]="imgUrl"
-         height="250"
-         #start
     >
     <p class="text-center fst-italic mt-2" *ngIf="imgUrl">Preview</p>
     <button
