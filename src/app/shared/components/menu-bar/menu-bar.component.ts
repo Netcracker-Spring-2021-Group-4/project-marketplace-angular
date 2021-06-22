@@ -20,8 +20,7 @@ export class MenuBarComponent implements OnInit{
   @ViewChild('drawer') drawer: MatDrawer;
 
   links: MenuLinkConfig;
-
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe('(max-width: 959.98px)')
     .pipe(
       map(result => result.matches),
       shareReplay()
