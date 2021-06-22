@@ -1,17 +1,17 @@
 <div>
   <div class="table-outer">
     <table mat-table [dataSource]="orders$" class="mat-elevation-z8">
-        <ng-component matColumnDef="placedAt">
-          <th mat-header-cell *matHeaderCellDef>Placed at</th>
-          <td *matCellDef="let order">{{order.placedAt | date: 'short'}}</td>
-        </ng-component>
-        <ng-component matColumnDef="deliveryDate">
-          <th mat-header-cell *matHeaderCellDef>Date of delivery</th>
-          <td *matCellDef="let order">{{order.deliveryDate | date: 'mediumDate'}}</td>
-        </ng-component>
+      <ng-component matColumnDef="placedAt">
+        <th mat-header-cell *matHeaderCellDef>Placed at</th>
+        <td *matCellDef="let order">{{order.placedAt | date: 'short'}}</td>
+      </ng-component>
+      <ng-component matColumnDef="deliveryDate">
+        <th mat-header-cell *matHeaderCellDef>Date of delivery</th>
+        <td *matCellDef="let order">{{order.deliveryDate | date: 'mediumDate'}}</td>
+      </ng-component>
       <ng-component matColumnDef="deliveryTimeslot">
         <th mat-header-cell *matHeaderCellDef>Timeslot of delivery</th>
-        <td *matCellDef="let order">{{order.timeStart | date: 'shortTime'}} - {{order.timeEnd | date: 'shortTime'}}</td>
+        <td *matCellDef="let order">{{order.timeStart | date: 'HH:mm'}} - {{order.timeEnd | date: 'HH:mm'}}</td>
       </ng-component>
       <ng-component matColumnDef="orderStatus">
         <th mat-header-cell *matHeaderCellDef>Order status</th>
@@ -28,6 +28,14 @@
       <ng-component matColumnDef="phone">
         <th mat-header-cell *matHeaderCellDef>Phone</th>
         <td *matCellDef="let order">{{order.phoneNumber | phone}}</td>
+      </ng-component>
+      <ng-component matColumnDef="details">
+        <th mat-header-cell *matHeaderCellDef>Details</th>
+        <td *matCellDef="let order">
+          <a routerLink="{{getOrderDetailsLink(order.orderId)}}">
+            <img src="../../../../../assets/details.png" alt="order details" class="table-icon"/>
+          </a>
+        </td>
       </ng-component>
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

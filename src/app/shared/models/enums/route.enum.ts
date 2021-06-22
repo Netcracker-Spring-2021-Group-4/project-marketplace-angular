@@ -19,6 +19,7 @@ export enum Route {
   STAFF_CREATE = "admin/create-staff",
   ORDER_HISTORY = "customer/order-history",
   ORDER_PAGE = "customer/order",
+  ORDER_DETAILS = "order/:id/details",
   CREATE_PRODUCT = "mgr/create-product",
   CREATE_AUCTION = "mgr/create-auction",
   STOCK = "mgr/stock",

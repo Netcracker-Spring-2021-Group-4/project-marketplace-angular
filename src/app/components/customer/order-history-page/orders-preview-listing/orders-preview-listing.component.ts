@@ -2,6 +2,7 @@ import {AfterViewInit, Component, Input, OnChanges, OnInit, ViewChild} from '@an
 import {CustomerOrderModel} from "../../../../shared/models/api/receive/customer-order.model";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
+import {Route} from "../../../../shared/models/enums/route.enum";
 
 @Component({
   selector: 'app-orders-preview-listing',
@@ -14,7 +15,7 @@ export class OrdersPreviewListingComponent implements OnInit, AfterViewInit, OnC
   orders$ : MatTableDataSource<CustomerOrderModel>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  columnsToDisplay = ['placedAt', 'deliveryDate', 'deliveryTimeslot', 'orderStatus', 'address', 'phone']
+  columnsToDisplay = ['placedAt', 'deliveryDate', 'deliveryTimeslot', 'orderStatus', 'address', 'phone', 'details']
 
   constructor() { }
 
@@ -29,4 +30,7 @@ export class OrdersPreviewListingComponent implements OnInit, AfterViewInit, OnC
     this.orders$.paginator = this.paginator;
   }
 
+  getOrderDetailsLink(orderId: string) : string {
+    return '/' + Route.ORDER_DETAILS.replace(":id", orderId)
+  }
 }
