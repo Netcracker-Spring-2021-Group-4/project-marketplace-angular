@@ -10,6 +10,7 @@ import {Subscription} from "rxjs";
 import {MatSelectChange} from "@angular/material/select";
 import {Category_DUBLICAT} from "../../../shared/models/api/receive/category_dublicat";
 import {ProductManagerFormService} from "../services/product-manager-form.service";
+import {ValidFile} from "../../../shared/components/file-uploader/file-uploader";
 
 @Component({
   selector: 'app-create-product-page',
@@ -19,19 +20,23 @@ import {ProductManagerFormService} from "../services/product-manager-form.servic
 export class CreateProductPageComponent implements OnInit,OnDestroy {
 
   form: FormGroup
-  selectedFile: File
+  selectedFile?: File
   categories: Category_DUBLICAT[]
   isLoading = false
   currentValue:any
   selected2:any
-  isNotPng: boolean
-  isHeavier:boolean
+  isNotPng?: boolean
+  isHeavier?:boolean
+  isWrongResolution?: boolean;
+  fileExpansionErrorMessage = ValidationMessages.expansion;
+  fileWeightErrorMessage = ValidationMessages.weight;
+  fileResolutionErrorMessage = ValidationMessages.resolution;
   private subscriptions: Subscription[] = []
-
   productNameErrorMessage =ValidationMessages.productName
   quantityErrorMessage = ValidationMessages.quantity
   priceErrorMessage = ValidationMessages.price
-  fileErrorMessage = ValidationMessages.file
+
+
 
   constructor(
     private productManagerFormService: ProductManagerFormService,
@@ -44,6 +49,7 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
     this.getCategories();
   }
+
   OnInput(event: MatSelectChange): void {
     this.currentValue = {
       value: event.value,
@@ -64,35 +70,31 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
       ));
   }
 
-  onFileSelected($event:any) {
-    this.selectedFile = $event.target.files[0];
-    this.isNotPng=(this.selectedFile.type != 'image/png');
-    this.isHeavier = (this.selectedFile.size >= 1000000)
-  }
-
   submit() {
     this.isLoading = true;
     this.form.patchValue({price: this.form.get('price')?.value * 100})
     const result = this.form.value
-    this.managerApiService.createProduct(this.selectedFile,result)
-      .pipe(
-        finalize(() => this.isLoading = false)
-      )
-      .subscribe( res => {
-        this.toaster.open({
-          text: Labels.product.successfulCreationProduct,
-          caption: Labels.caption.success,
-          duration: 4000,
-          type: 'success'
-        });
-      }, err => {
-        this.toaster.open({
-          text: err.error.message,
-          caption: Labels.caption.error,
-          duration: 4000,
-          type: 'danger'
-        });
-      })
+    if(this.selectedFile) {
+      this.managerApiService.createProduct(this.selectedFile, result)
+        .pipe(
+          finalize(() => this.isLoading = false)
+        )
+        .subscribe(res => {
+          this.toaster.open({
+            text: Labels.product.successfulCreationProduct,
+            caption: Labels.caption.success,
+            duration: 4000,
+            type: 'success'
+          });
+        }, err => {
+          this.toaster.open({
+            text: err.error.message,
+            caption: Labels.caption.error,
+            duration: 4000,
+            type: 'danger'
+          });
+        })
+    }
 
     this.form.reset();
 
@@ -103,5 +105,12 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
       (subscriptions)=>subscriptions.unsubscribe()
     );
     this.subscriptions=[];
+  }
+
+  getFile(validFile: ValidFile) {
+    this.selectedFile = validFile.selectedFile;
+    this.isHeavier = validFile.isHeavier;
+    this.isWrongResolution = validFile.isWrongResolution;
+    this.isNotPng = validFile.isNotPng;
   }
 }

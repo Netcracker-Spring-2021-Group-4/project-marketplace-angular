@@ -1,78 +1,72 @@
-<div class="h-100per container d-flex justify-content-center align-items-center">
+<div class="h-100per container-xl d-flex justify-content-center align-items-center" *ngIf="!isLoading">
 
+  <form [formGroup]="form"
+        (ngSubmit)="submit(form.value)"
+        class="container d-flex justify-content-center flex-column mt-3 mb-3"
 
-  <form [formGroup]="editForm"
-        (ngSubmit)="submit(editForm.value)"
-        class="container d-flex justify-content-center flex-column form-width mt-3 mb-3"
   >
-
     <img mat-card-image
-         [src]=product.imageUrl
          alt="Photo"
-         *ngIf="!isLoading || product.imageUrl !== null || product.imageUrl !== undefined"
-         class=""
+         *ngIf="!isLoading || product.imageUrl"
+         [src]="imgUrl || product.imageUrl"
+         height="150"
+         #start
     >
-
-    <input type="file"
-           name="file"
-           (change)="onFileSelected($event)"
-           formControlName="file"
-           class="custom"
+    <app-file-uploader (correctFile)="getFile($event)"
+                       class="correct-file"
+                       [form]="form"
     >
-    <p *ngIf="success && this.editForm.pristine" class="fs-6 take text-dark"> It may take a while for the picture to update. </p>
-    <mat-error *ngIf="isNotPng">{{fileErrorMessage}}</mat-error>
-    <mat-error *ngIf="isHeavier">{{fileErrorMessage}}</mat-error>
-
+    </app-file-uploader>
+    <div class="err">
+    <mat-error *ngIf="isNotPng">{{fileExpansionErrorMessage}}</mat-error>
+    <mat-error *ngIf="isHeavier">{{fileWeightErrorMessage}}</mat-error>
+    <mat-error *ngIf="isWrongResolution">{{fileResolutionErrorMessage}}</mat-error>
+    </div>
 <mat-form-field
   appearance="fill"
-  class="name-input mr-auto ml-auto mb-3">
-  <input matInput formControlName="productName">
-  <mat-error *ngIf="editForm.get('productName')?.invalid">{{productNameErrorMessage}}</mat-error>
+  class="name-input mr-auto ml-auto mt-2 mb-3">
+  <input matInput formControlName="productName" (ngModelChange)="onFormChange($event)" >
+  <mat-error *ngIf="form.get('productName')?.invalid">{{productNameErrorMessage}}</mat-error>
 </mat-form-field>
 
 <mat-form-field
   appearance="fill"
   class="name-input mr-auto ml-auto mb-3">
   <mat-label>Description</mat-label>
-  <textarea matInput formControlName="description"></textarea>
-  <mat-error *ngIf="editForm.get('description')?.invalid">{{descriptionErrorMessage}}</mat-error>
+  <textarea matInput formControlName="description" (ngModelChange)="onFormChange($event)"></textarea>
 </mat-form-field>
-
 
 <mat-form-field
   appearance="fill"
   class="name-input mr-auto ml-auto mb-3">
-  <mat-label>Price in $</mat-label>
+  <mat-label>Price $</mat-label>
   <input matInput
+         type="text"
+         mask="separator.2"
          formControlName="price"
-         step="100"
-         type="number" min="0"
          autocomplete="off"
-
+         (ngModelChange)="onFormChange($event)"
   >
-  <mat-error *ngIf="editForm.get('price')?.invalid">{{priceErrorMessage}}</mat-error>
+  <mat-error *ngIf="form.get('price')?.invalid">{{priceErrorMessage}}</mat-error>
 </mat-form-field>
 
 <mat-form-field
   appearance="fill"
-  class="name-input mr-auto ml-auto mb-3">
+  class="name-input mr-auto ml-auto mb-2">
   <mat-label>In Stock</mat-label>
-  <input matInput formControlName="inStock" type="number" min="0" autocomplete="off">
-  <mat-error *ngIf="editForm.get('inStock')?.invalid">{{quantityErrorMessage}}</mat-error>
+  <input matInput
+         formControlName="inStock"
+         type="text"
+         mask="separator.0"
+         autocomplete="off"
+         (ngModelChange)="onFormChange($event)"
+  >
+  <mat-error *ngIf="form.get('inStock')?.invalid">{{quantityErrorMessage}}</mat-error>
 </mat-form-field>
-
-<mat-form-field
-  appearance="fill"
-  class="name-input mr-auto ml-auto mb-3">
-  <mat-label>Reserved (you can't change this field) </mat-label>
-  <input matInput formControlName="reserved" type="number" autocomplete="off" readonly>
-  <mat-error *ngIf="editForm.get('reserved')?.invalid">{{quantityErrorMessage}}</mat-error>
-</mat-form-field>
-
 
 <mat-form-field appearance="fill">
   <mat-label>Choose another category</mat-label>
-  <mat-select formControlName="categoryId">
+  <mat-select formControlName="categoryId" (ngModelChange)="onFormChange($event)">
     <mat-option *ngFor="let category of categories"
                 [value]="category.categoryId"
     >
@@ -81,23 +75,27 @@
   </mat-select>
 </mat-form-field>
 
-    <button mat-raised-button color="primary"
-      class="mt-2 mb-2 disc"
-      [routerLink]="['./discounts']"
-      type="button" >
-                Discounts information
-    </button>
 
 <mat-slide-toggle
   color="warn"
   [checked]="checked"
-  (change)="patchActivateDeactivateProduct(product.productId)"
-  class="mt-3"
+  (change)="activateDeactivateProduct(product.productId)"
+  class="mt-1 mb-3"
 >
   Activate
 </mat-slide-toggle>
+    <p class="name-input mr-auto ml-auto mb-1 fs-6">
+      Reserved: {{product.reserved}}
+    </p>
 
-<div class = "d-flex justify-content-evenly mt-lg-4">
+    <button mat-raised-button color="primary"
+            class="mt-2 mb-2 disc"
+            [routerLink]="['./discounts']"
+            type="button" >
+      Discounts information
+    </button>
+
+<div class = "d-flex justify-content-evenly mt-lg-4 butt">
 
 <button
   mat-raised-button color="primary"
@@ -107,20 +105,30 @@
 >
   Go back
 </button>
-
   <button
-    mat-raised-button color="accent"
-    [disabled]="isNotPng || isHeavier
-                || editForm.pristine && !isChange
-                || editForm.untouched && !isChange
-                || editForm.invalid"
+    mat-raised-button color="warn"
+    type="button"
+    class="bottom-button"
+    (click)="discardChanges()"
+    [disabled]="isDisabled || form.pristine && !isChange "
+  >
+    Discard
+  </button>
+  <button
+    mat-raised-button color="primary"
+    [disabled]="isNotPng || isHeavier || isWrongResolution
+                || form.pristine && !isChange
+                || form.invalid
+                "
     type="submit"
     class="bottom-button"
   >
     Apply
   </button>
+
 </div>
 </form>
 </div>
+
 
 

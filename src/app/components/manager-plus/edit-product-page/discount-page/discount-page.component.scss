@@ -2,6 +2,8 @@ table.mat-table {
   width: 100%;
   border-spacing: 0;
   padding-bottom: 20px;
+  box-shadow: none !important;
+  margin-bottom: 45px;
 }
 
 .mat-column-demo-position {
@@ -26,28 +28,76 @@ table.mat-table {
   font-weight: bold;
 }
 
-form {
+
+img {
+  width: 275px;
+  height: 275px;
+}
+form{
+  width: 250px;
+}
+
+.product-info{
   margin-top: 10px;
-  margin-left: 10px;
+  margin-left: 55px;
+}
+.create{
+  margin-left: 40px;
+}
+.container{
+  display: flex;
+}
+.up-p{
+  font-weight: bold;
+}
+@media (max-width: 768px) {
+  .create{
+    margin-left: 30px;
+  }
+
+}
+@media (max-width: 665px) {
+  img{
+    width: 200px;
+    height: 200px;
+  }
+  .row{
+    display: flex;
+    flex-flow: wrap;
+  }
+  .col2{
+    order:1;
+    justify-content: center;
+    text-align: center;
+  }
+  .col1{
+    order:2;
+  }
+
 }
 
-.number-field {
-  width: 147px;
+@media (max-width: 375px) {
+
+  img{
+    width: 150px;
+    height: 150px;
+  }
+  .product-info{
+    margin-top: 15px;
+    margin-left: 0px;
+    //text-align: center;
+  }
+  .row{
+    display: flex;
+    flex-flow: wrap;
+  }
+  .col2{
+    order:1;
+    justify-content: center;
+    text-align: center;
+  }
+  .col1{
+    order:2;
+  }
 }
 
-button{
-  text-align: center;
-  width: 75px;
-
-}
-
-@media screen and (max-width: 400px) {
-
-form {
-  margin-top: 40px;
-  margin-left: 60px;
-}
-.back{
-  margin-right: 30px;
-}
-}

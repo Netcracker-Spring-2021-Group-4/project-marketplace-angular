@@ -1,0 +1,14 @@
+.custom{
+  margin-bottom: 15px;
+  content: 'Select some files';
+  display: inline-block;
+  background: #f0eef0;
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 10px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  font-size: 10pt;
+}

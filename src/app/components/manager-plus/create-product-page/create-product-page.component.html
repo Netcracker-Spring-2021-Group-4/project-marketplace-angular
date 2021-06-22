@@ -53,12 +53,20 @@
       </mat-select>
     </mat-form-field>
 
-    <input class="custom" type="file" value="1"   (change)="onFileSelected($event)" formControlName="file" >
-    <mat-error *ngIf= "isNotPng||isHeavier">{{fileErrorMessage}}</mat-error>
+    <app-file-uploader (correctFile)="getFile($event)"
+                       class="correct-file"
+                       [form]="form"
+    >
+    </app-file-uploader>
+    <div class="error">
+    <mat-error *ngIf="isNotPng">{{fileExpansionErrorMessage}}</mat-error>
+    <mat-error *ngIf="isHeavier">{{fileWeightErrorMessage}}</mat-error>
+    <mat-error *ngIf="isWrongResolution">{{fileResolutionErrorMessage}}</mat-error>
+    </div>
     <button
       mat-raised-button color="accent"
-      [disabled]="form.invalid || isLoading || selectedFile.type != 'image/png'||isHeavier"
-      class="name-input mr-auto ml-auto"
+      [disabled]="form.invalid || isLoading || isHeavier || isNotPng || isWrongResolution"
+      class="name-input mr-auto ml-auto mt-2"
       (click)="submit()"
     >
       Create

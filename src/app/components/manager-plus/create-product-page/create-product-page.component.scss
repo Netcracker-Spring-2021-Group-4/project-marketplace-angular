@@ -1,15 +1,15 @@
 @import 'src/styles/variables';
-.custom{
-  margin-bottom: 15px;
-  content: 'Select some files';
-  display: inline-block;
-  background: #f0eef0;
-  border: 1px solid #999;
-  border-radius: 3px;
-  padding: 10px 8px;
-  outline: none;
-  white-space: nowrap;
-  -webkit-user-select: none;
-  cursor: pointer;
-  font-size: 10pt;
+
+.form-width {
+  width: clamp(250px, 340px, 450px);
+}
+.error{
+  margin-left: 22px;
+  margin-bottom: 10px;
+  margin-top: -22px;
+}
+.correct-file{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
 }

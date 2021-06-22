@@ -1,21 +1,21 @@
-<p *ngIf="!isLoading && discounts.length == 0"> This product has no discounts</p>
+<p *ngIf="!isLoading && discounts.length == 0" class="text-center fw-bold fs-5 mt-3 mb-1"> This product has no discounts</p>
 
 <table mat-table [dataSource]="discountsDatasource" class="mat-elevation-z8"
        *ngIf="!isLoading && discounts.length !== 0">
 
   <ng-container matColumnDef="offered price">
-    <th mat-header-cell *matHeaderCellDef>Offered price</th>
+    <th mat-header-cell *matHeaderCellDef>Offered price $</th>
     <td mat-cell *matCellDef="let discount"> {{discount.offeredPrice | customCurrency}} </td>
   </ng-container>
 
   <ng-container matColumnDef="starts at">
     <th mat-header-cell *matHeaderCellDef>Starts at</th>
-    <td mat-cell *matCellDef="let discount"> {{discount.startsAt | date:'d, MMMM, y, hh:mm:ss': '+2400'}} </td>
+    <td mat-cell *matCellDef="let discount"> {{discount.startsAt | date:'medium'}} </td>
   </ng-container>
 
   <ng-container matColumnDef="ends at">
     <th mat-header-cell *matHeaderCellDef>Ends at</th>
-    <td mat-cell *matCellDef="let discount"> {{discount.endsAt | date:'d, MMMM, y, hh:mm:ss': '+2400'}}
+    <td mat-cell *matCellDef="let discount"> {{discount.endsAt | date:'medium'}}
     </td>
   </ng-container>
 
@@ -34,78 +34,96 @@
 </table>
 
 
-<form [formGroup]="discountForm"
-      (ngSubmit)="submit(discountForm.value, formDirective)"
-      #formDirective="ngForm"
->
+<div class="container d-flex justify-content-center flex-column form-width mt-3 mb-3 cont-war">
+  <div class="row">
+    <div class="col-sm col1">
+      <form [formGroup]="discountForm"
+            (ngSubmit)="submit(discountForm.value)"
+            class="container d-flex justify-content-center flex-column mt-3 mb-3"
+      >
+        <p class="text-center">Add discount</p>
 
-  <p mat-raised-button color="primary">Add another discount</p>
-  <mat-form-field appearance="fill" class="name-input mr-auto ml-auto mb-3">
-    <mat-label>Date range</mat-label>
-    <mat-date-range-input [rangePicker]="picker" disabled="true" [min]="minDate">
-      <input matStartDate placeholder="Start date" formControlName="startsAt">
-      <input matEndDate placeholder="End date" formControlName="endsAt">
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker" disabled="false"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker disabled="false" touchUi></mat-date-range-picker>
-  </mat-form-field>
+        <mat-form-field appearance="fill" class="name-input mr-auto ml-auto mb-3">
+          <mat-label>Date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker" disabled="true" [min]="minDate">
+            <input matStartDate placeholder="Start date" formControlName="startsAt">
+            <input matEndDate placeholder="End date" formControlName="endsAt">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker" disabled="false"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+        </mat-form-field>
 
-  <div class="date-pick">
-    <div class="pick-one">
-      <mat-form-field color="accent" appearance="fill" class="mb-3">
-        <mat-label>Start time (HH:MM:SS)</mat-label>
-        <div class="mask">
-          <input matInput mask="Hh:m0:s0"
-                 formControlName="timeStart"
-                 (input)="fetchStart($event)"
-                 autocomplete="off"
-          />
+
+        <div class="ngx-timepicker-field-example mb-3">
+          <ngx-timepicker-field
+            [format]="24"
+            [defaultTime]="'03:00'"
+            formControlName="timeStart"
+          >
+          </ngx-timepicker-field>
+          <mat-error
+            class="mt-2 mb-2"
+            *ngIf="discountForm.get('startsAt')!.dirty && discountForm.errors?.dateTimeInPast"
+          >
+            {{dateTimeInPastErrorMessage}}
+          </mat-error>
         </div>
-        <mat-error *ngIf="discountForm.get('timeStart')?.invalid" class="mb-5">{{timeErrorMessage}}</mat-error>
-      </mat-form-field>
 
+        <div class="ngx-timepicker-field-example mb-3">
+          <ngx-timepicker-field
+            [format]="24"
+            [defaultTime]="'03:00'"
+            formControlName="timeEnd"
+          >
+          </ngx-timepicker-field>
+        </div>
 
+        <mat-form-field class="example-form-field mb-4">
+          <mat-label>Offered price $</mat-label>
+          <input matInput
+                 type="text"
+                 mask="separator.2"
+                 formControlName="offeredPrice"
+                 autocomplete="off"
+                 [(ngModel)]="val"
+          >
+          <mat-error *ngIf="discountForm.get('offeredPrice')?.invalid" class="mb-5">
+            {{offeredPriceErrorMessage}}
+          </mat-error>
+
+        </mat-form-field>
+        <div>
+          <button class=""
+                  mat-raised-button color="primary"
+                  [routerLink]="['../']"
+                  type="button"
+          >
+            Go Back
+          </button>
+          <button class=" create"
+                  mat-raised-button color="primary"
+                  type="submit"
+                  [disabled]="discountForm.invalid || discountForm.untouched || isIncorrectTime"
+          >
+            Create
+          </button>
+        </div>
+      </form>
     </div>
-    <mat-form-field color="accent" appearance="fill" class="mb-3">
-      <mat-label>End time (HH:MM:SS)</mat-label>
-      <input
-        matInput mask="Hh:m0:s0"
-        class="mask"
-        formControlName="timeEnd"
-        (input)="fetchEnd($event)"
-        autocomplete="off"
-      />
-      <mat-error *ngIf="discountForm.get('timeEnd')?.invalid" class="mb-5">{{timeErrorMessage}}</mat-error>
-    </mat-form-field>
+    <div *ngIf="product$ | async as product" class="col-sm mt-3 mb-3 col2">
+      <img mat-card-image
+           src="{{product.imageUrl}}"
+           alt="Photo"
+           *ngIf="!isLoading || product.imageUrl"
+      >
+      <div class="product-info">
+        <p class="fs-5 fst-italic">{{product.name}}</p>
+        <p class="fs-5"> Price: {{product.price | customCurrency}}</p>
+      </div>
+    </div>
+
 
   </div>
-  <mat-form-field class="example-form-field mb-5">
-    <mat-label>Offered price</mat-label>
-    <input matInput
-           min="0"
-           type="number"
-           autocomplete="off"
-           formControlName="offeredPrice"
-           class="text-lg-center"
-    >
-    <mat-error *ngIf="discountForm.get('offeredPrice')?.invalid" class="mb-5">
-      {{offeredPriceErrorMessage}}
-    </mat-error>
+</div>
 
-  </mat-form-field>
-  <br>
-  <button class="me-lg-5 back"
-          mat-raised-button color="primary"
-          [routerLink]="['../']"
-          type="button"
-  >
-    Go Back
-  </button>
-  <button class="me-5"
-          mat-raised-button color="primary"
-          type="submit"
-          [disabled]="discountForm.invalid || discountForm.untouched || isIncorrectTime"
-  >
-    Create
-  </button>
-</form>
+

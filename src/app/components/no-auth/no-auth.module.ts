@@ -27,6 +27,7 @@ import { CheckoutStepThreeComponent } from './checkout-page/checkout-step-three/
 import {RouterModule} from "@angular/router";
 import { ProductCartOrderCardComponent } from './product-cart-order-card/product-cart-order-card.component';
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import {ClipboardModule} from "@angular/cdk/clipboard";
 
 
 
@@ -65,8 +66,8 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     NgxSliderModule,
     MatPaginatorModule,
     RouterModule,
-
-    DragDropModule
+    DragDropModule,
+    ClipboardModule,
   ]
 
 })

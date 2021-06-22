@@ -52,13 +52,16 @@ const Labels = {
   product:{
     successfulCreationProduct: 'Creation new product completed successfully',
     errorCreationProduct: 'Something went wrong with creation product',
+    successfulUpdatingProductPicture: 'Picture successfully updated (it may take a while for the picture to update).',
+    errorUpdatingProductPicture: 'Could not change the picture, the file must be in the "png" format, weigh no more than 1MB and the extension is 512 x 512',
     successfulUpdatingProduct: 'Successfully updated',
     errorUpdatingProduct: 'Incorrect data for updating please recheck',
     successfulAddingToCart: 'The item was successfully added to your cart',
     successfulRemovingFromCart: 'The item was successfully removed from your cart',
     errorRemovingFromEmptyCart: 'Cannot remove item from empty cart',
     errorRemovingItemIfCartDoesntHaveIt: 'Cannot remove item from cart where the item is abscent',
-    errorRemoveNegativeQuantity: 'Cannot remove negative quantity'
+    errorRemoveNegativeQuantity: 'Cannot remove negative quantity',
+    successfulActivateProduct: 'Product successfully activated/deactivated',
   },
   discount:{
     successfulCreationDiscount: 'Discount successfully created',

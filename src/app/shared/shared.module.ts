@@ -34,6 +34,8 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import { FileUploader } from './components/file-uploader/file-uploader';
+
 
 @NgModule({
   imports: [
@@ -101,14 +103,16 @@ import {MatNativeDateModule} from "@angular/material/core";
     RoleStripperPipe,
     CategoryPrettifierPipe,
     CustomCurrencyPipe,
-    CoverLoadingComponent
+    CoverLoadingComponent,
+    FileUploader
   ],
   declarations: [
     MenuBarComponent,
     RoleStripperPipe,
     CategoryPrettifierPipe,
     CustomCurrencyPipe,
-    CoverLoadingComponent
+    CoverLoadingComponent,
+    FileUploader
   ]
 })
 export class SharedModule { }

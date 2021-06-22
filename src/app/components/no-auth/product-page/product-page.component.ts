@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {Discount} from "../../../shared/models/api/receive/discount";
@@ -12,8 +12,8 @@ import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {CartItemModel} from "../../../shared/models/api/send/cart-item.model";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {PublicApiService} from "../../../api-services/public-http.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Product} from "../../../shared/models/api/receive/product";
+import {Observable} from "rxjs";
+import {CompareManagementService} from "../../../services/compare-management.service";
 
 @Component({
   selector: 'app-product-page',
@@ -22,73 +22,87 @@ import {Product} from "../../../shared/models/api/receive/product";
 })
 export class ProductPageComponent implements OnInit {
 
-  currentValue: Number;
+  currentValue: number = 1;
   product: ProductInfo;
-  discount: Discount;
-  role: UserRole;
-  categoryName: string;
+  discount:Discount;
+  role$: Observable<UserRole>;
+  categoryName$: Observable<string>;
   isLoading = false;
-  amountForm: FormGroup;
+  availableQuantity: number;
+  currentItem: any;
+  currentItemQuantity: any;
+  private readonly CART_STORAGE = 'cart'
+  isShown: boolean = false;
+  isCopy: boolean = false;
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
               private discountsService: DiscountsHttpService,
               private route: ActivatedRoute,
               private roleService: RoleService,
-              private cartManager: CartManagementService,
+              private cartService: CartManagementService,
               private toaster: ToasterCustomService,
-              private formBuilder: FormBuilder,
+              private compareService: CompareManagementService,
   ) {
+
   }
 
   ngOnInit(): void {
-    this.amountForm = this.createAmountForm();
-    this.isLoading = true;
-    this.roleService.currentRole$.subscribe(
-      data => {
-        this.role = data;
-      });
     const productId = this.route.snapshot.paramMap.get('productId');
+    this.isLoading = true;
+    this.role$ = this.roleService.currentRole$
     this.productService.getProduct(productId).pipe(finalize(() => {
       this.isLoading = false
     })).subscribe(
       data => {
         this.product = data;
+        this.availableQuantity = this.product.inStock - this.product.reserved
+        this.discountsService.getActiveDiscount(productId).subscribe(
+          data =>{
+            this.discount = data;
+            this.categoryName$ = this.publicApiService.getCategoryName(productId)
+          })
       });
-    this.discountsService.getActiveDiscount(productId).subscribe(
-      data => {
-        this.discount = data;
-      });
-    this.publicApiService.getCategoryName(productId).subscribe(
-      data => {
-        this.categoryName = (data);
-      });
+
+
+  }
+  toggleShow() {
+    this.isShown = ! this.isShown;
 
   }
 
-  public createAmountForm(): FormGroup {
-    return this.formBuilder.group({
-      quantity: quantity()
-    })
-  }
 
-  public OnInput(event: any) {
-    this.currentValue = event.target.value;
-  }
-
-  addToCart(id: string, amount: number) {
+  addToCart(id: string) {
     if (this.product.inStock == 0)
-      this.outOfStockNotify()
+      this.toaster.errorNotification(Labels.cart.outOfStock);
     else
-      this.cartManager.addToCart(new CartItemModel({quantity: amount, productId: id,}));
-    console.log(amount)
-    console.log(CartItemModel)
-    console.log(id)
+      this.cartService.addToCart(new CartItemModel({quantity: this.currentValue, productId: id}));
   }
 
-  private outOfStockNotify() {
-    this.toaster.errorNotification(Labels.cart.outOfStock)
+  addToCompare(id: string) {
+    this.compareService.addToList(id);
+  }
+
+  removeFromCart(): void{
+    this.getItem()
+    this.cartService.removeFromCart({quantity:this.currentItemQuantity, productId:this.product.productId})
+  }
+
+  get localCart() : CartItemModel[] {
+    const cartString = localStorage.getItem(this.CART_STORAGE)
+    const parsed = JSON.parse(cartString ?? "[]")
+    return parsed === [] ? [] : parsed
+  }
+
+  getItem(){
+    this.currentItem = this.localCart.filter(obj => obj.productId == this.product.productId)
+    this.currentItemQuantity = this.currentItem[0].quantity
+  }
+
+  isCopied() {
+    this.isCopy = !this.isCopy
+    if(this.isCopy){
+      this.toaster.successfulNotification('Id copied to clipboard')
+    }
   }
 }
-
-const quantity = (value?: number) => ([value ?? null, [Validators.required, Validators.min(0)]]);

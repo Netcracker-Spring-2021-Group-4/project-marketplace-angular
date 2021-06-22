@@ -3,81 +3,104 @@
 
   <div class="wrapper">
     <div>
-      <img mat-card-image src={{product.imageUrl}}
+      <img mat-card-image src="{{product.imageUrl}}"
            alt="Photo"
-           *ngIf="!isLoading || product.imageUrl !== null || product.imageUrl !== undefined"
+           *ngIf="!isLoading || product.imageUrl"
       >
     </div>
     <div>
-      <p class="name">{{product.name}}</p>
-      <p class="pt-3 pb-3">{{categoryName | prettyCategory}}</p>
-      <span class="pt-3 pb-3 fw-normal fs-3">Price: </span>
-      <span class="fw-bold fs-2" *ngIf="!discount"> {{product.price | customCurrency}}</span>
-      <span class="text-secondary text-decoration-line-through"
-            *ngIf="discount"> {{product.price | customCurrency}}</span>
-      <span class="new-price" *ngIf="discount"> {{discount.offeredPrice | customCurrency}}!</span><br>
-
-      <p class="text-white bg-secondary mt-4 mb-3" *ngIf="discount">
-        Hurry up, the discount is valid until
-        {{ discount.endsAt | date: 'd, MMMM, y, hh:mm:ss': '+2400'}}
+      <p *ngIf="!product.isActive" class="pb-3 text-danger">
+        Product is not available at the moment
       </p>
+      <p class="name">{{product.name}}</p>
+      <button  mat-stroked-button color="primary" (click)="toggleShow()" class="mb-2">
+        <ng-container *ngIf="!isShown">Show product id:</ng-container>
+        <ng-container *ngIf="isShown">Hide product id:</ng-container>
+      </button>
+      <span *ngIf="isShown" class="product-id" [cdkCopyToClipboard]="product.productId" (click)="isCopied()">
+        {{product.productId}}
+        </span>
+      <p class="pt-2 pb-2" *ngIf="categoryName$ | async as categoryName">
+       Category: {{categoryName | prettyCategory}}
+      </p>
+      <span class="pt-3 pb-3 fw-normal">Price:
+        <span *ngIf="!product.isActive">{{product.price | customCurrency}}</span>
+      </span>
+      <span class="fw-bold" *ngIf="!discount"> {{product.price | customCurrency}}</span>
+      <span class="text-secondary text-decoration-line-through"
+            *ngIf="discount && product.isActive"> {{product.price | customCurrency}}</span>
+      <span class="new-price" *ngIf="discount && product.isActive">
+        {{discount.offeredPrice | customCurrency}}!
+      </span><br>
 
-      <p class="pb-3 pt-3"> {{product.description}} </p>
-
-      <p class="pt-2 pb-4"> Available for purchase:
-        <span class="fw-bold">{{product.inStock}} </span>
+      <p class="text-white bg-secondary mt-4 mb-1" *ngIf="discount && product.isActive">
+        Hurry up, the discount is valid until
+        {{ discount.endsAt | date: 'medium'}}
+      </p>
+      <p class="pb-1 pt-3"> {{product.description}} </p>
+      <p class="pt-0 pb-2" *ngIf="product.isActive"> Available for purchase:
+        <span class="fw-bold">{{availableQuantity}} </span>
         items
       </p>
-      <form [formGroup]="amountForm"
-            (ngSubmit)="addToCart(product.productId, amountForm.value)"
-      >
-      <div *ngIf="role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'">
 
-        <span class="pt-3 mb-5"> Amount </span>
-        <input type="number"
-               step="1"
-               value="1"
-               min="0"
-               max="{{product.inStock}}"
-               (input)="OnInput($event)"
-               (keydown)="OnInput($event)"
-               formControlName="quantity"
-        >
-      </div>
+      <div *ngIf="role$ | async as role">
+        <div *ngIf="product.isActive && role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'">
 
-      <div class="buttons">
-        <button class="action edit"
-                mat-raised-button color="primary"
-                [disabled]="currentValue > product.inStock || currentValue < 1"
-                *ngIf="role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
-                type="submit"
-        >
-          Add to card
-        </button>
-             <button class="action edit"
-                mat-raised-button color="primary"
-                *ngIf="role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
-        >
-          Compare
-        </button>
-      </div>
+          <span class="pt-3 mb-5"> Add item to cart </span>
+          <input type="text"
+                 mask="separator.0"
+                 [(ngModel)]="currentValue"
+          >
+        </div>
 
-      <div class="editing">
-        <button class="action edit"
-                [routerLink]="['./edit']"
-                *ngIf="role =='ROLE_ADMIN' || role == 'ROLE_PRODUCT_MGR'"
-                mat-raised-button color="primary"
-        >
-          Edit
-        </button>
+        <div class="buttons">
+          <button class="action edit"
+                  mat-raised-button color="primary"
+                  [disabled]="currentValue > availableQuantity
+                || currentValue < 1
+                || product.inStock == 0
+                || product.inStock == product.reserved
+                || !product.isActive
+                "
+                  *ngIf="role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
+                  (click)="addToCart(product.productId)"
+
+          >
+            Add to card
+          </button>
+          <button class="action edit remove"
+                  mat-raised-button color="warn"
+                  *ngIf="role == 'ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
+                  (click)="removeFromCart()"
+                  [disabled]="availableQuantity == 0"
+          >
+            Remove from card
+          </button>
+          <button class="action edit"
+                  mat-raised-button color="primary"
+                  *ngIf="role == 'ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
+                  (click)="addToCompare(product.productId)"
+          >
+            Compare
+          </button>
+        </div>
+
+        <div class="editing">
+          <button class="action edit"
+                  [routerLink]="['./edit']"
+                  *ngIf="role =='ROLE_ADMIN' || role == 'ROLE_PRODUCT_MGR'"
+                  mat-raised-button color="primary"
+          >
+            Edit
+          </button>
+        </div>
       </div>
-      </form>
-      <div class="warn">
+      <div class="warn" *ngIf="product.inStock !== 0">
         <span class="warning" *ngIf="currentValue > product.inStock">
-          Sorry now available only {{product.inStock}} items
+          Sorry now available only {{availableQuantity}} items
         </span>
         <span class="warning" *ngIf="currentValue < 1">Add at least one items</span>
-        <span class="warning warning-avail" *ngIf="currentValue == product.inStock">
+        <span class="warning warning-avail" *ngIf="currentValue == availableQuantity">
           This is the maximum available amount
         </span>
       </div>
