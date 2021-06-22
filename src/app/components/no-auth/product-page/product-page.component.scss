@@ -13,7 +13,9 @@ br{
 .info-block{
   min-width: 525px;
 }
-
+.rrr{
+  white-space: pre-wrap;
+}
 .name {
   font-weight: bold;
   font-size: 36px;
@@ -87,7 +89,7 @@ input {
   line-height: 25px;
 }
 .description:after{
-  content: ' ';
+  content: '';
   display: block;
 }
 @media screen and (max-width: 770px){
