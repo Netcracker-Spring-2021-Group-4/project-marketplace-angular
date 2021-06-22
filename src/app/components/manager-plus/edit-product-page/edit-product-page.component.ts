@@ -144,6 +144,7 @@ export class EditProductPageComponent implements OnInit {
     this.isWrongResolution = false
     this.isNotPng = false
     this.selectedFile = undefined
+    this.imgUrl = undefined;
     this.initForm();
     this.firstImage.nativeElement.src = this.product.imageUrl
   }

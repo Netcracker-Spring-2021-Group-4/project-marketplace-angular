@@ -45,6 +45,18 @@ form{
   margin-bottom: 15px;
   margin-top: -6px;
 }
+.tog{
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 15px;
+}
+
+.reserved{
+  text-align: center;
+  padding-top: 25px;
+  padding-bottom: 5px;
+}
+
 @media (min-width: 375px) {
   form{
     width: 370px;
