@@ -75,7 +75,7 @@
     <ng-container matColumnDef="show" >
       <th mat-header-cell *matHeaderCellDef>  </th>
       <td mat-cell *matCellDef="let element" class="button-row" >
-        <a mat-raised-button color="link" href="/order-details/{{element.orderId}}"> Show more</a>
+        <a mat-raised-button color="link" routerLink='/order-details/{{element.orderId}}'> Show more</a>
       </td>
 
     </ng-container>

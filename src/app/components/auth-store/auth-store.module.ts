@@ -12,6 +12,7 @@ import { ChangePasswordComponent } from './profile-page/change-password/change-p
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from "@angular/material/core";
 import {DatePipe} from '@angular/common';
+import {RouterModule} from "@angular/router";
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import {DatePipe} from '@angular/common';
     NgxMaskModule.forRoot(),
     MatNativeDateModule,
     MatDatepickerModule,
+    RouterModule
 
   ],
   providers: [DatePipe],
