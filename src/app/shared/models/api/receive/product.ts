@@ -6,8 +6,9 @@ export class Product {
   price:number;
   inStock:number;
   discount:number;
+  popularNow:boolean
 
-  constructor(id: string, name: string , description: string, imageUrl: string, price: number, inStock: number, discount: number) {
+  constructor(id: string, name: string , description: string, imageUrl: string, price: number, inStock: number, discount: number, popular:boolean) {
     this.productId = id;
     this.name = name;
     this.description = description;
@@ -16,5 +17,6 @@ export class Product {
     this.inStock = inStock;
 
     this.discount = discount;
+    this.popularNow=popular;
   }
 }

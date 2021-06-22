@@ -31,6 +31,8 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
 
 
 
+
+
 @NgModule({
   declarations: [
     LoginComponent,
@@ -52,10 +54,12 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
     CheckoutStepOneComponent,
     CheckoutStepTwoComponent,
     CheckoutStepThreeComponent,
-    ProductCartOrderCardComponent
+    ProductCartOrderCardComponent,
+
   ],
   imports: [
     CommonModule,
+    RouterModule,
     SharedModule,
     NgxCaptchaModule,
     NgxMaskModule.forRoot(),
@@ -65,5 +69,6 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
     DragDropModule,
     ClipboardModule,
   ]
+
 })
 export class NoAuthModule { }

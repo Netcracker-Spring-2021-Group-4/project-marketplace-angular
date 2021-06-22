@@ -9,6 +9,10 @@ import {NgxMaskModule} from "ngx-mask";
 import { ProfilePageFormComponent } from './profile-page/profile-page-form/profile-page-form.component';
 import { ProfilePageViewComponent } from './profile-page/profile-page-view/profile-page-view.component';
 import { ChangePasswordComponent } from './profile-page/change-password/change-password.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from "@angular/material/core";
+import {DatePipe} from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -18,12 +22,18 @@ import { ChangePasswordComponent } from './profile-page/change-password/change-p
     ProfilePageComponent,
     ProfilePageFormComponent,
     ProfilePageViewComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+
   ],
   imports: [
     CommonModule,
     SharedModule,
     NgxMaskModule.forRoot(),
-  ]
+    MatNativeDateModule,
+    MatDatepickerModule,
+
+  ],
+  providers: [DatePipe],
+
 })
 export class AuthStoreModule { }
