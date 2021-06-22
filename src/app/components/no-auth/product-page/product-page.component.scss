@@ -14,8 +14,14 @@
   margin-top: 0;
   font-style: italic;
   margin-bottom: 25px;
+  line-height: normal;
 }
-
+.product-id{
+  cursor: pointer;
+}
+.product-id:hover{
+  font-weight: bold;
+}
 img {
   width: 450px;
   height: 450px;
@@ -77,6 +83,7 @@ input {
     font-size: 26px;
     margin-top: 10px;
     margin-bottom: 40px;
+
   }
   .container {
     max-width: 375px;
@@ -121,6 +128,7 @@ input {
     font-size: 26px;
     margin-top: 10px;
     margin-bottom: 40px;
+    width: auto;
   }
   .container {
     max-width: 375px;

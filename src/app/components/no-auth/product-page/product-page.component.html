@@ -13,14 +13,20 @@
         Product is not available at the moment
       </p>
       <p class="name">{{product.name}}</p>
-      <p>Product id: {{product.productId}}</p>
+      <button  mat-stroked-button color="primary" (click)="toggleShow()" class="mb-2">
+        <ng-container *ngIf="!isShown">Show product id:</ng-container>
+        <ng-container *ngIf="isShown">Hide product id:</ng-container>
+      </button>
+      <span *ngIf="isShown" class="product-id" [cdkCopyToClipboard]="product.productId" (click)="isCopied()">
+        {{product.productId}}
+        </span>
       <p class="pt-2 pb-2" *ngIf="categoryName$ | async as categoryName">
-        {{categoryName | prettyCategory}}
+       Category: {{categoryName | prettyCategory}}
       </p>
-      <span class="pt-3 pb-3 fw-normal fs-3">Price:
+      <span class="pt-3 pb-3 fw-normal">Price:
         <span *ngIf="!product.isActive">{{product.price | customCurrency}}</span>
       </span>
-      <span class="fw-bold fs-2" *ngIf="!discount"> {{product.price | customCurrency}}</span>
+      <span class="fw-bold" *ngIf="!discount"> {{product.price | customCurrency}}</span>
       <span class="text-secondary text-decoration-line-through"
             *ngIf="discount && product.isActive"> {{product.price | customCurrency}}</span>
       <span class="new-price" *ngIf="discount && product.isActive">
@@ -66,6 +72,7 @@
                   mat-raised-button color="warn"
                   *ngIf="role == 'ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
                   (click)="removeFromCart()"
+                  [disabled]="availableQuantity == 0"
           >
             Remove from card
           </button>
@@ -88,7 +95,7 @@
           </button>
         </div>
       </div>
-      <div class="warn">
+      <div class="warn" *ngIf="product.inStock !== 0">
         <span class="warning" *ngIf="currentValue > product.inStock">
           Sorry now available only {{availableQuantity}} items
         </span>

@@ -27,6 +27,7 @@ import { CheckoutStepThreeComponent } from './checkout-page/checkout-step-three/
 import {RouterModule} from "@angular/router";
 import { ProductCartOrderCardComponent } from './product-cart-order-card/product-cart-order-card.component';
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import {ClipboardModule} from "@angular/cdk/clipboard";
 
 
 
@@ -53,15 +54,16 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     CheckoutStepThreeComponent,
     ProductCartOrderCardComponent
   ],
-    imports: [
-        CommonModule,
-        SharedModule,
-        NgxCaptchaModule,
-        NgxMaskModule.forRoot(),
-        NgxSliderModule,
-        MatPaginatorModule,
-        RouterModule,
-        DragDropModule,
-    ]
+  imports: [
+    CommonModule,
+    SharedModule,
+    NgxCaptchaModule,
+    NgxMaskModule.forRoot(),
+    NgxSliderModule,
+    MatPaginatorModule,
+    RouterModule,
+    DragDropModule,
+    ClipboardModule,
+  ]
 })
 export class NoAuthModule { }
