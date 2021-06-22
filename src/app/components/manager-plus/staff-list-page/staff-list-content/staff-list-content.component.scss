@@ -9,7 +9,6 @@ table {
 
 tr {
   width: 100%;
-
 }
 
 th, td {
@@ -28,4 +27,8 @@ th, td {
   width: 25px;
   margin: 10px;
   cursor: pointer;
+}
+
+.email {
+  font-weight: bold;
 }

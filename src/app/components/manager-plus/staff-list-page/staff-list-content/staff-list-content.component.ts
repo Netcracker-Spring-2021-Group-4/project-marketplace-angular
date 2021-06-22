@@ -9,9 +9,9 @@ import {Route} from "../../../../shared/models/enums/route.enum";
 })
 export class StaffListContentComponent implements OnInit {
 
-  @Input() matchingStaff: ProfileModel[];
+  @Input() matchingStaff$: ProfileModel[];
 
-  columnsToDisplay = ['firstName', 'lastName', 'email', 'phoneNumber', 'role', 'status', 'edit'];
+  columnsToDisplay = ['lastName', 'firstName', 'email', 'phoneNumber', 'role', 'status', 'edit'];
 
   constructor() {
   }

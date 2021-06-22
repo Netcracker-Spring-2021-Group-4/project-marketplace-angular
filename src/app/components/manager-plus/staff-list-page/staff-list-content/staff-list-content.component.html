@@ -1,21 +1,24 @@
 <div>
-  <a routerLink="{{getNewStafferLink()}}">
-    <button mat-raised-button class="my-2">New staffer</button>
-  </a>
+  <div class="mb-3">
+    <a routerLink="{{getNewStafferLink()}}" >
+      <button mat-raised-button color="accent">New staffer</button>
+    </a>
+  </div>
+
   <div class="table-outer">
 
-    <table mat-table [dataSource]="matchingStaff">
-      <ng-component matColumnDef="firstName">
-        <th mat-header-cell *matHeaderCellDef class="wide-col">First name</th>
-        <td mat-cell *matCellDef="let employee" class="wide-col">{{employee.firstName}}</td>
-      </ng-component>
+    <table mat-table [dataSource]="matchingStaff$">
       <ng-component matColumnDef="lastName">
         <th mat-header-cell *matHeaderCellDef class="wide-col">Last name</th>
         <td mat-cell *matCellDef="let employee" class="wide-col">{{employee.lastName}}</td>
       </ng-component>
+      <ng-component matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef class="wide-col">First name</th>
+        <td mat-cell *matCellDef="let employee" class="wide-col">{{employee.firstName}}</td>
+      </ng-component>
       <ng-component matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef class="wide-col">Email</th>
-        <td mat-cell *matCellDef="let employee" class="wide-col">{{employee.email}}</td>
+        <td mat-cell *matCellDef="let employee" class="wide-col"><span class="email">{{employee.email}}</span></td>
       </ng-component>
       <ng-component matColumnDef="phoneNumber">
         <th mat-header-cell *matHeaderCellDef class="narrow-col">Phone number</th>
@@ -30,10 +33,10 @@
         <td mat-cell *matCellDef="let employee" class="narrow-col">{{employee.status}}</td>
       </ng-component>
       <ng-component matColumnDef="edit">
-        <th mat-header-cell *matHeaderCellDef class="narrow-col">Edit</th>
+        <th mat-header-cell *matHeaderCellDef class="narrow-col">Details</th>
         <td mat-cell *matCellDef="let employee" class="narrow-col">
           <a routerLink="{{getEditLink(employee.userId)}}">
-            <img src="../../../../../assets/edit-button.png" alt="edit" class="table-icon"/>
+            <img src="../../../../../assets/details.png" alt="view-details" class="table-icon"/>
           </a>
         </td>
       </ng-component>

@@ -16,7 +16,7 @@ export class StaffSearchHttpService {
 
   private readonly BACK_URL: string;
 
-  constructor(private http: HttpClient, private toaster : Toaster) {
+  constructor(private http: HttpClient, private toaster: Toaster) {
     this.BACK_URL = `${environment.backURL}`;
   }
 

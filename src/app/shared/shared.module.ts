@@ -36,6 +36,9 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import { FileUploader } from './components/file-uploader/file-uploader';
 
+import { AddressPipe } from './helpers/pipes/address.pipe';
+import { DeEnumPipe } from './helpers/pipes/de-enum.pipe';
+import { PhonePipe } from './helpers/pipes/phone.pipe';
 
 @NgModule({
   imports: [
@@ -106,6 +109,43 @@ import { FileUploader } from './components/file-uploader/file-uploader';
     CoverLoadingComponent,
     FileUploader
   ],
+    exports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        ToastNotificationsModule,
+        MatTabsModule,
+        MatStepperModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatProgressSpinnerModule,
+        MatAutocompleteModule,
+        MatRadioModule,
+        MatCardModule,
+        MatDialogModule,
+        MatSelectModule,
+        MatSlideToggleModule,
+        MatListModule,
+        MatDividerModule,
+        MatTableModule,
+        MenuBarComponent,
+        MatCheckboxModule,
+        MatChipsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        RoleStripperPipe,
+        CategoryPrettifierPipe,
+        CustomCurrencyPipe,
+        CoverLoadingComponent,
+        AddressPipe,
+        DeEnumPipe,
+        PhonePipe
+    ],
   declarations: [
     MenuBarComponent,
     RoleStripperPipe,
@@ -113,6 +153,10 @@ import { FileUploader } from './components/file-uploader/file-uploader';
     CustomCurrencyPipe,
     CoverLoadingComponent,
     FileUploader
+    CoverLoadingComponent,
+    AddressPipe,
+    DeEnumPipe,
+    PhonePipe
   ]
 })
 export class SharedModule { }

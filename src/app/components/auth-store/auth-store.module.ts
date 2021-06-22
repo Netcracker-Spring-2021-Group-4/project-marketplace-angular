@@ -12,6 +12,7 @@ import { ChangePasswordComponent } from './profile-page/change-password/change-p
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from "@angular/material/core";
 import {DatePipe} from '@angular/common';
+import { OrderDetailsComponent } from './order-details/order-details.component';
 import {RouterModule} from "@angular/router";
 
 
@@ -24,6 +25,7 @@ import {RouterModule} from "@angular/router";
     ProfilePageFormComponent,
     ProfilePageViewComponent,
     ChangePasswordComponent,
+    OrderDetailsComponent,
 
   ],
   imports: [
