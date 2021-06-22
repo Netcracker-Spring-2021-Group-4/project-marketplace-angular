@@ -7,7 +7,6 @@ export class ValidFile  {
   isChange?: boolean;
   isNotPng?: boolean;
   isWrongResolution?: boolean;
-  isEmpty?: boolean = false;
   imgUrl?: any;
 }
 
@@ -29,10 +28,7 @@ export class FileUploader {
 
    public onFileSelected($event: any) {
     this.updatedFile.selectedFile = $event.target.files[0];
-    if (!this.hide.nativeElement.value) {
-       this.updatedFile.isEmpty = true;
-     }
-     else if (this.updatedFile.selectedFile) {
+    if (this.updatedFile.selectedFile) {
        this.updatedFile.isChange = true;
        this.updatedFile.isNotPng = (this.updatedFile.selectedFile.type != 'image/png');
        this.updatedFile.isHeavier = (this.updatedFile.selectedFile.size >= 1000000);
@@ -50,6 +46,11 @@ export class FileUploader {
      }
      else {
       this.updatedFile.selectedFile = undefined;
+      this.updatedFile.imgUrl = undefined;
+      this.updatedFile.isChange = false;
+      this.updatedFile.isWrongResolution = false;
+      this.updatedFile.isNotPng = false;
+      this.updatedFile.isHeavier = false;
       this.correctFile.emit(this.updatedFile);
     }
    }

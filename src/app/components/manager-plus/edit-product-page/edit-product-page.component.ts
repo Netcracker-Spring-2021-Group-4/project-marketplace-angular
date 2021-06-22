@@ -44,7 +44,6 @@ export class EditProductPageComponent implements OnInit {
   fileResolutionErrorMessage = ValidationMessages.resolution;
   isDisabled: boolean = false;
   doSend: boolean = false;
-  isEmpty?: boolean = false;
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
@@ -154,10 +153,17 @@ export class EditProductPageComponent implements OnInit {
     this.isChange = validFile.isChange;
     this.isWrongResolution = validFile.isWrongResolution;
     this.isNotPng = validFile.isNotPng;
-    this.isEmpty = validFile.isEmpty;
     this.imgUrl = validFile.imgUrl
   }
 
+  show() {
+    console.log(this.selectedFile)
+    console.log('Change',this.isChange)
+    console.log('PNG',this.isNotPng)
+    console.log('RESOLUTION',this.isWrongResolution)
+    console.log('Weight',this.isHeavier)
+    console.log('URL', this.imgUrl)
+  }
 }
 
 const productNameRegExp = "^[^\\d\\s]{2}[\\w\\s]{0,28}$";
