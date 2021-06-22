@@ -12,6 +12,7 @@
          height="150"
          #start
     >
+    <p class="text-center fst-italic" *ngIf="imgUrl">Preview</p>
     <app-file-uploader (correctFile)="getFile($event)"
                        class="correct-file"
                        [form]="form"

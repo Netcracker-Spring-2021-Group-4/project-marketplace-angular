@@ -63,6 +63,14 @@
     <mat-error *ngIf="isHeavier">{{fileWeightErrorMessage}}</mat-error>
     <mat-error *ngIf="isWrongResolution">{{fileResolutionErrorMessage}}</mat-error>
     </div>
+    <img mat-card-image
+         alt="Photo"
+         *ngIf="imgUrl"
+         [src]="imgUrl"
+         height="250"
+         #start
+    >
+    <p class="text-center fst-italic mt-2" *ngIf="imgUrl">Preview</p>
     <button
       mat-raised-button color="accent"
       [disabled]="form.invalid || isLoading || isHeavier || isNotPng || isWrongResolution"

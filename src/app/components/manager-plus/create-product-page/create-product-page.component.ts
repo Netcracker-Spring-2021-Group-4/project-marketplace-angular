@@ -35,6 +35,7 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
   productNameErrorMessage =ValidationMessages.productName
   quantityErrorMessage = ValidationMessages.quantity
   priceErrorMessage = ValidationMessages.price
+  imgUrl: any;
 
 
 
@@ -112,5 +113,6 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
     this.isHeavier = validFile.isHeavier;
     this.isWrongResolution = validFile.isWrongResolution;
     this.isNotPng = validFile.isNotPng;
+    this.imgUrl = validFile.imgUrl
   }
 }

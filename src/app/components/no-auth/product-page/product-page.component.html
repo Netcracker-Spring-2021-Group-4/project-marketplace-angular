@@ -21,11 +21,13 @@
         {{product.productId}}
         </span>
       <p class="pt-2 pb-2" *ngIf="categoryName$ | async as categoryName">
-       Category: {{categoryName | prettyCategory}}
+        <span class="font-monospace"> Category: </span>{{categoryName | prettyCategory}}
       </p>
-      <span class="pt-3 pb-3 fw-normal">Price:
+
+      <span class="pt-3 pb-3 fw-normal"> <span class="font-monospace">Price: </span>
         <span *ngIf="!product.isActive">{{product.price | customCurrency}}</span>
       </span>
+
       <span class="fw-bold" *ngIf="!discount"> {{product.price | customCurrency}}</span>
       <span class="text-secondary text-decoration-line-through"
             *ngIf="discount && product.isActive"> {{product.price | customCurrency}}</span>
@@ -37,8 +39,9 @@
         Hurry up, the discount is valid until
         {{ discount.endsAt | date: 'medium'}}
       </p>
-      <p class="pb-1 pt-3"> {{product.description}} </p>
-      <p class="pt-0 pb-2" *ngIf="product.isActive"> Available for purchase:
+
+      <p class="pb-1 pt-3 lh-base" *ngIf="product.description.length"><span class="font-monospace pb-2">Description: <br></span> {{product.description}} </p>
+      <p class="mt-2 pb-2" *ngIf="product.isActive"> <span class="font-monospace"> Available for purchase: </span>
         <span class="fw-bold">{{availableQuantity}} </span>
         items
       </p>
@@ -46,7 +49,7 @@
       <div *ngIf="role$ | async as role">
         <div *ngIf="product.isActive && role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'">
 
-          <span class="pt-3 mb-5"> Add item to cart </span>
+          <span class="pt-3 mb-5 font-monospace"> Add item to cart </span>
           <input type="text"
                  mask="separator.0"
                  [(ngModel)]="currentValue"
