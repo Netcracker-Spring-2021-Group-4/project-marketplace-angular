@@ -17,7 +17,7 @@
       appearance="fill"
       class="name-input mr-auto ml-auto mb-3">
       <mat-label>Description</mat-label>
-      <input matInput formControlName="description">
+      <textarea matInput formControlName="description"></textarea>
     </mat-form-field>
     <mat-form-field
       appearance="fill"
@@ -63,6 +63,12 @@
     <mat-error *ngIf="isHeavier">{{fileWeightErrorMessage}}</mat-error>
     <mat-error *ngIf="isWrongResolution">{{fileResolutionErrorMessage}}</mat-error>
     </div>
+    <img mat-card-image
+         alt="Photo"
+         *ngIf="imgUrl"
+         [src]="imgUrl"
+    >
+    <p class="text-center fst-italic mt-2" *ngIf="imgUrl">Preview</p>
     <button
       mat-raised-button color="accent"
       [disabled]="form.invalid || isLoading || isHeavier || isNotPng || isWrongResolution"

@@ -8,24 +8,26 @@
            *ngIf="!isLoading || product.imageUrl"
       >
     </div>
-    <div>
+    <div class="info-block">
       <p *ngIf="!product.isActive" class="pb-3 text-danger">
         Product is not available at the moment
       </p>
       <p class="name">{{product.name}}</p>
-      <button  mat-stroked-button color="primary" (click)="toggleShow()" class="mb-2">
+      <button mat-stroked-button color="primary" (click)="toggleShow()" class="mb-2">
         <ng-container *ngIf="!isShown">Show product id:</ng-container>
         <ng-container *ngIf="isShown">Hide product id:</ng-container>
       </button>
       <span *ngIf="isShown" class="product-id" [cdkCopyToClipboard]="product.productId" (click)="isCopied()">
-        {{product.productId}}
+       <br> {{product.productId}}
         </span>
-      <p class="pt-2 pb-2" *ngIf="categoryName$ | async as categoryName">
-       Category: {{categoryName | prettyCategory}}
+      <p class="mt-3 mb-3" *ngIf="categoryName$ | async as categoryName">
+        <span class="font-monospace"> Category: </span>{{categoryName | prettyCategory}}
       </p>
-      <span class="pt-3 pb-3 fw-normal">Price:
+
+      <span class="mt-3 mb-3 fw-normal"> <span class="font-monospace">Price: </span>
         <span *ngIf="!product.isActive">{{product.price | customCurrency}}</span>
       </span>
+
       <span class="fw-bold" *ngIf="!discount"> {{product.price | customCurrency}}</span>
       <span class="text-secondary text-decoration-line-through"
             *ngIf="discount && product.isActive"> {{product.price | customCurrency}}</span>
@@ -33,12 +35,17 @@
         {{discount.offeredPrice | customCurrency}}!
       </span><br>
 
-      <p class="text-white bg-secondary mt-4 mb-1" *ngIf="discount && product.isActive">
-        Hurry up, the discount is valid until
+      <p class="text-white bg-secondary mt-3 mb-3 hurry" *ngIf="discount && product.isActive">
+        Hurry up, the discount is valid until <br>
         {{ discount.endsAt | date: 'medium'}}
       </p>
-      <p class="pb-1 pt-3"> {{product.description}} </p>
-      <p class="pt-0 pb-2" *ngIf="product.isActive"> Available for purchase:
+
+      <p class="mb-1 mt-3 lh-base rrr" *ngIf="product.description.length">
+        <span class="font-monospace description">Description: </span>
+        {{product.description}}
+      </p>
+
+      <p class="mt-3 mb-3" *ngIf="product.isActive"><span class="font-monospace"> Available for purchase: </span>
         <span class="fw-bold">{{availableQuantity}} </span>
         items
       </p>
@@ -46,11 +53,21 @@
       <div *ngIf="role$ | async as role">
         <div *ngIf="product.isActive && role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'">
 
-          <span class="pt-3 mb-5"> Add item to cart </span>
+          <span class="pt-3 mb-5 font-monospace"> Add item to cart </span>
           <input type="text"
                  mask="separator.0"
                  [(ngModel)]="currentValue"
           >
+        </div>
+
+        <div class="warn" *ngIf="product.inStock !== 0">
+        <span class="warning" *ngIf="currentValue > product.inStock">
+          Sorry now available only {{availableQuantity}} items
+        </span>
+          <span class="warning" *ngIf="currentValue < 1">Add at least one items</span>
+          <span class="warning warning-avail" *ngIf="currentValue == availableQuantity">
+          This is the maximum available amount
+        </span>
         </div>
 
         <div class="buttons">
@@ -95,15 +112,7 @@
           </button>
         </div>
       </div>
-      <div class="warn" *ngIf="product.inStock !== 0">
-        <span class="warning" *ngIf="currentValue > product.inStock">
-          Sorry now available only {{availableQuantity}} items
-        </span>
-        <span class="warning" *ngIf="currentValue < 1">Add at least one items</span>
-        <span class="warning warning-avail" *ngIf="currentValue == availableQuantity">
-          This is the maximum available amount
-        </span>
-      </div>
+
 
     </div>
   </div>

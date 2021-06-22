@@ -3,11 +3,19 @@
   font-size: 20px;
   margin: 110px auto 0 auto;
 }
+br{
+  display: none;
+}
 
 .wrapper {
   display: flex;
 }
-
+.info-block{
+  min-width: 525px;
+}
+.rrr{
+  white-space: pre-line;
+}
 .name {
   font-weight: bold;
   font-size: 36px;
@@ -76,6 +84,14 @@ input {
 .warning-avail {
   color: #00075a;
 }
+
+.hurry{
+  line-height: 25px;
+}
+.description:after{
+  content: '';
+  display: block;
+}
 @media screen and (max-width: 770px){
   .name {
     text-align: center;
@@ -122,6 +138,20 @@ input {
 }
 
 @media screen and (max-width: 375px) {
+  .hurry{
+    text-align: center;
+  }
+  .product-id{
+    font-size: 18px;
+  }
+  br{
+    display: flex;
+  }
+  .info-block{
+    min-width: 355px;
+    max-width: 370px;
+
+  }
   .name {
     text-align: center;
     font-weight: bold;
@@ -151,10 +181,13 @@ input {
   .buttons {
     margin-top: 35px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
   }
+
   .warn{
     height: 0;
+    text-align: center;
   }
   .editing {
     margin-top: 15px;
@@ -163,6 +196,8 @@ input {
     justify-content: center;
   }
   .edit {
-    margin: 0;
+    margin-bottom: 25px;
+    width: 280px;
   }
+
 }

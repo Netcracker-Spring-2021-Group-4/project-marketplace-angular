@@ -12,6 +12,7 @@
          height="150"
          #start
     >
+    <p class="text-center fst-italic" *ngIf="imgUrl">Preview</p>
     <app-file-uploader (correctFile)="getFile($event)"
                        class="correct-file"
                        [form]="form"
@@ -80,11 +81,11 @@
   color="warn"
   [checked]="checked"
   (change)="activateDeactivateProduct(product.productId)"
-  class="mt-1 mb-3"
+  class="mt-1 mb-3 tog fs-6"
 >
   Activate
 </mat-slide-toggle>
-    <p class="name-input mr-auto ml-auto mb-1 fs-6">
+    <p class="name-input fs-6 reserved">
       Reserved: {{product.reserved}}
     </p>
 
