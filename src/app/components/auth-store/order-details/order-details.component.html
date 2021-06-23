@@ -1,1 +1,32 @@
-<p>order-details works!</p>
+<div class="container d-flex justify-content-between" *ngIf="!isLoading">
+  <div class="container">
+
+    <h1 class="text-center font-monospace fs-3 mt-lg-4">Order details</h1>
+
+    <div *ngIf="role$ | async as role">
+      <div>
+
+        <app-order-info-status
+          [order]="orderInfo"
+          *ngIf="role =='ROLE_COURIER' || role == 'ROLE_CUSTOMER'"
+        >
+        </app-order-info-status>
+
+        <app-order-product-table
+          [ordersDatasource]="orderInfo.content.content"
+          [orderInfo]="orderInfo"
+          *ngIf="role =='ROLE_COURIER' || role == 'ROLE_CUSTOMER'"
+        >
+        </app-order-product-table>
+
+        <app-order-customer-info
+          [orderCustomerInfo]="orderInfo"
+          *ngIf="role =='ROLE_COURIER'"
+        >
+        </app-order-customer-info>
+      </div>
+    </div>
+
+  </div>
+</div>
+

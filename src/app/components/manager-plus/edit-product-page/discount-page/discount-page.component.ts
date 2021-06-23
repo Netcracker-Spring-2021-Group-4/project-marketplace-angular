@@ -64,7 +64,7 @@ export class DiscountPageComponent implements OnInit {
 
   public createDiscountForm(): FormGroup {
     return this.formBuilder.group({
-      offeredPrice: [null, [Validators.required, Validators.min(1), Validators.max(23598)]],
+      offeredPrice: [null, [Validators.required, Validators.min(0.05), Validators.max(23598)]],
       startsAt: [null, [Validators.required]],
       endsAt: [null, [Validators.required]],
       timeStart: ['03:00', [Validators.required]],

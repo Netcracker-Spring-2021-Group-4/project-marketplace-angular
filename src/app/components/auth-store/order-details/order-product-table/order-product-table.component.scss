@@ -1,0 +1,50 @@
+@import 'src/styles/variables';
+
+
+.table-outer {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+table {
+  width: 100%;
+}
+
+tr {
+  width: 100%;
+
+}
+
+th, td {
+  padding: 0 15px !important;
+}
+
+.narrow-col {
+  width: 10%;
+}
+
+.wide-col {
+  width: 20%;
+}
+
+.copy{
+  cursor: pointer;
+}
+
+.container{
+  text-align: right;
+}
+.summ{
+  margin-top: 15px;
+  padding-right: 50px;
+}
+
+@media screen and (max-width: 375px) {
+  .container{
+    text-align: center;
+  }
+  .summ{
+    margin-top: 15px;
+    padding-right: 0;
+  }
+}

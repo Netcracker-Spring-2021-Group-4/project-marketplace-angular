@@ -1,0 +1,54 @@
+<div class="table-outer">
+  <table mat-table [dataSource]="ordersDatasource"
+         *ngIf="!isLoading">
+
+    <ng-container matColumnDef="imageUrl">
+      <th mat-header-cell *matHeaderCellDef>Your purchases</th>
+      <td mat-cell *matCellDef="let orderProduct" >
+        <img src="{{orderProduct.imageUrl}}" height="100" width="100" class="pt-1 pb-1">
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Product name</th>
+      <td mat-cell *matCellDef="let orderProduct"> {{orderProduct.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef>Price $</th>
+      <td mat-cell *matCellDef="let orderProduct"> {{orderProduct.price | customCurrency}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="productId">
+      <th mat-header-cell *matHeaderCellDef>Product id</th>
+      <td mat-cell *matCellDef="let orderProduct">
+      <span [cdkCopyToClipboard]="orderProduct.productId" (click)="isCopied()" class="copy">
+        {{orderProduct.productId}}
+      </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef>Quantity</th>
+      <td mat-cell *matCellDef="let orderProduct"> {{orderProduct.quantity}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="totalPrice">
+      <th mat-header-cell *matHeaderCellDef>Total Price $</th>
+      <td mat-cell *matCellDef="let orderProduct"> {{orderProduct.totalPrice | customCurrency}}
+      </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+  </table>
+</div>
+<div class="container">
+  <p class="summ fw-bold fs-4">Summary price: {{orderInfo.content.summaryPrice | customCurrency}} </p>
+</div>
+

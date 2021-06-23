@@ -33,7 +33,6 @@ export class ProductPageComponent implements OnInit {
   currentItemQuantity: any;
   private readonly CART_STORAGE = 'cart'
   isShown: boolean = false;
-  isCopy: boolean = false;
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
@@ -68,9 +67,7 @@ export class ProductPageComponent implements OnInit {
   }
   toggleShow() {
     this.isShown = ! this.isShown;
-
   }
-
 
   addToCart(id: string) {
     if (this.product.inStock == 0)
@@ -100,9 +97,6 @@ export class ProductPageComponent implements OnInit {
   }
 
   isCopied() {
-    this.isCopy = !this.isCopy
-    if(this.isCopy){
-      this.toaster.successfulNotification('Id copied to clipboard')
-    }
+     this.toaster.successfulNotification('Id copied to clipboard')
   }
 }
