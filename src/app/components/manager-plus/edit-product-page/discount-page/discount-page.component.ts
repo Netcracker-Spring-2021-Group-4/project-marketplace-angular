@@ -102,7 +102,6 @@ export class DiscountPageComponent implements OnInit {
 
   public submit() {
     const result = this.discountForm.value;
-
     result.startsAt = addTimeToDate(result.startsAt, result.timeStart)
     result.endsAt = addTimeToDate(result.endsAt, result.timeEnd)
     result.offeredPrice = result.offeredPrice * 100;

@@ -96,7 +96,7 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
           });
         })
     }
-
+    this.imgUrl = undefined;
     this.form.reset();
 
   }
