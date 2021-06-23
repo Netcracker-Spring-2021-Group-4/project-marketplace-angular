@@ -6,6 +6,7 @@ import {CartManagementService} from "../../../../../services/cart-management.ser
 import Labels from "../../../../../shared/models/labels/labels.constant";
 import {ToasterCustomService} from "../../../../../services/toaster-custom.service";
 import {CompareManagementService} from "../../../../../services/compare-management.service";
+import {Route} from "../../../../../shared/models/enums/route.enum";
 
 @Component({
   selector: 'app-product',
@@ -40,5 +41,9 @@ export class ProductComponent implements OnInit {
 
   private outOfStockNotify() {
     this.toaster.errorNotification(Labels.cart.outOfStock)
+  }
+
+  getProductLink(productId: string) : string {
+    return '/' + Route.PRODUCT.replace(':productId', productId);
   }
 }
