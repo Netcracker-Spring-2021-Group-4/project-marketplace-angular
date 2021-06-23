@@ -75,7 +75,10 @@ export class CreateAuctionPageComponent implements OnInit {
     this.changeCurrencyToCents(result)
     this.isLoading = true
     this.managerPlusApiService.createAuction(result)
-      .pipe(finalize (() => this.isLoading = false))
+      .pipe(finalize (() => {
+        this.isLoading = false
+        this.form.reset()
+      }))
       .subscribe( _ => {
         this.toaster.successfulNotification(Labels.auction.successfulCreationAuction)
       }, err => {
