@@ -4,6 +4,11 @@ import {CourierApiService} from "../../../api-services/courier-http.service";
 import {DeliveryModel} from "../../../shared/models/api/receive/delivery.model";
 import {catchError} from "rxjs/operators";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
+import {Route} from "../../../shared/models/enums/route.enum";
+import {Moment} from "moment";
+import * as moment from 'moment';
+
+
 
 
 @Component({
@@ -12,36 +17,23 @@ import {ToasterCustomService} from "../../../services/toaster-custom.service";
   styleUrls: ['./deliveries-page.component.scss']
 })
 export class DeliveriesPageComponent implements OnInit {
-  dateStart:Date
+  dateStart:Moment
   deliveries: DeliveryModel[];
   displayedColumns: string[] = ['time', 'phoneNumber', 'name', 'address','status','open', 'show'];
 
-  myFilter = (d: Date | null): boolean => {
-    const date = (d || new Date());
-    return (date.setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0))
-     }
+
   events: string[] = [];
 
 
-  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-    if(event.value!=null) {
-      this.courierService.getDeliveries(event.value)
-        .subscribe(deliveryModels => {
-          this.deliveries = deliveryModels;
-        });
-    }
 
-
-    this.events.push(`${type}: ${event.value}`);
-
-  }
 
   constructor(private courierService:CourierApiService, private toaster:ToasterCustomService) {
-    this.dateStart=new Date();
+    this.dateStart= moment();
+
   }
 
   ngOnInit(): void {
-    this.courierService.getDeliveries(new Date())
+    this.courierService.getDeliveries(this.dateStart.format('YYYY-MM-DD'))
       .subscribe(deliveryModels => {
         this.deliveries=deliveryModels;
       });
@@ -59,6 +51,21 @@ export class DeliveriesPageComponent implements OnInit {
       this.ngOnInit();
     });
   }
+
+  getOrderDetailsLink(orderId: string) : string {
+    return '/' + Route.ORDER_DETAILS.replace(':id', orderId);
+  }
+
+  dateValueChange(event: MatDatepickerInputEvent<Moment>) {
+    if(event.value!=null){
+    let date =event.value.format('YYYY-MM-DD');
+      this.courierService.getDeliveries(date)
+        .subscribe(deliveryModels => {
+          this.deliveries = deliveryModels;
+        });
+    }
+  }
+
 
 
 }
