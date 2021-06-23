@@ -7,18 +7,20 @@
         {{orderCustomerInfo.content.street}} street
         {{orderCustomerInfo.content.building}},
         {{orderCustomerInfo.content.flat}} Apt
-
-      </span>
-    </p>
-    <p><span class="font-monospace">Customer's name: </span>
-      <span class="fw-bold">
-        {{orderCustomerInfo.content.firstName}}
-        {{orderCustomerInfo.content.lastName}}
       </span>
 
     </p>
     <p>
-      Phone: <span class="fw-bold">{{orderCustomerInfo.content.phoneNumber | phone}} </span>
+      <span class="font-monospace">Customer's name: </span>
+      <span class="fw-bold">
+        {{orderCustomerInfo.content.firstName}}
+        {{orderCustomerInfo.content.lastName}}
+      </span>
+    </p>
+
+    <p>
+      <span class="font-monospace">Phone: </span>
+      <span class="fw-bold">{{orderCustomerInfo.content.phoneNumber | phone}} </span>
     </p>
     <p>
       <span class="font-monospace">Comment: </span>

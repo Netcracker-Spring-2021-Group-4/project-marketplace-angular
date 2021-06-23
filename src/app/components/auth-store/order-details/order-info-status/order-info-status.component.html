@@ -3,18 +3,14 @@
 
     <p>
       <span class="font-monospace id"> Order id: </span>
-      <span [cdkCopyToClipboard]="order.content.orderId"
-            (click)="isCopied()"
-            class="copy fw-bold"
-      >
-        {{order.content.orderId}}
-      </span>
-
+      <span class="fw-bold">{{order.content.orderId}}</span>
     </p>
+
     <p>
       <span class="font-monospace">Status: </span>
       <span class="fw-bold"> {{order.content.statusName | prettyStatus}} </span>
     </p>
+
     <p>
       <span class="font-monospace">Date: </span>
       <span class="fw-bold">{{order.content.placedAt | date:'medium'}} </span>
@@ -22,4 +18,3 @@
 
   </div>
 </div>
-<span>

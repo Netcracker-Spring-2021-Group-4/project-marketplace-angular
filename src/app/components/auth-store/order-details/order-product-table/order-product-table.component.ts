@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {OrderProductInfo} from "../../../../shared/models/api/receive/order-product-info";
 import {OrderInfo} from "../../../../shared/models/api/receive/order-info";
-import {ToasterCustomService} from "../../../../services/toaster-custom.service";
 
 @Component({
   selector: 'app-order-product-table',
@@ -15,12 +14,9 @@ export class OrderProductTableComponent implements OnInit {
   @Input() ordersDatasource: any;
   displayedColumns: string[] = ['imageUrl', 'name',  'price',  'productId', 'quantity', 'totalPrice'];
 
-  constructor(private toaster: ToasterCustomService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
 
-  isCopied() {
-    this.toaster.successfulNotification('Id copied to clipboard')
-  }
 }
