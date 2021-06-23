@@ -1,6 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {getStringTime, TimeSlotModelFront} from "../../../../shared/models/api/receive/time-slot.model";
 import {FormGroup} from "@angular/forms";
+import {Moment} from "moment/moment";
 
 @Component({
   selector: 'app-checkout-step-two',
@@ -25,21 +26,8 @@ export class CheckoutStepTwoComponent{
 
   dateChanged($event: any) {
     this.secondStepForm.get('deliverySlot')!.setValue(null);
-    this.selectedDate = this.formatDate($event.value)
+    this.selectedDate = $event.value.format('YYYY-MM-DD')
     this.dateChangedEvent.emit(this.selectedDate)
-  }
-
-  formatDate(date: Date) {
-    let month = '' + (date.getMonth() + 1),
-      day = '' + date.getDate(),
-      year = date.getFullYear();
-
-    if (month.length < 2)
-      month = '0' + month;
-    if (day.length < 2)
-      day = '0' + day;
-
-    return [year, month, day].join('-');
   }
 
   alreadyPassed(value: number[]) {
