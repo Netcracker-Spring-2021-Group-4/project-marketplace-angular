@@ -100,12 +100,12 @@ export class DiscountPageComponent implements OnInit {
   }
 
 
-  public submit(discountData: any) {
+  public submit() {
     const result = this.discountForm.value;
-    discountData.startsAt = addTimeToDate(result.startsAt, result.timeStart)
-    discountData.endsAt = addTimeToDate(result.endsAt, result.timeEnd)
-    discountData.offeredPrice = discountData.offeredPrice * 100;
-    this.discountService.createDiscount(this.myProductId, discountData).subscribe(
+    result.startsAt = addTimeToDate(result.startsAt, result.timeStart)
+    result.endsAt = addTimeToDate(result.endsAt, result.timeEnd)
+    result.offeredPrice = result.offeredPrice * 100;
+    this.discountService.createDiscount(this.myProductId, result).subscribe(
       () => {
         this.getUnexpiredDiscounts(this.myProductId);
         this.toaster.successfulNotification(Labels.discount.successfulCreationDiscount);
