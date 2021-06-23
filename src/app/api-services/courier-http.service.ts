@@ -22,7 +22,7 @@ export class CourierApiService {
   }
 
   getOrderDetail(orderId: string | null): Observable<OrderInfo>{
-    return this.httpClient.get<OrderInfo>(`${this.COURIER_URL}/orders/${orderId}`);
+    return this.httpClient.get<OrderInfo>(`${this.URL}/api/v1/public/orders/${orderId}`);
   }
 
  getDeliveries(date:string):Observable<DeliveryModel[]>{

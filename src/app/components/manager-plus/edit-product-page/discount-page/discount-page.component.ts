@@ -37,7 +37,6 @@ export class DiscountPageComponent implements OnInit {
   displayedColumns: string[] = ['offered price', 'starts at', 'ends at', 'delete'];
   discountForm: FormGroup;
   minDate: Date = new Date();
-  isIncorrectTime: boolean = false;
   offeredPriceErrorMessage = ValidationMessages.offeredPrice;
   dateTimeInPastErrorMessage = ValidationMessages.dateTimeInPast;
   val: number;
@@ -52,6 +51,7 @@ export class DiscountPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.myProductId = this.route.snapshot.paramMap.get('productId');
     this.product$ = this.productService.getProduct(this.myProductId).pipe(finalize(() => {
       this.isLoading = false;
@@ -69,7 +69,7 @@ export class DiscountPageComponent implements OnInit {
       endsAt: [null, [Validators.required]],
       timeStart: ['03:00', [Validators.required]],
       timeEnd: ['03:00', [Validators.required]]
-    },{validators: [this.dateTimeValidator]})
+    }, {validators: [this.dateTimeValidator]})
   }
 
   public getUnexpiredDiscounts(productId: string | null) {
@@ -92,7 +92,7 @@ export class DiscountPageComponent implements OnInit {
       })
   }
 
-  public dateTimeValidator :ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  public dateTimeValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const date = control.get('startsAt')!.value
     const time = control.get('timeStart')!.value
     const dateWTime = addTimeToDate(date, time)
@@ -102,9 +102,11 @@ export class DiscountPageComponent implements OnInit {
 
   public submit(discountData: any) {
     const result = this.discountForm.value;
+    console.log(result)
     discountData.startsAt = addTimeToDate(result.startsAt, result.timeStart)
     discountData.endsAt = addTimeToDate(result.endsAt, result.timeEnd)
     discountData.offeredPrice = discountData.offeredPrice * 100;
+    console.log(discountData)
     this.discountService.createDiscount(this.myProductId, discountData).subscribe(
       () => {
         this.getUnexpiredDiscounts(this.myProductId);
@@ -112,7 +114,6 @@ export class DiscountPageComponent implements OnInit {
       }, err => {
         this.toaster.errorNotification(err.error.message);
       })
-
   }
 
 }
