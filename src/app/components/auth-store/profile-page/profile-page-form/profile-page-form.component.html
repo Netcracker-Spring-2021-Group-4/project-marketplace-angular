@@ -77,13 +77,12 @@
     </mat-form-field>
     <div class="d-flex justify-content-center">
       <button
-        *ngIf="!isStaffCreateRoute"
         mat-raised-button color="primary"
         [disabled]="isLoading"
         class="me-3"
         (click)="back()"
       >
-        back
+        Back
       </button>
       <button
         mat-raised-button color="accent"

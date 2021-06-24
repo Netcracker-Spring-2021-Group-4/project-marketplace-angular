@@ -128,6 +128,10 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   }
 
   toggleActiveView() {
+    if(this.currentRoute === Route.STAFF_CREATE) {
+      this.router.navigate([Route.STAFF_LIST])
+      return
+    }
     this.isFormViewActive = !this.isFormViewActive
   }
 

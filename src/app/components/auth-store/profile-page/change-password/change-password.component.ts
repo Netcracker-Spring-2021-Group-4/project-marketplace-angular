@@ -32,6 +32,10 @@ export class ChangePasswordComponent {
     this.form = this.userAuthFormService.changePasswordForm();
   }
 
+  back() {
+    this.router.navigate([Route.PROFILE])
+  }
+
   submit() {
     const obj = this.form.value;
     delete obj.newPasswordRepeat;
@@ -48,5 +52,4 @@ export class ChangePasswordComponent {
         this.toaster.errorNotification(text);
       })
   }
-
 }
