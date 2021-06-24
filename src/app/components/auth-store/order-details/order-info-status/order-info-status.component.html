@@ -1,0 +1,20 @@
+<div class="container" *ngIf="!isLoading">
+  <div class="row mb-2 mt-2">
+
+    <p>
+      <span class="font-monospace id"> Order id: </span>
+      <span class="fw-bold info">{{order.orderId}}</span>
+    </p>
+
+    <p>
+      <span class="font-monospace id">Order status: </span>
+      <span class="fw-bold info"> {{order.statusName | prettyStatus}} </span>
+    </p>
+
+    <p>
+      <span class="font-monospace id">Order date: </span>
+      <span class="fw-bold info">{{order.placedAt | date:'medium'}} </span>
+    </p>
+
+  </div>
+</div>

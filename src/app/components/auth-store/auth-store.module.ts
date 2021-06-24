@@ -14,6 +14,10 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {DatePipe} from '@angular/common';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import {RouterModule} from "@angular/router";
+import { OrderCustomerInfoComponent } from './order-details/order-customer-info/order-customer-info.component';
+import { OrderInfoStatusComponent } from './order-details/order-info-status/order-info-status.component';
+import { OrderProductTableComponent } from './order-details/order-product-table/order-product-table.component';
+import {ClipboardModule} from "@angular/cdk/clipboard";
 
 
 @NgModule({
@@ -26,6 +30,9 @@ import {RouterModule} from "@angular/router";
     ProfilePageViewComponent,
     ChangePasswordComponent,
     OrderDetailsComponent,
+    OrderCustomerInfoComponent,
+    OrderInfoStatusComponent,
+    OrderProductTableComponent,
 
   ],
   imports: [
@@ -34,7 +41,8 @@ import {RouterModule} from "@angular/router";
     NgxMaskModule.forRoot(),
     MatNativeDateModule,
     MatDatepickerModule,
-    RouterModule
+    RouterModule,
+    ClipboardModule
 
   ],
   providers: [DatePipe],

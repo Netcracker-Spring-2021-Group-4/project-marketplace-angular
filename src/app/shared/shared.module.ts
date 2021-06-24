@@ -39,6 +39,7 @@ import { FileUploader } from './components/file-uploader/file-uploader';
 import { AddressPipe } from './helpers/pipes/address.pipe';
 import { DeEnumPipe } from './helpers/pipes/de-enum.pipe';
 import { PhonePipe } from './helpers/pipes/phone.pipe';
+import {StatusPrettifierPipe} from "./helpers/pipes/status-prettifier.pipe";
 
 @NgModule({
   imports: [
@@ -110,7 +111,8 @@ import { PhonePipe } from './helpers/pipes/phone.pipe';
     FileUploader,
     AddressPipe,
     DeEnumPipe,
-    PhonePipe
+    PhonePipe,
+    StatusPrettifierPipe,
   ],
   declarations: [
     MenuBarComponent,
@@ -122,7 +124,8 @@ import { PhonePipe } from './helpers/pipes/phone.pipe';
     CoverLoadingComponent,
     AddressPipe,
     DeEnumPipe,
-    PhonePipe
+    PhonePipe,
+    StatusPrettifierPipe,
   ]
 })
 export class SharedModule { }
