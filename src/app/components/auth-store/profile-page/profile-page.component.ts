@@ -128,6 +128,10 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   }
 
   toggleActiveView() {
+    if(this.currentRoute === Route.STAFF_CREATE) {
+      this.router.navigate([Route.STAFF_LIST])
+      return
+    }
     this.isFormViewActive = !this.isFormViewActive
   }
 
@@ -138,6 +142,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   submitEditCustomer($event: UserUpdateModel) {
     this.execApiFunc(this.authStoreApiService.editCustomerProfile($event),
       Labels.editProfile.successfulEditCustomer, $event);
+    this.toggleActiveView();
   }
 
   statusChangeStaffer($event: UserStatus) {
@@ -150,6 +155,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   submitEditStaff($event: UserUpdateModel) {
     this.execApiFunc(this.managerPlusApiService.updateStaffer($event),
       Labels.editProfile.successfulEditStaffer, $event)
+    this.toggleActiveView();
   }
 
   submitCreateStaff($event: any) {

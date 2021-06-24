@@ -150,14 +150,25 @@
         <mat-error *ngIf="form.get('jsonDetails.numSteps')?.invalid">{{numStepsErrorMessage}}</mat-error>
       </mat-form-field>
     </div>
-    <button
-      mat-raised-button color="accent"
-      class="name-input"
-      (click)="submit()"
-      [disabled]="form.invalid || isLoading"
-    >
-      create auction
-    </button>
+    <div class="d-flex justify-content-center">
+      <button
+        mat-raised-button color="primary"
+        [disabled]="isLoading"
+        class="me-3"
+        (click)="back()"
+      >
+        Back
+      </button>
+      <button
+        mat-raised-button color="accent"
+        class="name-input"
+        (click)="submit()"
+        [disabled]="form.invalid || isLoading"
+      >
+        Create auction
+      </button>
+    </div>
+
   </form>
 </div>
 
