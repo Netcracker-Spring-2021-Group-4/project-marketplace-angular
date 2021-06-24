@@ -84,7 +84,7 @@ export class CreateAuctionPageComponent implements OnInit {
     this.managerPlusApiService.createAuction(result)
       .pipe(finalize (() => {
         this.isLoading = false
-        this.form.reset()
+        this.form = this.auctionFormService.auctionCreateForm();
       }))
       .subscribe( _ => {
         this.toaster.successfulNotification(Labels.auction.successfulCreationAuction)
