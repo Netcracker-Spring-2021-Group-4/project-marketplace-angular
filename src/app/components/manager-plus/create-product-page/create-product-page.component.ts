@@ -120,7 +120,7 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
     (<HTMLInputElement>document.getElementById("uploadCaptureInputFile")).value = "";
     this.imgUrl = undefined;
     this.selectedFile = undefined;
-    this.isHeavier = false;;
+    this.isHeavier = false;
     this.isWrongResolution = false;
     this.isNotPng = false;
   }
