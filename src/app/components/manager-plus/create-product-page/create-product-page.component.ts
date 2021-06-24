@@ -115,4 +115,8 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
     this.isNotPng = validFile.isNotPng;
     this.imgUrl = validFile.imgUrl
   }
+
+  resetImg() {
+    this.imgUrl = undefined;
+  }
 }
