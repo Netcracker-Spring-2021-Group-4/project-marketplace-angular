@@ -35,6 +35,7 @@
   <button
     mat-raised-button color="warn"
     (click)="goToChangePassword()"
+    *ngIf="!isStaffEditRoute"
   >
     Change password
   </button>
