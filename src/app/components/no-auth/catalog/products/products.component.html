@@ -3,4 +3,7 @@
     <app-product  [productItem]="product"
                   [role]="role" ></app-product>
   </div>
+  <div *ngIf="products.length==0">
+    <h2 class="text-center">Ooops.. It seems we can`t find products for you!</h2>
+  </div>
 </div>
