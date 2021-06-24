@@ -30,7 +30,8 @@
         formControlName="price"
       />
       <mat-error *ngIf="form.get('price')?.invalid">{{priceErrorMessage}}</mat-error>
-    </mat-form-field>    <mat-form-field
+    </mat-form-field>
+    <mat-form-field
       appearance="fill"
       class="name-input mr-auto ml-auto mb-3">
       <mat-label>In Stock</mat-label>
@@ -44,7 +45,7 @@
 
 
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="mb-3">
       <mat-label>Choose category</mat-label>
       <mat-select (selectionChange)="OnInput($event)" formControlName="categoryId">
         <mat-option *ngFor="let category of categories" [value]="category.categoryId">
@@ -63,12 +64,22 @@
     <mat-error *ngIf="isHeavier">{{fileWeightErrorMessage}}</mat-error>
     <mat-error *ngIf="isWrongResolution">{{fileResolutionErrorMessage}}</mat-error>
     </div>
+    <div class="name-input ml-auto butt">
+    <button mat-mini-fab
+            *ngIf="imgUrl"
+            type="button"
+            (click)="resetImg()"
+            class="cancel"
+    > x
+    </button>
+    </div>
     <img mat-card-image
          alt="Photo"
          *ngIf="imgUrl"
          [src]="imgUrl"
     >
     <p class="text-center fst-italic mt-2" *ngIf="imgUrl">Preview</p>
+
     <button
       mat-raised-button color="accent"
       [disabled]="form.invalid || isLoading || isHeavier || isNotPng || isWrongResolution"
