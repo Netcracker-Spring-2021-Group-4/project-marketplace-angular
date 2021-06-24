@@ -8,6 +8,8 @@ import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {AuctionType} from "../../../shared/models/api/receive/auction-type.model";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
 import Labels from "../../../shared/models/labels/labels.constant";
+import {Router} from "@angular/router";
+import {Route} from "../../../shared/models/enums/route.enum";
 
 @Component({
   selector: 'app-create-auction-page',
@@ -34,6 +36,7 @@ export class CreateAuctionPageComponent implements OnInit {
     private auctionFormService: AuctionFormService,
     private authStoreApiService: AuthStoreApiService,
     private managerPlusApiService: ManagerPlusApiService,
+    private router: Router,
     private toaster: ToasterCustomService
   ) {
     this.form = this.auctionFormService.auctionCreateForm();
@@ -67,6 +70,10 @@ export class CreateAuctionPageComponent implements OnInit {
   get isAscendingTypeSelected(): boolean {
     const typeId = this.form.get('typeId')!.value
     return this.auctionTypesList.find(t => t.typeId === typeId)!.name === 'ASCENDING'
+  }
+
+  back() {
+    this.router.navigate([Route.CATALOG])
   }
 
   submit() {
