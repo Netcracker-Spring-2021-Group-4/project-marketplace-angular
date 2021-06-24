@@ -9,7 +9,7 @@
       >
     </div>
     <div class="info-block">
-      <p *ngIf="!product.isActive" class="pb-3 text-danger">
+      <p *ngIf="!product.isActive || availableQuantity == 0 " class="pb-3 text-danger">
         Product is not available at the moment
       </p>
       <p class="name">{{product.name}}</p>
@@ -51,6 +51,7 @@
       </p>
 
       <div *ngIf="role$ | async as role">
+        <div *ngIf="product.inStock !== 0">
         <div *ngIf="product.isActive && role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'">
 
           <span class="pt-3 mb-5 font-monospace"> Add item to cart </span>
@@ -69,7 +70,7 @@
           This is the maximum available amount
         </span>
         </div>
-
+        </div>
         <div class="buttons">
           <button class="action edit"
                   mat-raised-button color="primary"

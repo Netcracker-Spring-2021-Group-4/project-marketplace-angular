@@ -83,7 +83,7 @@ export class EditProductPageComponent implements OnInit {
       productName: new FormControl(this.product.name, [Validators.required, Validators.pattern(productNameRegExp)]),
       description: new FormControl(this.product.description),
       inStock: new FormControl(this.product.inStock, [Validators.required, Validators.min(1)]),
-      price: new FormControl(this.product.price / 100, [Validators.required, Validators.min(0), Validators.max(23598)]),
+      price: new FormControl(this.product.price / 100, [Validators.required, Validators.min(0.05), Validators.max(23598)]),
       reserved: new FormControl(this.product.reserved, [Validators.min(0)]),
       categoryId: new FormControl(this.product.categoryId, [Validators.required]),
       file: new FormControl(this.product.imageUrl)
