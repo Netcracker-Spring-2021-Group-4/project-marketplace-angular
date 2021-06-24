@@ -13,7 +13,7 @@
         </app-order-info-status>
 
         <app-order-product-table
-          [ordersDatasource]="orderInfo.content.content"
+          [ordersDatasource]="orderProduct"
           [orderInfo]="orderInfo"
           *ngIf="role =='ROLE_COURIER' || role == 'ROLE_CUSTOMER'"
         >

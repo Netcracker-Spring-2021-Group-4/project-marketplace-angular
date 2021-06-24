@@ -1,31 +1,31 @@
 <div class="container" *ngIf="!isLoading">
   <div class="row mb-2 mt-5">
 
-    <p><span class="font-monospace">Address: </span>
+    <p><span class="font-monospace id">Address: </span>
       <span class="fw-bold">
-        {{orderCustomerInfo.content.city}},
-        {{orderCustomerInfo.content.street}} street
-        {{orderCustomerInfo.content.building}},
-        {{orderCustomerInfo.content.flat}} Apt
+        {{orderCustomerInfo.city}},
+        {{orderCustomerInfo.street}} street
+        {{orderCustomerInfo.building}},
+        {{orderCustomerInfo.flat}} Apt
       </span>
 
     </p>
     <p>
-      <span class="font-monospace">Customer's name: </span>
+      <span class="font-monospace id">Customer's name: </span>
       <span class="fw-bold">
-        {{orderCustomerInfo.content.firstName}}
-        {{orderCustomerInfo.content.lastName}}
+        {{orderCustomerInfo.firstName}}
+        {{orderCustomerInfo.lastName}}
       </span>
     </p>
 
     <p>
-      <span class="font-monospace">Phone: </span>
-      <span class="fw-bold">{{orderCustomerInfo.content.phoneNumber | phone}} </span>
+      <span class="font-monospace id">Phone: </span>
+      <span class="fw-bold">{{orderCustomerInfo.phoneNumber | phone}} </span>
     </p>
     <p>
-      <span class="font-monospace">Comment: </span>
+      <span class="font-monospace id">Comment: </span>
       <span class="fw-bold">
-        {{orderCustomerInfo.content.comment}}
+        {{orderCustomerInfo.comment}}
         </span>
     </p>
 

@@ -35,7 +35,7 @@ export class OrderDetailsComponent implements OnInit {
     })).subscribe(
       (data: OrderInfo) => {
         this.orderInfo = data
-        this.orderProduct = data.content.content
+        this.orderProduct = data.content
         this.ordersDatasource = new MatTableDataSource(this.orderProduct);
         this.isLoading = false
 
