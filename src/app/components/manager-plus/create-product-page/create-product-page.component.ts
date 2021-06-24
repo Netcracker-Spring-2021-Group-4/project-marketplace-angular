@@ -117,6 +117,11 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
   }
 
   resetImg() {
+    (<HTMLInputElement>document.getElementById("uploadCaptureInputFile")).value = "";
     this.imgUrl = undefined;
+    this.selectedFile = undefined;
+    this.isHeavier = false;;
+    this.isWrongResolution = false;
+    this.isNotPng = false;
   }
 }
