@@ -1,7 +1,7 @@
 <div class="container" *ngIf="!isLoading">
   <div class="row mb-2 mt-5">
 
-    <p><span class="font-monospace id">Address: </span>
+    <p><span class="font-monospace id">Customer's address: </span>
       <span class="fw-bold">
         {{orderCustomerInfo.city}},
         {{orderCustomerInfo.street}} street
@@ -19,11 +19,11 @@
     </p>
 
     <p>
-      <span class="font-monospace id">Phone: </span>
+      <span class="font-monospace id">Customer's phone: </span>
       <span class="fw-bold">{{orderCustomerInfo.phoneNumber | phone}} </span>
     </p>
     <p>
-      <span class="font-monospace id">Comment: </span>
+      <span class="font-monospace id">Customer's сomment: </span>
       <span class="fw-bold">
         {{orderCustomerInfo.comment}}
         </span>

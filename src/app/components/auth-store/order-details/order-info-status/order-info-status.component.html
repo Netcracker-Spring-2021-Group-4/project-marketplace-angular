@@ -3,17 +3,17 @@
 
     <p>
       <span class="font-monospace id"> Order id: </span>
-      <span class="fw-bold">{{order.orderId}}</span>
+      <span class="fw-bold info">{{order.orderId}}</span>
     </p>
 
     <p>
-      <span class="font-monospace id">Status: </span>
-      <span class="fw-bold"> {{order.statusName | prettyStatus}} </span>
+      <span class="font-monospace id">Order status: </span>
+      <span class="fw-bold info"> {{order.statusName | prettyStatus}} </span>
     </p>
 
     <p>
-      <span class="font-monospace id">Date: </span>
-      <span class="fw-bold">{{order.placedAt | date:'medium'}} </span>
+      <span class="font-monospace id">Order date: </span>
+      <span class="fw-bold info">{{order.placedAt | date:'medium'}} </span>
     </p>
 
   </div>
