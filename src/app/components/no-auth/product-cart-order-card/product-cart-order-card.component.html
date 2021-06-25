@@ -54,11 +54,12 @@
     </div>
     <div
       class="mt-2"
+      *ngIf="product.description"
     >
       <span class="font-monospace badge cyan me-3">Description: </span>
       <br>
       <div class="mt-2 mx-auto d-inline-block cart-desc badge cyan-light pre-line cart-custom-text-font-size">
-        {{product.description | longText}}
+        {{product.description | longText:350}}
       </div>
     </div>
   </mat-card-content>
