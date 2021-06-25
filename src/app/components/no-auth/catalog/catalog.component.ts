@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {Product} from "../../../shared/models/api/receive/product";
 import {CatalogPublicHttpService} from "../../../api-services/catalog-public-http.service";
-import {PageEvent} from "@angular/material/paginator";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {FilterProperties} from "../../../shared/models/api/receive/filter-props";
 import {ProductFilterModel} from "../../../shared/models/api/send/product-filter.model";
 import {finalize, map} from "rxjs/operators";
@@ -24,16 +24,17 @@ export class CatalogComponent implements OnInit {
   filterProps: FilterProperties
   role: UserRole
   private isLoading: boolean;
+  pageIndex: number;
+
 
   constructor(private productService: CatalogPublicHttpService, private roleService: RoleService) {
     this.formGroup = productService.catalogSearchForm();
     this.selectedPage = 0;
-    this.filterProps = new FilterProperties({categories: [], maxPrice: 99000});
+    this.filterProps = new FilterProperties({categories: []});
 
     this.roleService.currentRole$.subscribe(response => {
       this.role = response
     });
-    console.log(this.role)
   }
 
 
@@ -75,6 +76,7 @@ export class CatalogComponent implements OnInit {
         this.products = response.content;
         this.length = response.totalItems;
         this.selectedPage = 0;
+        this.pageIndex=0;
       });
   }
 

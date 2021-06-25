@@ -35,9 +35,9 @@ export class DiscountPageComponent implements OnInit {
   maxOfferedPrice: number;
   myProductId: string | null;
   product: ProductInfo;
+  minDate: Date = new Date();
   dateTimeInPastErrorMessage = ValidationMessages.dateTimeInPast;
   offeredPriceErrorMessage = ValidationMessages.offeredPrice;
-  minDate: Date = new Date();
   isReady: boolean = false;
 
   constructor(
@@ -61,6 +61,7 @@ export class DiscountPageComponent implements OnInit {
         this.getUnexpiredDiscounts(this.myProductId);
         this.isLoading = false;
       })
+
   }
 
   public getUnexpiredDiscounts(productId: string | null) {
@@ -86,7 +87,7 @@ export class DiscountPageComponent implements OnInit {
     },{validators: [this.dateTimeValidator]})
   }
 
-  public dateTimeValidator :ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  public dateTimeValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const date = control.get('startsAt')!.value
     const time = control.get('timeStart')!.value
     const dateWTime = addTimeToDate(date, time)

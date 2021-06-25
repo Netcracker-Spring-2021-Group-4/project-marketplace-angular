@@ -11,6 +11,7 @@
          [src]="imgUrl || product.imageUrl"
          height="150"
          #start
+         class="mt-3"
     >
     <p class="text-center fst-italic" *ngIf="imgUrl">Preview</p>
     <app-file-uploader (correctFile)="getFile($event)"
@@ -89,7 +90,7 @@
       Reserved: {{product.reserved}}
     </p>
 
-    <button mat-raised-button color="primary"
+    <button mat-raised-button
             class="mt-2 mb-2 disc"
             [routerLink]="['./discounts']"
             type="button" >

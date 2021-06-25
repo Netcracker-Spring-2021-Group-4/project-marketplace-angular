@@ -13,7 +13,7 @@
       <span class="font-monospace fw-bold">Last name: </span>{{profile.lastName}}
     </p>
     <p class="mb-3" *ngIf="profile.phoneNumber">
-      <span class="font-monospace fw-bold">Phone number: </span>{{profile.phoneNumber}}
+      <span class="font-monospace fw-bold">Phone number: </span>{{profile.phoneNumber | phone}}
     </p>
     <p class="mb-3" *ngIf="!isCustomerProfileRoute">
       <span class="font-monospace fw-bold">Role: </span>{{profile.role}}
@@ -35,6 +35,7 @@
   <button
     mat-raised-button color="warn"
     (click)="goToChangePassword()"
+    *ngIf="!isStaffEditRoute"
   >
     Change password
   </button>

@@ -5,5 +5,10 @@
 .paginator{
   align: center;
 }
-
+@media only screen and (max-width: 986px) {
+  /* For mobile phones: */
+  [class*="col-"] {
+    width: 100%;
+  }
+}
 

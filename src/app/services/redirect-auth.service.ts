@@ -27,6 +27,11 @@ export class RedirectAuthService {
 
   redirect() {
     this.router.navigate([this.redirectRoute])
+      .then(() => {
+        if(this.router.url.slice(1) === Route.LOGIN) {
+          this.router.navigate([RedirectAuthService.defaultRoute()])
+        }
+      })
   }
 
   get redirectRoute() {
