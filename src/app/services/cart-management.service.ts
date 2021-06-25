@@ -8,6 +8,8 @@ import {ToasterCustomService} from "./toaster-custom.service";
 import {Observable, of} from "rxjs";
 import {isValidUUID} from "../shared/helpers/util-functions.helper";
 import {PublicApiService} from "../api-services/public-http.service";
+import {Router} from "@angular/router";
+import {Route} from "../shared/models/enums/route.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +23,8 @@ export class CartManagementService {
     private roleService: RoleService,
     private authStoreApiService: AuthStoreApiService,
     private publicApiService: PublicApiService,
-    private toaster: ToasterCustomService
+    private toaster: ToasterCustomService,
+    private router: Router,
   ) {
     this.roleService.currentRole$.subscribe(role => this.role = role)
   }
@@ -159,7 +162,7 @@ export class CartManagementService {
         else if (quantityLeft === 0) cart = cart.filter(i => i.productId !== item.productId)
         else cart[idx].quantity = quantityLeft
         localStorage.setItem(CartManagementService.CART_STORAGE, JSON.stringify(cart))
-        this.toaster.infoNotification(Labels.cart.successfulRemovingFromCart)
+        if (!this.isCartRoute()) this.toaster.infoNotification(Labels.cart.successfulRemovingFromCart)
       }
     }
   }
@@ -179,6 +182,10 @@ export class CartManagementService {
       }
     }
     localStorage.setItem(CartManagementService.CART_STORAGE, JSON.stringify(cart))
-    this.toaster.successfulNotification(Labels.cart.successfulAddingToCart)
+    if (!this.isCartRoute()) this.toaster.successfulNotification(Labels.cart.successfulAddingToCart)
+  }
+
+  private isCartRoute() {
+    return this.router.url.slice(1) === Route.CART
   }
 }

@@ -1,0 +1,15 @@
+@import 'src/styles/variables';
+* {
+  font-size: 1rem;
+}
+
+@media screen and (max-width: 375px) {
+  .id{
+    content: ' ';
+    display: block;
+  }
+  .info{
+    padding-top: 5px;
+  }
+}
+

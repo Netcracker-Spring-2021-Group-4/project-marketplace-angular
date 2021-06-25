@@ -111,7 +111,6 @@ export class CartPageComponent implements OnInit {
   }
 
   private changeQuantityThenFetchCart(obs$: Observable<any>, isAdding= false, productId: string = '') {
-    this.isLoading = true
     obs$
     .pipe(
       switchMap(res => {
@@ -119,8 +118,6 @@ export class CartPageComponent implements OnInit {
           const result = res.content
           const error = res.error
           if(result && !error) {
-            if(this.currentRole !== UserRole.ROLE_NO_AUTH_CUSTOMER)
-              this.toaster.successfulNotification(Labels.cart.successfulAddingToCart)
           } else this.toaster.infoNotification(error)
         }
 
@@ -128,8 +125,7 @@ export class CartPageComponent implements OnInit {
           this.publicApiService.getCart(this.cartManagementService.localCart)
           : this.authStoreApiService.getCart()
       }),
-      take(1),
-      finalize(() => this.isLoading = false)
+      take(1)
     )
     .subscribe(res => {
       const cart = res.content
