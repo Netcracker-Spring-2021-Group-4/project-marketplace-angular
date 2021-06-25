@@ -11,7 +11,7 @@ export const ValidationMessages = {
   price: "The price must be between 0.05 and 23598 ",
   quantity: "Must be equal or greater than 0",
   file: "The file extension should be only '.png', should be less than 1Mb and 512x512 px",
-  offeredPrice: "The offered price must be greater than 0, and less than 23 598",
+  offeredPrice: "The offered price must be greater than 0,05, and less than the price of the current product",
   required: "The field can not be empty",
   expansion: "Picture expansion should only be 'png'",
   resolution: "Picture resolution can only be 512 px by 512 px",

@@ -1,33 +1,28 @@
-table.mat-table {
+.table-outer {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+table {
   width: 100%;
-  border-spacing: 0;
-  padding-bottom: 20px;
-  box-shadow: none !important;
-  margin-bottom: 45px;
 }
 
-.mat-column-demo-position {
-  width: 32px;
-  border-right: 1px solid currentColor;
-  padding-right: 24px;
-  text-align: center;
+tr {
+  width: 100%;
+
 }
 
-.mat-column-demo-name {
-  padding-left: 16px;
-  font-size: 20px;
+th, td {
+  padding: 0 15px !important;
 }
 
-.mat-column-demo-weight {
-  font-style: italic;
+.narrow-col {
+  width: 10%;
 }
 
-.mat-column-demo-symbol {
-  width: 32px;
-  text-align: center;
-  font-weight: bold;
+.wide-col {
+  width: 20%;
 }
-
 
 img {
   width: 275px;
@@ -41,21 +36,32 @@ form{
   margin-top: 10px;
   margin-left: 55px;
 }
-.create{
-  margin-left: 40px;
-}
-.container{
+//.create{
+//  margin-left: 50px;
+//}
+.btns{
   display: flex;
+  justify-content: space-between;
 }
 .up-p{
   font-weight: bold;
 }
+.col1{
+  display: flex;
+  justify-content: center;
+  margin-right: 100px;
+}
+.col2{
+  margin-left: 100px;
+}
+
 @media (max-width: 768px) {
   .create{
     margin-left: 30px;
   }
 
 }
+
 @media (max-width: 665px) {
   img{
     width: 200px;
@@ -69,9 +75,12 @@ form{
     order:1;
     justify-content: center;
     text-align: center;
+    margin-left: 0;
+
   }
   .col1{
     order:2;
+    margin-right: 0;
   }
 
 }
@@ -84,8 +93,7 @@ form{
   }
   .product-info{
     margin-top: 15px;
-    margin-left: 0px;
-    //text-align: center;
+    margin-left: 0;
   }
   .row{
     display: flex;
@@ -95,9 +103,11 @@ form{
     order:1;
     justify-content: center;
     text-align: center;
+    margin-left: 0;
   }
   .col1{
     order:2;
+    margin-right: 0;
   }
 }
 

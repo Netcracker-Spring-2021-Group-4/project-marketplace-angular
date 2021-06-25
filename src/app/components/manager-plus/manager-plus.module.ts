@@ -19,6 +19,8 @@ import {
   MomentDateAdapter
 } from "@angular/material-moment-adapter";
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
+import { DiscountContentComponent } from './edit-product-page/discount-page/discount-content/discount-content.component';
+
 
 
 @NgModule({
@@ -31,6 +33,8 @@ import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
     StaffListFilterFormComponent,
     EditProductPageComponent,
     DiscountPageComponent,
+    DiscountContentComponent,
+
   ],
     imports: [
         CommonModule,

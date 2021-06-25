@@ -31,21 +31,17 @@ br{
   font-weight: bold;
 }
 img {
-  width: 450px;
-  height: 450px;
+  width: 400px;
+  height: 400px;
   margin-right: 20px;
   margin-left: -50px;
 }
 
-.old-price {
-  color: grey;
-  text-decoration: line-through;
-}
 
 .new-price {
   padding-left: 15px;
   font-size: 30px;
-  color: #ff0000;
+  color: crimson;
 }
 
 input {

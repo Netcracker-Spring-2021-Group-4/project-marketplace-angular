@@ -52,7 +52,6 @@ export class ProductPageComponent implements OnInit {
     this.isLoading = true;
     this.role$ = this.roleService.currentRole$
     this.productService.getProduct(productId).pipe(finalize(() => {
-      this.isLoading = false
     })).subscribe(
       data => {
         this.product = data;
@@ -61,6 +60,7 @@ export class ProductPageComponent implements OnInit {
           data =>{
             this.discount = data;
             this.categoryName$ = this.publicApiService.getCategoryName(productId)
+            this.isLoading = false
           })
       });
 
@@ -68,9 +68,7 @@ export class ProductPageComponent implements OnInit {
   }
   toggleShow() {
     this.isShown = ! this.isShown;
-
   }
-
 
   addToCart(id: string) {
     if (this.product.inStock == 0)

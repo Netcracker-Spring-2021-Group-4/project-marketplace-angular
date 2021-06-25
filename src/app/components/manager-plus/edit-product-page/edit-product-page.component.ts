@@ -104,6 +104,7 @@ export class EditProductPageComponent implements OnInit {
     this.checked = !this.checked;
     this.productService.activateDeactivateProduct(productId).subscribe(
       () => {
+        this.product.reserved = 0;
         this.toaster.successfulNotification(Labels.product.successfulActivateProduct)
       }
     );
