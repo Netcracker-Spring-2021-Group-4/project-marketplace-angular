@@ -1,7 +1,8 @@
 <section class="h-100per container d-flex justify-content-sm-between"
-         *ngIf="!isLoading">
+         *ngIf="!isLoading" >
 
-  <div class="wrapper">
+  <div *ngIf="role$ | async as role">
+  <div class="wrapper" >
     <div>
       <img mat-card-image src="{{product.imageUrl}}"
            alt="Photo"
@@ -50,7 +51,7 @@
         items
       </p>
 
-      <div *ngIf="role$ | async as role">
+      <div>
         <div *ngIf="product.inStock !== 0">
         <div *ngIf="product.isActive && role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'">
 
@@ -112,9 +113,27 @@
             Edit
           </button>
         </div>
+
+
+
+
       </div>
 
 
     </div>
+  </div>
+
+    <div *ngIf="suggestions.length>0">
+      <br>
+      <hr>
+      <h1> With this product people also buy: </h1>
+      <br>
+  <div class="row">
+    <div class="col-md-4" *ngFor="let product of suggestions" >
+      <app-product  [productItem]="product"
+                    [role]="role" ></app-product>
+    </div>
+  </div>
+  </div>
   </div>
 </section>

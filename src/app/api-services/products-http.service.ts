@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 import {ProductInfo} from "../shared/models/api/receive/productInfo";
 import {ProductUpdateModel} from "../shared/models/api/send/product-update.model";
+import {Product} from "../shared/models/api/receive/product";
 
 
 @Injectable({
@@ -31,6 +32,10 @@ export class ProductsHttpService{
 
   public updateProductInfo(productId: string | null, productUpdateModel: ProductUpdateModel): Observable<ProductUpdateModel> {
     return this.http.put<ProductUpdateModel>(`${this.apiServerUrl}/api/v1/manager/products/${productId}/edit-info`, productUpdateModel);
+  }
+
+  public getSuggestions(productId: string):Observable<Product[]>{
+    return this.http.get<Product[]>(`${this.apiServerUrl}/api/v1/public/products/${productId}/buy-with`);
   }
 
 }

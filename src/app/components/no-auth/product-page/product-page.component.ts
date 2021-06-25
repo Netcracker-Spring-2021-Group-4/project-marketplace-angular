@@ -12,8 +12,9 @@ import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {CartItemModel} from "../../../shared/models/api/send/cart-item.model";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {PublicApiService} from "../../../api-services/public-http.service";
-import {Observable} from "rxjs";
+import {forkJoin, Observable} from "rxjs";
 import {CompareManagementService} from "../../../services/compare-management.service";
+import {Product} from "../../../shared/models/api/receive/product";
 
 @Component({
   selector: 'app-product-page',
@@ -33,6 +34,7 @@ export class ProductPageComponent implements OnInit {
   currentItemQuantity: any;
   private readonly CART_STORAGE = 'cart'
   isShown: boolean = false;
+  suggestions: Product[];
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
@@ -47,22 +49,30 @@ export class ProductPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const productId = this.route.snapshot.paramMap.get('productId');
-    this.isLoading = true;
-    this.role$ = this.roleService.currentRole$
-    this.productService.getProduct(productId).pipe(finalize(() => {
-      this.isLoading = false
-    })).subscribe(
-      data => {
-        this.product = data;
-        this.availableQuantity = this.product.inStock - this.product.reserved
-        this.discountsService.getActiveDiscount(productId).subscribe(
-          data =>{
-            this.discount = data;
-            this.categoryName$ = this.publicApiService.getCategoryName(productId)
-          })
-      });
 
+    const productId = this.route.snapshot.paramMap.get('productId');
+
+    if(productId) {
+      let suggestions = this.productService.getSuggestions(productId);
+      let product = this.productService.getProduct(productId);
+      let discount = this.discountsService.getActiveDiscount(productId);
+
+      this.role$ = this.roleService.currentRole$
+
+      this.isLoading = true;
+      forkJoin([product, discount, suggestions])
+        .pipe(
+          finalize(() => this.isLoading = false)
+        ).subscribe(results => {
+        this.product = results[0];
+        this.availableQuantity = this.product.inStock - this.product.reserved
+        this.discount = results[1];
+        this.categoryName$ = this.publicApiService.getCategoryName(productId);
+        this.suggestions=results[2];
+      }, error => {
+        console.log({error});
+      });
+    }
 
   }
   toggleShow() {
