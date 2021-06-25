@@ -29,7 +29,7 @@
       </span>
 
       <span class="fw-bold" *ngIf="!discount"> {{product.price | customCurrency}}</span>
-      <span class="text-secondary text-decoration-line-through"
+      <span class="text-decoration-line-through"
             *ngIf="discount && product.isActive"> {{product.price | customCurrency}}</span>
       <span class="new-price" *ngIf="discount && product.isActive">
         {{discount.offeredPrice | customCurrency}}!
@@ -37,7 +37,7 @@
 
       <p class="text-white bg-secondary mt-3 mb-3 hurry" *ngIf="discount && product.isActive">
         Hurry up, the discount is valid until <br>
-        {{ discount.endsAt | date: 'medium'}}
+        {{ discount.endsAt | date: 'MMM d, y, hh:mm'}}
       </p>
 
       <p class="mb-1 mt-3 lh-base rrr" *ngIf="product.description.length">
@@ -45,7 +45,7 @@
         {{product.description}}
       </p>
 
-      <p class="mt-3 mb-3" *ngIf="product.isActive"><span class="font-monospace"> Available for purchase: </span>
+      <p class="mt-3 mb-3" *ngIf="product.isActive"><span class="font-monospace"> Available for purchase: </span> <br>
         <span class="fw-bold">{{availableQuantity}} </span>
         items
       </p>

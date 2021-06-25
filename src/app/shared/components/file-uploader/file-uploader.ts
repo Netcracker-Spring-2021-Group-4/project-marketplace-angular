@@ -1,5 +1,5 @@
 import {Component, Output, EventEmitter, Input, ViewChild, ElementRef} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormGroup} from "@angular/forms";
 
 export class ValidFile  {
   selectedFile?: File;

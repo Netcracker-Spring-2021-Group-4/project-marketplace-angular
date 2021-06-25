@@ -51,15 +51,18 @@ export class ProductPageComponent implements OnInit {
     this.isLoading = true;
     this.role$ = this.roleService.currentRole$
     this.productService.getProduct(productId).pipe(finalize(() => {
-      this.isLoading = false
     })).subscribe(
       data => {
         this.product = data;
+        if(!data.description){
+          this.product.description = '';
+        }
         this.availableQuantity = this.product.inStock - this.product.reserved
         this.discountsService.getActiveDiscount(productId).subscribe(
           data =>{
             this.discount = data;
             this.categoryName$ = this.publicApiService.getCategoryName(productId)
+            this.isLoading = false
           })
       });
 
