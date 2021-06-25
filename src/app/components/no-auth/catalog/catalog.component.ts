@@ -23,7 +23,7 @@ export class CatalogComponent implements OnInit {
   products: Product[] = []
   filterProps: FilterProperties
   role: UserRole
-  private isLoading: boolean;
+  isLoading: boolean;
   pageIndex: number;
 
 

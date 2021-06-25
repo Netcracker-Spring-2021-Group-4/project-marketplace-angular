@@ -17,6 +17,9 @@
 
 
     <app-products  [products]="products" [role]="role"></app-products>
+    <div *ngIf="products.length==0 && !isLoading">
+      <h2 class="text-center">Ooops.. It seems we can`t find products for you!</h2>
+    </div>
 
     <div cass="paginator">
       <mat-paginator
