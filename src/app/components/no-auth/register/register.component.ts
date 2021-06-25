@@ -22,6 +22,7 @@ export class RegisterComponent implements OnInit {
   firstNameErrorMessage = ValidationMessages.firstName
   lastNameErrorMessage = ValidationMessages.lastName
   phoneNumberErrorMessage = ValidationMessages.phoneNumber
+  passwordDontMatchMessage = ValidationMessages.passwordDontMatch
 
   constructor(
     private userAuthFormService: UserAuthFormService,
@@ -37,6 +38,7 @@ export class RegisterComponent implements OnInit {
   submit() {
     this.isLoading = true;
     const result = this.form.value
+    result.plainPassword = result.password
     if(!result.phoneNumber) delete result.phoneNumber
     this.authApiService.requestSignUp(result)
       .pipe(

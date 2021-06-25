@@ -32,11 +32,12 @@ export class UserAuthFormService {
     : FormGroup {
     return this.formBuilder.group({
       email: username(),
-      plainPassword: password(),
+      password: password(),
+      passwordRepeat: password(),
       firstName: name(),
       lastName: name(),
       phoneNumber: phoneNumber()
-    });
+    }, {validators: [samePasswordValidator]});
   }
 
   public createStaffForm()
