@@ -17,7 +17,6 @@ import Labels from "../../../../shared/models/labels/labels.constant";
 import {ToasterCustomService} from "../../../../services/toaster-custom.service";
 import {ProductsHttpService} from "../../../../api-services/products-http.service";
 import {ProductInfo} from "../../../../shared/models/api/receive/productInfo";
-import {Observable} from "rxjs";
 import {addTimeToDate} from "../../create-auction-page/auction-form.service";
 
 @Component({
@@ -28,18 +27,18 @@ import {addTimeToDate} from "../../create-auction-page/auction-form.service";
 })
 export class DiscountPageComponent implements OnInit {
 
-  product$: Observable<ProductInfo>;
-  myProductId: string | null;
-  discountsDatasource: any;
-  discounts: Discount[] = [];
   discount: Discount;
-  isLoading: boolean = false;
-  displayedColumns: string[] = ['offered price', 'starts at', 'ends at', 'delete'];
   discountForm: FormGroup;
+  discounts: Discount[] = [];
+  discountsDatasource: MatTableDataSource<Discount>;
+  isLoading: boolean = false;
+  maxOfferedPrice: number;
+  myProductId: string | null;
+  product: ProductInfo;
   minDate: Date = new Date();
-  offeredPriceErrorMessage = ValidationMessages.offeredPrice;
   dateTimeInPastErrorMessage = ValidationMessages.dateTimeInPast;
-  val: number;
+  offeredPriceErrorMessage = ValidationMessages.offeredPrice;
+  isReady: boolean = false;
 
   constructor(
     private discountService: DiscountsHttpService,
@@ -53,23 +52,16 @@ export class DiscountPageComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
     this.myProductId = this.route.snapshot.paramMap.get('productId');
-    this.product$ = this.productService.getProduct(this.myProductId).pipe(finalize(() => {
-      this.isLoading = false;
-    }))
-    this.discountForm = this.createDiscountForm();
-    this.myProductId = this.route.snapshot.paramMap.get('productId');
-    this.getUnexpiredDiscounts(this.myProductId);
+    this.productService.getProduct(this.myProductId).pipe(finalize(() => {
+    })).subscribe(
+      data => {
+        this.product = data;
+        this.maxOfferedPrice = (data.price / 100) - 0.01;
+        this.discountForm = this.createDiscountForm();
+        this.getUnexpiredDiscounts(this.myProductId);
+        this.isLoading = false;
+      })
 
-  }
-
-  public createDiscountForm(): FormGroup {
-    return this.formBuilder.group({
-      offeredPrice: [null, [Validators.required, Validators.min(0.05), Validators.max(23598)]],
-      startsAt: [null, [Validators.required]],
-      endsAt: [null, [Validators.required]],
-      timeStart: ['03:00', [Validators.required]],
-      timeEnd: ['03:00', [Validators.required]]
-    }, {validators: [this.dateTimeValidator]})
   }
 
   public getUnexpiredDiscounts(productId: string | null) {
@@ -85,11 +77,14 @@ export class DiscountPageComponent implements OnInit {
       });
   }
 
-  public deleteDiscount(discountId: string): void {
-    this.discountService.deleteDiscount(discountId).subscribe(
-      () => {
-        this.getUnexpiredDiscounts(this.myProductId);
-      })
+  public createDiscountForm(): FormGroup {
+    return this.formBuilder.group({
+      offeredPrice: [null, [Validators.required, Validators.min(1), Validators.max(this.maxOfferedPrice )]],
+      startsAt: [null, [Validators.required]],
+      endsAt: [null, [Validators.required]],
+      timeStart: ['03:00', [Validators.required]],
+      timeEnd: ['03:00', [Validators.required]]
+    },{validators: [this.dateTimeValidator]})
   }
 
   public dateTimeValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -99,19 +94,25 @@ export class DiscountPageComponent implements OnInit {
     return dateWTime > new Date() ? null : {dateTimeInPast: true};
   }
 
-
-  public submit() {
+  public submit(): void {
     const result = this.discountForm.value;
     result.startsAt = addTimeToDate(result.startsAt, result.timeStart)
     result.endsAt = addTimeToDate(result.endsAt, result.timeEnd)
     result.offeredPrice = result.offeredPrice * 100;
-    this.discountService.createDiscount(this.myProductId, result).subscribe(
+    this.discountService.createDiscount(this.myProductId, result)
+      .pipe(finalize (() => {
+        this.isLoading = false;
+        this.discountForm.markAsUntouched()
+        this.discountForm.get('timeStart')?.patchValue('03:00')
+        this.discountForm.get('timeEnd')?.patchValue('03:00')
+      })).subscribe(
       () => {
-        this.getUnexpiredDiscounts(this.myProductId);
+          this.getUnexpiredDiscounts(this.myProductId);
         this.toaster.successfulNotification(Labels.discount.successfulCreationDiscount);
       }, err => {
         this.toaster.errorNotification(err.error.message);
       })
   }
+
 
 }

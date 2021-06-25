@@ -49,7 +49,6 @@ export class ProductPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     const productId = this.route.snapshot.paramMap.get('productId');
 
     if(productId) {

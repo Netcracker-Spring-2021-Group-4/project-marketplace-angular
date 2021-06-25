@@ -31,21 +31,17 @@ br{
   color: #1c00ff;
 }
 img {
-  width: 450px;
-  height: 450px;
-  margin-right: 20px;
+  width: 350px;
+  height: 350px;
+  margin-right: 50px;
   margin-left: -50px;
 }
 
-.old-price {
-  color: grey;
-  text-decoration: line-through;
-}
 
 .new-price {
   padding-left: 15px;
   font-size: 30px;
-  color: #ff0000;
+  color: crimson;
 }
 
 input {
@@ -92,14 +88,20 @@ input {
   content: '';
   display: block;
 }
-@media screen and (max-width: 770px){
+
+@media screen and (max-width: 890px){
+  .product-id{
+    font-size: 18px;
+  }
+  .info-block{
+    min-width: 350px;
+  }
   .name {
     text-align: center;
     font-weight: bold;
     font-size: 26px;
     margin-top: 10px;
     margin-bottom: 40px;
-
   }
   .container {
     max-width: 375px;
@@ -134,7 +136,19 @@ input {
   .edit {
     margin: 0;
   }
-
+  br{
+    display: flex;
+  }
+  .buttons {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .edit {
+    margin-bottom: 25px;
+    width: 280px;
+  }
 }
 
 @media screen and (max-width: 375px) {

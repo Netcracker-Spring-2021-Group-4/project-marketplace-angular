@@ -1,49 +1,23 @@
 <p *ngIf="!isLoading && discounts.length == 0" class="text-center fw-bold fs-5 mt-3 mb-1"> This product has no discounts</p>
 
-<table mat-table [dataSource]="discountsDatasource" class="mat-elevation-z8"
-       *ngIf="!isLoading && discounts.length !== 0">
-
-  <ng-container matColumnDef="offered price">
-    <th mat-header-cell *matHeaderCellDef>Offered price $</th>
-    <td mat-cell *matCellDef="let discount"> {{discount.offeredPrice | customCurrency}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="starts at">
-    <th mat-header-cell *matHeaderCellDef>Starts at</th>
-    <td mat-cell *matCellDef="let discount"> {{discount.startsAt | date:'medium'}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="ends at">
-    <th mat-header-cell *matHeaderCellDef>Ends at</th>
-    <td mat-cell *matCellDef="let discount"> {{discount.endsAt | date:'medium'}}
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="delete">
-    <th mat-header-cell *matHeaderCellDef>Delete</th>
-    <td mat-cell *matCellDef="let discount">
-      <button mat-raised-button color="warn"
-              (click)="deleteDiscount(discount.discountId)">
-        Delete
-      </button>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+<app-discount-content
+  [discounts]="discounts"
+  [discount]="discount"
+  [discountsDatasource]="discounts"
+  (getUnexpiredDiscounts)="getUnexpiredDiscounts(product.productId)"
+>
+</app-discount-content>
 
 
-<div class="container d-flex justify-content-center flex-column form-width mt-3 mb-3 cont-war">
+<div class="container d-flex justify-content-center form-width mt-3 mb-3 cont-war" *ngIf="discountForm">
   <div class="row">
     <div class="col-sm col1">
       <form [formGroup]="discountForm"
-            (ngSubmit)="submit()"
             class="container d-flex justify-content-center flex-column mt-3 mb-3"
       >
         <p class="text-center">Add discount</p>
 
-        <mat-form-field appearance="fill" class="name-input mr-auto ml-auto mb-3">
+        <mat-form-field appearance="fill" class="name-input mr-auto ml-auto">
           <mat-label>Date range</mat-label>
           <mat-date-range-input [rangePicker]="picker" disabled="true" [min]="minDate">
             <input matStartDate placeholder="Start date" formControlName="startsAt">
@@ -52,7 +26,12 @@
           <mat-datepicker-toggle matSuffix [for]="picker" disabled="false"></mat-datepicker-toggle>
           <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
         </mat-form-field>
-
+        <mat-error
+          class="mb-2"
+          *ngIf="discountForm.get('startsAt')!.dirty && discountForm.errors?.dateTimeInPast"
+        >
+          {{dateTimeInPastErrorMessage}}
+        </mat-error>
 
         <div class="ngx-timepicker-field-example mb-3">
           <ngx-timepicker-field
@@ -61,12 +40,7 @@
             formControlName="timeStart"
           >
           </ngx-timepicker-field>
-          <mat-error
-            class="mt-2 mb-2"
-            *ngIf="discountForm.get('startsAt')!.dirty && discountForm.errors?.dateTimeInPast"
-          >
-            {{dateTimeInPastErrorMessage}}
-          </mat-error>
+
         </div>
 
         <div class="ngx-timepicker-field-example mb-3">
@@ -85,32 +59,33 @@
                  mask="separator.2"
                  formControlName="offeredPrice"
                  autocomplete="off"
-                 [(ngModel)]="val"
           >
           <mat-error *ngIf="discountForm.get('offeredPrice')?.invalid" class="mb-5">
             {{offeredPriceErrorMessage}}
           </mat-error>
 
         </mat-form-field>
-        <div>
-          <button class=""
+        <div class="btns">
+          <button class="back"
                   mat-raised-button color="primary"
                   [routerLink]="['../']"
                   type="button"
           >
-            Go Back
+            Go back
           </button>
           <button class=" create"
                   mat-raised-button color="primary"
-                  type="submit"
-                  [disabled]="discountForm.invalid || discountForm.untouched"
+                  type="reset"
+                  [disabled]="discountForm.invalid || discountForm.untouched ||isLoading"
+                  (click) = submit()
           >
             Create
           </button>
         </div>
       </form>
     </div>
-    <div *ngIf="product$ | async as product" class="col-sm mt-3 mb-3 col2">
+
+    <div *ngIf="product" class="col-sm mt-3 mb-3 col2">
       <img mat-card-image
            src="{{product.imageUrl}}"
            alt="Photo"
@@ -121,9 +96,5 @@
         <p class="fs-5"> Price: {{product.price | customCurrency}}</p>
       </div>
     </div>
-
-
   </div>
 </div>
-
-
