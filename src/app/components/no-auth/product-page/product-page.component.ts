@@ -54,6 +54,9 @@ export class ProductPageComponent implements OnInit {
     })).subscribe(
       data => {
         this.product = data;
+        if(!data.description){
+          this.product.description = '';
+        }
         this.availableQuantity = this.product.inStock - this.product.reserved
         this.discountsService.getActiveDiscount(productId).subscribe(
           data =>{
