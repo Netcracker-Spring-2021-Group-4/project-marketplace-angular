@@ -1,15 +1,19 @@
 <mat-card class="form-width mb-3 product-card d-flex flex-column">
-  <mat-card-header>
+  <mat-card-header class="header-height">
     <div mat-card-avatar>
       <img [src]="product.imageUrl" alt="image of {{product.name}}">
     </div>
-    <mat-card-title>{{product.name}}</mat-card-title>
+    <mat-card-title>
+      <a
+        class="link-product-name "
+        [routerLink]="['/product', product.productId]"
+      >
+        {{product.name}}
+      </a>
+    </mat-card-title>
     <mat-card-subtitle>{{product.category | prettyCategory}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content class="d-flex flex-column">
-    <p class="cart-desc badge cyan text-wrap cart-custom-text-font-size">
-      {{product.description}}
-    </p>
     <div>
       <span class="font-monospace badge bg-warning me-3">Product id: </span>
       <br>
@@ -29,7 +33,7 @@
       >
           {{product.price | customCurrency}}
         </span>
-      <span *ngIf="discountExist(product.discount)" class="font-monospace badge purple cart-custom-text-font-size">
+      <span *ngIf="discountExist(product.discount)" class="font-monospace badge crimson cart-custom-text-font-size">
           {{product.discount | customCurrency}}
         </span>
     </div>
@@ -44,9 +48,18 @@
       >
           {{product.totalPriceWithoutDiscount | customCurrency}}
         </span>
-      <span *ngIf="discountExist(product.discount)" class="font-monospace badge purple cart-custom-text-font-size">
+      <span *ngIf="discountExist(product.discount)" class="font-monospace badge crimson cart-custom-text-font-size">
           {{product.totalPrice | customCurrency}}
         </span>
+    </div>
+    <div
+      class="mt-2"
+    >
+      <span class="font-monospace badge cyan me-3">Description: </span>
+      <br>
+      <div class="mt-2 mx-auto d-inline-block cart-desc badge cyan-light pre-line cart-custom-text-font-size">
+        {{product.description | longText}}
+      </div>
     </div>
   </mat-card-content>
   <div class="spacer"></div>

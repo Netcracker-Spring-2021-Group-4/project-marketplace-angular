@@ -40,6 +40,7 @@ import { AddressPipe } from './helpers/pipes/address.pipe';
 import { DeEnumPipe } from './helpers/pipes/de-enum.pipe';
 import { PhonePipe } from './helpers/pipes/phone.pipe';
 import {StatusPrettifierPipe} from "./helpers/pipes/status-prettifier.pipe";
+import {LongTextPipe} from "./helpers/pipes/long-text.pipe";
 
 @NgModule({
   imports: [
@@ -113,6 +114,7 @@ import {StatusPrettifierPipe} from "./helpers/pipes/status-prettifier.pipe";
     DeEnumPipe,
     PhonePipe,
     StatusPrettifierPipe,
+    LongTextPipe
   ],
   declarations: [
     MenuBarComponent,
@@ -126,6 +128,7 @@ import {StatusPrettifierPipe} from "./helpers/pipes/status-prettifier.pipe";
     DeEnumPipe,
     PhonePipe,
     StatusPrettifierPipe,
+    LongTextPipe
   ]
 })
 export class SharedModule { }
