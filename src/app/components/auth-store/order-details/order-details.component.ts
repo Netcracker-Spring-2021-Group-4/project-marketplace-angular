@@ -19,7 +19,7 @@ export class OrderDetailsComponent implements OnInit {
   orderInfo: OrderInfo;
   orderProduct: OrderProductInfo[];
   isLoading: boolean;
-  ordersDatasource: any;
+  ordersDatasource: MatTableDataSource<OrderProductInfo>;
   role$: Observable<UserRole>;
   constructor(private courierService: CourierApiService,
               private route: ActivatedRoute,

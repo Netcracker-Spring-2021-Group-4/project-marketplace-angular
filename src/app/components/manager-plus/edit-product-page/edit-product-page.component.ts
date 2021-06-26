@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ProductInfo} from "../../../shared/models/api/receive/productInfo";
 import {ActivatedRoute} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
@@ -6,7 +6,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ProductUpdateModel} from "../../../shared/models/api/send/product-update.model";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
-import {finalize, isEmpty} from "rxjs/operators";
+import {finalize} from "rxjs/operators";
 import {ProductsHttpService} from "../../../api-services/products-http.service";
 import {PublicApiService} from "../../../api-services/public-http.service";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
@@ -31,11 +31,10 @@ export class EditProductPageComponent implements OnInit {
   product: ProductInfo;
   form: FormGroup;
   categoryName: string;
-  selected: any;
+  selected: number;
   checked: boolean;
   isLoading = false;
   myProductId: string | null;
-  success: boolean = false;
   productNameErrorMessage = ValidationMessages.productName;
   quantityErrorMessage = ValidationMessages.quantity;
   priceErrorMessage = ValidationMessages.price;
@@ -58,19 +57,21 @@ export class EditProductPageComponent implements OnInit {
     this.isLoading = true;
     this.form = this.pictureForm();
     this.myProductId = this.route.snapshot.paramMap.get('productId');
-    this.productService.getProduct(this.myProductId).pipe(finalize(() => {
-    })).subscribe(
-      data => {
-        this.product = data;
-        this.checked = this.product.isActive;
-        this.initForm();
-        this.publicApiService.getCategoryName(this.myProductId).subscribe(
-          data => {
-            this.categoryName = (data);
-            this.getCategories();
-          });
-      });
-   }
+    if(this.myProductId){
+      this.productService.getProduct(this.myProductId).pipe(finalize(() => {
+      })).subscribe(
+        data => {
+          this.product = data;
+          this.checked = this.product.isActive;
+          this.initForm();
+          this.publicApiService.getCategoryName(this.myProductId).subscribe(
+            data => {
+              this.categoryName = (data);
+              this.getCategories();
+            });
+        });
+    }
+  }
 
   public pictureForm(): FormGroup {
     return this.formBuilder.group({
@@ -121,11 +122,10 @@ export class EditProductPageComponent implements OnInit {
             this.toaster.errorNotification(Labels.product.errorUpdatingProduct);
           })
     }
-    if (this.selectedFile !== undefined) {
+    if (this.selectedFile) {
       this.productService
         .updateProductPicture(this.myProductId, this.selectedFile)
         .subscribe(() => {
-          this.success = true;
           this.toaster.successfulNotification(Labels.product.successfulUpdatingProductPicture);
           (<HTMLInputElement>document.getElementById("uploadCaptureInputFile")).value = "";
         }, () => {
@@ -161,7 +161,8 @@ export class EditProductPageComponent implements OnInit {
     this.isChange = validFile.isChange;
     this.isWrongResolution = validFile.isWrongResolution;
     this.isNotPng = validFile.isNotPng;
-    this.imgUrl = validFile.imgUrl
+    this.imgUrl = validFile.imgUrl;
+    this.isDisabled = validFile.isDisabled;
   }
 
 }

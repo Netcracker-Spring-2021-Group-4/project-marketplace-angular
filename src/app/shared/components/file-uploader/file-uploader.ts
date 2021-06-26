@@ -8,6 +8,7 @@ export class ValidFile  {
   isNotPng?: boolean;
   isWrongResolution?: boolean;
   imgUrl?: any;
+  isDisabled: boolean;
 }
 
 @Component({
@@ -18,7 +19,6 @@ export class ValidFile  {
 
 export class FileUploader {
 
-  @ViewChild('toHide') hide: ElementRef;
   @Input() public form:FormGroup;
   @Output() correctFile = new EventEmitter<ValidFile>();
   updatedFile: ValidFile = new ValidFile();
@@ -31,6 +31,7 @@ export class FileUploader {
 
     if (this.updatedFile.selectedFile) {
        this.updatedFile.isChange = true;
+       this.updatedFile.isDisabled = false;
        this.updatedFile.isNotPng = (this.updatedFile.selectedFile.type != 'image/png');
        this.updatedFile.isHeavier = (this.updatedFile.selectedFile.size >= 1000000);
        const reader = new FileReader();
