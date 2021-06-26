@@ -64,6 +64,9 @@ export class ProductPageComponent implements OnInit {
           finalize(() => this.isLoading = false)
         ).subscribe(results => {
         this.product = results[0];
+        if(this.product.description == null){
+          this.product.description = '';
+        }
         this.availableQuantity = this.product.inStock - this.product.reserved
         this.discount = results[1];
         this.categoryName$ = this.publicApiService.getCategoryName(productId);
