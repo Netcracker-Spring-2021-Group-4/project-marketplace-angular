@@ -7,7 +7,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
-import {Category_DUBLICAT} from "../../../shared/models/api/receive/category_dublicat";
+import {CategoryInfo} from "../../../shared/models/api/receive/category-info";
 @Injectable({
   providedIn: 'root'
 })
@@ -18,8 +18,8 @@ export class ProductManagerFormService {
     private http:HttpClient
   ) {
   }
-  public getCategories():Observable<Category_DUBLICAT[]>{
-    return this.http.get<Category_DUBLICAT[]>(`${this.apiServerUrl}/api/v1/public/categories-all`);
+  public getCategories():Observable<CategoryInfo[]>{
+    return this.http.get<CategoryInfo[]>(`${this.apiServerUrl}/api/v1/public/categories-all`);
   }
 
   public createProductForm()
