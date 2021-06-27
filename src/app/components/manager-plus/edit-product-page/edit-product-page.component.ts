@@ -36,7 +36,6 @@ export class EditProductPageComponent implements OnInit {
   selected: number;
   checked: boolean;
   isLoading = false;
-  myProductId: string | null;
   productNameErrorMessage = ValidationMessages.productName;
   quantityErrorMessage = ValidationMessages.quantity;
   priceErrorMessage = ValidationMessages.price;
@@ -57,15 +56,15 @@ export class EditProductPageComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
     this.form = this.pictureForm();
-    this.myProductId = this.route.snapshot.paramMap.get('productId');
-    if(this.myProductId){
-      this.productService.getProduct(this.myProductId).pipe(finalize(() => {
+    const productId = this.route.snapshot.paramMap.get('productId');
+    if(productId){
+      this.productService.getProduct(productId).pipe(finalize(() => {
       })).subscribe(
         data => {
           this.product = data;
           this.checked = this.product.isActive;
           this.initForm();
-          this.publicApiService.getCategoryName(this.myProductId).subscribe(
+          this.publicApiService.getCategoryName(productId).subscribe(
             data => {
               this.categoryName = (data);
               this.getCategories();
@@ -116,7 +115,7 @@ export class EditProductPageComponent implements OnInit {
   public submit(updateInfo: ProductUpdateModel) {
     if (this.doSend) {
       updateInfo.price = updateInfo.price * 100;
-      this.productService.updateProductInfo(this.myProductId, updateInfo)
+      this.productService.updateProductInfo(this.product.productId, updateInfo)
         .subscribe(
           () => {
             this.toaster.successfulNotification(Labels.product.successfulUpdatingProduct);
@@ -124,9 +123,9 @@ export class EditProductPageComponent implements OnInit {
             this.toaster.errorNotification(Labels.product.errorUpdatingProduct);
           })
     }
-    if (this.selectedFile) {
+    if (this.selectedFile ) {
       this.productService
-        .updateProductPicture(this.myProductId, this.selectedFile)
+        .updateProductPicture(this.product.productId, this.selectedFile)
         .subscribe(() => {
           this.toaster.successfulNotification(Labels.product.successfulUpdatingProductPicture);
           (<HTMLInputElement>document.getElementById("uploadCaptureInputFile")).value = "";

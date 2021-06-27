@@ -24,13 +24,13 @@ export class ProductsHttpService{
     return this.http.patch<ProductInfo>(`${this.apiServerUrl}/api/v1/manager/products/${productId}/activate-deactivate`, {});
   }
 
-  public updateProductPicture(id: string | null, file: File): Observable<ProductInfo> {
+  public updateProductPicture(id: string, file: File): Observable<ProductInfo> {
     let pictureData: FormData = new FormData();
     pictureData.append('file', file);
     return this.http.put<ProductInfo>(`${this.apiServerUrl}/api/v1/manager/products/${id}/edit-picture`, pictureData);
   }
 
-  public updateProductInfo(productId: string | null, productUpdateModel: ProductUpdateModel): Observable<ProductUpdateModel> {
+  public updateProductInfo(productId: string, productUpdateModel: ProductUpdateModel): Observable<ProductUpdateModel> {
     return this.http.put<ProductUpdateModel>(`${this.apiServerUrl}/api/v1/manager/products/${productId}/edit-info`, productUpdateModel);
   }
 
