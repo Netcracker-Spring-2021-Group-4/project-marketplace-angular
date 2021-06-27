@@ -63,8 +63,6 @@ export class DiscountPageComponent implements OnInit {
           this.isLoading = false;
         })
     }
-
-
   }
 
   public getUnexpiredDiscounts(productId: string | null) {
@@ -82,7 +80,12 @@ export class DiscountPageComponent implements OnInit {
 
   public createDiscountForm(): FormGroup {
     return this.formBuilder.group({
-      offeredPrice: [null, [Validators.required, Validators.min(1), Validators.max(this.maxOfferedPrice )]],
+      offeredPrice: [null,
+        [Validators.required,
+        Validators.min(1),
+        Validators.max(this.maxOfferedPrice)
+        ]
+      ],
       startsAt: [null, [Validators.required]],
       endsAt: [null, [Validators.required]],
       timeStart: ['03:00', [Validators.required]],

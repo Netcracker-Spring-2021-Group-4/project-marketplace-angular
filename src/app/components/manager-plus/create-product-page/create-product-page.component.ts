@@ -8,9 +8,10 @@ import {ManagerApiService} from "../../../api-services/manager-http.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Subscription} from "rxjs";
 import {MatSelectChange} from "@angular/material/select";
-import {Category_DUBLICAT} from "../../../shared/models/api/receive/category_dublicat";
+
 import {ProductManagerFormService} from "../services/product-manager-form.service";
 import {ValidFile} from "../../../shared/components/file-uploader/file-uploader";
+import {CategoryInfo} from "../../../shared/models/api/receive/category-info";
 
 @Component({
   selector: 'app-create-product-page',
@@ -21,7 +22,7 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
 
   form: FormGroup
   selectedFile?: File
-  categories: Category_DUBLICAT[]
+  categories: CategoryInfo[]
   isLoading = false
   currentValue:any
   selected2:any
@@ -61,7 +62,7 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
   public getCategories(): void{
     this.subscriptions.push(
       this.productManagerFormService.getCategories().subscribe(
-        (response:Category_DUBLICAT[])=>{
+        (response:CategoryInfo[])=>{
           this.categories=response;
           this.selected2=this.categories[1].categoryId
         },

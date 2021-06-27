@@ -1,4 +1,4 @@
-import {Component, Output, EventEmitter, Input, ViewChild, ElementRef} from '@angular/core';
+import {Component, Output, EventEmitter, Input} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 
 export class ValidFile  {
@@ -23,12 +23,10 @@ export class FileUploader {
   @Output() correctFile = new EventEmitter<ValidFile>();
   updatedFile: ValidFile = new ValidFile();
 
-
   constructor() { }
 
    public onFileSelected($event: any) {
     this.updatedFile.selectedFile = $event.target.files[0];
-
     if (this.updatedFile.selectedFile) {
        this.updatedFile.isChange = true;
        this.updatedFile.isDisabled = false;
