@@ -1,6 +1,7 @@
 <div class="row products">
   <div class="col-md-4" *ngFor="let product of products" >
     <app-product  [productItem]="product"
+                  [categories]="categories"
                   [role]="role" ></app-product>
   </div>
 </div>

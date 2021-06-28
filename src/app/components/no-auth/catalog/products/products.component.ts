@@ -3,6 +3,7 @@ import {CatalogPublicHttpService} from "../../../../api-services/catalog-public-
 import {Product} from "../../../../shared/models/api/receive/product";
 import {UserRole} from "../../../../shared/models/enums/role.enum";
 import {FormGroup} from "@angular/forms";
+import {Category} from "../../../../shared/models/api/receive/category";
 
 @Component({
   selector: 'app-products',
@@ -12,6 +13,7 @@ import {FormGroup} from "@angular/forms";
 export class ProductsComponent implements OnInit {
 
   @Input() products:Product[]
+  @Input() categories:Category[]
   @Input() role:UserRole
 
   @Output() addToCartEvent = new EventEmitter();

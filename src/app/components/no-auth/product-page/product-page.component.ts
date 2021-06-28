@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
@@ -15,13 +15,15 @@ import {PublicApiService} from "../../../api-services/public-http.service";
 import {forkJoin, Observable} from "rxjs";
 import {CompareManagementService} from "../../../services/compare-management.service";
 import {Product} from "../../../shared/models/api/receive/product";
+import {Category} from "../../../shared/models/api/receive/category";
+import {Route} from "../../../shared/models/enums/route.enum";
 
 @Component({
   selector: 'app-product-page',
   templateUrl: './product-page.component.html',
   styleUrls: ['./product-page.component.scss']
 })
-export class ProductPageComponent implements OnInit {
+export class ProductPageComponent implements OnInit, OnChanges {
 
   currentValue: number = 1;
   product: ProductInfo;
@@ -35,6 +37,7 @@ export class ProductPageComponent implements OnInit {
   private readonly CART_STORAGE = 'cart'
   isShown: boolean = false;
   suggestions: Product[];
+  categories: Category[]
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
@@ -55,11 +58,13 @@ export class ProductPageComponent implements OnInit {
       let suggestions = this.productService.getSuggestions(productId);
       let product = this.productService.getProduct(productId);
       let discount = this.discountsService.getActiveDiscount(productId);
+      let categories = this.publicApiService.getListOfCategories();
+
 
       this.role$ = this.roleService.currentRole$
 
       this.isLoading = true;
-      forkJoin([product, discount, suggestions])
+      forkJoin([product, discount, suggestions,categories])
         .pipe(
           finalize(() => this.isLoading = false)
         ).subscribe(results => {
@@ -68,11 +73,16 @@ export class ProductPageComponent implements OnInit {
         this.discount = results[1];
         this.categoryName$ = this.publicApiService.getCategoryName(productId);
         this.suggestions=results[2];
+        this.categories = results[3];
       }, error => {
         console.log({error});
       });
     }
 
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+  console.log("change")
   }
   toggleShow() {
     this.isShown = ! this.isShown;
@@ -108,4 +118,9 @@ export class ProductPageComponent implements OnInit {
   isCopied() {
      this.toaster.successfulNotification('Id copied to clipboard')
   }
+
+  getProductLink(productId: string) : string {
+    return '/' + Route.PRODUCT.replace(':productId', productId);
+  }
+
 }

@@ -18,6 +18,10 @@
       <mat-card-title class="text-oneline">
         <h4 ><a class="card-title"  routerLink='{{getProductLink(productItem.productId)}}'>{{productItem.name}}</a></h4>
       </mat-card-title>
+      <mat-card-subtitle class="text-oneline">
+        {{getCategory(productItem.categoryId)|prettyCategory}}
+      </mat-card-subtitle>
+
 
       <mat-card-content >
         <div class = "row ">

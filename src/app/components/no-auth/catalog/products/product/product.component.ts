@@ -7,6 +7,7 @@ import Labels from "../../../../../shared/models/labels/labels.constant";
 import {ToasterCustomService} from "../../../../../services/toaster-custom.service";
 import {CompareManagementService} from "../../../../../services/compare-management.service";
 import {Route} from "../../../../../shared/models/enums/route.enum";
+import {Category} from "../../../../../shared/models/api/receive/category";
 
 @Component({
   selector: 'app-product',
@@ -17,12 +18,15 @@ export class ProductComponent implements OnInit {
 
   @Input() role: UserRole
   @Input() productItem: Product
+  @Input() categories:Category[]
 
   constructor(private cartManager:CartManagementService,
               private toaster: ToasterCustomService,
               private compareService: CompareManagementService
   ) {
   }
+
+
 
   ngOnInit(): void {
   }
@@ -45,5 +49,13 @@ export class ProductComponent implements OnInit {
 
   getProductLink(productId: string) : string {
     return '/' + Route.PRODUCT.replace(':productId', productId);
+  }
+
+  getCategory(categoryId:number): string {
+    for (let i = 0; i < this.categories.length; i++) {
+      if (this.categories[i].categoryId == categoryId)
+        return this.categories[i].productCategoryName;
+    }
+    return 'unknown category';
   }
 }
