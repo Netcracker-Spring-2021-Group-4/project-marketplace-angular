@@ -5,7 +5,6 @@
     [formGroup]="form"
     class="container d-flex justify-content-center flex-column form-width mt-3 mb-3">
     <h1 class="text-center">Create new product</h1>
-
     <mat-form-field
       appearance="fill"
       class="name-input mr-auto ml-auto mb-3">
@@ -42,12 +41,9 @@
              >
       <mat-error *ngIf="form.get('inStock')?.invalid">{{quantityErrorMessage}}</mat-error>
     </mat-form-field>
-
-
-
     <mat-form-field appearance="fill" class="mb-3">
       <mat-label>Choose category</mat-label>
-      <mat-select (selectionChange)="OnInput($event)" formControlName="categoryId">
+      <mat-select  formControlName="categoryId">
         <mat-option *ngFor="let category of categories" [value]="category.categoryId">
           {{category.categoryName| prettyCategory}}
         </mat-option>
