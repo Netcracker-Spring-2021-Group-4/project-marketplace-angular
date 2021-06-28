@@ -1,11 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {Product} from "../../../shared/models/api/receive/product";
 import {CatalogPublicHttpService} from "../../../api-services/catalog-public-http.service";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import { PageEvent} from "@angular/material/paginator";
 import {FilterProperties} from "../../../shared/models/api/receive/filter-props";
 import {ProductFilterModel} from "../../../shared/models/api/send/product-filter.model";
-import {finalize, map} from "rxjs/operators";
+import {finalize} from "rxjs/operators";
 import {forkJoin} from "rxjs";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
@@ -18,18 +18,18 @@ import {UserRole} from "../../../shared/models/enums/role.enum";
 export class CatalogComponent implements OnInit {
 
   formGroup: FormGroup;
-  selectedPage: number
   length: number
   products: Product[] = []
   filterProps: FilterProperties
   role: UserRole
   isLoading: boolean;
   pageIndex: number;
+  pageSize: number;
 
 
   constructor(private productService: CatalogPublicHttpService, private roleService: RoleService) {
     this.formGroup = productService.catalogSearchForm();
-    this.selectedPage = 0;
+    this.pageSize=9;
     this.filterProps = new FilterProperties({categories: []});
 
     this.roleService.currentRole$.subscribe(response => {
@@ -39,7 +39,7 @@ export class CatalogComponent implements OnInit {
 
 
   ngOnInit(): void {
-    let productPage = this.productService.getProductsPage(0, 9);
+    let productPage = this.productService.postProductsPage(this.setSearchCriteria(), 0, this.pageSize);
     let filterProperties = this.productService.getFilterProperties();
 
     this.isLoading = true;
@@ -58,24 +58,20 @@ export class CatalogComponent implements OnInit {
 
 
   handlePageChange($event: PageEvent) {
-    let searchCriteria = this.setSearchCriteria()
+    let searchCriteria = this.setSearchCriteria();
     this.productService.postProductsPage(searchCriteria, $event.pageIndex, $event.pageSize)
       .subscribe(response => {
         this.products = response.content;
         this.length = response.totalItems;
-        this.selectedPage = $event.pageIndex;
-      });
-
-  }
+        this.pageIndex=$event.pageIndex;
+      });    }
 
   updatePage() {
     let searchCriteria = this.setSearchCriteria();
-    this.selectedPage = 0
-    this.productService.postProductsPage(searchCriteria, this.selectedPage, 9)
+    this.productService.postProductsPage(searchCriteria, 0, this.pageSize)
       .subscribe(response => {
         this.products = response.content;
         this.length = response.totalItems;
-        this.selectedPage = 0;
         this.pageIndex=0;
       });
   }

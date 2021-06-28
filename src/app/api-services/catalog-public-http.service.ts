@@ -30,11 +30,6 @@ export class CatalogPublicHttpService {
     this.URL = `${environment.backURL}`
   }
 
-  getProductsPage(page:number, size:number):Observable<ContentPage<Product>> {
-    let params = new HttpParams().set('page', page).set('size',size);
-
-    return this.http.get<ContentPage<Product>>(`${this.URL}/api/v1/public/product-page`, {params: params});
-  }
 
   postProductsPage(filters:ProductFilterModel, page:number, size:number):Observable<ContentPage<Product>> {
     let params = new HttpParams().set('page', page).set('size',size);
