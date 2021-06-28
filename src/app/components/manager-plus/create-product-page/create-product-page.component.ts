@@ -24,7 +24,7 @@ export class CreateProductPageComponent implements OnInit, OnDestroy {
   isWrongResolution?: boolean = false;
   categories: Category_DUBLICAT[]
   form: FormGroup
-  selected: any
+  selected: number
   isLoading = false
   currentValue: any
   fileExpansionErrorMessage = ValidationMessages.expansion;
@@ -47,7 +47,7 @@ export class CreateProductPageComponent implements OnInit, OnDestroy {
     this.getCategories();
   }
 
-  OnInput(event: MatSelectChange): void {
+  onInput(event: MatSelectChange): void {
     this.currentValue = {
       value: event.value,
       text: event.source.triggerValue
