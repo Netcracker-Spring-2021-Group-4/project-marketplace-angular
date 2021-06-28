@@ -30,10 +30,18 @@
     <button
       mat-raised-button color="accent"
       [disabled]="form.invalid"
-      class="name-input mr-auto ml-auto"
+      class="name-input mr-auto ml-auto mb-3"
       (click)="submit()"
     >
       login
+    </button>
+    <button
+      mat-button
+      color="warn"
+      [routerLink]="[resetPasswordRoute]"
+      class="mb-2"
+    >
+      Did you forget your password?
     </button>
   </form>
 </div>

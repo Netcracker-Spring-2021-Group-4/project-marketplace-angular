@@ -6,27 +6,32 @@ import Labels from "../../../shared/models/labels/labels.constant";
 import {ManagerApiService} from "../../../api-services/manager-http.service";
 import {Subscription} from "rxjs";
 import {MatSelectChange} from "@angular/material/select";
-import {Category_DUBLICAT} from "../../../shared/models/api/receive/category_dublicat";
+
 import {ProductManagerFormService} from "../services/product-manager-form.service";
 import {ValidFile} from "../../../shared/components/file-uploader/file-uploader";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
+import {CategoryInfo} from "../../../shared/models/api/receive/category-info";
+
 
 @Component({
   selector: 'app-create-product-page',
   templateUrl: './create-product-page.component.html',
   styleUrls: ['./create-product-page.component.scss']
 })
-export class CreateProductPageComponent implements OnInit, OnDestroy {
-  imgUrl: any;
-  selectedFile?: File | undefined
-  isNotPng?: boolean = false
-  isHeavier?: boolean = false
-  isWrongResolution?: boolean = false;
-  categories: Category_DUBLICAT[]
+
+
+
+export class CreateProductPageComponent implements OnInit,OnDestroy {
+  imgUrl:any
   form: FormGroup
-  selected: number
+  selectedFile?: File
+  categories: CategoryInfo[]
+  isHeavier?: boolean = false;
+  isWrongResolution?: boolean = false;
+  isNotPng?: boolean = false;
   isLoading = false
   currentValue: any
+  selected:number
   fileExpansionErrorMessage = ValidationMessages.expansion;
   fileWeightErrorMessage = ValidationMessages.weight;
   fileResolutionErrorMessage = ValidationMessages.resolution;
@@ -57,9 +62,10 @@ export class CreateProductPageComponent implements OnInit, OnDestroy {
   public getCategories(): void {
     this.subscriptions.push(
       this.productManagerFormService.getCategories().subscribe(
-        (response: Category_DUBLICAT[]) => {
-          this.categories = response;
-          this.selected = this.categories[1].categoryId
+
+        (response:CategoryInfo[])=>{
+          this.categories=response;
+          this.selected=this.categories[1].categoryId
         }
       )
     );

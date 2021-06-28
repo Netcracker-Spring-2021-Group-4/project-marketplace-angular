@@ -52,16 +52,17 @@ export class DiscountPageComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
     this.myProductId = this.route.snapshot.paramMap.get('productId');
-    this.productService.getProduct(this.myProductId).pipe(finalize(() => {
-    })).subscribe(
-      data => {
-        this.product = data;
-        this.maxOfferedPrice = (data.price / 100) - 0.01;
-        this.discountForm = this.createDiscountForm();
-        this.getUnexpiredDiscounts(this.myProductId);
-        this.isLoading = false;
-      })
-
+    if(this.myProductId){
+      this.productService.getProduct(this.myProductId).pipe(finalize(() => {
+      })).subscribe(
+        data => {
+          this.product = data;
+          this.maxOfferedPrice = (data.price / 100) - 0.01;
+          this.discountForm = this.createDiscountForm();
+          this.getUnexpiredDiscounts(this.myProductId);
+          this.isLoading = false;
+        })
+    }
   }
 
   public getUnexpiredDiscounts(productId: string | null) {
@@ -79,7 +80,12 @@ export class DiscountPageComponent implements OnInit {
 
   public createDiscountForm(): FormGroup {
     return this.formBuilder.group({
-      offeredPrice: [null, [Validators.required, Validators.min(1), Validators.max(this.maxOfferedPrice )]],
+      offeredPrice: [null,
+        [Validators.required,
+        Validators.min(1),
+        Validators.max(this.maxOfferedPrice)
+        ]
+      ],
       startsAt: [null, [Validators.required]],
       endsAt: [null, [Validators.required]],
       timeStart: ['03:00', [Validators.required]],
@@ -107,7 +113,7 @@ export class DiscountPageComponent implements OnInit {
         this.discountForm.get('timeEnd')?.patchValue('03:00')
       })).subscribe(
       () => {
-          this.getUnexpiredDiscounts(this.myProductId);
+        this.getUnexpiredDiscounts(this.myProductId);
         this.toaster.successfulNotification(Labels.discount.successfulCreationDiscount);
       }, err => {
         this.toaster.errorNotification(err.error.message);

@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   siteKey = environment.captchaKey
   attemptsCounter = 0
 
+  readonly resetPasswordRoute = '/' + Route.PASSWORD
   usernameErrorMessage = ValidationMessages.email
   passwordErrorMessage = ValidationMessages.password
 

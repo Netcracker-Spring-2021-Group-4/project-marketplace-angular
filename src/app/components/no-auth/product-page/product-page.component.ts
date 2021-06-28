@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {Discount} from "../../../shared/models/api/receive/discount";
@@ -30,11 +30,11 @@ export class ProductPageComponent implements OnInit {
   categoryName$: Observable<string>;
   isLoading = false;
   availableQuantity: number;
-  currentItem: any;
-  currentItemQuantity: any;
-  private readonly CART_STORAGE = 'cart'
+  currentItem: CartItemModel[];
+  currentItemQuantity: number;
   isShown: boolean = false;
   suggestions: Product[];
+  private readonly CART_STORAGE = 'cart'
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
@@ -45,7 +45,6 @@ export class ProductPageComponent implements OnInit {
               private toaster: ToasterCustomService,
               private compareService: CompareManagementService,
   ) {
-
   }
 
   ngOnInit(): void {
@@ -55,9 +54,7 @@ export class ProductPageComponent implements OnInit {
       let suggestions = this.productService.getSuggestions(productId);
       let product = this.productService.getProduct(productId);
       let discount = this.discountsService.getActiveDiscount(productId);
-
       this.role$ = this.roleService.currentRole$
-
       this.isLoading = true;
       forkJoin([product, discount, suggestions])
         .pipe(
@@ -75,17 +72,18 @@ export class ProductPageComponent implements OnInit {
         console.log({error});
       });
     }
-
   }
+
   toggleShow() {
     this.isShown = ! this.isShown;
   }
 
   addToCart(id: string) {
-    if (this.product.inStock == 0)
+    if (this.product.inStock == 0) {
       this.toaster.errorNotification(Labels.cart.outOfStock);
-    else
+    } else {
       this.cartService.addToCart(new CartItemModel({quantity: this.currentValue, productId: id}));
+    }
   }
 
   addToCompare(id: string) {
@@ -109,6 +107,6 @@ export class ProductPageComponent implements OnInit {
   }
 
   isCopied() {
-     this.toaster.successfulNotification('Id copied to clipboard')
+    this.toaster.successfulNotification('Id copied to clipboard')
   }
 }
