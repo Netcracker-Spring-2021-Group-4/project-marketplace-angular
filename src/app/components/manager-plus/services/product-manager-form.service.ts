@@ -17,8 +17,6 @@ export class ProductManagerFormService {
     private http:HttpClient
   ) { }
 
-
-
   public getCategories():Observable<CategoryInfo[]>{
     return this.http.get<CategoryInfo[]>(`${this.apiServerUrl}/api/v1/public/categories-all`);
 

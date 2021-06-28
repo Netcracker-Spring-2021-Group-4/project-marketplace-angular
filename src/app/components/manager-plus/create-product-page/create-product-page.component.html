@@ -43,7 +43,7 @@
     </mat-form-field>
     <mat-form-field appearance="fill" class="mb-3">
       <mat-label>Choose category</mat-label>
-      <mat-select (selectionChange)="onInput($event)" formControlName="categoryId">
+      <mat-select  formControlName="categoryId">
         <mat-option *ngFor="let category of categories" [value]="category.categoryId">
           {{category.categoryName| prettyCategory}}
         </mat-option>

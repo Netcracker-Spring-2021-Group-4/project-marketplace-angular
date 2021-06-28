@@ -20,9 +20,8 @@ import {CategoryInfo} from "../../../shared/models/api/receive/category-info";
 })
 
 
-
-export class CreateProductPageComponent implements OnInit,OnDestroy {
-  imgUrl:any
+export class CreateProductPageComponent implements OnInit, OnDestroy {
+  imgUrl: string | undefined
   form: FormGroup
   selectedFile?: File
   categories: CategoryInfo[]
@@ -30,8 +29,7 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
   isWrongResolution?: boolean = false;
   isNotPng?: boolean = false;
   isLoading = false
-  currentValue: any
-  selected:number
+  selected: number
   fileExpansionErrorMessage = ValidationMessages.expansion;
   fileWeightErrorMessage = ValidationMessages.weight;
   fileResolutionErrorMessage = ValidationMessages.resolution;
@@ -52,20 +50,12 @@ export class CreateProductPageComponent implements OnInit,OnDestroy {
     this.getCategories();
   }
 
-  onInput(event: MatSelectChange): void {
-    this.currentValue = {
-      value: event.value,
-      text: event.source.triggerValue
-    };
-  }
-
   public getCategories(): void {
     this.subscriptions.push(
       this.productManagerFormService.getCategories().subscribe(
-
-        (response:CategoryInfo[])=>{
-          this.categories=response;
-          this.selected=this.categories[1].categoryId
+        (response: CategoryInfo[]) => {
+          this.categories = response;
+          this.selected = this.categories[1].categoryId
         }
       )
     );
