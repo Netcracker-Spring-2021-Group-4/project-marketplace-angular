@@ -1,4 +1,8 @@
-<p *ngIf="!isLoading && discounts.length == 0" class="text-center fw-bold fs-5 mt-3 mb-1"> This product has no discounts</p>
+<p *ngIf="!isLoading && discounts.length == 0"
+   class="text-center fw-bold fs-5 mt-3 mb-1"
+>
+  This product has no discounts
+</p>
 
 <app-discount-content
   [discounts]="discounts"
@@ -98,3 +102,4 @@
     </div>
   </div>
 </div>
+<app-cover-loading *ngIf="isLoading"></app-cover-loading>

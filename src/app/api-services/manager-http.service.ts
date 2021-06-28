@@ -20,19 +20,19 @@ export class ManagerApiService {
   }
 
 
-  createProduct(file:File, addProductCreds: AddProductCreditionals): Observable<any> {
+  createProduct(file: File, addProductCreds: AddProductCreditionals): Observable<any> {
     let formdata: FormData = new FormData();
     formdata.append('file', file);
-    formdata.append('product',new Blob([JSON.stringify({
+    formdata.append('product', new Blob([JSON.stringify({
       productName: addProductCreds.productName,
       description: addProductCreds.description,
       price: addProductCreds.price,
       inStock: addProductCreds.inStock,
       categoryId: addProductCreds.categoryId,
-    })],{
+    })], {
       type: "application/json"
     }));
 
-    return this.httpClient.post(`${this.PUBLIC_MANAGER_URL}/add-product`,formdata)
+    return this.httpClient.post(`${this.PUBLIC_MANAGER_URL}/add-product`, formdata)
   }
 }

@@ -1,9 +1,9 @@
-export class Category_DUBLICAT {
+export class CategoryInfo {
   categoryId: number;
   categoryName: string;
   productsInCategory: number;
 
-  constructor(init: Partial<Category_DUBLICAT>) {
+  constructor(init: Partial<CategoryInfo>) {
     Object.assign(this, init);
   }
 }

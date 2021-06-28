@@ -32,11 +32,11 @@ export class ProductPageComponent implements OnInit, OnChanges {
   categoryName$: Observable<string>;
   isLoading = false;
   availableQuantity: number;
-  currentItem: any;
-  currentItemQuantity: any;
-  private readonly CART_STORAGE = 'cart'
+  currentItem: CartItemModel[];
+  currentItemQuantity: number;
   isShown: boolean = false;
   suggestions: Product[];
+  private readonly CART_STORAGE = 'cart'
   categories: Category[]
 
   constructor(private productService: ProductsHttpService,
@@ -48,7 +48,6 @@ export class ProductPageComponent implements OnInit, OnChanges {
               private toaster: ToasterCustomService,
               private compareService: CompareManagementService,
   ) {
-
   }
 
   ngOnInit(): void {
@@ -62,13 +61,15 @@ export class ProductPageComponent implements OnInit, OnChanges {
 
 
       this.role$ = this.roleService.currentRole$
-
       this.isLoading = true;
       forkJoin([product, discount, suggestions,categories])
         .pipe(
           finalize(() => this.isLoading = false)
         ).subscribe(results => {
         this.product = results[0];
+        if(this.product.description == null){
+          this.product.description = '';
+        }
         this.availableQuantity = this.product.inStock - this.product.reserved
         this.discount = results[1];
         this.categoryName$ = this.publicApiService.getCategoryName(productId);
@@ -84,15 +85,17 @@ export class ProductPageComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
   console.log("change")
   }
+
   toggleShow() {
     this.isShown = ! this.isShown;
   }
 
   addToCart(id: string) {
-    if (this.product.inStock == 0)
+    if (this.product.inStock == 0) {
       this.toaster.errorNotification(Labels.cart.outOfStock);
-    else
+    } else {
       this.cartService.addToCart(new CartItemModel({quantity: this.currentValue, productId: id}));
+    }
   }
 
   addToCompare(id: string) {
@@ -116,11 +119,6 @@ export class ProductPageComponent implements OnInit, OnChanges {
   }
 
   isCopied() {
-     this.toaster.successfulNotification('Id copied to clipboard')
+    this.toaster.successfulNotification('Id copied to clipboard')
   }
-
-  getProductLink(productId: string) : string {
-    return '/' + Route.PRODUCT.replace(':productId', productId);
-  }
-
 }
