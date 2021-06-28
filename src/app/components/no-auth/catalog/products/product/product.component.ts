@@ -32,7 +32,6 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart(id: string) {
-
     if(this.productItem.inStock==0)
       this.outOfStockNotify()
     else

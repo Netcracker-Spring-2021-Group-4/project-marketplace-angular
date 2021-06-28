@@ -43,47 +43,33 @@ export class ProductPageComponent implements OnInit, OnChanges {
               private publicApiService: PublicApiService,
               private discountsService: DiscountsHttpService,
               private route: ActivatedRoute,
+              private router: Router,
               private roleService: RoleService,
               private cartService: CartManagementService,
               private toaster: ToasterCustomService,
               private compareService: CompareManagementService,
   ) {
+
+    router.events.subscribe((val) => {
+      this.ngOnChanges()
+    });
   }
 
   ngOnInit(): void {
+
     const productId = this.route.snapshot.paramMap.get('productId');
 
-    if(productId) {
-      let suggestions = this.productService.getSuggestions(productId);
-      let product = this.productService.getProduct(productId);
-      let discount = this.discountsService.getActiveDiscount(productId);
-      let categories = this.publicApiService.getListOfCategories();
-
-
-      this.role$ = this.roleService.currentRole$
-      this.isLoading = true;
-      forkJoin([product, discount, suggestions,categories])
-        .pipe(
-          finalize(() => this.isLoading = false)
-        ).subscribe(results => {
-        this.product = results[0];
-        if(this.product.description == null){
-          this.product.description = '';
-        }
-        this.availableQuantity = this.product.inStock - this.product.reserved
-        this.discount = results[1];
-        this.categoryName$ = this.publicApiService.getCategoryName(productId);
-        this.suggestions=results[2];
-        this.categories = results[3];
-      }, error => {
-        console.log({error});
-      });
-    }
+    if(productId)
+    this.uploadData(productId);
 
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-  console.log("change")
+  ngOnChanges(): void {
+    const productId = this.route.snapshot.paramMap.get('productId');
+
+    if(productId)
+      this.uploadData(productId);
+
   }
 
   toggleShow() {
@@ -120,5 +106,33 @@ export class ProductPageComponent implements OnInit, OnChanges {
 
   isCopied() {
     this.toaster.successfulNotification('Id copied to clipboard')
+  }
+
+  uploadData(productId:string){
+
+    let suggestions = this.productService.getSuggestions(productId);
+    let product = this.productService.getProduct(productId);
+    let discount = this.discountsService.getActiveDiscount(productId);
+    let categories = this.publicApiService.getListOfCategories();
+
+
+    this.role$ = this.roleService.currentRole$
+    this.isLoading = true;
+    forkJoin([product, discount, suggestions,categories])
+      .pipe(
+        finalize(() => this.isLoading = false)
+      ).subscribe(results => {
+      this.product = results[0];
+      if(this.product.description == null){
+        this.product.description = '';
+      }
+      this.availableQuantity = this.product.inStock - this.product.reserved
+      this.discount = results[1];
+      this.categoryName$ = this.publicApiService.getCategoryName(productId);
+      this.suggestions=results[2];
+      this.categories = results[3];
+    }, error => {
+      console.log({error});
+    });
   }
 }
