@@ -6,7 +6,7 @@ const mapper = (role: UserRole) => {
   switch (role) {
     case UserRole.ROLE_CUSTOMER: {
       return {
-        main: [list[0], list[5]],
+        main: [list[0]],
         side: [list[7], list[8], list[9], list[10], list[13]]
       }
     }
@@ -18,13 +18,13 @@ const mapper = (role: UserRole) => {
     }
     case UserRole.ROLE_PRODUCT_MGR: {
       return {
-        main: [list[0], list[1], list[5], list[2], list[3]],
+        main: [list[0], list[1], list[2]],
         side: [list[10], list[13]]
       }
     }
     case UserRole.ROLE_ADMIN: {
       return {
-        main: [list[0], list[1], list[5], list[2], list[3], list[4]],
+        main: [list[0], list[1], list[2], list[4]],
         side: [list[13]]
       }
     }
