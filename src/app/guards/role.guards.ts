@@ -76,6 +76,24 @@ export class NonAuthCustomerGuard implements CanActivate {
 }
 
 @Injectable({providedIn: 'root'})
+export class AuthCustomerAndCourierGuard implements CanActivate {
+
+  constructor(private router: Router) {}
+
+  public canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    const permitted = [UserRole.ROLE_CUSTOMER, UserRole.ROLE_COURIER]
+    if (permitted.indexOf(JwtTokenService.role) !== -1) {
+      return true;
+    }
+    this.router.navigate([Route.LOGIN]);
+    return false;
+  }
+}
+
+@Injectable({providedIn: 'root'})
 export class CourierGuard implements CanActivate {
 
   constructor(private router: Router) {}
@@ -91,6 +109,8 @@ export class CourierGuard implements CanActivate {
     return false;
   }
 }
+
+
 
 @Injectable({providedIn: 'root'})
 export class AllButCourierGuard implements CanActivate {

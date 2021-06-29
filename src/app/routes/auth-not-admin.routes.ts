@@ -9,11 +9,6 @@ const AuthNotAdminRoutes: Routes = [
     path: Route.PROFILE,
     component: ProfilePageComponent,
     canActivate: [AuthNotAdminGuard]
-  },
-  {
-    path: Route.ORDER_DETAILS,
-    component: OrderDetailsComponent,
-    canActivate: [AuthNotAdminGuard]
   }
 ];
 
