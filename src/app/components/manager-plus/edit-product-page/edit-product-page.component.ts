@@ -20,7 +20,6 @@ import {CategoryInfo} from "../../../shared/models/api/receive/category-info";
 })
 export class EditProductPageComponent implements OnInit {
 
-  @ViewChild('start') firstImage: ElementRef;
   imgUrl: string | undefined;
   selectedFile: File | undefined
   isHeavier?: boolean = false;
@@ -148,7 +147,6 @@ export class EditProductPageComponent implements OnInit {
     this.selectedFile = undefined
     this.imgUrl = undefined;
     this.initForm();
-    this.firstImage.nativeElement.src = this.product.imageUrl
   }
 
   public onFormChange(event: any) {
