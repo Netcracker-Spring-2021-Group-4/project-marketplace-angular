@@ -64,8 +64,8 @@ const Labels = {
     successfulActivateProduct: 'Product successfully activated/deactivated',
   },
   discount:{
-    successfulCreationDiscount: 'Discount successfully created',
-    errorCreationDiscount: 'Incorrect data for new Discount',
+    successfulCreationDiscount: 'Discount created successfully',
+    successfulDeletingDiscount: 'Discount deleted successfully'
   },
   auction: {
     successfulCreationAuction: 'Auction was successfully created'

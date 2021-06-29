@@ -38,7 +38,7 @@ export class DiscountPageComponent implements OnInit {
   minDate: Date = new Date();
   dateTimeInPastErrorMessage = ValidationMessages.dateTimeInPast;
   offeredPriceErrorMessage = ValidationMessages.offeredPrice;
-  isReady: boolean = false;
+
 
   constructor(
     private discountService: DiscountsHttpService,
