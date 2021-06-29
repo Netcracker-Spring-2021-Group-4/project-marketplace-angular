@@ -16,7 +16,6 @@ import {forkJoin, Observable} from "rxjs";
 import {CompareManagementService} from "../../../services/compare-management.service";
 import {Product} from "../../../shared/models/api/receive/product";
 import {Category} from "../../../shared/models/api/receive/category";
-import {Route} from "../../../shared/models/enums/route.enum";
 
 @Component({
   selector: 'app-product-page',
@@ -27,7 +26,7 @@ export class ProductPageComponent implements OnInit {
 
   currentValue: number = 1;
   product: ProductInfo;
-  discount:Discount;
+  discount: Discount;
   role$: Observable<UserRole>;
   categoryName$: Observable<string>;
   isLoading = false;
@@ -51,7 +50,7 @@ export class ProductPageComponent implements OnInit {
   ) {
 
     router.events.pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((val)=>{
+      .subscribe((val) => {
         this.ngOnInit()
 
       })
@@ -59,18 +58,14 @@ export class ProductPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     const productId = this.route.snapshot.paramMap.get('productId');
-
-    if(productId)
-    this.uploadData(productId);
-
+    if (productId) {
+      this.uploadData(productId);
+    }
   }
 
-
-
   toggleShow() {
-    this.isShown = ! this.isShown;
+    this.isShown = !this.isShown;
   }
 
   addToCart(id: string) {
@@ -85,18 +80,18 @@ export class ProductPageComponent implements OnInit {
     this.compareService.addToList(id);
   }
 
-  removeFromCart(): void{
+  removeFromCart(): void {
     this.getItem()
-    this.cartService.removeFromCart({quantity:this.currentItemQuantity, productId:this.product.productId})
+    this.cartService.removeFromCart({quantity: this.currentItemQuantity, productId: this.product.productId})
   }
 
-  get localCart() : CartItemModel[] {
+  get localCart(): CartItemModel[] {
     const cartString = localStorage.getItem(this.CART_STORAGE)
     const parsed = JSON.parse(cartString ?? "[]")
     return parsed === [] ? [] : parsed
   }
 
-  getItem(){
+  getItem() {
     this.currentItem = this.localCart.filter(obj => obj.productId == this.product.productId)
     this.currentItemQuantity = this.currentItem[0].quantity
   }
@@ -105,28 +100,26 @@ export class ProductPageComponent implements OnInit {
     this.toaster.successfulNotification('Id copied to clipboard')
   }
 
-  uploadData(productId:string){
-
+  uploadData(productId: string) {
     let suggestions = this.productService.getSuggestions(productId);
     let product = this.productService.getProduct(productId);
     let discount = this.discountsService.getActiveDiscount(productId);
     let categories = this.publicApiService.getListOfCategories();
 
-
     this.role$ = this.roleService.currentRole$
     this.isLoading = true;
-    forkJoin([product, discount, suggestions,categories])
+    forkJoin([product, discount, suggestions, categories])
       .pipe(
         finalize(() => this.isLoading = false)
       ).subscribe(results => {
       this.product = results[0];
-      if(this.product.description == null){
+      if (this.product.description == null) {
         this.product.description = '';
       }
       this.availableQuantity = this.product.inStock - this.product.reserved
       this.discount = results[1];
       this.categoryName$ = this.publicApiService.getCategoryName(productId);
-      this.suggestions=results[2];
+      this.suggestions = results[2];
       this.categories = results[3];
     }, error => {
       console.log({error});

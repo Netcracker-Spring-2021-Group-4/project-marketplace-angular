@@ -1,6 +1,8 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {DiscountsHttpService} from "../../../../../api-services/discounts-http.service";
 import {Discount} from "../../../../../shared/models/api/receive/discount";
+import Labels from "../../../../../shared/models/labels/labels.constant";
+import {ToasterCustomService} from "../../../../../services/toaster-custom.service";
 
 @Component({
   selector: 'app-discount-content',
@@ -17,7 +19,9 @@ export class DiscountContentComponent implements OnInit {
   @Input() myProductId: string | null;
   displayedColumns: string[] = ['offered price', 'starts at', 'ends at', 'delete'];
 
-  constructor(private discountService: DiscountsHttpService) { }
+  constructor(private discountService: DiscountsHttpService,
+              private toaster: ToasterCustomService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -25,6 +29,7 @@ export class DiscountContentComponent implements OnInit {
   public deleteDiscount(discountId: string): void {
     this.discountService.deleteDiscount(discountId).subscribe(
       () => {
+        this.toaster.infoNotification(Labels.discount.successfulDeletingDiscount);
         if (this.myProductId !== null) {
           this.getUnexpiredDiscounts.emit(this.myProductId);
         }
