@@ -3,35 +3,35 @@
     <table mat-table [dataSource]="orders$" class="mat-elevation-z8">
       <ng-component matColumnDef="placedAt">
         <th mat-header-cell *matHeaderCellDef>Placed at</th>
-        <td *matCellDef="let order">{{order.placedAt | date: 'short'}}</td>
+        <td mat-cell *matCellDef="let order">{{order.placedAt | date: 'short'}}</td>
       </ng-component>
       <ng-component matColumnDef="deliveryDate">
         <th mat-header-cell *matHeaderCellDef>Date of delivery</th>
-        <td *matCellDef="let order">{{order.deliveryDate | date: 'mediumDate'}}</td>
+        <td mat-cell *matCellDef="let order">{{order.deliveryDate | date: 'mediumDate'}}</td>
       </ng-component>
       <ng-component matColumnDef="deliveryTimeslot">
         <th mat-header-cell *matHeaderCellDef>Timeslot of delivery</th>
-        <td *matCellDef="let order">{{order.timeStart | date: 'HH:mm'}} - {{order.timeEnd | date: 'HH:mm'}}</td>
+        <td mat-cell *matCellDef="let order">{{order.timeStart | date: 'HH:mm'}} - {{order.timeEnd | date: 'HH:mm'}}</td>
       </ng-component>
       <ng-component matColumnDef="orderStatus">
         <th mat-header-cell *matHeaderCellDef>Order status</th>
-        <td *matCellDef="let order">
-          <button type="button" class="{{order.status.toString().toLowerCase()}}" disabled>
+        <td mat-cell *matCellDef="let order" class="button-row">
+          <button type="button" class="{{order.status.toString().toLowerCase()}} button-row" disabled>
             {{order.status | deEnum}}
           </button>
         </td>
       </ng-component>
       <ng-component matColumnDef="address">
         <th mat-header-cell *matHeaderCellDef>Address</th>
-        <td *matCellDef="let order">{{order.deliveryAddress | address}}</td>
+        <td mat-cell *matCellDef="let order">{{order.deliveryAddress | address}}</td>
       </ng-component>
       <ng-component matColumnDef="phone">
         <th mat-header-cell *matHeaderCellDef>Phone</th>
-        <td *matCellDef="let order">{{order.phoneNumber | phone}}</td>
+        <td mat-cell *matCellDef="let order">{{order.phoneNumber | phone}}</td>
       </ng-component>
       <ng-component matColumnDef="details">
         <th mat-header-cell *matHeaderCellDef>Details</th>
-        <td *matCellDef="let order">
+        <td mat-cell *matCellDef="let order">
           <a routerLink="{{getOrderDetailsLink(order.orderId)}}">
             <img src="../../../../../assets/details.png" alt="order details" class="table-icon"/>
           </a>
