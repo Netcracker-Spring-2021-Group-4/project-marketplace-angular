@@ -4,3 +4,9 @@
     margin-right: 25px;
   }
 }
+@media screen and (max-width: 375px) {
+  .products {
+    margin-right: 0;
+    margin-left: 0;
+  }
+}
