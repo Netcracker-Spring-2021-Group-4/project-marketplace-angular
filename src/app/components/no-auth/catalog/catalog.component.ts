@@ -31,7 +31,6 @@ export class CatalogComponent implements OnInit {
     this.formGroup = productService.catalogSearchForm();
     this.pageSize=9;
     this.filterProps = new FilterProperties({categories: []});
-
     this.roleService.currentRole$.subscribe(response => {
       this.role = response
     });

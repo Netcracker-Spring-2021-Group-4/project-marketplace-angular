@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {Discount} from "../../../shared/models/api/receive/discount";
-import {finalize} from "rxjs/operators"
+import {filter, finalize} from "rxjs/operators"
 import {ProductInfo} from "../../../shared/models/api/receive/productInfo";
 import {ProductsHttpService} from "../../../api-services/products-http.service";
 import {DiscountsHttpService} from "../../../api-services/discounts-http.service";
@@ -23,7 +23,7 @@ import {Route} from "../../../shared/models/enums/route.enum";
   templateUrl: './product-page.component.html',
   styleUrls: ['./product-page.component.scss']
 })
-export class ProductPageComponent implements OnInit, OnChanges {
+export class ProductPageComponent implements OnInit {
 
   currentValue: number = 1;
   product: ProductInfo;
@@ -50,9 +50,12 @@ export class ProductPageComponent implements OnInit, OnChanges {
               private compareService: CompareManagementService,
   ) {
 
-    router.events.subscribe((val) => {
-      this.ngOnChanges()
-    });
+    router.events.pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((val)=>{
+        this.ngOnInit()
+
+      })
+
   }
 
   ngOnInit(): void {
@@ -64,13 +67,7 @@ export class ProductPageComponent implements OnInit, OnChanges {
 
   }
 
-  ngOnChanges(): void {
-    const productId = this.route.snapshot.paramMap.get('productId');
 
-    if(productId)
-      this.uploadData(productId);
-
-  }
 
   toggleShow() {
     this.isShown = ! this.isShown;
