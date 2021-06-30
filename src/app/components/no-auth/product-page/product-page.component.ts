@@ -35,8 +35,9 @@ export class ProductPageComponent implements OnInit {
   currentItemQuantity: number;
   isShown: boolean = false;
   suggestions: Product[];
-  private readonly CART_STORAGE = 'cart'
-  categories: Category[]
+  private readonly CART_STORAGE = 'cart';
+  categories: Category[];
+  currentRole: UserRole;
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
@@ -83,10 +84,19 @@ export class ProductPageComponent implements OnInit {
 
   removeFromCart(): void {
     this.getItem()
-    this.cartService.removeFromCart({
-      quantity: this.currentItemQuantity,
-      productId: this.product.productId
-    })
+    if(this.currentRole == 'ROLE_NO_AUTH_CUSTOMER'){
+      this.cartService.removeFromCart({
+        quantity: this.currentItemQuantity,
+        productId: this.product.productId
+      })
+    }
+    else if(this.currentRole == 'ROLE_CUSTOMER'){
+      this.cartService.removeFromCart({
+        quantity: 1,
+        productId: this.product.productId
+      })
+    }
+
   }
 
   get localCart(): CartItemModel[] {
@@ -117,6 +127,10 @@ export class ProductPageComponent implements OnInit {
     let categories = this.publicApiService.getListOfCategories();
 
     this.role$ = this.roleService.currentRole$
+    this.role$.subscribe( data =>{
+      this.currentRole = data;
+      console.log(this.currentRole)
+    })
     this.isLoading = true;
     forkJoin([product, discount, suggestions, categories])
       .pipe(
