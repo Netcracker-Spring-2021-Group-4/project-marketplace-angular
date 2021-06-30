@@ -56,57 +56,49 @@
 
         <div>
           <div *ngIf="product.inStock !== 0">
-            <div *ngIf="product.isActive && role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'" class="mb-3 pt-2">
-
-              <span class="pt-3 mb-5 font-monospace"> Add to cart </span>
-              <input type="text"
-                     mask="separator.0"
-                     [(ngModel)]="currentValue"
-                     class="current"
-              >
-            </div>
             <div *ngIf="product.isActive && role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'">
-
-              <span class="pt-3 mb-5 font-monospace"> Remove from cart </span>
-              <input type="text"
-                     mask="separator.0"
-                     [(ngModel)]="removeValue"
-              >
-            </div>
-
-            <div class="warn" *ngIf="product.inStock !== 0">
-        <span class="warning" *ngIf="currentValue > product.inStock">
-          Sorry now available only {{availableQuantity}} items
-        </span>
-              <span class="warning" *ngIf="currentValue < 1">Add at least one items</span>
-              <span class="warning warning-avail" *ngIf="currentValue == availableQuantity">
-          This is the maximum available amount
-        </span>
-            </div>
-          </div>
-          <div class="buttons">
-            <button class="action edit"
-                    mat-raised-button color="primary"
-                    [disabled]="currentValue > availableQuantity
+              <button class="action edit"
+                      mat-raised-button color="primary"
+                      [disabled]="currentValue > availableQuantity
                 || currentValue < 1
                 || product.inStock == 0
                 || product.inStock == product.reserved
                 || !product.isActive
                 "
-                    *ngIf="role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
-                    (click)="addToCart(product.productId)"
-
-            >
+                *ngIf="role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
+                (click)="addToCart(product.productId)"
+              >
               Add to card
-            </button>
-            <button class="action edit remove"
-                    mat-raised-button color="warn"
-                    *ngIf="role == 'ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
-                    (click)="removeFromCart()"
-                    [disabled]="availableQuantity == 0"
-            >
-              Remove from card
-            </button>
+              </button>
+              <input type="text"
+                     mask="separator.0"
+                     [(ngModel)]="currentValue"
+                     class="current"
+              >
+              <div class="warn" *ngIf="product.inStock !== 0">
+                <span class="warning" *ngIf="currentValue > product.inStock">
+                  Sorry now available only {{availableQuantity}} items
+                </span>
+                <span class="warning" *ngIf="currentValue < 1">Add at least one items</span>
+                <span class="warning warning-avail" *ngIf="currentValue == availableQuantity">
+                This is the maximum available amount
+                </span>
+              </div>
+            </div>
+            <div *ngIf="product.isActive && role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'">
+              <button class="action edit remove"
+                      mat-raised-button color="warn"
+                      *ngIf="role == 'ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
+                      (click)="removeFromCart()"
+                      [disabled]="availableQuantity == 0"
+              >
+                Remove from card
+              </button>
+              <input type="text"
+                     mask="separator.0"
+                     [(ngModel)]="removeValue"
+              >
+            </div>
             <button class="action edit"
                     mat-raised-button color="primary"
                     *ngIf="role == 'ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'"
@@ -114,8 +106,7 @@
             >
               Compare
             </button>
-          </div>
-
+            </div>
           <div class="editing">
             <button class="action edit"
                     [routerLink]="['./edit']"
@@ -125,8 +116,7 @@
               Edit
             </button>
           </div>
-
-        </div>
+          </div>
 
       </div>
     </div>
@@ -137,10 +127,10 @@
       <h1> With this product people also buy: </h1>
       <br>
 
-  <app-products  [products]="suggestions"
-                 [categories]="categories"
-                 [role]="role"></app-products>
-  </div>
+      <app-products [products]="suggestions"
+                    [categories]="categories"
+                    [role]="role"></app-products>
+    </div>
   </div>
 </section>
 <app-cover-loading *ngIf="isLoading"></app-cover-loading>

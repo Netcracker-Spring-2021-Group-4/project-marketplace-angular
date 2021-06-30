@@ -49,25 +49,25 @@ input {
   max-width: 60px;
 }
 
-.action {
-  font-size: 16px;
-  width: 100px;
-  height: 50px;
-  margin: 25px 50px 15px 0;
-  text-align: center;
-  padding: inherit;
-}
+//.action {
+//  font-size: 16px;
+//  width: 100px;
+//  height: 50px;
+//  margin: 25px 50px 15px 0;
+//  text-align: center;
+//  padding: inherit;
+//}
 
 .buttons {
   width: 100%;
   display: flex;
 }
-.remove{
-  width: 150px;
-}
-.edit {
-  margin-right: auto;
-}
+//.remove{
+//  width: 150px;
+//}
+//.edit {
+//  margin-right: auto;
+//}
 
 .warn {
   margin-top: 10px;
@@ -89,9 +89,14 @@ input {
   content: '';
   display: block;
 }
-.current{
-  margin-left: 55px;
+//.current{
+//  margin-left: 55px;
+//}
+
+button{
+  margin-bottom: 20px;
 }
+
 @media screen and (max-width: 890px){
   .product-id{
     font-size: 18px;
