@@ -92,7 +92,7 @@ export class ProductPageComponent implements OnInit {
     }
     else if(this.currentRole == 'ROLE_CUSTOMER'){
       this.cartService.removeFromCart({
-        quantity: 1,
+        quantity: 10,
         productId: this.product.productId
       })
     }
@@ -112,8 +112,6 @@ export class ProductPageComponent implements OnInit {
     }else{
       this.currentItemQuantity = this.currentItem[0].quantity
     }
-
-
   }
 
   isCopied() {
@@ -129,7 +127,6 @@ export class ProductPageComponent implements OnInit {
     this.role$ = this.roleService.currentRole$
     this.role$.subscribe( data =>{
       this.currentRole = data;
-      console.log(this.currentRole)
     })
     this.isLoading = true;
     forkJoin([product, discount, suggestions, categories])
