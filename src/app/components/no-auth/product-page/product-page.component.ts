@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
@@ -58,6 +58,7 @@ export class ProductPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     const productId = this.route.snapshot.paramMap.get('productId');
     if (productId) {
       this.uploadData(productId);
@@ -82,7 +83,10 @@ export class ProductPageComponent implements OnInit {
 
   removeFromCart(): void {
     this.getItem()
-    this.cartService.removeFromCart({quantity: this.currentItemQuantity, productId: this.product.productId})
+    this.cartService.removeFromCart({
+      quantity: this.currentItemQuantity,
+      productId: this.product.productId
+    })
   }
 
   get localCart(): CartItemModel[] {
@@ -93,7 +97,13 @@ export class ProductPageComponent implements OnInit {
 
   getItem() {
     this.currentItem = this.localCart.filter(obj => obj.productId == this.product.productId)
-    this.currentItemQuantity = this.currentItem[0].quantity
+    if(!this.currentItem.length){
+      this.currentItemQuantity = 0;
+    }else{
+      this.currentItemQuantity = this.currentItem[0].quantity
+    }
+
+
   }
 
   isCopied() {

@@ -112,6 +112,7 @@ export class EditProductPageComponent implements OnInit {
   }
 
   public submit(updateInfo: ProductUpdateModel) {
+
     if (this.doSend) {
       updateInfo.price = updateInfo.price * 100;
       this.productService.updateProductInfo(this.product.productId, updateInfo)
