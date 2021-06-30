@@ -38,6 +38,7 @@ export class ProductPageComponent implements OnInit {
   private readonly CART_STORAGE = 'cart';
   categories: Category[];
   currentRole: UserRole;
+  removeValue: number = 1;
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
@@ -84,19 +85,10 @@ export class ProductPageComponent implements OnInit {
 
   removeFromCart(): void {
     this.getItem()
-    if(this.currentRole == 'ROLE_NO_AUTH_CUSTOMER'){
       this.cartService.removeFromCart({
-        quantity: this.currentItemQuantity,
+        quantity: this.removeValue,
         productId: this.product.productId
       })
-    }
-    else if(this.currentRole == 'ROLE_CUSTOMER'){
-      this.cartService.removeFromCart({
-        quantity: 10,
-        productId: this.product.productId
-      })
-    }
-
   }
 
   get localCart(): CartItemModel[] {

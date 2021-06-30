@@ -56,12 +56,21 @@
 
         <div>
           <div *ngIf="product.inStock !== 0">
-            <div *ngIf="product.isActive && role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'">
+            <div *ngIf="product.isActive && role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'" class="mb-3 pt-2">
 
-              <span class="pt-3 mb-5 font-monospace"> Add item to cart </span>
+              <span class="pt-3 mb-5 font-monospace"> Add to cart </span>
               <input type="text"
                      mask="separator.0"
                      [(ngModel)]="currentValue"
+                     class="current"
+              >
+            </div>
+            <div *ngIf="product.isActive && role =='ROLE_NO_AUTH_CUSTOMER' || role == 'ROLE_CUSTOMER'">
+
+              <span class="pt-3 mb-5 font-monospace"> Remove from cart </span>
+              <input type="text"
+                     mask="separator.0"
+                     [(ngModel)]="removeValue"
               >
             </div>
 

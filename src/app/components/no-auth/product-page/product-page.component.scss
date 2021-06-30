@@ -89,7 +89,9 @@ input {
   content: '';
   display: block;
 }
-
+.current{
+  margin-left: 55px;
+}
 @media screen and (max-width: 890px){
   .product-id{
     font-size: 18px;
