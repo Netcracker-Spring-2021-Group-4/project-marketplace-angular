@@ -6,6 +6,8 @@ import {AuthApiService} from "../../../api-services/auth-http.service";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {finalize} from "rxjs/operators";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
+import {Router} from "@angular/router";
+import {Route} from "../../../shared/models/enums/route.enum";
 
 @Component({
   selector: 'app-register',
@@ -28,6 +30,7 @@ export class RegisterComponent implements OnInit {
     private userAuthFormService: UserAuthFormService,
     private authApiService: AuthApiService,
     private toaster: ToasterCustomService,
+    private router: Router
   ) {
     this.form = this.userAuthFormService.registerForm();
   }
@@ -42,7 +45,10 @@ export class RegisterComponent implements OnInit {
     if(!result.phoneNumber) delete result.phoneNumber
     this.authApiService.requestSignUp(result)
       .pipe(
-        finalize(() => this.isLoading = false)
+        finalize(() => {
+          this.isLoading = false
+          this.router.navigate([Route.LOGIN])
+        })
       )
       .subscribe( res => {
       this.toaster.successfulNotification(Labels.register.successRequest);
