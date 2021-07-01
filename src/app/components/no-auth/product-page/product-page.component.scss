@@ -57,6 +57,8 @@ img {
 input {
   text-align: center;
   max-width: 60px;
+  margin-top: 0;
+  margin-left: 5px;
 }
 
 .buttons {
@@ -86,10 +88,8 @@ input {
 
 
 button {
-  margin-bottom: 25px;
   width: 150px;
   margin-right: 25px;
-
 }
 
 .remove {
@@ -101,9 +101,6 @@ button {
   align-items: center;
 }
 
-.value {
-  margin-top: -25px;
-}
 .editing{
   margin-top: 35px;
 }
@@ -111,7 +108,29 @@ button {
   margin-left: 65px;
 }
 
+.products {
+  margin-right: 0;
+}
+.comparing{
+  margin-left: 50px;
+}
 @media screen and (max-width: 890px) {
+  .container {
+    max-width: 375px;
+    margin-top: 30px;
+  }
+  .comparing{
+    margin-left: 25px;
+  }
+
+  img {
+    width: 300px;
+    height: 300px;
+    margin: 10px auto 10px 30px;
+  }
+  .wrapper {
+    display: block;
+  }
   .product-id {
     font-size: 18px;
   }
@@ -124,23 +143,12 @@ button {
     font-size: 26px;
     margin-top: 60px;
     margin-bottom: 40px;
+    width: auto;
   }
-  .container {
-    max-width: 375px;
-    margin-top: 30px;
-  }
-  img {
-    width: 300px;
-    height: 300px;
-    margin: 10px auto 10px 30px;
-  }
-  .wrapper {
-    display: block;
-  }
+
   input {
     margin-top: 5px;
   }
-
 
   br {
     display: flex;
@@ -155,29 +163,49 @@ button {
   }
 
   .warn {
+    margin-top: 5px;
     height: 0;
     text-align: center;
   }
+  input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
 
-  .editing {
+  .remove {
+    margin: 10px 0;
+  }
+  .compare{
+    width: 150px;
+    margin: 5px 0 25px;
+  }
+  .add-but{
+    margin-left: 0;
     margin-right: 0;
-    margin-top: 35px;
+    margin-bottom: 10px;
+  }
+  .add-delete {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .editing {
+    margin-right: auto;
+    margin-top: 25px;
+    margin-left: auto;
     width: 100%;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
-
-  .edit {
-    margin-right: 10px;
-    margin-left: 10px;
-    text-align: center;
-    margin-bottom: 25px;
-    width: 140px;
+  button{
+    width: 200px;
   }
-}
-
-.products {
-  margin-right: 0;
+  .compare{
+    width: 200px;
+  }
 }
 
 @media screen and (max-width: 375px) {
@@ -223,47 +251,7 @@ button {
   .wrapper {
     display: block;
   }
-
-  input {
-    margin-top: 5px;
+  .editing{
+    margin-bottom: 20px;
   }
-  .remove {
-    margin-left: 25px;
-    width: 140px;
-    margin-right: 0;
-  }
-  .add-but {
-    width: 100px;
-  }
-
-  .buttons {
-    margin-left: 0;
-    margin-right: 0;
-    margin-top: 35px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .warn {
-    height: 0;
-    text-align: center;
-  }
-
-  .editing {
-    margin-right: 0;
-    margin-top: 25px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .edit {
-    margin-right: 10px;
-    margin-left: 10px;
-    text-align: center;
-    margin-bottom: 25px;
-    width: 140px;
-  }
-
 }
