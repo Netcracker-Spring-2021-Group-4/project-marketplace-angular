@@ -26,7 +26,7 @@ export class EditProductPageComponent implements OnInit {
   isChange?: boolean = false;
   isNotPng?: boolean = false;
   isWrongResolution?: boolean = false;
-  isDisabled: boolean = false;
+  isDisabled?: boolean = false;
   doSend: boolean = false;
   categories: CategoryInfo[];
   product: ProductInfo;
@@ -132,7 +132,7 @@ export class EditProductPageComponent implements OnInit {
           this.toaster.errorNotification(Labels.product.errorUpdatingProductPicture);
         })}
     this.selectedFile = undefined;
-    this.form.markAsPristine()
+    this.form.markAsPristine();
     this.isChange = false;
     this.isDisabled = true;
     this.doSend = false;
@@ -142,15 +142,15 @@ export class EditProductPageComponent implements OnInit {
     (<HTMLInputElement>document.getElementById("uploadCaptureInputFile")).value = "";
     this.isChange = false;
     this.isHeavier = false;
-    this.isWrongResolution = false
-    this.isNotPng = false
-    this.selectedFile = undefined
+    this.isWrongResolution = false;
+    this.isNotPng = false;
+    this.selectedFile = undefined;
     this.imgUrl = undefined;
     this.initForm();
   }
 
   public onFormChange(event: any) {
-    this.isDisabled = false
+    this.isDisabled = false;
     this.doSend = true;
   }
 

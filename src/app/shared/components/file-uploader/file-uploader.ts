@@ -8,7 +8,7 @@ export class ValidFile  {
   isNotPng?: boolean;
   isWrongResolution?: boolean;
   imgUrl?: any;
-  isDisabled: boolean;
+  isDisabled?: boolean;
 }
 
 @Component({
@@ -36,22 +36,21 @@ export class FileUploader {
        reader.readAsDataURL(this.updatedFile.selectedFile)
        reader.onload = () => {
          const img = new Image();
-         img.src = reader.result as string
+         img.src = reader.result as string;
          img.onload = () => {
            this.updatedFile.imgUrl = reader.result;
            this.updatedFile.isWrongResolution = img.height != 512 && img.width != 512;
            this.correctFile.emit(this.updatedFile);
          }
        }
-     }
-     else {
-      this.updatedFile.selectedFile = undefined;
-      this.updatedFile.imgUrl = undefined;
-      this.updatedFile.isChange = false;
-      this.updatedFile.isWrongResolution = false;
-      this.updatedFile.isNotPng = false;
-      this.updatedFile.isHeavier = false;
-      this.correctFile.emit(this.updatedFile);
-    }
+     } else {
+        this.updatedFile.selectedFile = undefined;
+        this.updatedFile.imgUrl = undefined;
+        this.updatedFile.isChange = false;
+        this.updatedFile.isWrongResolution = false;
+        this.updatedFile.isNotPng = false;
+        this.updatedFile.isHeavier = false;
+        this.correctFile.emit(this.updatedFile);
+       }
    }
 }
