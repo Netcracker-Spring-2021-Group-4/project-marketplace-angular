@@ -71,6 +71,7 @@ export class CatalogComponent implements OnInit {
 
   handlePageChange($event: PageEvent) {
     let searchCriteria = this.setSearchCriteria();
+    this.subscription$.unsubscribe()
     this.subscription$= this.productService.postProductsPage(searchCriteria, $event.pageIndex, $event.pageSize)
       .subscribe(response => {
         this.products = response.content;
@@ -81,6 +82,7 @@ export class CatalogComponent implements OnInit {
 
   updatePage() {
     let searchCriteria = this.setSearchCriteria();
+    this.subscription$.unsubscribe()
     this.subscription$ = (this.productService.postProductsPage(searchCriteria, 0, this.pageSize)
       .subscribe(response => {
         this.products = response.content;

@@ -10,6 +10,7 @@
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
 
+  <div  *ngIf="deliveries$ | async as deliveries">
   <h2 *ngIf="deliveries && deliveries.length==0" >
     It seems you dont have deliveries for this day!
   </h2>
@@ -86,5 +87,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  </div>
   </div>
 </div>
