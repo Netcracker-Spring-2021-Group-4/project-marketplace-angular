@@ -10,6 +10,7 @@ import {CartProductInfo} from "../../../shared/models/api/receive/cart-product-i
 import {Route} from "../../../shared/models/enums/route.enum";
 import {CartManagementService} from "../../../services/cart-management.service";
 import {CheckoutService} from "../../../services/checkout.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-compare-page',
@@ -35,8 +36,11 @@ export class ComparePageComponent implements OnInit {
     private compareManagementService: CompareManagementService,
     private cartManagementService: CartManagementService,
     private checkoutService: CheckoutService,
-    private toaster: ToasterCustomService
-  ) { }
+    private toaster: ToasterCustomService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle("Compare products")
+  }
 
   ngOnInit(): void {
     this.isLoading = true;

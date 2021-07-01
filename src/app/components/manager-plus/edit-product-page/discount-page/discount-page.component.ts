@@ -18,6 +18,7 @@ import {ToasterCustomService} from "../../../../services/toaster-custom.service"
 import {ProductsHttpService} from "../../../../api-services/products-http.service";
 import {ProductInfo} from "../../../../shared/models/api/receive/productInfo";
 import {addTimeToDate} from "../../create-auction-page/auction-form.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-discount-page',
@@ -45,7 +46,8 @@ export class DiscountPageComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private toaster: ToasterCustomService,
-    private productService: ProductsHttpService
+    private productService: ProductsHttpService,
+    private titleService: Title
   ) {
   }
 
@@ -57,6 +59,7 @@ export class DiscountPageComponent implements OnInit {
       })).subscribe(
         data => {
           this.product = data;
+          this.titleService.setTitle(`Edit discounts for ${this.product.name}`)
           this.maxOfferedPrice = (data.price / 100) - 0.01;
           this.discountForm = this.createDiscountForm();
           this.getUnexpiredDiscounts(this.myProductId);

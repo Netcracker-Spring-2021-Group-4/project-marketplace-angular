@@ -10,6 +10,7 @@ import {ValidationMessages} from "../../../shared/models/labels/validation.messa
 import Labels from "../../../shared/models/labels/labels.constant";
 import {Router} from "@angular/router";
 import {Route} from "../../../shared/models/enums/route.enum";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-create-auction-page',
@@ -37,8 +38,10 @@ export class CreateAuctionPageComponent implements OnInit {
     private authStoreApiService: AuthStoreApiService,
     private managerPlusApiService: ManagerPlusApiService,
     private router: Router,
-    private toaster: ToasterCustomService
+    private toaster: ToasterCustomService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle("Create auction")
     this.form = this.auctionFormService.auctionCreateForm();
   }
 

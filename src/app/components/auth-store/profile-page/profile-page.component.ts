@@ -14,6 +14,7 @@ import {UserStatus} from "../../../shared/models/api/send/change-status.model";
 import {UserUpdateModel} from "../../../shared/models/api/send/user-update.model";
 import {AuthStoreApiService} from "../../../api-services/auth-store-http.service";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-profile-page',
@@ -38,8 +39,10 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     private authStoreApiService: AuthStoreApiService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private toaster: ToasterCustomService
+    private toaster: ToasterCustomService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle("Profile")
     this.setCurrentRoute()
     if (this.isStaffCreateRoute) this.isFormViewActive = true;
     this.activatedRoute.params.subscribe(params => {

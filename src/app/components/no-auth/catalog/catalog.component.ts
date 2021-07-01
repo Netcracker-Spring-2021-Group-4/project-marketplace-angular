@@ -9,6 +9,7 @@ import {finalize} from "rxjs/operators";
 import {forkJoin} from "rxjs";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-catalog',
@@ -27,7 +28,12 @@ export class CatalogComponent implements OnInit {
   pageSize: number;
 
 
-  constructor(private productService: CatalogPublicHttpService, private roleService: RoleService) {
+  constructor(
+    private productService: CatalogPublicHttpService,
+    private roleService: RoleService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle("Catalog")
     this.formGroup = productService.catalogSearchForm();
     this.pageSize=9;
     this.filterProps = new FilterProperties({categories: []});

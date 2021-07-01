@@ -12,6 +12,7 @@ import {PublicApiService} from "../../../api-services/public-http.service";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {ValidFile} from "../../../shared/components/file-uploader/file-uploader";
 import {CategoryInfo} from "../../../shared/models/api/receive/category-info";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-edit-product-page',
@@ -49,6 +50,7 @@ export class EditProductPageComponent implements OnInit {
               private roleService: RoleService,
               private formBuilder: FormBuilder,
               private toaster: ToasterCustomService,
+              private titleService: Title
   ) {
   }
 
@@ -61,6 +63,7 @@ export class EditProductPageComponent implements OnInit {
       })).subscribe(
         data => {
           this.product = data;
+          this.titleService.setTitle(`Edit ${this.product.name}'s info`)
           this.checked = this.product.isActive;
           this.initForm();
           this.publicApiService.getCategoryName(productId).subscribe(

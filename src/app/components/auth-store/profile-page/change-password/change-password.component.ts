@@ -8,6 +8,7 @@ import Labels from "../../../../shared/models/labels/labels.constant";
 import {Router} from "@angular/router";
 import {Route} from "../../../../shared/models/enums/route.enum";
 import {ToasterCustomService} from "../../../../services/toaster-custom.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-change-password',
@@ -27,8 +28,10 @@ export class ChangePasswordComponent {
     private userAuthFormService: UserAuthFormService,
     private authStoreApiService: AuthStoreApiService,
     private toaster: ToasterCustomService,
-    private router: Router
+    private router: Router,
+    private titleService: Title
   ) {
+    this.titleService.setTitle("Change password")
     this.form = this.userAuthFormService.changePasswordForm();
   }
 

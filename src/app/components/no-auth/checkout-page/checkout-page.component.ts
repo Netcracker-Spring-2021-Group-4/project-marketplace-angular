@@ -16,6 +16,7 @@ import {CartInfoResponse} from "../../../shared/models/api/receive/cart-info-res
 import {cartInfoToItemsList} from "../cart-page/service/utils";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {CartManagementService} from "../../../services/cart-management.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-checkout-page',
@@ -41,7 +42,9 @@ export class CheckoutPageComponent implements OnInit {
     private checkoutFormService: CheckoutFormService,
     private toaster: ToasterCustomService,
     private router: Router,
+    private titleService: Title
   ) {
+    this.titleService.setTitle("Checkout")
     this.cart = this.checkoutService.cart!
     this.secondStepForm = this.checkoutFormService.secondStepForm()
   }

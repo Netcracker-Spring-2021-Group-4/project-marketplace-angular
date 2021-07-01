@@ -11,6 +11,7 @@ import {environment} from "../../../../environments/environment";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {RedirectAuthService} from "../../../services/redirect-auth.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-login',
@@ -32,8 +33,10 @@ export class LoginComponent implements OnInit {
     private roleService: RoleService,
     private authApiService: AuthApiService,
     private toaster: ToasterCustomService,
-    private redirectAuthService: RedirectAuthService
+    private redirectAuthService: RedirectAuthService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle("Login")
     this.form = this.userAuthFormService.loginForm()
   }
 

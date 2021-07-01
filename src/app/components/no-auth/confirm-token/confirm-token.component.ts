@@ -9,6 +9,7 @@ import {ValidationMessages} from "../../../shared/models/labels/validation.messa
 import {finalize} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-confirm-token',
@@ -31,12 +32,14 @@ export class ConfirmTokenComponent implements OnInit {
     private authApiService: AuthApiService,
     private toaster: ToasterCustomService,
     private router: Router,
+    private titleService: Title
   ) {
     this.setCurrentRoute()
     this.activatedRoute.params.subscribe(params => {
       this.token = params.token
     })
     if(this.isFormNeeded) {
+      this.titleService.setTitle("Set password")
       this.form = this.userAuthFormService.newPasswordForm()
     }
   }

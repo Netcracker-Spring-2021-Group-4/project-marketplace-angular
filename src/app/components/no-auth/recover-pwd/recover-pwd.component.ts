@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import {AuthApiService} from "../../../api-services/auth-http.service";
 import {UserAuthFormService} from "../services/user-auth-form.service";
 import {FormGroup} from "@angular/forms";
@@ -6,6 +6,7 @@ import {ValidationMessages} from "../../../shared/models/labels/validation.messa
 import {finalize} from "rxjs/operators";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-recover-pwd',
@@ -23,7 +24,9 @@ export class RecoverPwdComponent{
     private authApiService: AuthApiService,
     private userAuthFormService: UserAuthFormService,
     private toaster: ToasterCustomService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle("Recover password")
     this.form = this.userAuthFormService.resetPasswordForm();
   }
 

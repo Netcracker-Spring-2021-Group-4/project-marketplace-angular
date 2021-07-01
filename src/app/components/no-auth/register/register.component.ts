@@ -8,6 +8,7 @@ import {finalize} from "rxjs/operators";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {Router} from "@angular/router";
 import {Route} from "../../../shared/models/enums/route.enum";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-register',
@@ -30,8 +31,10 @@ export class RegisterComponent implements OnInit {
     private userAuthFormService: UserAuthFormService,
     private authApiService: AuthApiService,
     private toaster: ToasterCustomService,
-    private router: Router
+    private router: Router,
+    private titleService: Title
   ) {
+    this.titleService.setTitle("Register")
     this.form = this.userAuthFormService.registerForm();
   }
 

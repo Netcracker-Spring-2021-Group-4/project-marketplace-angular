@@ -15,6 +15,7 @@ import {cartInfoToItemsList, equalCartItems, getDifferenceInCarts, sortCartByNam
 import {CheckoutService} from "../../../services/checkout.service";
 import {Router} from "@angular/router";
 import {Route} from "../../../shared/models/enums/route.enum";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-cart-page',
@@ -37,8 +38,11 @@ export class CartPageComponent implements OnInit {
     private redirectAuthService: RedirectAuthService,
     private checkoutService: CheckoutService,
     private router: Router,
-    private toaster: ToasterCustomService
-  ) { }
+    private toaster: ToasterCustomService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle("Cart")
+  }
 
   ngOnInit(): void {
     this.fetchCartInitial()
