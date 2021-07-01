@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {addTimeToDate, AuctionFormService} from "./auction-form.service";
 import {FormGroup} from "@angular/forms";
 import {AuthStoreApiService} from "../../../api-services/auth-store-http.service";
 import {ManagerPlusApiService} from "../../../api-services/mgr-plus-http.service";
-import {finalize} from "rxjs/operators";
+import {finalize, first} from "rxjs/operators";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {AuctionType} from "../../../shared/models/api/receive/auction-type.model";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {Router} from "@angular/router";
 import {Route} from "../../../shared/models/enums/route.enum";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-create-auction-page',
@@ -20,7 +21,7 @@ export class CreateAuctionPageComponent implements OnInit {
   form: FormGroup;
   auctionTypesList: Array<AuctionType>
   isLoading: boolean;
-  minDate= new Date();
+  minDate = new Date();
 
   priceErrorMessage = ValidationMessages.priceAuction
   quantityErrorMessage = ValidationMessages.quantityAuction
@@ -37,8 +38,10 @@ export class CreateAuctionPageComponent implements OnInit {
     private authStoreApiService: AuthStoreApiService,
     private managerPlusApiService: ManagerPlusApiService,
     private router: Router,
-    private toaster: ToasterCustomService
+    private toaster: ToasterCustomService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle("Create auction")
     this.form = this.auctionFormService.auctionCreateForm();
   }
 
@@ -46,7 +49,10 @@ export class CreateAuctionPageComponent implements OnInit {
     this.isLoading = true
     this.authStoreApiService
       .getAuctionTypes()
-      .pipe(finalize(() => this.isLoading = false))
+      .pipe(
+        finalize(() => this.isLoading = false),
+        first()
+      )
       .subscribe(res => {
         this.auctionTypesList = res;
       }, err => {
@@ -57,7 +63,7 @@ export class CreateAuctionPageComponent implements OnInit {
   changeTypeOfAuction($event: any) {
     const typeId = $event.value
     const type = this.auctionTypesList.find(t => t.typeId === typeId)!
-    if(this.form.get('jsonDetails')) {
+    if (this.form.get('jsonDetails')) {
       this.form.removeControl('jsonDetails')
     }
     this.auctionFormService.addJsonDetails(this.form, type.name)
@@ -82,11 +88,14 @@ export class CreateAuctionPageComponent implements OnInit {
     this.changeCurrencyToCents(result)
     this.isLoading = true
     this.managerPlusApiService.createAuction(result)
-      .pipe(finalize (() => {
-        this.isLoading = false
-        this.form = this.auctionFormService.auctionCreateForm();
-      }))
-      .subscribe( _ => {
+      .pipe(
+        finalize(() => {
+          this.isLoading = false
+          this.form = this.auctionFormService.auctionCreateForm();
+        }),
+        first()
+      )
+      .subscribe(_ => {
         this.toaster.successfulNotification(Labels.auction.successfulCreationAuction)
       }, err => {
         const text = err?.error?.message ??
@@ -97,13 +106,13 @@ export class CreateAuctionPageComponent implements OnInit {
 
   private changeCurrencyToCents(obj: any) {
     obj.startPrice = CreateAuctionPageComponent.fromDollarsToCents(obj.startPriceDollars)
-    if(obj.jsonDetails.hasOwnProperty('loweringStepDollars'))
+    if (obj.jsonDetails.hasOwnProperty('loweringStepDollars'))
       obj.jsonDetails.loweringStep = CreateAuctionPageComponent.fromDollarsToCents(obj.jsonDetails.loweringStepDollars)
-    if(obj.jsonDetails.hasOwnProperty('minRiseDollars'))
+    if (obj.jsonDetails.hasOwnProperty('minRiseDollars'))
       obj.jsonDetails.minRise = CreateAuctionPageComponent.fromDollarsToCents(obj.jsonDetails.minRiseDollars)
   }
 
-  private static fromDollarsToCents(num: number) : number {
+  private static fromDollarsToCents(num: number): number {
     return Math.trunc(num * 100)
   }
 }

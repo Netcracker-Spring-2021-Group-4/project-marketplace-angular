@@ -13,6 +13,7 @@ import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {ValidFile} from "../../../shared/components/file-uploader/file-uploader";
 import {CategoryInfo} from "../../../shared/models/api/receive/category-info";
 import {Subscription} from "rxjs";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-edit-product-page',
@@ -21,13 +22,13 @@ import {Subscription} from "rxjs";
 })
 export class EditProductPageComponent implements OnInit, OnDestroy {
 
-  imgUrl: string | undefined;
+  imgUrl: string | undefined | ArrayBuffer | null;
   selectedFile: File | undefined
   isHeavier?: boolean = false;
   isChange?: boolean = false;
   isNotPng?: boolean = false;
   isWrongResolution?: boolean = false;
-  isDisabled: boolean = false;
+  isDisabled?: boolean = false;
   doSend: boolean = false;
   categories: CategoryInfo[];
   product: ProductInfo;
@@ -50,6 +51,7 @@ export class EditProductPageComponent implements OnInit, OnDestroy {
               private roleService: RoleService,
               private formBuilder: FormBuilder,
               private toaster: ToasterCustomService,
+              private titleService: Title
   ) {
   }
 
@@ -69,6 +71,7 @@ export class EditProductPageComponent implements OnInit, OnDestroy {
       })).subscribe(
         data => {
           this.product = data;
+          this.titleService.setTitle(`Edit ${this.product.name}'s info`)
           this.checked = this.product.isActive;
           this.initForm();
           this.publicApiService.getCategoryName(productId).subscribe(
@@ -130,7 +133,6 @@ export class EditProductPageComponent implements OnInit, OnDestroy {
   }
 
   public submit(updateInfo: ProductUpdateModel) {
-
     if (this.doSend) {
       updateInfo.price = updateInfo.price * 100;
       this.subscriptions.push(this.productService.updateProductInfo(this.product.productId, updateInfo)
@@ -151,7 +153,7 @@ export class EditProductPageComponent implements OnInit, OnDestroy {
           this.toaster.errorNotification(Labels.product.errorUpdatingProductPicture);
         }))}
     this.selectedFile = undefined;
-    this.form.markAsPristine()
+    this.form.markAsPristine();
     this.isChange = false;
     this.isDisabled = true;
     this.doSend = false;

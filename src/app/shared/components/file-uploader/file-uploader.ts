@@ -7,8 +7,8 @@ export class ValidFile {
   isChange?: boolean;
   isNotPng?: boolean;
   isWrongResolution?: boolean;
-  imgUrl?: any;
-  isDisabled: boolean;
+  imgUrl?: string | null | ArrayBuffer;
+  isDisabled?: boolean;
 }
 
 @Component({
@@ -56,4 +56,5 @@ export class FileUploader {
       this.correctFile.emit(this.updatedFile);
     }
   }
+
 }

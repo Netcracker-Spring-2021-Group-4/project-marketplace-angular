@@ -8,7 +8,7 @@ import {CartItemModel} from "../../../../shared/models/api/send/cart-item.model"
   templateUrl: './shopping-cart-tab.component.html',
   styleUrls: ['./shopping-cart-tab.component.scss']
 })
-export class ShoppingCartTabComponent{
+export class ShoppingCartTabComponent {
 
   @Input()
   cart: CartInfoResponse
@@ -19,10 +19,10 @@ export class ShoppingCartTabComponent{
   @Output()
   addQuantityEvent = new EventEmitter<CartItemModel>()
   @Output()
-  removeQuantityEvent = new EventEmitter<{content: CartItemModel, permitProduct: string}>()
+  removeQuantityEvent = new EventEmitter<{ content: CartItemModel, permitProduct: string }>()
 
-  constructor() { }
-
+  constructor() {
+  }
 
 
   addQuantity(p: CartProductInfo) {
@@ -32,7 +32,7 @@ export class ShoppingCartTabComponent{
 
   removeQuantity(p: CartProductInfo, removeAll: boolean = false) {
     let {productId, quantity} = p
-    const obj = removeAll ? {productId, quantity}: {productId, quantity: 1}
+    const obj = removeAll ? {productId, quantity} : {productId, quantity: 1}
     this.removeQuantityEvent.emit({content: obj, permitProduct: productId})
   }
 

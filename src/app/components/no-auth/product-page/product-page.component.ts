@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component,OnDestroy,OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
@@ -12,17 +12,18 @@ import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {CartItemModel} from "../../../shared/models/api/send/cart-item.model";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {PublicApiService} from "../../../api-services/public-http.service";
-import {forkJoin, Observable} from "rxjs";
+import {forkJoin, Observable, Subscription} from "rxjs";
 import {CompareManagementService} from "../../../services/compare-management.service";
 import {Product} from "../../../shared/models/api/receive/product";
 import {Category} from "../../../shared/models/api/receive/category";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-product-page',
   templateUrl: './product-page.component.html',
   styleUrls: ['./product-page.component.scss']
 })
-export class ProductPageComponent implements OnInit {
+export class ProductPageComponent implements OnInit, OnDestroy {
 
   currentValue: number = 1;
   product: ProductInfo;
@@ -38,6 +39,9 @@ export class ProductPageComponent implements OnInit {
   private readonly CART_STORAGE = 'cart';
   categories: Category[];
   currentRole: UserRole;
+  routeEventSubscription: Subscription;
+  productSubscription: Subscription;
+  private roleSubscription: Subscription;
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
@@ -48,9 +52,10 @@ export class ProductPageComponent implements OnInit {
               private cartService: CartManagementService,
               private toaster: ToasterCustomService,
               private compareService: CompareManagementService,
+              private titleService: Title
   ) {
 
-    router.events.pipe(filter(event => event instanceof NavigationEnd))
+    this.routeEventSubscription = router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((val) => {
         this.ngOnInit()
 
@@ -64,6 +69,11 @@ export class ProductPageComponent implements OnInit {
     if (productId) {
       this.uploadData(productId);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.routeEventSubscription.unsubscribe();
+    this.productSubscription.unsubscribe();
   }
 
   toggleShow() {
@@ -116,26 +126,27 @@ export class ProductPageComponent implements OnInit {
     let discount = this.discountsService.getActiveDiscount(productId);
     let categories = this.publicApiService.getListOfCategories();
 
-    this.role$ = this.roleService.currentRole$
-    this.role$.subscribe( data =>{
+    this.role$ = this.roleService.currentRole$;
+    this.roleSubscription = this.role$.subscribe( data =>{
       this.currentRole = data;
     })
     this.isLoading = true;
-    forkJoin([product, discount, suggestions, categories])
+    this.productSubscription = forkJoin([product, discount, suggestions, categories])
       .pipe(
         finalize(() => this.isLoading = false)
       ).subscribe(results => {
       this.product = results[0];
+      this.titleService.setTitle(`${this.product.name}'s page`)
       if (this.product.description == null) {
         this.product.description = '';
       }
-      this.availableQuantity = this.product.inStock - this.product.reserved
+      this.availableQuantity = this.product.inStock - this.product.reserved;
       this.discount = results[1];
       this.categoryName$ = this.publicApiService.getCategoryName(productId);
       this.suggestions = results[2];
       this.categories = results[3];
     }, error => {
-      console.log({error});
+      this.toaster.errorNotification(error.error.message);
     });
   }
 }

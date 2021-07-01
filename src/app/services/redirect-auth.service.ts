@@ -12,7 +12,8 @@ export class RedirectAuthService {
 
   constructor(
     private router: Router
-  ){}
+  ) {
+  }
 
   changeRedirectUrl() {
     const url = this.router.url.slice(1)
@@ -28,7 +29,7 @@ export class RedirectAuthService {
   redirect() {
     this.router.navigate([this.redirectRoute])
       .then(() => {
-        if(this.router.url.slice(1) === Route.LOGIN) {
+        if (this.router.url.slice(1) === Route.LOGIN) {
           this.router.navigate([RedirectAuthService.defaultRoute()])
         }
       })
