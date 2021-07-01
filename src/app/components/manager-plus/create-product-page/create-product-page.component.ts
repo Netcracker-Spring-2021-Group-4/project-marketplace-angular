@@ -22,7 +22,7 @@ import {Title} from "@angular/platform-browser";
 
 
 export class CreateProductPageComponent implements OnInit, OnDestroy {
-  imgUrl: string | undefined
+  imgUrl: string | ArrayBuffer | null | undefined
   form: FormGroup
   selectedFile?: File
   categories: CategoryInfo[]

@@ -19,6 +19,7 @@ import {ProductsHttpService} from "../../../../api-services/products-http.servic
 import {ProductInfo} from "../../../../shared/models/api/receive/productInfo";
 import {addTimeToDate} from "../../create-auction-page/auction-form.service";
 import {Title} from "@angular/platform-browser";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-discount-page',
@@ -39,7 +40,7 @@ export class DiscountPageComponent implements OnInit {
   minDate: Date = new Date();
   dateTimeInPastErrorMessage = ValidationMessages.dateTimeInPast;
   offeredPriceErrorMessage = ValidationMessages.offeredPrice;
-
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private discountService: DiscountsHttpService,
@@ -55,7 +56,7 @@ export class DiscountPageComponent implements OnInit {
     this.isLoading = true;
     this.myProductId = this.route.snapshot.paramMap.get('productId');
     if(this.myProductId){
-      this.productService.getProduct(this.myProductId).pipe(finalize(() => {
+      this.subscriptions.push(this.productService.getProduct(this.myProductId).pipe(finalize(() => {
       })).subscribe(
         data => {
           this.product = data;
@@ -64,12 +65,19 @@ export class DiscountPageComponent implements OnInit {
           this.discountForm = this.createDiscountForm();
           this.getUnexpiredDiscounts(this.myProductId);
           this.isLoading = false;
-        })
+        }));
     }
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(
+      (subscriptions) => subscriptions.unsubscribe()
+    );
+    this.subscriptions = [];
+  }
+
   public getUnexpiredDiscounts(productId: string | null) {
-    this.discountService.getUnexpiredDiscounts(productId).pipe(finalize(() => {
+    this.subscriptions.push(this.discountService.getUnexpiredDiscounts(productId).pipe(finalize(() => {
       this.isLoading = false
     })).subscribe(
       (response: Discount[]) => {
@@ -78,7 +86,7 @@ export class DiscountPageComponent implements OnInit {
             a.startsAt > b.startsAt ? 1 : -1
         );
         this.discountsDatasource = new MatTableDataSource(this.discounts);
-      });
+      }));
   }
 
   public createDiscountForm(): FormGroup {
@@ -105,22 +113,22 @@ export class DiscountPageComponent implements OnInit {
 
   public submit(): void {
     const result = this.discountForm.value;
-    result.startsAt = addTimeToDate(result.startsAt, result.timeStart)
-    result.endsAt = addTimeToDate(result.endsAt, result.timeEnd)
+    result.startsAt = addTimeToDate(result.startsAt, result.timeStart);
+    result.endsAt = addTimeToDate(result.endsAt, result.timeEnd);
     result.offeredPrice = result.offeredPrice * 100;
-    this.discountService.createDiscount(this.myProductId, result)
+    this.subscriptions.push(this.discountService.createDiscount(this.myProductId, result)
       .pipe(finalize (() => {
         this.isLoading = false;
-        this.discountForm.markAsUntouched()
-        this.discountForm.get('timeStart')?.patchValue('03:00')
-        this.discountForm.get('timeEnd')?.patchValue('03:00')
+        this.discountForm.markAsUntouched();
+        this.discountForm.get('timeStart')?.patchValue('03:00');
+        this.discountForm.get('timeEnd')?.patchValue('03:00');
       })).subscribe(
       () => {
         this.getUnexpiredDiscounts(this.myProductId);
         this.toaster.successfulNotification(Labels.discount.successfulCreationDiscount);
       }, err => {
         this.toaster.errorNotification(err.error.message);
-      })
+      }));
   }
 
 

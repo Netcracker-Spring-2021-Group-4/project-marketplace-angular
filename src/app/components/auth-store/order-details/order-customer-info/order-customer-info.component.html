@@ -5,8 +5,8 @@
       <span class="fw-bold">
         {{orderCustomerInfo.city}},
         {{orderCustomerInfo.street}} street
-        {{orderCustomerInfo.building}},
-        {{orderCustomerInfo.flat}} Apt
+        {{orderCustomerInfo.building}}
+        <span *ngIf="orderCustomerInfo.flat">, {{orderCustomerInfo.flat}} Apt </span>
       </span>
 
     </p>
