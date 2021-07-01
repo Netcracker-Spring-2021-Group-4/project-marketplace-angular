@@ -27,7 +27,7 @@ export class CheckoutStepOneComponent implements OnInit{
   separatorKeysCodes: number[] = [ENTER, COMMA];
   NO_PREFERENCES = 'No preferences'
   commentChoicesList = ['Do not disturb', 'Please call before arriving',
-    'only cash', 'credit card', this.NO_PREFERENCES]
+    'Only cash', 'Credit card', this.NO_PREFERENCES]
   commentChoices = [this.NO_PREFERENCES];
 
   phoneNumberErrorMessage = ValidationMessages.phoneNumber
