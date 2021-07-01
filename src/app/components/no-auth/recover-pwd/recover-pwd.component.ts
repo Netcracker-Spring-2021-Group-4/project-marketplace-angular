@@ -1,9 +1,9 @@
-import { Component} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthApiService} from "../../../api-services/auth-http.service";
 import {UserAuthFormService} from "../services/user-auth-form.service";
 import {FormGroup} from "@angular/forms";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
-import {finalize} from "rxjs/operators";
+import {finalize, first} from "rxjs/operators";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {Title} from "@angular/platform-browser";
@@ -13,7 +13,7 @@ import {Title} from "@angular/platform-browser";
   templateUrl: './recover-pwd.component.html',
   styleUrls: ['./recover-pwd.component.scss']
 })
-export class RecoverPwdComponent{
+export class RecoverPwdComponent {
 
   isLoading: boolean;
   form: FormGroup
@@ -35,9 +35,10 @@ export class RecoverPwdComponent{
     const {email} = this.form.value;
     this.authApiService.requestResetPassword(email)
       .pipe(
-        finalize(() => this.isLoading = false)
+        finalize(() => this.isLoading = false),
+        first()
       )
-      .subscribe(res =>{
+      .subscribe(_ => {
         this.toaster.successfulNotification(Labels.password.successfulRequestResetPassword);
       }, err => {
         this.toaster.errorNotification(err.error.message);

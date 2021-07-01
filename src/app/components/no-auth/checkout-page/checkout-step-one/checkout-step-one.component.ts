@@ -10,7 +10,7 @@ import {MatAutocomplete, MatAutocompleteSelectedEvent} from "@angular/material/a
   templateUrl: './checkout-step-one.component.html',
   styleUrls: ['./checkout-step-one.component.scss']
 })
-export class CheckoutStepOneComponent implements OnInit{
+export class CheckoutStepOneComponent implements OnInit {
 
   @ViewChild('commentInput') commentInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -71,7 +71,7 @@ export class CheckoutStepOneComponent implements OnInit{
     let index = this.commentChoices.indexOf(value);
     if (value === this.NO_PREFERENCES) {
       this.commentChoices = [this.NO_PREFERENCES]
-    } else if(index < 0 ) {
+    } else if (index < 0) {
       this.commentChoices.push(value);
       index = this.commentChoices.indexOf(this.NO_PREFERENCES)
       if (index > -1) this.commentChoices.splice(index, 1)
@@ -85,8 +85,8 @@ export class CheckoutStepOneComponent implements OnInit{
     return this.firstStepForm.get('comment')!;
   }
 
-  addressNamingErrorMessage(isBuilding = false) : string {
-    return `The field can contain at most ${isBuilding? 8 : 64} characters`
+  addressNamingErrorMessage(isBuilding = false): string {
+    return `The field can contain at most ${isBuilding ? 8 : 64} characters`
   }
 
   cancelReservation() {

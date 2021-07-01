@@ -25,16 +25,16 @@ export class CompareManagementService {
 
   addToList(productId: string) {
     const list = this.comparisonList
-    if(list.length === 10){
+    if (list.length === 10) {
       this.toaster.errorNotification(Labels.comparison.listIsMaxedOut)
       return
     }
-    if(!isValidUUID(productId)){
+    if (!isValidUUID(productId)) {
       this.toaster.errorNotification(Labels.cart.wrongFormatUUID)
       return
     }
     const idx = list.indexOf(productId)
-    if( idx > -1){
+    if (idx > -1) {
       this.toaster.errorNotification(Labels.comparison.alreadyInTheList)
       return
     }

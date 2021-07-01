@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {Title} from "@angular/platform-browser";
 
 @Component({
@@ -6,7 +6,7 @@ import {Title} from "@angular/platform-browser";
   templateUrl: './not-found-page.component.html',
   styleUrls: ['./not-found-page.component.scss']
 })
-export class NotFoundPageComponent{
+export class NotFoundPageComponent {
 
   constructor(private titleService: Title) {
     this.titleService.setTitle("Page not found")

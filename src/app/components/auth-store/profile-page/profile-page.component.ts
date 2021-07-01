@@ -4,7 +4,7 @@ import {FormGroup} from "@angular/forms";
 import {Route} from "../../../shared/models/enums/route.enum";
 import {UserAuthFormService} from "../../no-auth/services/user-auth-form.service";
 import {ManagerPlusApiService} from "../../../api-services/mgr-plus-http.service";
-import {finalize} from "rxjs/operators";
+import {finalize, first} from "rxjs/operators";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
@@ -27,10 +27,11 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   form: FormGroup;
   isLoading: boolean;
   role: UserRole;
-  roleSub: Subscription;
   isFormViewActive: boolean;
   profile: ProfileModel;
   profileId: string;
+
+  subscriptions: Subscription;
 
   constructor(
     private roleService: RoleService,
@@ -42,50 +43,55 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     private toaster: ToasterCustomService,
     private titleService: Title
   ) {
+    this.subscriptions = new Subscription()
     this.titleService.setTitle("Profile")
     this.setCurrentRoute()
     if (this.isStaffCreateRoute) this.isFormViewActive = true;
-    this.activatedRoute.params.subscribe(params => {
+    const sub = this.activatedRoute.params.subscribe(params => {
       this.profileId = params['id'];
     })
+    this.subscriptions.add(sub)
   }
 
   ngOnInit(): void {
-    this.roleSub = this.roleService.currentRole$.subscribe(role => this.role = role)
+    this.subscriptions.add(
+      this.roleService.currentRole$.subscribe(role => this.role = role)
+    )
     let func;
     if (this.isStaffEditRoute) {
       func = this.managerPlusApiService.getStaffer(this.profileId)
     } else if (this.isCustomerProfileRoute || this.isStaffProfileRoute) {
       func = this.authStoreApiService.getMyProfile()
     }
-    if(func) {
+    if (func) {
       this.isLoading = true
-      func
+      const sub = func
         .pipe(
           finalize(() => this.isLoading = false)
         )
         .subscribe(res => {
-        this.profile = res.body
-        if(this.isFormNeeded) this.form = this.pageForm
-      }, err => {
-        const text = err.error?.message ?? 'Wrong id format'
-        this.toaster.errorNotification(text);
-        this.router.navigate([Route.STAFF_LIST])
-      })
+          this.profile = res.body
+          if (this.isFormNeeded) this.form = this.pageForm
+        }, err => {
+          const text = err.error?.message ?? 'Wrong id format'
+          this.toaster.errorNotification(text);
+          this.router.navigate([Route.STAFF_LIST])
+        })
+      this.subscriptions.add(sub)
     } else {
-      if(this.isFormNeeded) this.form = this.pageForm
+      if (this.isFormNeeded) this.form = this.pageForm
     }
   }
 
   ngOnDestroy(): void {
-    this.roleSub.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   get pageForm()
     : FormGroup {
     return this.isStaffCreateRoute ? this.userAuthFormService.createStaffForm() :
-      ( this.isStaffEditRoute ? this.userAuthFormService.editForm(this.profile, true) :
-         this.userAuthFormService.editForm(this.profile, false)
+      (this.isStaffEditRoute ? this.userAuthFormService.editForm(this.profile, true) :
+          this.userAuthFormService.editForm(this.profile, false)
       )
   }
 
@@ -97,7 +103,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     : string {
     return this.isCustomerProfileRoute ? 'Edit your profile' :
       (this.isStaffCreateRoute ? 'Add account of staffer' :
-        (this.isStaffEditRoute ? 'Edit account of staffer' : '')
+          (this.isStaffEditRoute ? 'Edit account of staffer' : '')
       )
   }
 
@@ -131,7 +137,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   }
 
   toggleActiveView() {
-    if(this.currentRoute === Route.STAFF_CREATE) {
+    if (this.currentRoute === Route.STAFF_CREATE) {
       this.router.navigate([Route.STAFF_LIST])
       return
     }
@@ -176,9 +182,10 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     this.isLoading = true
     func
       .pipe(
-        finalize(() => this.isLoading = false)
+        finalize(() => this.isLoading = false),
+        first()
       )
-      .subscribe( _ => {
+      .subscribe(_ => {
         if (this.isCustomerProfileRoute || this.isStaffEditRoute) {
           this.profile = {...this.profile, ...updatedProfile}
           if (!updatedProfile.hasOwnProperty('phoneNumber')) this.profile.phoneNumber = undefined
@@ -195,7 +202,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     if (currentRoute.indexOf('admin/staffer') !== -1) {
       this.currentRoute = Route.STAFF_PROFILE
     } else {
-      this.currentRoute =  <Route> currentRoute
+      this.currentRoute = <Route>currentRoute
     }
   }
 }

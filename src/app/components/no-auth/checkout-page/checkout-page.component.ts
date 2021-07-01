@@ -4,7 +4,7 @@ import {TimeSlotModel, TimeSlotModelFront} from "../../../shared/models/api/rece
 import {RoleService} from "../../../services/role.service";
 import {AuthStoreApiService} from "../../../api-services/auth-store-http.service";
 import {CheckoutService} from "../../../services/checkout.service";
-import {finalize, switchMap, take} from "rxjs/operators";
+import {finalize, first, switchMap, take} from "rxjs/operators";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {of} from "rxjs";
 import {CheckoutFormService} from "./service/checkout-form.service";
@@ -55,7 +55,7 @@ export class CheckoutPageComponent implements OnInit {
       .pipe(
         switchMap(role => {
           this.currentRole = role
-          if(role === UserRole.ROLE_NO_AUTH_CUSTOMER) {
+          if (role === UserRole.ROLE_NO_AUTH_CUSTOMER) {
             return of(this.checkoutFormService.firstStepForm())
           }
           return this.authStoreApiService
@@ -80,7 +80,8 @@ export class CheckoutPageComponent implements OnInit {
     this.isLoading = true
     this.publicApiService.getTimeSlots($event)
       .pipe(
-        finalize(() => this.isLoading = false)
+        finalize(() => this.isLoading = false),
+        first()
       )
       .subscribe((slots: TimeSlotModel[]) => {
         this.timeslots = slots.map(slot => TimeSlotModelFront.setFromTimeSlotModel(slot))
@@ -108,7 +109,8 @@ export class CheckoutPageComponent implements OnInit {
     this.isLoading = true
     this.publicApiService.makeOrder(this.result)
       .pipe(
-        finalize(() => this.isLoading = false)
+        finalize(() => this.isLoading = false),
+        first()
       )
       .subscribe(() => {
         this.toaster.successfulNotification(Labels.checkout.successfulOrderMade)

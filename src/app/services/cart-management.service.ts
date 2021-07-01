@@ -10,6 +10,7 @@ import {isValidUUID} from "../shared/helpers/util-functions.helper";
 import {PublicApiService} from "../api-services/public-http.service";
 import {Router} from "@angular/router";
 import {Route} from "../shared/models/enums/route.enum";
+import {first} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -29,13 +30,13 @@ export class CartManagementService {
     this.roleService.currentRole$.subscribe(role => this.role = role)
   }
 
-  get localCart() : CartItemModel[] {
+  get localCart(): CartItemModel[] {
     const cartString = localStorage.getItem(CartManagementService.CART_STORAGE)
     const parsed = JSON.parse(cartString ?? "[]")
     return parsed === [] ? [] : parsed
   }
 
-  findItemInCart(id: string) : CartItemModel | undefined {
+  findItemInCart(id: string): CartItemModel | undefined {
     return this.localCart.find(item => item.productId === id)
   }
 
@@ -48,37 +49,39 @@ export class CartManagementService {
   }
 
   addToCart(item: CartItemModel) {
-    if(!isValidUUID(item.productId)) {
+    if (!isValidUUID(item.productId)) {
       this.wrongUUIDNotify()
       return
     }
-    if( this.role === UserRole.ROLE_CUSTOMER ) {
+    if (this.role === UserRole.ROLE_CUSTOMER) {
       this.addToCartServer(item)
     } else if (this.role === UserRole.ROLE_NO_AUTH_CUSTOMER) {
-      this.publicApiService.getProductAvailability(item.productId).subscribe( res => {
-        const available = res.content
-        const error = res.error
-        if(error) {
-          this.toaster.errorNotification(error)
-          return
-        } else {
-          const itemLocal = this.findItemInCart(item.productId)
-          if((itemLocal && itemLocal.quantity + (+item.quantity) <= available) || (!itemLocal && (+item.quantity) <= available)){
-            this.addToCartLocal(item)
+      this.publicApiService.getProductAvailability(item.productId)
+        .pipe(first())
+        .subscribe(res => {
+          const available = res.content
+          const error = res.error
+          if (error) {
+            this.toaster.errorNotification(error)
+            return
           } else {
-            this.toaster.errorNotification("No more available items of the product to add to the cart")
+            const itemLocal = this.findItemInCart(item.productId)
+            if ((itemLocal && itemLocal.quantity + (+item.quantity) <= available) || (!itemLocal && (+item.quantity) <= available)) {
+              this.addToCartLocal(item)
+            } else {
+              this.toaster.errorNotification("No more available items of the product to add to the cart")
+            }
           }
-        }
-      })
+        })
     }
   }
 
-  addToCartObservable(item: CartItemModel): Observable<any>{
-    if(!isValidUUID(item.productId)) {
+  addToCartObservable(item: CartItemModel): Observable<any> {
+    if (!isValidUUID(item.productId)) {
       this.wrongUUIDNotify()
       throw null
     }
-    if( this.role === UserRole.ROLE_CUSTOMER ) {
+    if (this.role === UserRole.ROLE_CUSTOMER) {
       return this.authStoreApiService.addToCart(item)
     } else if (this.role === UserRole.ROLE_NO_AUTH_CUSTOMER) {
       this.addToCartLocal(item)
@@ -86,12 +89,12 @@ export class CartManagementService {
     return of({content: true, error: null})
   }
 
-  removeFromCartObservable(item: CartItemModel) : Observable<any>{
-    if(!isValidUUID(item.productId)) {
+  removeFromCartObservable(item: CartItemModel): Observable<any> {
+    if (!isValidUUID(item.productId)) {
       this.wrongUUIDNotify();
       throw null
     }
-    if( this.role === UserRole.ROLE_CUSTOMER ) {
+    if (this.role === UserRole.ROLE_CUSTOMER) {
       return this.authStoreApiService.removeFromCart(item)
     } else if (this.role === UserRole.ROLE_NO_AUTH_CUSTOMER) {
       this.removeFromCartLocal(item)
@@ -100,12 +103,12 @@ export class CartManagementService {
   }
 
   removeFromCart(item: CartItemModel) {
-    if(!isValidUUID(item.productId)) {
+    if (!isValidUUID(item.productId)) {
       this.wrongUUIDNotify();
       return
     }
 
-    if( this.role === UserRole.ROLE_CUSTOMER ) {
+    if (this.role === UserRole.ROLE_CUSTOMER) {
       this.removeFromCartServer(item)
     } else if (this.role === UserRole.ROLE_NO_AUTH_CUSTOMER) {
       this.removeFromCartLocal(item)
@@ -117,49 +120,51 @@ export class CartManagementService {
   }
 
   private removeFromCartServer(item: CartItemModel) {
-    this.authStoreApiService.removeFromCart(item).subscribe(_ => {
-      this.toaster.infoNotification(Labels.cart.successfulRemovingFromCart)
-    }, err => {
-      this.toaster.errorNotification(err.error.message)
-    })
+    this.authStoreApiService.removeFromCart(item)
+      .pipe(first())
+      .subscribe(_ => {
+        this.toaster.infoNotification(Labels.cart.successfulRemovingFromCart)
+      }, err => {
+        this.toaster.errorNotification(err.error.message)
+      })
   }
 
   private addToCartServer(item: CartItemModel) {
-    this.authStoreApiService.addToCart(item).subscribe(res => {
-      const result = res.content
-      const error = res.error
-      if(result) {
-        if(error) this.toaster.infoNotification(error)
-        else this.toaster.successfulNotification(Labels.cart.successfulAddingToCart)
-      }
-      else {
-        this.toaster.errorNotification(error)
-      }
-    }, err => {
-      this.toaster.errorNotification(err.error.message)
-    })
+    this.authStoreApiService.addToCart(item)
+      .pipe(first())
+      .subscribe(res => {
+        const result = res.content
+        const error = res.error
+        if (result) {
+          if (error) this.toaster.infoNotification(error)
+          else this.toaster.successfulNotification(Labels.cart.successfulAddingToCart)
+        } else {
+          this.toaster.errorNotification(error)
+        }
+      }, err => {
+        this.toaster.errorNotification(err.error.message)
+      })
   }
 
   private removeFromCartLocal(item: CartItemModel) {
     const cartString = localStorage.getItem(CartManagementService.CART_STORAGE)
-    let cart : CartItemModel[] = []
-    if(!cartString) {
+    let cart: CartItemModel[] = []
+    if (!cartString) {
       this.toaster.errorNotification(Labels.cart.errorRemovingFromEmptyCart)
       return
     } else {
       cart = JSON.parse(cartString)
       const idx = cart.findIndex(i => i.productId === item.productId)
-      if(idx === -1) {
+      if (idx === -1) {
         this.toaster.errorNotification(Labels.cart.errorRemovingItemIfCartDoesntHaveIt)
       } else {
         const currentQuantity = cart[idx].quantity
         const quantityToRemove = item.quantity
         const quantityLeft = currentQuantity - quantityToRemove
-        if(quantityLeft < 0) {
+        if (quantityLeft < 0) {
           this.toaster.errorNotification(Labels.cart.errorRemoveNegativeQuantity)
           return
-        }
-        else if (quantityLeft === 0) cart = cart.filter(i => i.productId !== item.productId)
+        } else if (quantityLeft === 0) cart = cart.filter(i => i.productId !== item.productId)
         else cart[idx].quantity = quantityLeft
         localStorage.setItem(CartManagementService.CART_STORAGE, JSON.stringify(cart))
         if (!this.isCartRoute()) this.toaster.infoNotification(Labels.cart.successfulRemovingFromCart)
@@ -169,13 +174,13 @@ export class CartManagementService {
 
   private addToCartLocal(item: CartItemModel) {
     const cartString = localStorage.getItem(CartManagementService.CART_STORAGE)
-    let cart : CartItemModel[] = []
-    if(!cartString) {
+    let cart: CartItemModel[] = []
+    if (!cartString) {
       cart.push(item)
     } else {
       cart = JSON.parse(cartString)
       const idx = cart.findIndex(i => i.productId === item.productId)
-      if (idx === -1 ) {
+      if (idx === -1) {
         cart.push(item)
       } else {
         cart[idx].quantity += item.quantity

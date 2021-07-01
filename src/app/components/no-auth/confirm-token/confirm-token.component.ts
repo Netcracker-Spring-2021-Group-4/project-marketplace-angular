@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthApiService} from "../../../api-services/auth-http.service";
 import Labels from "../../../shared/models/labels/labels.constant";
@@ -6,8 +6,8 @@ import {Route} from "../../../shared/models/enums/route.enum";
 import {FormGroup} from "@angular/forms";
 import {UserAuthFormService} from "../services/user-auth-form.service";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
-import {finalize} from "rxjs/operators";
-import {Observable} from "rxjs";
+import {finalize, first} from "rxjs/operators";
+import {Observable, Subscription} from "rxjs";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {Title} from "@angular/platform-browser";
 
@@ -16,7 +16,7 @@ import {Title} from "@angular/platform-browser";
   templateUrl: './confirm-token.component.html',
   styleUrls: ['./confirm-token.component.scss']
 })
-export class ConfirmTokenComponent implements OnInit {
+export class ConfirmTokenComponent implements OnInit, OnDestroy {
 
   token: string
   currentRoute: Route
@@ -25,6 +25,8 @@ export class ConfirmTokenComponent implements OnInit {
 
   passwordErrorMessage = ValidationMessages.password
   passwordDontMatchMessage = ValidationMessages.passwordDontMatch
+
+  subscription: Subscription;
 
   constructor(
     private userAuthFormService: UserAuthFormService,
@@ -35,21 +37,25 @@ export class ConfirmTokenComponent implements OnInit {
     private titleService: Title
   ) {
     this.setCurrentRoute()
-    this.activatedRoute.params.subscribe(params => {
+    this.subscription = this.activatedRoute.params.subscribe(params => {
       this.token = params.token
     })
-    if(this.isFormNeeded) {
+    if (this.isFormNeeded) {
       this.titleService.setTitle("Set password")
       this.form = this.userAuthFormService.newPasswordForm()
     }
   }
 
   ngOnInit(): void {
-    if (!this.isFormNeeded){
+    if (!this.isFormNeeded) {
       const func = this.authApiService.confirmSignUp(this.token)
       const text = Labels.register.success
       this.execApiFunc(func, text)
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
   }
 
   get isFormNeeded(): boolean {
@@ -75,9 +81,10 @@ export class ConfirmTokenComponent implements OnInit {
   private execApiFunc(apiFunction: Observable<any>, successText: string) {
     apiFunction
       .pipe(
-        finalize(() => this.isLoading = false)
+        finalize(() => this.isLoading = false),
+        first()
       )
-      .subscribe( _ => {
+      .subscribe(_ => {
         this.toaster.successfulNotification(successText);
 
         this.router.navigate([Route.LOGIN])
@@ -89,9 +96,9 @@ export class ConfirmTokenComponent implements OnInit {
 
   private setCurrentRoute() {
     const route = this.router.url
-    if(route.indexOf('confirm-token') !== -1) {
+    if (route.indexOf('confirm-token') !== -1) {
       this.currentRoute = Route.CONFIRM_TOKEN
-    } else if(route.indexOf('new-password') !== -1) {
+    } else if (route.indexOf('new-password') !== -1) {
       this.currentRoute = Route.NEW_PASSWORD
     } else {
       this.currentRoute = Route.FIRST_PASSWORD

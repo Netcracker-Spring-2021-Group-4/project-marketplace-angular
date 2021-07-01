@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {UserAuthFormService} from "../../../no-auth/services/user-auth-form.service";
 import {FormGroup} from "@angular/forms";
 import {AuthStoreApiService} from "../../../../api-services/auth-store-http.service";
 import {ValidationMessages} from "../../../../shared/models/labels/validation.message";
-import {finalize} from "rxjs/operators";
+import {finalize, first} from "rxjs/operators";
 import Labels from "../../../../shared/models/labels/labels.constant";
 import {Router} from "@angular/router";
 import {Route} from "../../../../shared/models/enums/route.enum";
@@ -23,6 +23,7 @@ export class ChangePasswordComponent {
   passwordErrorMessage = ValidationMessages.password
   passwordDontMatchMessage = ValidationMessages.passwordDontMatch
   passwordsAreTheSameMessage = ValidationMessages.passwordsAreTheSame
+
 
   constructor(
     private userAuthFormService: UserAuthFormService,
@@ -45,9 +46,10 @@ export class ChangePasswordComponent {
     this.isLoading = true;
     this.authStoreApiService.changePassword(obj)
       .pipe(
-        finalize(() => this.isLoading = false)
+        finalize(() => this.isLoading = false),
+        first()
       )
-      .subscribe( _ => {
+      .subscribe(_ => {
         this.toaster.successfulNotification(Labels.password.successfulChangePassword);
         this.router.navigate([Route.PROFILE])
       }, err => {
