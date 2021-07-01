@@ -3,6 +3,8 @@ import {DiscountsHttpService} from "../../../../../api-services/discounts-http.s
 import {Discount} from "../../../../../shared/models/api/receive/discount";
 import Labels from "../../../../../shared/models/labels/labels.constant";
 import {ToasterCustomService} from "../../../../../services/toaster-custom.service";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogConfirmComponent} from "./dialog-confirm/dialog-confirm.component";
 
 @Component({
   selector: 'app-discount-content',
@@ -20,7 +22,8 @@ export class DiscountContentComponent implements OnInit {
   displayedColumns: string[] = ['offered price', 'starts at', 'ends at', 'delete'];
 
   constructor(private discountService: DiscountsHttpService,
-              private toaster: ToasterCustomService
+              private toaster: ToasterCustomService,
+              public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -36,4 +39,15 @@ export class DiscountContentComponent implements OnInit {
       })
   }
 
+  openDialog(discountId: any) {
+    let dialogRef = this.dialog.open(DialogConfirmComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.deleteDiscount(discountId)
+      }else if(!result){
+       this.dialog.closeAll()
+       }
+    })
+  }
 }
