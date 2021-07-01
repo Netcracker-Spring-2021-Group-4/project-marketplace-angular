@@ -1,6 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {Observable} from 'rxjs';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import {Observable, Subscription} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 import linksMapper from './service/links.mapper';
 import {UserRole} from "../../models/enums/role.enum";
@@ -15,8 +15,8 @@ import {RedirectAuthService} from "../../../services/redirect-auth.service";
   templateUrl: './menu-bar.component.html',
   styleUrls: ['./menu-bar.component.scss']
 })
-export class MenuBarComponent implements OnInit{
-  role : UserRole;
+export class MenuBarComponent implements OnInit, OnDestroy {
+  role: UserRole;
   @ViewChild('drawer') drawer: MatDrawer;
 
   links: MenuLinkConfig;
@@ -26,17 +26,24 @@ export class MenuBarComponent implements OnInit{
       shareReplay()
     );
 
+  subscription: Subscription
+
   constructor(
     private breakpointObserver: BreakpointObserver,
     private roleService: RoleService,
     private redirectAuthService: RedirectAuthService
-  ){}
+  ) {
+  }
 
   ngOnInit() {
-    this.roleService.currentRole$.subscribe(r => {
+    this.subscription = this.roleService.currentRole$.subscribe(r => {
       this.role = r
       this.links = linksMapper(this.role ?? UserRole.ROLE_NO_AUTH_CUSTOMER)
     })
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
   }
 
   closeDrawer(label: string) {
@@ -50,7 +57,7 @@ export class MenuBarComponent implements OnInit{
   }
 
   setAuthRedirect(label: string) {
-    if(label.toUpperCase() === "LOGIN" || label.toUpperCase() === "SIGN UP"){
+    if (label.toUpperCase() === "LOGIN" || label.toUpperCase() === "SIGN UP") {
       const toLogin = label.toUpperCase() === "LOGIN"
       this.redirectAuthService.changeRedirectUrlAndGoAuth(toLogin)
     }

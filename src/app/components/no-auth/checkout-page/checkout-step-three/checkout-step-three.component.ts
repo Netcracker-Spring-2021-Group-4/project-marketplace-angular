@@ -1,5 +1,5 @@
 import {Component, Input, EventEmitter, Output} from '@angular/core';
-import { DatePipe } from '@angular/common';
+import {DatePipe} from '@angular/common';
 import {OrderRequest} from "../../../../shared/models/api/send/order-request.model";
 import {CartInfoResponse} from "../../../../shared/models/api/receive/cart-info-response.model";
 
@@ -9,7 +9,7 @@ import {CartInfoResponse} from "../../../../shared/models/api/receive/cart-info-
   styleUrls: ['./checkout-step-three.component.scss'],
   providers: [DatePipe]
 })
-export class CheckoutStepThreeComponent{
+export class CheckoutStepThreeComponent {
 
   @Input()
   result: OrderRequest
@@ -20,7 +20,8 @@ export class CheckoutStepThreeComponent{
 
   constructor(
     private datePipe: DatePipe
-  ) { }
+  ) {
+  }
 
   getPrettifiedDate(date: string): string {
     return this.datePipe.transform(date, 'dd-MM-YYYY HH:mm:ss') ?? ''

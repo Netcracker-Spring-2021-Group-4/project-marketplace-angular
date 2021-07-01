@@ -8,6 +8,7 @@ import {ActivatedRoute} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
 import {finalize} from "rxjs/operators";
 import {MatTableDataSource} from "@angular/material/table";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-order-details',
@@ -23,8 +24,10 @@ export class OrderDetailsComponent implements OnInit {
   role$: Observable<UserRole>;
   constructor(private courierService: CourierApiService,
               private route: ActivatedRoute,
-              private roleService: RoleService
+              private roleService: RoleService,
+              private titleService: Title
   ) {
+    this.titleService.setTitle("Order Details")
   }
 
   ngOnInit(): void {

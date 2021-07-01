@@ -19,13 +19,13 @@ const mapper = (role: UserRole) => {
     case UserRole.ROLE_PRODUCT_MGR: {
       return {
         main: [list[0], list[1], list[2]],
-        side: [list[10], list[13]]
+        side: [list[8], list[10], list[13]]
       }
     }
     case UserRole.ROLE_ADMIN: {
       return {
         main: [list[0], list[1], list[2], list[4]],
-        side: [list[13]]
+        side: [list[8], list[13]]
       }
     }
     default: {

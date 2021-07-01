@@ -4,7 +4,7 @@ import {AuthStoreApiService} from "../../../api-services/auth-store-http.service
 import {PublicApiService} from "../../../api-services/public-http.service";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {CartInfoResponse} from "../../../shared/models/api/receive/cart-info-response.model";
-import {finalize, switchMap, take} from "rxjs/operators";
+import {finalize, first, switchMap, take} from "rxjs/operators";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {CartManagementService} from "../../../services/cart-management.service";
 import {CartItemModel} from "../../../shared/models/api/send/cart-item.model";
@@ -15,6 +15,7 @@ import {cartInfoToItemsList, equalCartItems, getDifferenceInCarts, sortCartByNam
 import {CheckoutService} from "../../../services/checkout.service";
 import {Router} from "@angular/router";
 import {Route} from "../../../shared/models/enums/route.enum";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-cart-page',
@@ -37,8 +38,11 @@ export class CartPageComponent implements OnInit {
     private redirectAuthService: RedirectAuthService,
     private checkoutService: CheckoutService,
     private router: Router,
-    private toaster: ToasterCustomService
-  ) { }
+    private toaster: ToasterCustomService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle("Cart")
+  }
 
   ngOnInit(): void {
     this.fetchCartInitial()
@@ -50,8 +54,8 @@ export class CartPageComponent implements OnInit {
     )
   }
 
-  removeFromCart($event: {content: CartItemModel, permitProduct: string}) {
-    if(this.prohibitedToAddMoreList.indexOf($event.permitProduct) !== -1) {
+  removeFromCart($event: { content: CartItemModel, permitProduct: string }) {
+    if (this.prohibitedToAddMoreList.indexOf($event.permitProduct) !== -1) {
       this.prohibitedToAddMoreList = this.prohibitedToAddMoreList.filter(p => p !== $event.permitProduct)
     }
     this.changeQuantityThenFetchCart(
@@ -80,9 +84,10 @@ export class CartPageComponent implements OnInit {
     this.publicApiService
       .makeReservation(cartInfoToItemsList(this.cart.content))
       .pipe(
-        finalize(() => this.isLoading = false)
+        finalize(() => this.isLoading = false),
+        first()
       )
-      .subscribe( _ => {
+      .subscribe(_ => {
         this.toaster.successfulNotification(Labels.cart.successfulReservationMade)
         this.checkoutService.setReserved(this.cart)
         this.goToCheckout()
@@ -100,9 +105,10 @@ export class CartPageComponent implements OnInit {
     this.publicApiService
       .cancelReservation(this.checkoutService.cart!.content)
       .pipe(
-        finalize(() => this.isLoading = false)
+        finalize(() => this.isLoading = false),
+        first()
       )
-      .subscribe( _ => {
+      .subscribe(_ => {
         this.toaster.successfulNotification(Labels.cart.successfulReservationRemoved)
         this.checkoutService.removeReservation()
       }, err => {
@@ -110,34 +116,34 @@ export class CartPageComponent implements OnInit {
       })
   }
 
-  private changeQuantityThenFetchCart(obs$: Observable<any>, isAdding= false, productId: string = '') {
+  private changeQuantityThenFetchCart(obs$: Observable<any>, isAdding = false, productId: string = '') {
     obs$
-    .pipe(
-      switchMap(res => {
-        if(isAdding) {
-          const result = res.content
-          const error = res.error
-          if(result && !error) {
-          } else this.toaster.infoNotification(error)
-        }
+      .pipe(
+        switchMap(res => {
+          if (isAdding) {
+            const result = res.content
+            const error = res.error
+            if (result && !error) {
+            } else this.toaster.infoNotification(error)
+          }
 
-        return this.currentRole === UserRole.ROLE_NO_AUTH_CUSTOMER ?
-          this.publicApiService.getCart(this.cartManagementService.localCart)
-          : this.authStoreApiService.getCart()
-      }),
-      take(1)
-    )
-    .subscribe(res => {
-      const cart = res.content
-      const localCartItems = cartInfoToItemsList(this.cart.content)
-      const serverCartItems = cartInfoToItemsList(cart.content)
-      if(equalCartItems(localCartItems, serverCartItems) && isAdding) this.addProductToProhibitedToAdd(productId)
-      this.cart = cart
-      sortCartByName(this.cart)
-      this.setNewLocalCartForNonAuth(cart)
-    }, err => {
-      this.toaster.errorNotification(err.error.message)
-    })
+          return this.currentRole === UserRole.ROLE_NO_AUTH_CUSTOMER ?
+            this.publicApiService.getCart(this.cartManagementService.localCart)
+            : this.authStoreApiService.getCart()
+        }),
+        take(1)
+      )
+      .subscribe(res => {
+        const cart = res.content
+        const localCartItems = cartInfoToItemsList(this.cart.content)
+        const serverCartItems = cartInfoToItemsList(cart.content)
+        if (equalCartItems(localCartItems, serverCartItems) && isAdding) this.addProductToProhibitedToAdd(productId)
+        this.cart = cart
+        sortCartByName(this.cart)
+        this.setNewLocalCartForNonAuth(cart)
+      }, err => {
+        this.toaster.errorNotification(err.error.message)
+      })
   }
 
   private fetchCartInitial() {
@@ -145,20 +151,20 @@ export class CartPageComponent implements OnInit {
     const localCartItems = this.cartManagementService.localCart
     this.roleService.currentRole$
       .pipe(
-        switchMap( role => {
+        switchMap(role => {
           this.currentRole = role
           return role === UserRole.ROLE_NO_AUTH_CUSTOMER ?
             this.publicApiService.getCart(localCartItems)
             : this.authStoreApiService.getCart()
         }),
-        switchMap( cart => {
+        switchMap(cart => {
           this.toaster.infoNotificationList(cart.errors)
-          if(this.currentRole !== UserRole.ROLE_CUSTOMER) return of(cart);
+          if (this.currentRole !== UserRole.ROLE_CUSTOMER) return of(cart);
           this.cartManagementService.emptyLocalCart();
           const serverItems = cartInfoToItemsList(cart.content.content)
-          if(!equalCartItems(serverItems, localCartItems)){
+          if (!equalCartItems(serverItems, localCartItems)) {
             const diff = getDifferenceInCarts(serverItems, localCartItems)
-            if(diff.length > 0) {
+            if (diff.length > 0) {
               return this.authStoreApiService.addToCartListIfPossible(diff)
                 .pipe(switchMap(res => {
                   this.toaster.infoNotificationList(res)
@@ -171,12 +177,12 @@ export class CartPageComponent implements OnInit {
         take(1),
         finalize(() => this.isLoading = false)
       ).subscribe(res => {
-        const cart = res.content
-        this.cart = cart;
-        sortCartByName(this.cart)
-        this.setNewLocalCartForNonAuth(cart)
-      }, err => {
-        this.toaster.errorNotification(err.error.message)
+      const cart = res.content
+      this.cart = cart;
+      sortCartByName(this.cart)
+      this.setNewLocalCartForNonAuth(cart)
+    }, err => {
+      this.toaster.errorNotification(err.error.message)
     })
   }
 
@@ -188,7 +194,7 @@ export class CartPageComponent implements OnInit {
 
 
   private setNewLocalCartForNonAuth(res: CartInfoResponse) {
-    if(this.currentRole === UserRole.ROLE_NO_AUTH_CUSTOMER){
+    if (this.currentRole === UserRole.ROLE_NO_AUTH_CUSTOMER) {
       const newCart = cartInfoToItemsList(res.content)
       this.cartManagementService.setNewCart(newCart)
     }

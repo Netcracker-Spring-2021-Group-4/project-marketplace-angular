@@ -1,4 +1,14 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
@@ -12,17 +22,18 @@ import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {CartItemModel} from "../../../shared/models/api/send/cart-item.model";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {PublicApiService} from "../../../api-services/public-http.service";
-import {forkJoin, Observable} from "rxjs";
+import {forkJoin, Observable, Subscription} from "rxjs";
 import {CompareManagementService} from "../../../services/compare-management.service";
 import {Product} from "../../../shared/models/api/receive/product";
 import {Category} from "../../../shared/models/api/receive/category";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-product-page',
   templateUrl: './product-page.component.html',
   styleUrls: ['./product-page.component.scss']
 })
-export class ProductPageComponent implements OnInit {
+export class ProductPageComponent implements OnInit, OnDestroy {
 
   currentValue: number = 1;
   product: ProductInfo;
@@ -38,6 +49,8 @@ export class ProductPageComponent implements OnInit {
   private readonly CART_STORAGE = 'cart'
   categories: Category[]
 
+  routeEventSubscription: Subscription
+
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
               private discountsService: DiscountsHttpService,
@@ -47,9 +60,10 @@ export class ProductPageComponent implements OnInit {
               private cartService: CartManagementService,
               private toaster: ToasterCustomService,
               private compareService: CompareManagementService,
+              private titleService: Title
   ) {
 
-    router.events.pipe(filter(event => event instanceof NavigationEnd))
+    this.routeEventSubscription = router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((val) => {
         this.ngOnInit()
 
@@ -62,6 +76,10 @@ export class ProductPageComponent implements OnInit {
     if (productId) {
       this.uploadData(productId);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.routeEventSubscription.unsubscribe();
   }
 
   toggleShow() {
@@ -113,6 +131,7 @@ export class ProductPageComponent implements OnInit {
         finalize(() => this.isLoading = false)
       ).subscribe(results => {
       this.product = results[0];
+      this.titleService.setTitle(`${this.product.name}'s page`)
       if (this.product.description == null) {
         this.product.description = '';
       }

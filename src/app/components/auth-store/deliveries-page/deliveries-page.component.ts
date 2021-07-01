@@ -7,6 +7,7 @@ import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {Route} from "../../../shared/models/enums/route.enum";
 import {Moment} from "moment";
 import * as moment from 'moment';
+import {Title} from "@angular/platform-browser";
 
 
 
@@ -27,7 +28,12 @@ export class DeliveriesPageComponent implements OnInit {
 
 
 
-  constructor(private courierService:CourierApiService, private toaster:ToasterCustomService) {
+  constructor(
+    private courierService:CourierApiService,
+    private toaster:ToasterCustomService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle("Deliveries")
     this.dateStart= moment();
 
   }
