@@ -8,6 +8,7 @@ import {Route} from "../../../shared/models/enums/route.enum";
 import {Moment} from "moment";
 import * as moment from 'moment';
 import {Title} from "@angular/platform-browser";
+import {Observable, Subscription} from "rxjs";
 
 
 
@@ -19,7 +20,7 @@ import {Title} from "@angular/platform-browser";
 })
 export class DeliveriesPageComponent implements OnInit {
   dateStart:Moment
-  deliveries: DeliveryModel[];
+  deliveries$: Observable<DeliveryModel[]>;
   displayedColumns: string[] = ['time', 'phoneNumber', 'name', 'address','status','open', 'show'];
 
 
@@ -39,10 +40,7 @@ export class DeliveriesPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.courierService.getDeliveries(this.dateStart.format('YYYY-MM-DD'))
-      .subscribe(deliveryModels => {
-        this.deliveries=deliveryModels;
-      });
+    this.deliveries$ = this.courierService.getDeliveries(this.dateStart.format('YYYY-MM-DD'));
   }
 
 
@@ -65,10 +63,7 @@ export class DeliveriesPageComponent implements OnInit {
   dateValueChange(event: MatDatepickerInputEvent<Moment>) {
     if(event.value!=null){
     let date =event.value.format('YYYY-MM-DD');
-      this.courierService.getDeliveries(date)
-        .subscribe(deliveryModels => {
-          this.deliveries = deliveryModels;
-        });
+    this.deliveries$ = this.courierService.getDeliveries(date);
     }
   }
 

@@ -10,14 +10,13 @@
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
 
+  <div  *ngIf="deliveries$ | async as deliveries">
   <h2 *ngIf="deliveries && deliveries.length==0" >
     It seems you dont have deliveries for this day!
   </h2>
   <div class="table-outer">
   <table mat-table *ngIf="deliveries && deliveries.length>0" [dataSource]="deliveries" class="mat-elevation-z8">
 
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
 
     <ng-container matColumnDef="time">
       <th mat-header-cell *matHeaderCellDef> Timeslot: </th>
@@ -27,7 +26,7 @@
 
     <ng-container matColumnDef="phoneNumber">
       <th mat-header-cell *matHeaderCellDef> Phone number: </th>
-      <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.phoneNumber|phone}} </td>
     </ng-container>
 
     <ng-container matColumnDef="name">
@@ -57,6 +56,10 @@
       <th mat-header-cell *matHeaderCellDef>  </th>
       <td mat-cell *matCellDef="let element" class="button-row" >
         <button mat-raised-button color="primary" class="button-row"
+                *ngIf="element.statusName=='SUBMITTED' "
+                (click)="changeStatus(element.orderId, 'IN_DELIVERY')"
+        >Start delivery</button>
+        <button mat-raised-button color="primary" class="button-row"
                 *ngIf="element.statusName=='IN_DELIVERY' "
                 (click)="changeStatus(element.orderId, 'DELIVERED')"
         >Delivered</button>
@@ -84,5 +87,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  </div>
   </div>
 </div>
