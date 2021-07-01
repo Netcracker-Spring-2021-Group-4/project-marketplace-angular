@@ -6,7 +6,7 @@ import {ProfileModel} from "../../../../shared/models/api/receive/profile.model"
   templateUrl: './profile-page-view.component.html',
   styleUrls: ['./profile-page-view.component.scss']
 })
-export class ProfilePageViewComponent{
+export class ProfilePageViewComponent {
   @Input()
   profile: ProfileModel
   @Input()
@@ -22,7 +22,8 @@ export class ProfilePageViewComponent{
   @Output()
   changePasswordEvent = new EventEmitter<void>();
 
-  constructor() { }
+  constructor() {
+  }
 
   edit() {
     this.viewActiveEvent.emit()

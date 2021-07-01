@@ -1,6 +1,7 @@
 .table-outer {
   overflow-x: auto;
   white-space: nowrap;
+  padding: 10px;
 }
 
 table {
@@ -30,8 +31,8 @@ th, td {
   color: white;
   border-radius: 15px;
 }
-.canceled{
-  background-color: coral;
+.cancelled{
+  background-color: deeppink;
   color: white;
   border-radius: 15px;
 }
@@ -45,6 +46,7 @@ th, td {
   color: white;
   border-radius: 15px;
 }
+
 
 .table-icon {
   width: 25px;

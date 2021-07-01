@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DeEnumPipe implements PipeTransform {
 
   transform(value: string, ...args: unknown[]): string {
-    return value.replace('_', ' ').toLowerCase();
+    return value.replace('_', ' ');
   }
 
 }

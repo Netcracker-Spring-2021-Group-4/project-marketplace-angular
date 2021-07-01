@@ -9,7 +9,8 @@ import {CheckoutService} from "../services/checkout.service";
 @Injectable({providedIn: 'root'})
 export class AuthStoreGuard implements CanActivate {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   public canActivate(
     route: ActivatedRouteSnapshot,
@@ -26,14 +27,15 @@ export class AuthStoreGuard implements CanActivate {
 @Injectable({providedIn: 'root'})
 export class AuthStoreWoCourierGuard implements CanActivate {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
     if (JwtTokenService.role !== UserRole.ROLE_NO_AUTH_CUSTOMER &&
-        JwtTokenService.role !== UserRole.ROLE_COURIER) {
+      JwtTokenService.role !== UserRole.ROLE_COURIER) {
       return true;
     }
     this.router.navigate([Route.LOGIN]);
@@ -44,7 +46,8 @@ export class AuthStoreWoCourierGuard implements CanActivate {
 @Injectable({providedIn: 'root'})
 export class CustomerGuard implements CanActivate {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   public canActivate(
     route: ActivatedRouteSnapshot,
@@ -61,7 +64,8 @@ export class CustomerGuard implements CanActivate {
 @Injectable({providedIn: 'root'})
 export class NonAuthCustomerGuard implements CanActivate {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   public canActivate(
     route: ActivatedRouteSnapshot,
@@ -76,9 +80,29 @@ export class NonAuthCustomerGuard implements CanActivate {
 }
 
 @Injectable({providedIn: 'root'})
+export class AuthCustomerAndCourierGuard implements CanActivate {
+
+  constructor(private router: Router) {
+  }
+
+  public canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    const permitted = [UserRole.ROLE_CUSTOMER, UserRole.ROLE_COURIER]
+    if (permitted.indexOf(JwtTokenService.role) !== -1) {
+      return true;
+    }
+    this.router.navigate([Route.LOGIN]);
+    return false;
+  }
+}
+
+@Injectable({providedIn: 'root'})
 export class CourierGuard implements CanActivate {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   public canActivate(
     route: ActivatedRouteSnapshot,
@@ -92,10 +116,12 @@ export class CourierGuard implements CanActivate {
   }
 }
 
+
 @Injectable({providedIn: 'root'})
 export class AllButCourierGuard implements CanActivate {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   public canActivate(
     route: ActivatedRouteSnapshot,
@@ -113,7 +139,8 @@ export class AllButCourierGuard implements CanActivate {
 @Injectable({providedIn: 'root'})
 export class AdminGuard implements CanActivate {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   public canActivate(
     route: ActivatedRouteSnapshot,
@@ -130,7 +157,8 @@ export class AdminGuard implements CanActivate {
 @Injectable({providedIn: 'root'})
 export class AuthNotAdminGuard implements CanActivate {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   public canActivate(
     route: ActivatedRouteSnapshot,
@@ -148,7 +176,8 @@ export class AuthNotAdminGuard implements CanActivate {
 @Injectable({providedIn: 'root'})
 export class ManagerPlusGuard implements CanActivate {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   public canActivate(
     route: ActivatedRouteSnapshot,
@@ -168,7 +197,8 @@ export class ClientsGuard implements CanActivate {
 
   constructor(
     private router: Router
-  ) {}
+  ) {
+  }
 
   public canActivate(
     route: ActivatedRouteSnapshot,
@@ -190,7 +220,8 @@ export class CheckoutGuard implements CanActivate {
   constructor(
     private router: Router,
     private checkoutService: CheckoutService
-  ) {}
+  ) {
+  }
 
   public canActivate(
     route: ActivatedRouteSnapshot,
@@ -198,7 +229,7 @@ export class CheckoutGuard implements CanActivate {
   ): boolean {
     const permitted = [UserRole.ROLE_NO_AUTH_CUSTOMER, UserRole.ROLE_CUSTOMER]
     const isReserved = this.checkoutService.isReserved
-    if(!isReserved) {
+    if (!isReserved) {
       this.router.navigate([Route.CART])
       return false;
     }

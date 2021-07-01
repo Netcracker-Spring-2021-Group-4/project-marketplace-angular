@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {CartInfoResponse} from "../shared/models/api/receive/cart-info-response.model";
-import {finalize} from "rxjs/operators";
+import {finalize, first} from "rxjs/operators";
 import Labels from "../shared/models/labels/labels.constant";
 import {PublicApiService} from "../api-services/public-http.service";
 import {ToasterCustomService} from "./toaster-custom.service";
@@ -14,7 +14,8 @@ export class CheckoutService {
   constructor(
     private publicApiService: PublicApiService,
     private toaster: ToasterCustomService
-  ) {}
+  ) {
+  }
 
   get isReserved() {
     return this.cart != null;
@@ -28,13 +29,14 @@ export class CheckoutService {
     this.cart = null
   }
 
-  cancelReservationOnline(finalizeCall: ()=> void) {
+  cancelReservationOnline(finalizeCall: () => void) {
     this.publicApiService
       .cancelReservation(this.cart!.content)
       .pipe(
-        finalize(finalizeCall)
+        finalize(finalizeCall),
+        first()
       )
-      .subscribe( _ => {
+      .subscribe(_ => {
         this.toaster.successfulNotification(Labels.cart.successfulReservationRemoved)
         this.removeReservation()
       }, err => {
