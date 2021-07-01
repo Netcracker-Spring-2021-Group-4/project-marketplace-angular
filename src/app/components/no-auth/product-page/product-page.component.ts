@@ -38,7 +38,6 @@ export class ProductPageComponent implements OnInit {
   private readonly CART_STORAGE = 'cart';
   categories: Category[];
   currentRole: UserRole;
-  removeValue: number = 1;
 
   constructor(private productService: ProductsHttpService,
               private publicApiService: PublicApiService,
@@ -72,6 +71,7 @@ export class ProductPageComponent implements OnInit {
   }
 
   addToCart(id: string) {
+    this.getItem()
     if (this.product.inStock == 0) {
       this.toaster.errorNotification(Labels.cart.outOfStock);
     } else {
@@ -86,7 +86,7 @@ export class ProductPageComponent implements OnInit {
   removeFromCart(): void {
     this.getItem()
       this.cartService.removeFromCart({
-        quantity: this.removeValue,
+        quantity: this.currentValue,
         productId: this.product.productId
       })
   }

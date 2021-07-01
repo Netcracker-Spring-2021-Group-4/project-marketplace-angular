@@ -3,19 +3,24 @@
   font-size: 20px;
   margin: 110px auto 0 auto;
 }
-br{
+
+br {
   display: none;
 }
 
 .wrapper {
   display: flex;
 }
-.info-block{
+
+.info-block {
+  margin-top: -50px;
   min-width: 525px;
 }
-.rrr{
+
+.rrr {
   white-space: pre-line;
 }
+
 .name {
   font-weight: bold;
   font-size: 36px;
@@ -24,19 +29,24 @@ br{
   margin-bottom: 25px;
   line-height: normal;
 }
-.product-id{
+
+.product-id {
   cursor: pointer;
 }
-.product-id:hover{
+
+.product-id:hover {
   color: #1c00ff;
 }
+
 img {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
   width: 350px;
   height: 350px;
   margin-right: 50px;
   margin-left: -50px;
+  margin-top: 60px;
 }
-
 
 .new-price {
   padding-left: 15px;
@@ -49,66 +59,70 @@ input {
   max-width: 60px;
 }
 
-//.action {
-//  font-size: 16px;
-//  width: 100px;
-//  height: 50px;
-//  margin: 25px 50px 15px 0;
-//  text-align: center;
-//  padding: inherit;
-//}
-
 .buttons {
   width: 100%;
   display: flex;
 }
-//.remove{
-//  width: 150px;
-//}
-//.edit {
-//  margin-right: auto;
-//}
 
 .warn {
-  margin-top: 10px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  font-size: 18px;
 }
 
 .warning {
   color: #ff0000;
 }
 
-.warning-avail {
-  color: #00075a;
+.hurry {
+  line-height: 25px;
+  width: fit-content;
 }
 
-.hurry{
-  line-height: 25px;
-  width:fit-content;
-}
-.description:after{
+.description:after {
   content: '';
   display: block;
 }
-//.current{
-//  margin-left: 55px;
-//}
 
-button{
-  margin-bottom: 20px;
+
+button {
+  margin-bottom: 25px;
+  width: 150px;
+  margin-right: 25px;
+
 }
 
-@media screen and (max-width: 890px){
-  .product-id{
+.remove {
+  margin-left: 25px;
+}
+
+.add-delete {
+  display: flex;
+  align-items: center;
+}
+
+.value {
+  margin-top: -25px;
+}
+.editing{
+  margin-top: 35px;
+}
+.edit-go{
+  margin-left: 65px;
+}
+
+@media screen and (max-width: 890px) {
+  .product-id {
     font-size: 18px;
   }
-  .info-block{
+  .info-block {
     min-width: 350px;
   }
   .name {
     text-align: center;
     font-weight: bold;
     font-size: 26px;
-    margin-top: 10px;
+    margin-top: 60px;
     margin-bottom: 40px;
   }
   .container {
@@ -116,11 +130,9 @@ button{
     margin-top: 30px;
   }
   img {
-    margin-left: 30px;
-    margin-right: auto;
     width: 300px;
     height: 300px;
-    margin-bottom: 10px;
+    margin: 10px auto 10px 30px;
   }
   .wrapper {
     display: block;
@@ -129,101 +141,129 @@ button{
     margin-top: 5px;
   }
 
-  .buttons {
-    margin-top: 35px;
-    display: flex;
-    justify-content: space-between;
-  }
 
-  .editing {
-    margin-top: 15px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-  .edit {
-    margin: 0;
-  }
-  br{
+  br {
     display: flex;
   }
   .buttons {
+    margin-left: 0;
+    margin-right: 0;
     margin-top: 35px;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
+
+  .warn {
+    height: 0;
+    text-align: center;
+  }
+
+  .editing {
+    margin-right: 0;
+    margin-top: 35px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
   .edit {
+    margin-right: 10px;
+    margin-left: 10px;
+    text-align: center;
     margin-bottom: 25px;
-    width: 280px;
+    width: 140px;
   }
 }
+
 .products {
   margin-right: 0;
 }
+
 @media screen and (max-width: 375px) {
-  .hurry{
+  .hurry {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
   }
-  .product-id{
+
+  .product-id {
     font-size: 18px;
   }
-  br{
+
+  br {
     display: flex;
   }
-  .info-block{
+
+  .info-block {
     min-width: 355px;
     max-width: 370px;
-
   }
+
   .name {
     text-align: center;
     font-weight: bold;
     font-size: 26px;
-    margin-top: 10px;
+    margin-top: 65px;
     margin-bottom: 40px;
     width: auto;
   }
+
   .container {
     max-width: 375px;
     margin-top: 30px;
   }
+
   img {
-    margin-left: 30px;
-    margin-right: auto;
     width: 300px;
     height: 300px;
-    margin-bottom: 10px;
+    margin: 0 auto 10px 30px;
   }
+
   .wrapper {
     display: block;
   }
+
   input {
     margin-top: 5px;
   }
+  .remove {
+    margin-left: 25px;
+    width: 140px;
+    margin-right: 0;
+  }
+  .add-but {
+    width: 100px;
+  }
 
   .buttons {
+    margin-left: 0;
+    margin-right: 0;
     margin-top: 35px;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .warn{
+  .warn {
     height: 0;
     text-align: center;
   }
+
   .editing {
-    margin-top: 15px;
+    margin-right: 0;
+    margin-top: 25px;
     width: 100%;
     display: flex;
     justify-content: center;
   }
+
   .edit {
+    margin-right: 10px;
+    margin-left: 10px;
+    text-align: center;
     margin-bottom: 25px;
-    width: 280px;
+    width: 140px;
   }
 
 }
