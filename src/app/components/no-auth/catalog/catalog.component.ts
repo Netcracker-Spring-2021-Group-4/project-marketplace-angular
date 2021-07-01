@@ -2,11 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {Product} from "../../../shared/models/api/receive/product";
 import {CatalogPublicHttpService} from "../../../api-services/catalog-public-http.service";
-import { PageEvent} from "@angular/material/paginator";
+import {PageEvent} from "@angular/material/paginator";
 import {FilterProperties} from "../../../shared/models/api/receive/filter-props";
 import {ProductFilterModel} from "../../../shared/models/api/send/product-filter.model";
 import {finalize} from "rxjs/operators";
-import {forkJoin} from "rxjs";
+import {forkJoin, Subscription} from "rxjs";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {Title} from "@angular/platform-browser";
@@ -20,12 +20,14 @@ export class CatalogComponent implements OnInit {
 
   formGroup: FormGroup;
   length: number
-  products: Product[] = []
+  products: Product[]
   filterProps: FilterProperties
   role: UserRole
   isLoading: boolean;
   pageIndex: number;
   pageSize: number;
+
+  private subscription$: Subscription;
 
 
   constructor(
@@ -35,7 +37,7 @@ export class CatalogComponent implements OnInit {
   ) {
     this.titleService.setTitle("Catalog")
     this.formGroup = productService.catalogSearchForm();
-    this.pageSize=9;
+    this.pageSize = 9;
     this.filterProps = new FilterProperties({categories: []});
     this.roleService.currentRole$.subscribe(response => {
       this.role = response
@@ -48,37 +50,46 @@ export class CatalogComponent implements OnInit {
     let filterProperties = this.productService.getFilterProperties();
 
     this.isLoading = true;
-    forkJoin([productPage, filterProperties])
+    this.subscription$ = forkJoin([productPage, filterProperties])
       .pipe(
         finalize(() => this.isLoading = false)
       ).subscribe(results => {
-      this.products = results[0].content
-      this.length = results[0].totalItems
-      this.filterProps = results[1]
+        this.products = results[0].content
+        this.length = results[0].totalItems
+        this.filterProps = results[1]
 
-    }, error => {
-      console.log({error});
-    });
+      }, error => {
+        console.log({error});
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription$.unsubscribe();
+
   }
 
 
   handlePageChange($event: PageEvent) {
     let searchCriteria = this.setSearchCriteria();
-    this.productService.postProductsPage(searchCriteria, $event.pageIndex, $event.pageSize)
+    this.subscription$.unsubscribe()
+    this.subscription$= this.productService.postProductsPage(searchCriteria, $event.pageIndex, $event.pageSize)
       .subscribe(response => {
         this.products = response.content;
         this.length = response.totalItems;
-        this.pageIndex=$event.pageIndex;
-      });    }
+        this.pageIndex = $event.pageIndex;
+      });
+  }
 
   updatePage() {
     let searchCriteria = this.setSearchCriteria();
-    this.productService.postProductsPage(searchCriteria, 0, this.pageSize)
+    this.subscription$.unsubscribe()
+    this.subscription$ = (this.productService.postProductsPage(searchCriteria, 0, this.pageSize)
       .subscribe(response => {
         this.products = response.content;
         this.length = response.totalItems;
-        this.pageIndex=0;
-      });
+        this.pageIndex = 0;
+      }))
+
   }
 
   private setSearchCriteria(): ProductFilterModel {
