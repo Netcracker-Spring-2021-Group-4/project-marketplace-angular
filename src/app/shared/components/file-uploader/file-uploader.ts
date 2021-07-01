@@ -39,9 +39,7 @@ export class FileUploader {
         const img = new Image();
         img.src = reader.result as string;
         img.onload = () => {
-          if (!this.updatedFile.isHeavier && this.updatedFile.isNotPng && this.updatedFile.isWrongResolution) {
-            this.updatedFile.imgUrl = reader.result;
-          }
+          this.updatedFile.imgUrl = reader.result;
           this.updatedFile.isWrongResolution = img.height !== 512 && img.width !== 512;
           this.correctFile.emit(this.updatedFile);
         }
