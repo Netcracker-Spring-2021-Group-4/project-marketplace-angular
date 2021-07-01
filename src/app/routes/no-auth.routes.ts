@@ -50,7 +50,7 @@ const NoAuthRoutes: Routes = [
   {
     path: Route.COMPARE,
     component: ComparePageComponent,
-    canActivate: [ClientsGuard]
+    canActivate: [AllButCourierGuard]
   },
   {
     path: Route.CART,
