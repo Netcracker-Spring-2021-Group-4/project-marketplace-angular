@@ -9,8 +9,9 @@
       appearance="fill"
       class="name-input mr-auto ml-auto mb-3">
       <mat-label>Product Name</mat-label>
-      <input matInput formControlName="productName">
-      <mat-error *ngIf="form.get('productName')?.invalid">{{productNameErrorMessage}}</mat-error>
+      <input matInput formControlName="productName" required>
+        <mat-error *ngIf="form.get('productName')?.hasError('required')">{{enterValueErrorMessage}}</mat-error>
+        <mat-error *ngIf="form.get('productName')?.hasError('pattern')">{{productNameErrorMessage}}</mat-error>
     </mat-form-field>
     <mat-form-field
       appearance="fill"
@@ -27,8 +28,12 @@
         type='text'
         mask="separator.2"
         formControlName="price"
+        required
       />
-      <mat-error *ngIf="form.get('price')?.invalid">{{priceErrorMessage}}</mat-error>
+
+      <mat-error *ngIf="form.get('price')?.hasError('required')">{{enterValueErrorMessage}}</mat-error>
+      <mat-error *ngIf="form.get('price')?.hasError('min')">{{minPriceErrorMessage}}</mat-error>
+      <mat-error *ngIf="form.get('price')?.hasError('max')">{{maxPriceErrorMessage}}</mat-error>
     </mat-form-field>
     <mat-form-field
       appearance="fill"
@@ -38,21 +43,25 @@
              formControlName="inStock"
              type="text"
              mask="separator.0"
-             >
-      <mat-error *ngIf="form.get('inStock')?.invalid">{{quantityErrorMessage}}</mat-error>
+             required
+      >
+      <mat-error *ngIf="form.get('inStock')?.hasError('min')">{{quantityErrorMessage}}</mat-error>
+      <mat-error *ngIf="form.get('inStock')?.hasError('required')">{{enterValueErrorMessage}}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill" class="mb-3">
       <mat-label>Choose category</mat-label>
-      <mat-select  formControlName="categoryId">
+      <mat-select  formControlName="categoryId" required>
         <mat-option *ngFor="let category of categories" [value]="category.categoryId">
           {{category.categoryName| prettyCategory}}
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="form.get('categoryId')?.hasError('required')">{{enterValueErrorMessage}}</mat-error>
     </mat-form-field>
 
     <app-file-uploader (correctFile)="getFile($event)"
                        class="correct-file"
                        [form]="form"
+
     >
     </app-file-uploader>
     <div class="error">
