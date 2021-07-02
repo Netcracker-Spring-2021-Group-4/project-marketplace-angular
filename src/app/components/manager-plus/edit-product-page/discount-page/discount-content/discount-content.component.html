@@ -8,12 +8,12 @@
 
   <ng-container matColumnDef="starts at">
     <th mat-header-cell *matHeaderCellDef>Starts at</th>
-    <td mat-cell *matCellDef="let discount"> {{discount.startsAt | date:'MMM d, y, hh:mm'}} </td>
+    <td mat-cell *matCellDef="let discount"> {{discount.startsAt | date:'MM/dd/yyyy HH:mm'}} </td>
   </ng-container>
 
   <ng-container matColumnDef="ends at">
     <th mat-header-cell *matHeaderCellDef>Ends at</th>
-    <td mat-cell *matCellDef="let discount"> {{discount.endsAt | date:'MMM d, y, hh:mm'}}
+    <td mat-cell *matCellDef="let discount"> {{discount.endsAt | date:'MM/dd/yyyy HH:mm'}}
     </td>
   </ng-container>
 
