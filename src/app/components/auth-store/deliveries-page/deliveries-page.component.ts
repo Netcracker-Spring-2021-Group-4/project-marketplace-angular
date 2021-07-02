@@ -7,6 +7,8 @@ import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {Route} from "../../../shared/models/enums/route.enum";
 import {Moment} from "moment";
 import * as moment from 'moment';
+import {Title} from "@angular/platform-browser";
+import {Observable, Subscription} from "rxjs";
 
 
 
@@ -18,7 +20,7 @@ import * as moment from 'moment';
 })
 export class DeliveriesPageComponent implements OnInit {
   dateStart:Moment
-  deliveries: DeliveryModel[];
+  deliveries$: Observable<DeliveryModel[]>;
   displayedColumns: string[] = ['time', 'phoneNumber', 'name', 'address','status','open', 'show'];
 
 
@@ -27,16 +29,18 @@ export class DeliveriesPageComponent implements OnInit {
 
 
 
-  constructor(private courierService:CourierApiService, private toaster:ToasterCustomService) {
+  constructor(
+    private courierService:CourierApiService,
+    private toaster:ToasterCustomService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle("Deliveries")
     this.dateStart= moment();
 
   }
 
   ngOnInit(): void {
-    this.courierService.getDeliveries(this.dateStart.format('YYYY-MM-DD'))
-      .subscribe(deliveryModels => {
-        this.deliveries=deliveryModels;
-      });
+    this.deliveries$ = this.courierService.getDeliveries(this.dateStart.format('YYYY-MM-DD'));
   }
 
 
@@ -59,10 +63,7 @@ export class DeliveriesPageComponent implements OnInit {
   dateValueChange(event: MatDatepickerInputEvent<Moment>) {
     if(event.value!=null){
     let date =event.value.format('YYYY-MM-DD');
-      this.courierService.getDeliveries(date)
-        .subscribe(deliveryModels => {
-          this.deliveries = deliveryModels;
-        });
+    this.deliveries$ = this.courierService.getDeliveries(date);
     }
   }
 

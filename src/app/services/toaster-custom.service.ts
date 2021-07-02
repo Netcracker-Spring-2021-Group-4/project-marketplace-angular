@@ -11,14 +11,15 @@ export class ToasterCustomService {
 
   constructor(
     private toaster: Toaster
-  ){}
+  ) {
+  }
 
   infoNotification(text: string) {
     this.notify({text, caption: Labels.caption.info}, 'primary')
   }
 
   infoNotificationList(infos: string[]) {
-    for(let info of infos) {
+    for (let info of infos) {
       this.infoNotification(info)
     }
   }
@@ -42,8 +43,8 @@ export class ToasterCustomService {
 }
 
 export class NotificationContent {
-  text : string
-  caption : string
+  text: string
+  caption: string
 
   constructor(init: Partial<NotificationContent>) {
     Object.assign(this, init);

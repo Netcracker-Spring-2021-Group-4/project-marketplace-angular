@@ -8,7 +8,7 @@ import {Moment} from "moment/moment";
   templateUrl: './checkout-step-two.component.html',
   styleUrls: ['./checkout-step-two.component.scss']
 })
-export class CheckoutStepTwoComponent{
+export class CheckoutStepTwoComponent {
 
   @Input()
   timeslots: TimeSlotModelFront[]
@@ -22,7 +22,8 @@ export class CheckoutStepTwoComponent{
   minDate = new Date();
   selectedDate: string
 
-  constructor() { }
+  constructor() {
+  }
 
   dateChanged($event: any) {
     this.secondStepForm.get('deliverySlot')!.setValue(null);

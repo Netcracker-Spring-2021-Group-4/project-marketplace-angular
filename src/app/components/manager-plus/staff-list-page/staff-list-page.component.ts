@@ -8,6 +8,7 @@ import {StaffSearchHttpService} from "../../../api-services/staff-search-http.se
 import {EagerContentPage} from "../../../shared/models/api/receive/cotent-page.model";
 import {PageEvent} from "@angular/material/paginator";
 import {ProdMgrService} from "../services/prod-mgr.service";
+import {Title} from "@angular/platform-browser";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 
 @Component({
@@ -21,8 +22,12 @@ export class StaffListPageComponent implements OnInit {
   contentPage ?: EagerContentPage<ProfileModel>;
   selectedPage: number;
 
-  constructor(private mgrFormService: ProdMgrService, private staffSearch: StaffSearchHttpService,
-              private toasterService : ToasterCustomService) {
+  constructor(
+    private mgrFormService: ProdMgrService,
+    private staffSearch: StaffSearchHttpService,
+    private titleService: Title, private toasterService : ToasterCustomService
+  ) {
+    this.titleService.setTitle("Staff")
     this.formControlsGroup = mgrFormService.staffSearchForm();
     this.selectedPage = 0;
   }

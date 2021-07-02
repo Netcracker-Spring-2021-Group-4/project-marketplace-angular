@@ -19,13 +19,13 @@
     <app-products  [products]="products"
                    [categories]="filterProps.categories"
                    [role]="role"></app-products>
-    <div *ngIf="products.length==0 && !isLoading">
+    <div *ngIf="products && products.length==0 && !isLoading">
       <h2 class="text-center">Ooops.. It seems we can`t find products for you!</h2>
     </div>
 
-    <div cass="paginator">
+    <div>
       <mat-paginator
-        *ngIf = "products.length>0"
+        *ngIf = "products && products.length>0"
         [pageIndex]="pageIndex"
         [length]="length"
         [pageSizeOptions]="[9, 12, 24]"

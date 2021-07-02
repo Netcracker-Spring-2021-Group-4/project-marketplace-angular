@@ -6,7 +6,7 @@ import {CartProductInfo} from "../../../shared/models/api/receive/cart-product-i
   templateUrl: './product-cart-order-card.component.html',
   styleUrls: ['./product-cart-order-card.component.scss']
 })
-export class ProductCartOrderCardComponent{
+export class ProductCartOrderCardComponent {
 
   @Input()
   product: CartProductInfo

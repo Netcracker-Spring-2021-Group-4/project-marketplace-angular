@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {UserAuthFormService} from "../../../no-auth/services/user-auth-form.service";
 import {FormGroup} from "@angular/forms";
 import {AuthStoreApiService} from "../../../../api-services/auth-store-http.service";
 import {ValidationMessages} from "../../../../shared/models/labels/validation.message";
-import {finalize} from "rxjs/operators";
+import {finalize, first} from "rxjs/operators";
 import Labels from "../../../../shared/models/labels/labels.constant";
 import {Router} from "@angular/router";
 import {Route} from "../../../../shared/models/enums/route.enum";
 import {ToasterCustomService} from "../../../../services/toaster-custom.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-change-password',
@@ -23,12 +24,15 @@ export class ChangePasswordComponent {
   passwordDontMatchMessage = ValidationMessages.passwordDontMatch
   passwordsAreTheSameMessage = ValidationMessages.passwordsAreTheSame
 
+
   constructor(
     private userAuthFormService: UserAuthFormService,
     private authStoreApiService: AuthStoreApiService,
     private toaster: ToasterCustomService,
-    private router: Router
+    private router: Router,
+    private titleService: Title
   ) {
+    this.titleService.setTitle("Change password")
     this.form = this.userAuthFormService.changePasswordForm();
   }
 
@@ -42,9 +46,10 @@ export class ChangePasswordComponent {
     this.isLoading = true;
     this.authStoreApiService.changePassword(obj)
       .pipe(
-        finalize(() => this.isLoading = false)
+        finalize(() => this.isLoading = false),
+        first()
       )
-      .subscribe( _ => {
+      .subscribe(_ => {
         this.toaster.successfulNotification(Labels.password.successfulChangePassword);
         this.router.navigate([Route.PROFILE])
       }, err => {

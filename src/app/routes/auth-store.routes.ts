@@ -12,7 +12,7 @@ import {
 import {ChangePasswordComponent} from "../components/auth-store/profile-page/change-password/change-password.component";
 import {OrderDetailsComponent} from "../components/auth-store/order-details/order-details.component";
 
-const AuthStoreRoutes : Routes = [
+const AuthStoreRoutes: Routes = [
   {
     path: Route.AUCTIONS,
     component: AuctionListPageComponent,

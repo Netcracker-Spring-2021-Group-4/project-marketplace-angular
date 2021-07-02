@@ -9,7 +9,7 @@ import {UserUpdateModel} from "../../../../shared/models/api/send/user-update.mo
   templateUrl: './profile-page-form.component.html',
   styleUrls: ['./profile-page-form.component.scss']
 })
-export class ProfilePageFormComponent{
+export class ProfilePageFormComponent {
   @Input()
   form: FormGroup;
   @Input()
@@ -54,22 +54,22 @@ export class ProfilePageFormComponent{
   ]
 
   submit() {
-    if(this.isStaffCreateRoute) this.staffCreateEvent.emit(this.form.value)
+    if (this.isStaffCreateRoute) this.staffCreateEvent.emit(this.form.value)
     else if (this.isStaffEditRoute) {
       const obj = this.form.value
       delete obj.status
-      if(!obj.phoneNumber) delete obj.phoneNumber;
+      if (!obj.phoneNumber) delete obj.phoneNumber;
       obj.email = this.emailValue
       this.staffEditEvent.emit(obj)
     } else if (this.isCustomerProfileRoute) {
       const obj = this.form.value
       obj.email = this.emailValue
-      if(!obj.phoneNumber) delete obj.phoneNumber;
+      if (!obj.phoneNumber) delete obj.phoneNumber;
       this.customerEditEvent.emit(obj)
     }
   }
 
-  get emailValue() : string {
+  get emailValue(): string {
     return this.form.get('email')!.value
   }
 

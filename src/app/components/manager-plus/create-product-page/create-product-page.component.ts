@@ -11,6 +11,7 @@ import {ProductManagerFormService} from "../services/product-manager-form.servic
 import {ValidFile} from "../../../shared/components/file-uploader/file-uploader";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {CategoryInfo} from "../../../shared/models/api/receive/category-info";
+import {Title} from "@angular/platform-browser";
 
 
 @Component({
@@ -21,7 +22,7 @@ import {CategoryInfo} from "../../../shared/models/api/receive/category-info";
 
 
 export class CreateProductPageComponent implements OnInit, OnDestroy {
-  imgUrl: string | undefined
+  imgUrl: string | ArrayBuffer | null | undefined
   form: FormGroup
   selectedFile?: File
   categories: CategoryInfo[]
@@ -42,7 +43,9 @@ export class CreateProductPageComponent implements OnInit, OnDestroy {
     private productManagerFormService: ProductManagerFormService,
     private managerApiService: ManagerApiService,
     private toaster: ToasterCustomService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle("Create product")
     this.form = this.productManagerFormService.createProductForm();
   }
 

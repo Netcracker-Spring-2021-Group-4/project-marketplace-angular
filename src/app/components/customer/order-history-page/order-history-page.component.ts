@@ -4,6 +4,7 @@ import {OrderHttpService} from "../../../api-services/order-http.service";
 import {CustomerFormService} from "../services/customer-form.service";
 import {FormGroup} from "@angular/forms";
 import {OrderStatus} from "../../../shared/models/enums/order-status";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-order-history-page',
@@ -16,7 +17,12 @@ export class OrderHistoryPageComponent implements OnInit {
   private allOrders: Array<CustomerOrderModel>;
   orderForm: FormGroup;
 
-  constructor(private orderHttp: OrderHttpService, private customerForms: CustomerFormService) {
+  constructor(
+    private orderHttp: OrderHttpService,
+    private customerForms: CustomerFormService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle("Order history")
     this.orderForm = customerForms.orderFilterForm();
   }
 
