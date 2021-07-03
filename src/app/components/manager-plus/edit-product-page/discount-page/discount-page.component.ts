@@ -115,6 +115,7 @@ export class DiscountPageComponent implements OnInit, OnDestroy {
   }
 
   public submit(): void {
+    this.isLoading = true;
     const result = this.discountForm.value;
     result.startsAt = addTimeToDate(result.startsAt, result.timeStart);
     result.endsAt = addTimeToDate(result.endsAt, result.timeEnd);
@@ -122,7 +123,7 @@ export class DiscountPageComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.discountService.createDiscount(this.product.productId, result)
       .pipe(finalize (() => {
         this.isLoading = false;
-        this.discountForm.markAsUntouched();
+
         this.discountForm.get('timeStart')?.patchValue('03:00');
         this.discountForm.get('timeEnd')?.patchValue('03:00');
       })).subscribe(
@@ -132,6 +133,7 @@ export class DiscountPageComponent implements OnInit, OnDestroy {
       }, err => {
         this.toaster.errorNotification(err.error.message);
       }));
+    this.discountForm.reset()
   }
 
 }

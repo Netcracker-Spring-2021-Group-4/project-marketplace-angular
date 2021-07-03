@@ -85,7 +85,7 @@
           </button>
           <button class=" create"
                   mat-raised-button color="primary"
-                  type="reset"
+                  type="submit"
                   [disabled]="discountForm.invalid || discountForm.untouched ||isLoading"
                   (click) = submit()
           >
@@ -103,7 +103,7 @@
       >
       <div class="product-info">
         <p class="fs-5 fst-italic">{{product.name}}</p>
-        <p class="fs-5"> Price: {{product.price | customCurrency}}</p>
+        <p class="fs-5"><span class="font-monospace">Price: </span> {{product.price | customCurrency}}</p>
       </div>
     </div>
   </div>
