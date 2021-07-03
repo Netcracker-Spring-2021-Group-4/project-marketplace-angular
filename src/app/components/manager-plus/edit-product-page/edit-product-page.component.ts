@@ -23,7 +23,7 @@ import {Title} from "@angular/platform-browser";
 export class EditProductPageComponent implements OnInit, OnDestroy {
 
   imgUrl: string | undefined | ArrayBuffer | null;
-  selectedFile: File | undefined
+  selectedFile: File | undefined;
   isHeavier?: boolean = false;
   isChange?: boolean = false;
   isNotPng?: boolean = false;
@@ -67,7 +67,6 @@ export class EditProductPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.form = this.pictureForm();
     const productId = this.route.snapshot.paramMap.get('productId');
     if(productId){
       this.subscriptions.push(this.productService.getProduct(productId).pipe(finalize(() => {
@@ -87,18 +86,12 @@ export class EditProductPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  public pictureForm(): FormGroup {
-    return this.formBuilder.group({
-      file: file()
-    })
-  }
-
-  private initForm() {
+   private initForm() {
     this.form = this.formBuilder.group({
       productName: new FormControl(this.product.name, [
           Validators.required,
           Validators.pattern(productNameRegExp)
-        ]),
+      ]),
       description: new FormControl(this.product.description),
       inStock: new FormControl(this.product.inStock, [
         Validators.required,
@@ -113,6 +106,7 @@ export class EditProductPageComponent implements OnInit, OnDestroy {
       categoryId: new FormControl(this.product.categoryId, [Validators.required]),
       file: new FormControl(this.product.imageUrl)
     })
+     this.form.controls['file'].setValue('');
   }
 
   public getCategories(): void {
