@@ -5,7 +5,6 @@ import {finalize} from "rxjs/operators";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {ManagerApiService} from "../../../api-services/manager-http.service";
 import {Subscription} from "rxjs";
-import {MatSelectChange} from "@angular/material/select";
 
 import {ProductManagerFormService} from "../services/product-manager-form.service";
 import {ValidFile} from "../../../shared/components/file-uploader/file-uploader";
@@ -35,8 +34,10 @@ export class CreateProductPageComponent implements OnInit, OnDestroy {
   fileWeightErrorMessage = ValidationMessages.weight;
   fileResolutionErrorMessage = ValidationMessages.resolution;
   productNameErrorMessage = ValidationMessages.productName
+  enterValueErrorMessage = ValidationMessages.enterValue
   quantityErrorMessage = ValidationMessages.quantity
-  priceErrorMessage = ValidationMessages.price
+  minPriceErrorMessage = ValidationMessages.minPrice
+  maxPriceErrorMessage = ValidationMessages.maxPrice
   private subscriptions: Subscription[] = []
 
   constructor(
@@ -69,15 +70,17 @@ export class CreateProductPageComponent implements OnInit, OnDestroy {
     this.form.patchValue({price: this.form.get('price')?.value * 100})
     const result = this.form.value
     if (this.selectedFile) {
-      this.managerApiService.createProduct(this.selectedFile, result)
-        .pipe(
-          finalize(() => this.isLoading = false)
-        )
-        .subscribe(res => {
-          this.toaster.successfulNotification(Labels.product.successfulCreationProduct);
-        }, err => {
-          this.toaster.errorNotification(err.error.message);
-        })
+      this.subscriptions.push(
+        this.managerApiService.createProduct(this.selectedFile, result)
+          .pipe(
+            finalize(() => this.isLoading = false)
+          )
+          .subscribe(res => {
+            this.toaster.successfulNotification(Labels.product.successfulCreationProduct);
+          }, err => {
+            this.toaster.errorNotification(err.error.message);
+          })
+      )
     }
     this.imgUrl = undefined;
     this.form.reset();
@@ -95,7 +98,12 @@ export class CreateProductPageComponent implements OnInit, OnDestroy {
     this.isHeavier = validFile.isHeavier;
     this.isWrongResolution = validFile.isWrongResolution;
     this.isNotPng = validFile.isNotPng;
-    this.imgUrl = validFile.imgUrl
+
+    if (this.isHeavier || this.isNotPng || this.isWrongResolution) {
+      this.imgUrl = undefined;
+    } else {
+      this.imgUrl = validFile.imgUrl;
+    }
   }
 
   resetImg() {

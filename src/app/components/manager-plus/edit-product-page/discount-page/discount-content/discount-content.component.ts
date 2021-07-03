@@ -3,8 +3,8 @@ import {DiscountsHttpService} from "../../../../../api-services/discounts-http.s
 import {Discount} from "../../../../../shared/models/api/receive/discount";
 import Labels from "../../../../../shared/models/labels/labels.constant";
 import {ToasterCustomService} from "../../../../../services/toaster-custom.service";
+import {DiscountDeleteConfirmComponent} from "./discount-delete-confirm/discount-delete-confirm.component";
 import {MatDialog} from "@angular/material/dialog";
-import {DialogConfirmComponent} from "./dialog-confirm/dialog-confirm.component";
 import {Subscription} from "rxjs";
 
 @Component({
@@ -21,12 +21,18 @@ export class DiscountContentComponent implements OnInit, OnDestroy {
   @Input() isLoading: boolean;
   @Input() myProductId: string | null;
   displayedColumns: string[] = ['offered price', 'starts at', 'ends at', 'delete'];
-  private dialogSubsctiption: Subscription;
+  dialogSubscription: Subscription;
 
   constructor(private discountService: DiscountsHttpService,
               private toaster: ToasterCustomService,
               public dialog: MatDialog
   ) { }
+
+  ngOnDestroy(): void {
+    if(this.dialogSubscription) {
+      this.dialogSubscription.unsubscribe();
+    }
+    }
 
   ngOnInit(): void {
   }
@@ -40,20 +46,15 @@ export class DiscountContentComponent implements OnInit, OnDestroy {
         }
       })
   }
-
-  openDialog(discountId: any) {
-    let dialogRef = this.dialog.open(DialogConfirmComponent);
-
-    this.dialogSubsctiption = dialogRef.afterClosed().subscribe(result => {
+  public openDialog(discountId: any) {
+    let dialogRef = this.dialog.open(DiscountDeleteConfirmComponent);
+    this.dialogSubscription = dialogRef.afterClosed().subscribe(result => {
       if(result){
         this.deleteDiscount(discountId)
       }else if(!result){
-       this.dialog.closeAll()
-       }
+        this.dialog.closeAll()
+      }
     })
   }
 
-  ngOnDestroy(): void {
-    this.dialogSubsctiption.unsubscribe();
-  }
 }
