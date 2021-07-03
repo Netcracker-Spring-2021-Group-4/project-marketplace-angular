@@ -9,6 +9,7 @@ import {EagerContentPage} from "../../../shared/models/api/receive/cotent-page.m
 import {PageEvent} from "@angular/material/paginator";
 import {ProdMgrService} from "../services/prod-mgr.service";
 import {Title} from "@angular/platform-browser";
+import {ToasterCustomService} from "../../../services/toaster-custom.service";
 
 @Component({
   selector: 'app-staff-list-page',
@@ -24,7 +25,7 @@ export class StaffListPageComponent implements OnInit {
   constructor(
     private mgrFormService: ProdMgrService,
     private staffSearch: StaffSearchHttpService,
-    private titleService: Title,
+    private titleService: Title, private toasterService : ToasterCustomService
   ) {
     this.titleService.setTitle("Staff")
     this.formControlsGroup = mgrFormService.staffSearchForm();
@@ -38,10 +39,20 @@ export class StaffListPageComponent implements OnInit {
   setSearchCriteria(staffFilterForm: FormGroup): void {
     let searchCriteria: UserSearchModel = {};
 
-    if (staffFilterForm.get('firstName')?.value)
+    if (staffFilterForm.get('firstName')?.value) {
+      if (staffFilterForm.get('firstName')?.value.length < 2) {
+        this.toasterService.errorNotification("First name must be at least 2 characters long.");
+        return;
+      }
       searchCriteria.firstNameSeq = staffFilterForm.get('firstName')?.value
-    if (staffFilterForm.get('lastName')?.value)
+    }
+    if (staffFilterForm.get('lastName')?.value) {
+      if (staffFilterForm.get('lastName')?.value.length < 2) {
+        this.toasterService.errorNotification("Last name must be at least 2 characters long.");
+        return;
+      }
       searchCriteria.lastNameSeq = staffFilterForm.get('lastName')?.value
+    }
 
     let targetRoles = [];
     let targetStatuses = [];
