@@ -1,15 +1,16 @@
 export default function AutoUnsub() {
-  return function(constructor : any) {
+  return function (constructor: any) {
     const orig = constructor.prototype.ngOnDestroy
-    constructor.prototype.ngOnDestroy = function() {
-      for(const prop in this) {
+    constructor.prototype.ngOnDestroy = function () {
+      for (const prop in this) {
         const property = this[prop]
-        if(typeof property.unsubscribe === "function") {
-          console.log("unsubscribed")
+        if (typeof property.unsubscribe === "function") {
           property.unsubscribe()
         }
       }
-      orig.apply()
+      if (orig) {
+        orig.apply();
+      }
     }
   }
 }
