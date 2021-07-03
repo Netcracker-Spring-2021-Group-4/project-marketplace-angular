@@ -10,17 +10,21 @@ import {PageEvent} from "@angular/material/paginator";
 import {ProdMgrService} from "../services/prod-mgr.service";
 import {Title} from "@angular/platform-browser";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
+import {Subscription} from "rxjs";
+import AutoUnsub from "../../../shared/helpers/decorators/AutoUnsub";
 
 @Component({
   selector: 'app-staff-list-page',
   templateUrl: './staff-list-page.component.html',
   styleUrls: ['./staff-list-page.component.scss']
 })
+@AutoUnsub()
 export class StaffListPageComponent implements OnInit {
   private searchCriteria ?: UserSearchModel;
   formControlsGroup: FormGroup;
   contentPage ?: EagerContentPage<ProfileModel>;
   selectedPage: number;
+  private staffSubs ?: Subscription;
 
   constructor(
     private mgrFormService: ProdMgrService,
@@ -73,7 +77,8 @@ export class StaffListPageComponent implements OnInit {
       targetStatuses.push(UserStatus.UNCONFIRMED);
     if (targetStatuses.length) searchCriteria.targetStatuses = targetStatuses;
 
-    this.staffSearch.findStaff(searchCriteria, this.selectedPage)
+    this.staffSubs?.unsubscribe();
+    this.staffSubs = this.staffSearch.findStaff(searchCriteria, this.selectedPage)
       .subscribe(response => {
         this.contentPage = response;
         this.searchCriteria = searchCriteria;
@@ -83,7 +88,8 @@ export class StaffListPageComponent implements OnInit {
 
   handlePageChange($event: PageEvent): void {
     if (!this.searchCriteria) return;
-    this.staffSearch.findStaff(this.searchCriteria, $event.pageIndex)
+    this.staffSubs?.unsubscribe();
+    this.staffSubs = this.staffSubs = this.staffSearch.findStaff(this.searchCriteria, $event.pageIndex)
       .subscribe(response => {
         this.contentPage = response;
         this.selectedPage = $event.pageIndex;
