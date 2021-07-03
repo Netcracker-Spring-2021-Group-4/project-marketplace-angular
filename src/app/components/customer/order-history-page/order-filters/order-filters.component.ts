@@ -20,4 +20,8 @@ export class OrderFiltersComponent implements OnInit {
   applyFilter() {
     this.orderFilterEvent.emit(this.orderForm);
   }
+
+  resetFilters() {
+    this.orderForm.reset();
+  }
 }
