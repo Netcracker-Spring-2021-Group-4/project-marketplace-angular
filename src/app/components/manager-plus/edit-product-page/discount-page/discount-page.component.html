@@ -64,8 +64,14 @@
                  formControlName="offeredPrice"
                  autocomplete="off"
           >
-          <mat-error *ngIf="discountForm.get('offeredPrice')?.invalid" class="mb-5">
-            {{offeredPriceErrorMessage}}
+          <mat-error *ngIf="discountForm.get('offeredPrice')?.hasError('required')" class="mb-5">
+            {{requiredErrorMessage}}
+          </mat-error>
+          <mat-error *ngIf="discountForm.get('offeredPrice')?.hasError('min')" class="mb-5">
+            {{minOfferedPriceErrorMessage}}
+          </mat-error>
+          <mat-error *ngIf="discountForm.get('offeredPrice')?.hasError('max')" class="mb-5">
+            {{maxOfferedPriceErrorMessage}}
           </mat-error>
 
         </mat-form-field>

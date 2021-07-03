@@ -37,12 +37,15 @@ export class EditProductPageComponent implements OnInit, OnDestroy {
   selected: number;
   checked: boolean;
   isLoading = false;
+  requiredErrorMessage = ValidationMessages.required;
   productNameErrorMessage = ValidationMessages.productName;
   quantityErrorMessage = ValidationMessages.quantity;
   priceErrorMessage = ValidationMessages.price;
   fileExpansionErrorMessage = ValidationMessages.expansion;
   fileWeightErrorMessage = ValidationMessages.weight;
   fileResolutionErrorMessage = ValidationMessages.resolution;
+  minPriceErrorMessage = ValidationMessages.minPrice
+  maxPriceErrorMessage = ValidationMessages.maxPrice
   private subscriptions: Subscription[] = [];
 
   constructor(private productService: ProductsHttpService,

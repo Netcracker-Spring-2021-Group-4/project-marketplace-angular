@@ -39,7 +39,9 @@ export class DiscountPageComponent implements OnInit, OnDestroy {
   product: ProductInfo;
   minDate: Date = new Date();
   dateTimeInPastErrorMessage = ValidationMessages.dateTimeInPast;
-  offeredPriceErrorMessage = ValidationMessages.offeredPrice;
+  minOfferedPriceErrorMessage = ValidationMessages.offeredPriceMin;
+  maxOfferedPriceErrorMessage = ValidationMessages.offeredPriceMax;
+  requiredErrorMessage = ValidationMessages.required;
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -52,14 +54,7 @@ export class DiscountPageComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnDestroy(): void {
-      this.subscriptions.forEach(
-        (subscriptions) => subscriptions.unsubscribe()
-      );
-      this.subscriptions = [];
-  }
-
-  ngOnInit(): void {
+   ngOnInit(): void {
     this.isLoading = true;
     const myProductId = this.route.snapshot.paramMap.get('productId');
     if(myProductId){
@@ -74,6 +69,13 @@ export class DiscountPageComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         }));
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(
+      (subscriptions) => subscriptions.unsubscribe()
+    );
+    this.subscriptions = [];
   }
 
 
@@ -94,7 +96,7 @@ export class DiscountPageComponent implements OnInit, OnDestroy {
     return this.formBuilder.group({
       offeredPrice: [null,
         [Validators.required,
-        Validators.min(1),
+        Validators.min(0.05),
         Validators.max(this.maxOfferedPrice)
         ]
       ],
