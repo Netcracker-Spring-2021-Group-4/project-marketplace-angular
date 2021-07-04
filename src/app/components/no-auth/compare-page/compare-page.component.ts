@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Observable, forkJoin} from "rxjs";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {forkJoin, Observable, Subscription} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {finalize, first, map, shareReplay} from "rxjs/operators";
 import {PublicApiService} from "../../../api-services/public-http.service";
@@ -11,15 +11,20 @@ import {Route} from "../../../shared/models/enums/route.enum";
 import {CartManagementService} from "../../../services/cart-management.service";
 import {CheckoutService} from "../../../services/checkout.service";
 import {Title} from "@angular/platform-browser";
+import {RoleService} from "../../../services/role.service";
+import {UserRole} from "../../../shared/models/enums/role.enum";
 
 @Component({
   selector: 'app-compare-page',
   templateUrl: './compare-page.component.html',
   styleUrls: ['./compare-page.component.scss']
 })
-export class ComparePageComponent implements OnInit {
+export class ComparePageComponent implements OnInit, OnDestroy {
   isLoading: boolean
   products: CartProductInfo[]
+  currentRole: UserRole
+  subscription: Subscription
+
   catalogLink = '/' + Route.CATALOG
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -37,9 +42,15 @@ export class ComparePageComponent implements OnInit {
     private cartManagementService: CartManagementService,
     private checkoutService: CheckoutService,
     private toaster: ToasterCustomService,
+    private roleService: RoleService,
     private titleService: Title
   ) {
     this.titleService.setTitle("Compare products")
+    this.subscription = this.roleService.currentRole$.subscribe( role => this.currentRole = role)
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
   }
 
   ngOnInit(): void {
@@ -69,6 +80,10 @@ export class ComparePageComponent implements OnInit {
 
   get reservationExists() {
     return this.checkoutService.isReserved
+  }
+
+  get addToCartNeeded() {
+    return this.currentRole === UserRole.ROLE_NO_AUTH_CUSTOMER || this.currentRole === UserRole.ROLE_CUSTOMER
   }
 
   addToCart(productId: string) {

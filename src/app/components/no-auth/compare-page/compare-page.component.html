@@ -40,7 +40,7 @@
           mat-mini-fab
           color="accent"
           class="me-2"
-          *ngIf="!reservationExists"
+          *ngIf="!reservationExists && addToCartNeeded"
           (click)="addToCart(product.productId)"
         >
           <i class="fas fa-shopping-cart"></i>
