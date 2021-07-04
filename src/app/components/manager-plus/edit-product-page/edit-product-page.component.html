@@ -27,7 +27,8 @@
       appearance="fill"
       class="name-input mr-auto ml-auto mt-2 mb-3">
       <input matInput formControlName="productName" (ngModelChange)="onFormChange($event)">
-      <mat-error *ngIf="form.get('productName')?.invalid">{{productNameErrorMessage}}</mat-error>
+      <mat-error *ngIf="form.get('productName')?.hasError('required')">{{requiredErrorMessage}}</mat-error>
+      <mat-error *ngIf="form.get('productName')?.hasError('pattern')">{{productNameErrorMessage}}</mat-error>
     </mat-form-field>
 
     <mat-form-field
@@ -48,7 +49,9 @@
              autocomplete="off"
              (ngModelChange)="onFormChange($event)"
       >
-      <mat-error *ngIf="form.get('price')?.invalid">{{priceErrorMessage}}</mat-error>
+      <mat-error *ngIf="form.get('price')?.hasError('required')">{{requiredErrorMessage}}</mat-error>
+      <mat-error *ngIf="form.get('price')?.hasError('min')">{{minPriceErrorMessage}}</mat-error>
+      <mat-error *ngIf="form.get('price')?.hasError('max')">{{maxPriceErrorMessage}}</mat-error>
     </mat-form-field>
 
     <mat-form-field
@@ -62,7 +65,9 @@
              autocomplete="off"
              (ngModelChange)="onFormChange($event)"
       >
-      <mat-error *ngIf="form.get('inStock')?.invalid">{{quantityErrorMessage}}</mat-error>
+      <mat-error *ngIf="form.get('inStock')?.hasError('min')">{{quantityErrorMessage}}</mat-error>
+      <mat-error *ngIf="form.get('inStock')?.hasError('max')">{{maxQuantityErrorMessage}}</mat-error>
+      <mat-error *ngIf="form.get('inStock')?.hasError('required')">{{requiredErrorMessage}}</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -97,7 +102,6 @@
     </button>
 
     <div class="d-flex justify-content-evenly mt-lg-4 butt">
-
       <button
         mat-raised-button color="primary"
         [routerLink]="['../']"
@@ -127,6 +131,7 @@
         Apply
       </button>
     </div>
+
   </form>
 </div>
 <app-cover-loading *ngIf="isLoading"></app-cover-loading>

@@ -41,6 +41,7 @@ import { DeEnumPipe } from './helpers/pipes/de-enum.pipe';
 import { PhonePipe } from './helpers/pipes/phone.pipe';
 import {StatusPrettifierPipe} from "./helpers/pipes/status-prettifier.pipe";
 import {LongTextPipe} from "./helpers/pipes/long-text.pipe";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   imports: [
@@ -64,6 +65,7 @@ import {LongTextPipe} from "./helpers/pipes/long-text.pipe";
     MatRadioModule,
     MatCardModule,
     MatDialogModule,
+    MatSnackBarModule,
     MatSelectModule,
     MatSlideToggleModule,
     MatListModule,
@@ -103,6 +105,7 @@ import {LongTextPipe} from "./helpers/pipes/long-text.pipe";
     MenuBarComponent,
     MatCheckboxModule,
     MatChipsModule,
+    MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
     RoleStripperPipe,

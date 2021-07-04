@@ -20,6 +20,7 @@ import {
 } from "@angular/material-moment-adapter";
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import { DiscountContentComponent } from './edit-product-page/discount-page/discount-content/discount-content.component';
+import { DiscountDeleteConfirmComponent } from './edit-product-page/discount-page/discount-content/discount-delete-confirm/discount-delete-confirm.component';
 
 
 
@@ -34,6 +35,7 @@ import { DiscountContentComponent } from './edit-product-page/discount-page/disc
     EditProductPageComponent,
     DiscountPageComponent,
     DiscountContentComponent,
+    DiscountDeleteConfirmComponent,
 
   ],
     imports: [

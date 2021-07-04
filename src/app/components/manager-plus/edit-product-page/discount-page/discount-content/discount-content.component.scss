@@ -23,3 +23,10 @@ th, td {
 .wide-col {
   width: 20%;
 }
+
+
+@media (min-width: 375px) {
+  .butn{
+    margin-left: -19px;
+  }
+}

@@ -5,17 +5,21 @@ import {CustomerFormService} from "../services/customer-form.service";
 import {FormGroup} from "@angular/forms";
 import {OrderStatus} from "../../../shared/models/enums/order-status";
 import {Title} from "@angular/platform-browser";
+import {Subscription} from "rxjs";
+import AutoUnsub from "../../../shared/helpers/decorators/AutoUnsub";
 
 @Component({
   selector: 'app-order-history-page',
   templateUrl: './order-history-page.component.html',
   styleUrls: ['./order-history-page.component.scss']
 })
+@AutoUnsub()
 export class OrderHistoryPageComponent implements OnInit {
 
   filteredOrders: Array<CustomerOrderModel>;
   private allOrders: Array<CustomerOrderModel>;
   orderForm: FormGroup;
+  private orderSubs : Subscription;
 
   constructor(
     private orderHttp: OrderHttpService,
@@ -27,7 +31,8 @@ export class OrderHistoryPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.orderHttp.getCustomerOrders().subscribe(orders => {
+    this.orderSubs?.unsubscribe();
+    this.orderSubs = this.orderHttp.getCustomerOrders().subscribe(orders => {
       this.allOrders = orders;
       this.filteredOrders = orders;
     });

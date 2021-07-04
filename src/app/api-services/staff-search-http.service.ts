@@ -6,8 +6,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {catchError} from "rxjs/operators";
 import {EagerContentPage} from "../shared/models/api/receive/cotent-page.model";
-import {Toaster} from "ngx-toast-notifications";
-import Labels from "../shared/models/labels/labels.constant";
+import {ToasterCustomService} from "../services/toaster-custom.service";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +15,7 @@ export class StaffSearchHttpService {
 
   private readonly BACK_URL: string;
 
-  constructor(private http: HttpClient, private toaster: Toaster) {
+  constructor(private http: HttpClient, private toasterService: ToasterCustomService) {
     this.BACK_URL = `${environment.backURL}`;
   }
 
@@ -26,13 +25,7 @@ export class StaffSearchHttpService {
       .pipe(
         catchError(error => {
           const text = error?.message ?? 'Failed to lookup staff.'
-          this.toaster.open({
-            text,
-            caption: Labels.caption.error,
-            duration: 4000,
-            type: 'danger'
-          });
-          console.error(error);
+          this.toasterService.errorNotification(text);
           return of(new EagerContentPage<ProfileModel>({content: [], numPages: 0, fullPageSize: 0}))
         })
       );
