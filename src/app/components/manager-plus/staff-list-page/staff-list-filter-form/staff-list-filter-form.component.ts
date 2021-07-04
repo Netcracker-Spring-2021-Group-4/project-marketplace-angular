@@ -21,4 +21,8 @@ export class StaffListFilterFormComponent implements OnInit {
   search(): void {
     this.searchCriteriaEvent.emit(this.staffFilterForm);
   };
+
+  resetFilters() {
+    this.staffFilterForm.reset();
+  }
 }

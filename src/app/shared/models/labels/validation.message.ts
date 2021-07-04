@@ -9,9 +9,12 @@ export const ValidationMessages = {
   flat: 'Must be a positive number',
   productName: "The name must be of size between 2 and 30, start with 2 characters, contain only characters, spaces and numbers",
   price: "The price must be between 0.05 and 23 598",
-  quantity: "Must be equal or greater than 0",
+  minPrice: "The price must be not less than 0.05",
+  maxPrice: "The price must be not more than 23 598",
+  quantity: "Must be greater than 0",
   file: "The file extension should be only '.png', should be less than 1Mb and 512x512 px",
-  offeredPrice: "The offered price must be greater than 0,05, and less than the price of the current product",
+  offeredPriceMin: "The offered price must be greater than 0,05",
+  offeredPriceMax: "The offered price must be less than the price of the current product",
   required: "The field can not be empty",
   expansion: "Picture expansion should only be 'png'",
   resolution: "Picture resolution can only be 512 px by 512 px",
@@ -25,5 +28,7 @@ export const ValidationMessages = {
   timeToBid: "Minimum time to bid is 10 seconds",
   dateTimeInPast: "Your date and time must be in the future",
   quantityAuction: "Auction must offer more than 3 items of the given product",
-  priceAuction: "Auction must start at price at least 100$ and no more than $120 567"
+  priceAuction: "Auction must start at price at least 100$ and no more than $120 567",
+  enterValue: "You must enter a value",
+  maxQuantity: "the maximum value is 2 147 483 647"
 }
