@@ -66,6 +66,7 @@
              (ngModelChange)="onFormChange($event)"
       >
       <mat-error *ngIf="form.get('inStock')?.hasError('min')">{{quantityErrorMessage}}</mat-error>
+      <mat-error *ngIf="form.get('inStock')?.hasError('max')">{{maxQuantityErrorMessage}}</mat-error>
       <mat-error *ngIf="form.get('inStock')?.hasError('required')">{{requiredErrorMessage}}</mat-error>
     </mat-form-field>
 

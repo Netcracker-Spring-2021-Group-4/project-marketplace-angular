@@ -29,5 +29,6 @@ export const ValidationMessages = {
   dateTimeInPast: "Your date and time must be in the future",
   quantityAuction: "Auction must offer more than 3 items of the given product",
   priceAuction: "Auction must start at price at least 100$ and no more than $120 567",
-  enterValue: "You must enter a value"
+  enterValue: "You must enter a value",
+  maxQuantity: "the maximum value is 2 147 483 647"
 }

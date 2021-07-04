@@ -44,8 +44,9 @@ export class EditProductPageComponent implements OnInit, OnDestroy {
   fileExpansionErrorMessage = ValidationMessages.expansion;
   fileWeightErrorMessage = ValidationMessages.weight;
   fileResolutionErrorMessage = ValidationMessages.resolution;
-  minPriceErrorMessage = ValidationMessages.minPrice
-  maxPriceErrorMessage = ValidationMessages.maxPrice
+  minPriceErrorMessage = ValidationMessages.minPrice;
+  maxPriceErrorMessage = ValidationMessages.maxPrice;
+  maxQuantityErrorMessage = ValidationMessages.maxQuantity;
   private subscriptions: Subscription[] = [];
 
   constructor(private productService: ProductsHttpService,
@@ -95,7 +96,8 @@ export class EditProductPageComponent implements OnInit, OnDestroy {
       description: new FormControl(this.product.description),
       inStock: new FormControl(this.product.inStock, [
         Validators.required,
-        Validators.min(1)
+        Validators.min(1),
+        Validators.max(2147483647)
       ]),
       price: new FormControl(this.product.price / 100, [
         Validators.required,
