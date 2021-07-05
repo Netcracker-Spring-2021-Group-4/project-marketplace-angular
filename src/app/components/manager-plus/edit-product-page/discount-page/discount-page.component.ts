@@ -58,8 +58,7 @@ export class DiscountPageComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const myProductId = this.route.snapshot.paramMap.get('productId');
     if(myProductId){
-      this.subscriptions.push(this.productService.getProduct(myProductId).pipe(finalize(() => {
-      })).subscribe(
+      this.subscriptions.push(this.productService.getProduct(myProductId).subscribe(
         data => {
           this.product = data;
           this.titleService.setTitle(`Edit discounts for ${this.product.name}`)

@@ -70,8 +70,7 @@ export class EditProductPageComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const productId = this.route.snapshot.paramMap.get('productId');
     if(productId){
-      this.subscriptions.push(this.productService.getProduct(productId).pipe(finalize(() => {
-      })).subscribe(
+      this.subscriptions.push(this.productService.getProduct(productId).subscribe(
         data => {
           this.product = data;
           this.titleService.setTitle(`Edit ${this.product.name}'s info`)
