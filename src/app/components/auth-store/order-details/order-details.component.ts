@@ -6,7 +6,6 @@ import {UserRole} from "../../../shared/models/enums/role.enum";
 import {CourierApiService} from "../../../api-services/courier-http.service";
 import {ActivatedRoute} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
-import {finalize} from "rxjs/operators";
 import {MatTableDataSource} from "@angular/material/table";
 import {Title} from "@angular/platform-browser";
 
@@ -34,14 +33,12 @@ export class OrderDetailsComponent implements OnInit {
     this.isLoading = true;
     const orderId = this.route.snapshot.paramMap.get('id');
     this.role$ = this.roleService.currentRole$
-    this.courierService.getOrderDetail(orderId).pipe(finalize(() => {
-    })).subscribe(
+    this.courierService.getOrderDetail(orderId).subscribe(
       (data: OrderInfo) => {
         this.orderInfo = data
         this.orderProduct = data.content
         this.ordersDatasource = new MatTableDataSource(this.orderProduct);
         this.isLoading = false
-
       }
     )
   }
