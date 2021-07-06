@@ -1,28 +1,3 @@
-.table-outer {
-  overflow-x: auto;
-  white-space: nowrap;
-}
-
-table {
-  width: 100%;
-}
-
-tr {
-  width: 100%;
-
-}
-
-th, td {
-  padding: 0 15px !important;
-}
-
-.narrow-col {
-  width: 10%;
-}
-
-.wide-col {
-  width: 20%;
-}
 
 img {
   width: 275px;
@@ -36,9 +11,7 @@ form{
   margin-top: 10px;
   margin-left: 55px;
 }
-//.create{
-//  margin-left: 50px;
-//}
+
 .btns{
   display: flex;
   justify-content: space-between;
@@ -55,38 +28,7 @@ form{
   margin-left: 100px;
 }
 
-@media (max-width: 768px) {
-  .create{
-    margin-left: 30px;
-  }
-
-}
-
-@media (max-width: 665px) {
-  img{
-    width: 200px;
-    height: 200px;
-  }
-  .row{
-    display: flex;
-    flex-flow: wrap;
-  }
-  .col2{
-    order:1;
-    justify-content: center;
-    text-align: center;
-    margin-left: 0;
-
-  }
-  .col1{
-    order:2;
-    margin-right: 0;
-  }
-
-}
-
-@media (max-width: 375px) {
-
+@media (max-width: 996px) {
   img{
     width: 150px;
     height: 150px;
@@ -109,5 +51,5 @@ form{
     order:2;
     margin-right: 0;
   }
-}
 
+}
