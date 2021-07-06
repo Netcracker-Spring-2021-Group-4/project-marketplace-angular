@@ -158,7 +158,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     const {email} = this.profile
     const func =
       this.managerPlusApiService.changeStafferStatus({email, userStatus: $event})
-    this.execApiFunc(func, Labels.editProfile.successfulStatusChange)
+    this.execApiFunc(func, Labels.editProfile.successfulStatusChange, {status: $event})
   }
 
   submitEditStaff($event: UserUpdateModel) {
@@ -191,6 +191,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
           if (!updatedProfile.hasOwnProperty('phoneNumber')) this.profile.phoneNumber = undefined
         }
         this.toaster.successfulNotification(successText);
+        if (this.isStaffCreateRoute) this.router.navigate([Route.STAFF_LIST])
       }, err => {
         const text = err.error.message ?? Object.values(err.error.error).join('\n')
         this.toaster.errorNotification(text);
