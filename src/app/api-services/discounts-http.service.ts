@@ -14,19 +14,23 @@ export class DiscountsHttpService {
   constructor(private http: HttpClient,
   ) {  }
 
-  public getUnexpiredDiscounts(productId: string | null):Observable<Discount[]>{
-    return this.http.get<Discount[]>(`${this.apiServerUrl}/api/v1/manager/products/${productId}/unexpired-discounts`);
+  public getUnexpiredDiscounts(productId: string):Observable<Discount[]>{
+    return this.http.get<Discount[]>
+    (`${this.apiServerUrl}/api/v1/manager/products/${productId}/unexpired-discounts`);
   }
 
-  public createDiscount(productId: string | null, discountModel: DiscountModel): Observable<DiscountModel>{
-    return this.http.post<DiscountModel>(`${this.apiServerUrl}/api/v1/manager/products/${productId}/discounts`, discountModel)
+  public createDiscount(productId: string, discountModel: DiscountModel): Observable<DiscountModel>{
+    return this.http.post<DiscountModel>
+    (`${this.apiServerUrl}/api/v1/manager/products/${productId}/discounts`, discountModel);
   }
 
   public deleteDiscount(discountId: string): Observable<void>{
-    return this.http.delete<void>(`${this.apiServerUrl}/api/v1/manager/products/discounts/${discountId}`);
+    return this.http.delete<void>
+    (`${this.apiServerUrl}/api/v1/manager/products/discounts/${discountId}`);
   }
-  public getActiveDiscount(productId: string | null): Observable<Discount>{
-    return this.http.get<Discount>(`${this.apiServerUrl}/api/v1/public/products/${productId}/active-discount`);
+  public getActiveDiscount(productId: string): Observable<Discount>{
+    return this.http.get<Discount>
+    (`${this.apiServerUrl}/api/v1/public/products/${productId}/active-discount`);
   }
 
 }

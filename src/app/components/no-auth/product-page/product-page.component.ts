@@ -1,4 +1,4 @@
-import {Component,OnDestroy,OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
@@ -36,11 +36,11 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   currentItemQuantity: number;
   isShown: boolean = false;
   suggestions: Product[];
-  private readonly CART_STORAGE = 'cart';
   categories: Category[];
   currentRole: UserRole;
   routeEventSubscription: Subscription;
   productSubscription: Subscription;
+  private readonly CART_STORAGE = 'cart';
   private roleSubscription: Subscription;
 
   constructor(private productService: ProductsHttpService,
@@ -81,7 +81,6 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   }
 
   addToCart(id: string) {
-    this.getItem()
     if (this.product.inStock == 0) {
       this.toaster.errorNotification(Labels.cart.outOfStock);
     } else {
@@ -95,31 +94,15 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   }
 
   removeFromCart(): void {
-    this.getItem()
-      this.cartService.removeFromCart({
-        quantity: this.currentValue,
-        productId: this.product.productId
-      })
+    this.cartService.removeFromCart({
+      quantity: this.currentValue,
+      productId: this.product.productId
+    })
     this.currentValue = 1;
   }
 
-  get localCart(): CartItemModel[] {
-    const cartString = localStorage.getItem(this.CART_STORAGE)
-    const parsed = JSON.parse(cartString ?? "[]")
-    return parsed === [] ? [] : parsed
-  }
-
-  getItem() {
-    this.currentItem = this.localCart.filter(obj => obj.productId == this.product.productId)
-    if(!this.currentItem.length){
-      this.currentItemQuantity = 0;
-    }else{
-      this.currentItemQuantity = this.currentItem[0].quantity
-    }
-  }
-
   isCopied() {
-    this.toaster.successfulNotification('Id copied to clipboard')
+    this.toaster.successfulNotification('Id copied to clipboard');
   }
 
   uploadData(productId: string) {
@@ -129,7 +112,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     let categories = this.publicApiService.getListOfCategories();
 
     this.role$ = this.roleService.currentRole$;
-    this.roleSubscription = this.role$.subscribe( data =>{
+    this.roleSubscription = this.role$.subscribe(data => {
       this.currentRole = data;
     })
     this.isLoading = true;
@@ -137,18 +120,18 @@ export class ProductPageComponent implements OnInit, OnDestroy {
       .pipe(
         finalize(() => this.isLoading = false)
       ).subscribe(results => {
-      this.product = results[0];
-      this.titleService.setTitle(`${this.product.name}'s page`)
-      if (this.product.description == null) {
-        this.product.description = '';
-      }
-      this.availableQuantity = this.product.inStock - this.product.reserved;
-      this.discount = results[1];
-      this.categoryName$ = this.publicApiService.getCategoryName(productId);
-      this.suggestions = results[2];
-      this.categories = results[3];
-    }, error => {
-      this.toaster.errorNotification(error.error.message);
-    });
+        this.product = results[0];
+        this.titleService.setTitle(`${this.product.name}'s page`);
+        if (this.product.description == null) {
+          this.product.description = '';
+        }
+        this.availableQuantity = this.product.inStock - this.product.reserved;
+        this.discount = results[1];
+        this.categoryName$ = this.publicApiService.getCategoryName(productId);
+        this.suggestions = results[2];
+        this.categories = results[3];
+      }, error => {
+        this.toaster.errorNotification(error.error.message);
+      });
   }
 }

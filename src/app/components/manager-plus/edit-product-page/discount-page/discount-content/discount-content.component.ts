@@ -50,9 +50,9 @@ export class DiscountContentComponent implements OnInit, OnDestroy {
     let dialogRef = this.dialog.open(DiscountDeleteConfirmComponent);
     this.dialogSubscription = dialogRef.afterClosed().subscribe(result => {
       if(result){
-        this.deleteDiscount(discountId)
+        this.deleteDiscount(discountId);
       }else if(!result){
-        this.dialog.closeAll()
+        this.dialog.closeAll();
       }
     })
   }
