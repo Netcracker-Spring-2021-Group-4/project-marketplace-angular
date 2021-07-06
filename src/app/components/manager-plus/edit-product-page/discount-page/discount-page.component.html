@@ -22,7 +22,7 @@
         <p class="text-center">Add discount</p>
 
         <mat-form-field appearance="fill" class="name-input mr-auto ml-auto">
-          <mat-label>Date range</mat-label>
+          <mat-label>Date range * </mat-label>
           <mat-date-range-input [rangePicker]="picker" disabled="true" [min]="minDate">
             <input matStartDate placeholder="Start date" formControlName="startsAt">
             <input matEndDate placeholder="End date" formControlName="endsAt">
@@ -42,6 +42,7 @@
             [format]="24"
             [defaultTime]="'03:00'"
             formControlName="timeStart"
+
           >
           </ngx-timepicker-field>
 
@@ -52,6 +53,7 @@
             [format]="24"
             [defaultTime]="'03:00'"
             formControlName="timeEnd"
+            required
           >
           </ngx-timepicker-field>
         </div>
@@ -63,6 +65,7 @@
                  mask="separator.2"
                  formControlName="offeredPrice"
                  autocomplete="off"
+                 required
           >
           <mat-error *ngIf="discountForm.get('offeredPrice')?.hasError('required')" class="mb-5">
             {{requiredErrorMessage}}

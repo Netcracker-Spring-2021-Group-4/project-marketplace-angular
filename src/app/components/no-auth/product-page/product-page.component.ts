@@ -86,6 +86,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
       this.toaster.errorNotification(Labels.cart.outOfStock);
     } else {
       this.cartService.addToCart(new CartItemModel({quantity: this.currentValue, productId: id}));
+      this.currentValue = 1;
     }
   }
 
@@ -99,6 +100,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
         quantity: this.currentValue,
         productId: this.product.productId
       })
+    this.currentValue = 1;
   }
 
   get localCart(): CartItemModel[] {

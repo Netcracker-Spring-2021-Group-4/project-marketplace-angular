@@ -26,7 +26,8 @@
     <mat-form-field
       appearance="fill"
       class="name-input mr-auto ml-auto mt-2 mb-3">
-      <input matInput formControlName="productName" (ngModelChange)="onFormChange($event)">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="productName" (ngModelChange)="onFormChange($event)" required>
       <mat-error *ngIf="form.get('productName')?.hasError('required')">{{requiredErrorMessage}}</mat-error>
       <mat-error *ngIf="form.get('productName')?.hasError('pattern')">{{productNameErrorMessage}}</mat-error>
     </mat-form-field>
@@ -48,6 +49,7 @@
              formControlName="price"
              autocomplete="off"
              (ngModelChange)="onFormChange($event)"
+             required
       >
       <mat-error *ngIf="form.get('price')?.hasError('required')">{{requiredErrorMessage}}</mat-error>
       <mat-error *ngIf="form.get('price')?.hasError('min')">{{minPriceErrorMessage}}</mat-error>
@@ -64,6 +66,7 @@
              mask="separator.0"
              autocomplete="off"
              (ngModelChange)="onFormChange($event)"
+             required
       >
       <mat-error *ngIf="form.get('inStock')?.hasError('min')">{{quantityErrorMessage}}</mat-error>
       <mat-error *ngIf="form.get('inStock')?.hasError('max')">{{maxQuantityErrorMessage}}</mat-error>
@@ -72,7 +75,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Choose another category</mat-label>
-      <mat-select formControlName="categoryId" (ngModelChange)="onFormChange($event)">
+      <mat-select formControlName="categoryId" (ngModelChange)="onFormChange($event)" required>
         <mat-option *ngFor="let category of categories"
                     [value]="category.categoryId"
         >
