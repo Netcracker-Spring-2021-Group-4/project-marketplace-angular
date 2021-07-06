@@ -24,11 +24,11 @@ export class EditProductPageComponent implements OnInit, OnDestroy {
 
   imgUrl: string | undefined | ArrayBuffer | null;
   selectedFile: File | undefined;
-  isHeavier?: boolean = false;
-  isChange?: boolean = false;
-  isNotPng?: boolean = false;
-  isWrongResolution?: boolean = false;
-  isDisabled?: boolean = false;
+  isHeavier?: boolean;
+  isChange?: boolean;
+  isNotPng?: boolean;
+  isWrongResolution?: boolean;
+  isDisabled?: boolean;
   doSend: boolean = false;
   categories: CategoryInfo[];
   product: ProductInfo;
@@ -73,7 +73,7 @@ export class EditProductPageComponent implements OnInit, OnDestroy {
       this.subscriptions.push(this.productService.getProduct(productId).subscribe(
         data => {
           this.product = data;
-          this.titleService.setTitle(`Edit ${this.product.name}'s info`)
+          this.titleService.setTitle(`Edit ${this.product.name}'s info`);
           this.checked = this.product.isActive;
           this.initForm();
           this.publicApiService.getCategoryName(productId).subscribe(

@@ -61,7 +61,7 @@ export class DiscountPageComponent implements OnInit, OnDestroy {
       this.subscriptions.push(this.productService.getProduct(myProductId).subscribe(
         data => {
           this.product = data;
-          this.titleService.setTitle(`Edit discounts for ${this.product.name}`)
+          this.titleService.setTitle(`Edit discounts for ${this.product.name}`);
           this.maxOfferedPrice = (data.price / 100) - 0.01;
           this.discountForm = this.createDiscountForm();
             this.getUnexpiredDiscounts(myProductId);
@@ -80,7 +80,7 @@ export class DiscountPageComponent implements OnInit, OnDestroy {
 
   public getUnexpiredDiscounts(productId: string) {
     this.subscriptions.push(this.discountService.getUnexpiredDiscounts(productId).pipe(finalize(() => {
-      this.isLoading = false
+      this.isLoading = false;
     })).subscribe(
       (response: Discount[]) => {
         this.discounts = response.sort(
@@ -107,9 +107,9 @@ export class DiscountPageComponent implements OnInit, OnDestroy {
   }
 
   public dateTimeValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const date = control.get('startsAt')!.value
-    const time = control.get('timeStart')!.value
-    const dateWTime = addTimeToDate(date, time)
+    const date = control.get('startsAt')!.value;
+    const time = control.get('timeStart')!.value;
+    const dateWTime = addTimeToDate(date, time);
     return dateWTime > new Date() ? null : {dateTimeInPast: true};
   }
 
@@ -122,7 +122,6 @@ export class DiscountPageComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.discountService.createDiscount(this.product.productId, result)
       .pipe(finalize (() => {
         this.isLoading = false;
-
         this.discountForm.get('timeStart')?.patchValue('03:00');
         this.discountForm.get('timeEnd')?.patchValue('03:00');
       })).subscribe(
@@ -132,7 +131,7 @@ export class DiscountPageComponent implements OnInit, OnDestroy {
       }, err => {
         this.toaster.errorNotification(err.error.message);
       }));
-    this.discountForm.reset()
+    this.discountForm.reset();
   }
 
 }
