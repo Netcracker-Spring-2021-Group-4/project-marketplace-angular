@@ -181,7 +181,7 @@ export class EditProductPageComponent implements OnInit, OnDestroy {
     this.isNotPng = validFile.isNotPng;
     if (this.isHeavier || this.isNotPng || this.isWrongResolution){
       this.imgUrl = undefined;
-    }else{
+    } else{
       this.imgUrl = validFile.imgUrl;
     }
     this.isDisabled = validFile.isDisabled;

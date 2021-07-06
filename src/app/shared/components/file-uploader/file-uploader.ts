@@ -40,7 +40,7 @@ export class FileUploader {
         img.src = reader.result as string;
         img.onload = () => {
           this.updatedFile.imgUrl = reader.result;
-          this.updatedFile.isWrongResolution = img.height !== 512 && img.width !== 512;
+          this.updatedFile.isWrongResolution = (img.height !== 512 && img.width !== 512);
           this.correctFile.emit(this.updatedFile);
         }
       }
