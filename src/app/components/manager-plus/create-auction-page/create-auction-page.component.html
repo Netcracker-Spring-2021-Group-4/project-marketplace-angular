@@ -9,7 +9,7 @@
       class=""
       appearance="fill"
     >
-      <mat-label>Auction starts at (date)</mat-label>
+      <mat-label>Auction starts at (date) *</mat-label>
       <input matInput [min]="minDate" [matDatepicker]="picker" formControlName="startsAtDate">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
@@ -31,7 +31,7 @@
     <mat-form-field
       appearance="fill"
       class="name-input mb-3">
-      <mat-label>Price $</mat-label>
+      <mat-label>Price $ *</mat-label>
       <input
         matInput
         type='text'
@@ -43,7 +43,7 @@
     <mat-form-field
       appearance="fill"
       class="name-input mb-3">
-      <mat-label>Quantity</mat-label>
+      <mat-label>Quantity *</mat-label>
       <input
         matInput
         type='text'
@@ -55,7 +55,7 @@
       <mat-form-field
       appearance="fill"
       class="name-input mb-3">
-      <mat-label>Product id</mat-label>
+      <mat-label>Product id *</mat-label>
       <input matInput formControlName="productId">
       <mat-error *ngIf="form.get('productId')?.invalid">{{idErrorMessage}}</mat-error>
     </mat-form-field>
@@ -86,7 +86,7 @@
         *ngIf="isAscendingTypeSelected"
         appearance="fill"
         class="name-input mb-3 w-100">
-        <mat-label>Time to bid (seconds)</mat-label>
+        <mat-label>Time to bid (seconds) *</mat-label>
         <input
           matInput
           type='text'
@@ -101,7 +101,7 @@
         *ngIf="isAscendingTypeSelected"
         appearance="fill"
         class="name-input mb-3 w-100">
-        <mat-label>Minimum rise $</mat-label>
+        <mat-label>Minimum rise $ *</mat-label>
         <input
           matInput
           type='text'
@@ -114,7 +114,7 @@
         *ngIf="!isAscendingTypeSelected"
         appearance="fill"
         class="name-input mb-3 w-100">
-        <mat-label>Lowering step $</mat-label>
+        <mat-label>Lowering step $ *</mat-label>
         <input
           matInput
           type='text'
@@ -127,7 +127,7 @@
         *ngIf="!isAscendingTypeSelected"
         appearance="fill"
         class="name-input mb-3 w-100">
-        <mat-label>Step period (seconds)</mat-label>
+        <mat-label>Step period (seconds) *</mat-label>
         <input
           matInput
           type='text'
@@ -140,7 +140,7 @@
         *ngIf="!isAscendingTypeSelected"
         appearance="fill"
         class="name-input mb-3 w-100">
-        <mat-label>Number of steps</mat-label>
+        <mat-label>Number of steps *</mat-label>
         <input
           matInput
           type='text'
