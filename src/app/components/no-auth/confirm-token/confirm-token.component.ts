@@ -6,7 +6,7 @@ import {Route} from "../../../shared/models/enums/route.enum";
 import {FormGroup} from "@angular/forms";
 import {UserAuthFormService} from "../services/user-auth-form.service";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
-import {finalize, first} from "rxjs/operators";
+import {finalize} from "rxjs/operators";
 import {Observable, Subscription} from "rxjs";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {Title} from "@angular/platform-browser";
@@ -79,10 +79,9 @@ export class ConfirmTokenComponent implements OnInit, OnDestroy {
   }
 
   private execApiFunc(apiFunction: Observable<any>, successText: string) {
-    apiFunction
+    const sub = apiFunction
       .pipe(
-        finalize(() => this.isLoading = false),
-        first()
+        finalize(() => this.isLoading = false)
       )
       .subscribe(_ => {
         this.toaster.successfulNotification(successText);
@@ -92,6 +91,8 @@ export class ConfirmTokenComponent implements OnInit, OnDestroy {
         const text = err.status === 417 ? Labels.register.tokenAlreadyUsed : err.error.message
         this.toaster.errorNotification(text);
       })
+
+    this.subscription.add(sub)
   }
 
   private setCurrentRoute() {

@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RoleService} from "../../../services/role.service";
 import {AuthStoreApiService} from "../../../api-services/auth-store-http.service";
 import {PublicApiService} from "../../../api-services/public-http.service";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {CartInfoResponse} from "../../../shared/models/api/receive/cart-info-response.model";
-import {finalize, first, switchMap, take} from "rxjs/operators";
+import {finalize, switchMap, take} from "rxjs/operators";
 import {UserRole} from "../../../shared/models/enums/role.enum";
 import {CartManagementService} from "../../../services/cart-management.service";
 import {CartItemModel} from "../../../shared/models/api/send/cart-item.model";
-import {Observable, of} from "rxjs";
+import {Observable, of, Subscription} from "rxjs";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {RedirectAuthService} from "../../../services/redirect-auth.service";
 import {cartInfoToItemsList, equalCartItems, getDifferenceInCarts, sortCartByName} from './service/utils';
@@ -22,13 +22,15 @@ import {Title} from "@angular/platform-browser";
   templateUrl: './cart-page.component.html',
   styleUrls: ['./cart-page.component.scss']
 })
-export class CartPageComponent implements OnInit {
+export class CartPageComponent implements OnInit, OnDestroy {
 
   isLoading = false
   cart: CartInfoResponse
   currentRole: UserRole
   prohibitedToAddMoreList: string[] = []
   catalogLink = '/' + Route.CATALOG
+
+  subscriptions: Subscription
 
   constructor(
     private roleService: RoleService,
@@ -41,11 +43,16 @@ export class CartPageComponent implements OnInit {
     private toaster: ToasterCustomService,
     private titleService: Title
   ) {
+    this.subscriptions = new Subscription()
     this.titleService.setTitle("Cart")
   }
 
   ngOnInit(): void {
     this.fetchCartInitial()
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe()
   }
 
   addToCart($event: CartItemModel) {
@@ -81,11 +88,10 @@ export class CartPageComponent implements OnInit {
 
   checkout() {
     this.isLoading = true
-    this.publicApiService
+    const sub = this.publicApiService
       .makeReservation(cartInfoToItemsList(this.cart.content))
       .pipe(
-        finalize(() => this.isLoading = false),
-        first()
+        finalize(() => this.isLoading = false)
       )
       .subscribe(_ => {
         this.toaster.successfulNotification(Labels.cart.successfulReservationMade)
@@ -94,6 +100,8 @@ export class CartPageComponent implements OnInit {
       }, err => {
         this.toaster.errorNotification(err.error.message)
       })
+
+    this.subscriptions.add(sub)
   }
 
   goToCheckout() {
@@ -102,11 +110,10 @@ export class CartPageComponent implements OnInit {
 
   cancelReservation() {
     this.isLoading = true
-    this.publicApiService
+    const sub = this.publicApiService
       .cancelReservation(this.checkoutService.cart!.content)
       .pipe(
-        finalize(() => this.isLoading = false),
-        first()
+        finalize(() => this.isLoading = false)
       )
       .subscribe(_ => {
         this.toaster.successfulNotification(Labels.cart.successfulReservationRemoved)
@@ -114,10 +121,12 @@ export class CartPageComponent implements OnInit {
       }, err => {
         this.toaster.errorNotification(err.error.message)
       })
+
+    this.subscriptions.add(sub)
   }
 
   private changeQuantityThenFetchCart(obs$: Observable<any>, isAdding = false, productId: string = '') {
-    obs$
+    const sub = obs$
       .pipe(
         switchMap(res => {
           if (isAdding) {
@@ -144,12 +153,14 @@ export class CartPageComponent implements OnInit {
       }, err => {
         this.toaster.errorNotification(err.error.message)
       })
+
+    this.subscriptions.add(sub)
   }
 
   private fetchCartInitial() {
     this.isLoading = true
     const localCartItems = this.cartManagementService.localCart
-    this.roleService.currentRole$
+    const sub = this.roleService.currentRole$
       .pipe(
         switchMap(role => {
           this.currentRole = role
@@ -184,6 +195,8 @@ export class CartPageComponent implements OnInit {
     }, err => {
       this.toaster.errorNotification(err.error.message)
     })
+
+    this.subscriptions.add(sub)
   }
 
   private addProductToProhibitedToAdd(productId: string) {

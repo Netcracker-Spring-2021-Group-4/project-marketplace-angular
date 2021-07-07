@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {forkJoin, Observable, Subscription} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
-import {finalize, first, map, shareReplay} from "rxjs/operators";
+import {finalize, map, shareReplay} from "rxjs/operators";
 import {PublicApiService} from "../../../api-services/public-http.service";
 import {CompareManagementService} from "../../../services/compare-management.service";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
@@ -57,10 +57,9 @@ export class ComparePageComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const mergedObservable = forkJoin([this.publicApiService.getListOfCategories(),
       this.publicApiService.getListForComparison(this.compareManagementService.comparisonList)])
-    mergedObservable
+    const sub = mergedObservable
       .pipe(
-        finalize(() => this.isLoading = false),
-        first()
+        finalize(() => this.isLoading = false)
       )
       .subscribe(res => {
         const categories = res[0]
@@ -72,6 +71,8 @@ export class ComparePageComponent implements OnInit, OnDestroy {
       }, err => {
         this.toaster.errorNotification(err.error.message)
       })
+
+    this.subscription.add(sub)
   }
 
   drop($event: CdkDragDrop<string[]>) {

@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {addTimeToDate, AuctionFormService} from "./auction-form.service";
 import {FormGroup} from "@angular/forms";
 import {AuthStoreApiService} from "../../../api-services/auth-store-http.service";
 import {ManagerPlusApiService} from "../../../api-services/mgr-plus-http.service";
-import {finalize, first} from "rxjs/operators";
+import {finalize} from "rxjs/operators";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {AuctionType} from "../../../shared/models/api/receive/auction-type.model";
 import {ValidationMessages} from "../../../shared/models/labels/validation.message";
@@ -11,17 +11,20 @@ import Labels from "../../../shared/models/labels/labels.constant";
 import {Router} from "@angular/router";
 import {Route} from "../../../shared/models/enums/route.enum";
 import {Title} from "@angular/platform-browser";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-create-auction-page',
   templateUrl: './create-auction-page.component.html',
   styleUrls: ['./create-auction-page.component.scss']
 })
-export class CreateAuctionPageComponent implements OnInit {
+export class CreateAuctionPageComponent implements OnInit, OnDestroy {
   form: FormGroup;
   auctionTypesList: Array<AuctionType>
   isLoading: boolean;
   minDate = new Date();
+
+  subscriptions: Subscription
 
   priceErrorMessage = ValidationMessages.priceAuction
   quantityErrorMessage = ValidationMessages.quantityAuction
@@ -41,23 +44,28 @@ export class CreateAuctionPageComponent implements OnInit {
     private toaster: ToasterCustomService,
     private titleService: Title
   ) {
+    this.subscriptions = new Subscription();
     this.titleService.setTitle("Create auction")
     this.form = this.auctionFormService.auctionCreateForm();
   }
 
   ngOnInit(): void {
     this.isLoading = true
-    this.authStoreApiService
+    const sub = this.authStoreApiService
       .getAuctionTypes()
       .pipe(
-        finalize(() => this.isLoading = false),
-        first()
+        finalize(() => this.isLoading = false)
       )
       .subscribe(res => {
         this.auctionTypesList = res;
       }, err => {
         this.toaster.errorNotification(err.error.message)
       })
+    this.subscriptions.add(sub)
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe()
   }
 
   changeTypeOfAuction($event: any) {
@@ -87,13 +95,12 @@ export class CreateAuctionPageComponent implements OnInit {
     result.startsAt = addTimeToDate(result.startsAtDate, result.startsAtTime)
     this.changeCurrencyToCents(result)
     this.isLoading = true
-    this.managerPlusApiService.createAuction(result)
+    const sub = this.managerPlusApiService.createAuction(result)
       .pipe(
         finalize(() => {
           this.isLoading = false
           this.form = this.auctionFormService.auctionCreateForm();
-        }),
-        first()
+        })
       )
       .subscribe(_ => {
         this.toaster.successfulNotification(Labels.auction.successfulCreationAuction)
@@ -102,6 +109,7 @@ export class CreateAuctionPageComponent implements OnInit {
           'Cannot create that auction with such parameters. Please check the filled fields'
         this.toaster.errorNotification(text)
       })
+    this.subscriptions.add(sub)
   }
 
   private changeCurrencyToCents(obj: any) {
