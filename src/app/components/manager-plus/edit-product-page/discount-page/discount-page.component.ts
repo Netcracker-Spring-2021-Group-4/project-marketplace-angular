@@ -43,6 +43,7 @@ export class DiscountPageComponent implements OnInit, OnDestroy {
   maxOfferedPriceErrorMessage = ValidationMessages.offeredPriceMax;
   requiredErrorMessage = ValidationMessages.required;
   private subscriptions: Subscription[] = [];
+  private dateWTime: Date;
 
   constructor(
     private discountService: DiscountsHttpService,
@@ -109,8 +110,10 @@ export class DiscountPageComponent implements OnInit, OnDestroy {
   public dateTimeValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const date = control.get('startsAt')!.value;
     const time = control.get('timeStart')!.value;
-    const dateWTime = addTimeToDate(date, time);
-    return dateWTime > new Date() ? null : {dateTimeInPast: true};
+    if(date && time){
+      this.dateWTime = addTimeToDate(date, time);
+    }
+    return this.dateWTime > new Date() ? null : {dateTimeInPast: true};
   }
 
   public submit(): void {
