@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {TimeSlotModel, TimeSlotModelFront} from "../../../shared/models/api/receive/time-slot.model";
 import {RoleService} from "../../../services/role.service";
 import {AuthStoreApiService} from "../../../api-services/auth-store-http.service";
 import {CheckoutService} from "../../../services/checkout.service";
-import {finalize, first, switchMap, take} from "rxjs/operators";
+import {finalize, switchMap, take} from "rxjs/operators";
 import {UserRole} from "../../../shared/models/enums/role.enum";
-import {of} from "rxjs";
+import {of, Subscription} from "rxjs";
 import {CheckoutFormService} from "./service/checkout-form.service";
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {PublicApiService} from "../../../api-services/public-http.service";
@@ -23,7 +23,7 @@ import {Title} from "@angular/platform-browser";
   templateUrl: './checkout-page.component.html',
   styleUrls: ['./checkout-page.component.scss']
 })
-export class CheckoutPageComponent implements OnInit {
+export class CheckoutPageComponent implements OnInit, OnDestroy {
 
   isLoading = false;
   currentRole: UserRole;
@@ -32,6 +32,8 @@ export class CheckoutPageComponent implements OnInit {
   timeslots: TimeSlotModelFront[];
   result: any
   cart: CartInfoResponse
+
+  subscriptions: Subscription
 
   constructor(
     private roleService: RoleService,
@@ -44,6 +46,7 @@ export class CheckoutPageComponent implements OnInit {
     private router: Router,
     private titleService: Title
   ) {
+    this.subscriptions = new Subscription()
     this.titleService.setTitle("Checkout")
     this.cart = this.checkoutService.cart!
     this.secondStepForm = this.checkoutFormService.secondStepForm()
@@ -51,7 +54,7 @@ export class CheckoutPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true
-    this.roleService.currentRole$
+    const sub = this.roleService.currentRole$
       .pipe(
         switchMap(role => {
           this.currentRole = role
@@ -74,20 +77,27 @@ export class CheckoutPageComponent implements OnInit {
       }, err => {
         this.toaster.errorNotification(err.error.message)
       })
+
+    this.subscriptions.add(sub)
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe()
   }
 
   getSlotsForDate($event: string) {
     this.isLoading = true
-    this.publicApiService.getTimeSlots($event)
+    const sub = this.publicApiService.getTimeSlots($event)
       .pipe(
-        finalize(() => this.isLoading = false),
-        first()
+        finalize(() => this.isLoading = false)
       )
       .subscribe((slots: TimeSlotModel[]) => {
         this.timeslots = slots.map(slot => TimeSlotModelFront.setFromTimeSlotModel(slot))
       }, err => {
         this.toaster.errorNotification(err.error.message)
       })
+
+    this.subscriptions.add(sub)
   }
 
   getReadyForPreview() {
@@ -107,10 +117,9 @@ export class CheckoutPageComponent implements OnInit {
   makeOrder() {
     this.result.products = cartInfoToItemsList(this.result.products)
     this.isLoading = true
-    this.publicApiService.makeOrder(this.result)
+    const sub = this.publicApiService.makeOrder(this.result)
       .pipe(
-        finalize(() => this.isLoading = false),
-        first()
+        finalize(() => this.isLoading = false)
       )
       .subscribe(() => {
         this.toaster.successfulNotification(Labels.checkout.successfulOrderMade)
@@ -125,5 +134,7 @@ export class CheckoutPageComponent implements OnInit {
           .subscribe(_ => this.toaster.successfulNotification("The reservation was removed"));
         this.router.navigate([Route.CART]);
       })
+
+    this.subscriptions.add(sub)
   }
 }
