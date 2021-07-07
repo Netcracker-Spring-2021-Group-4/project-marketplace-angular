@@ -27,10 +27,9 @@
         </p>
 
         <span class="mt-3 mb-3 fw-normal"> <span class="font-monospace">Price: </span>
-        <span *ngIf="!product.isActive">{{product.price | customCurrency}}</span>
       </span>
 
-        <span class="fw-bold" *ngIf="!discount"> {{product.price | customCurrency}}</span>
+        <span class="fw-bold" *ngIf="!discount || !product.isActive"> {{product.price | customCurrency}}</span>
         <span class="text-decoration-line-through"
               *ngIf="discount && product.isActive"> {{product.price | customCurrency}}</span>
         <span class="new-price" *ngIf="discount && product.isActive">
