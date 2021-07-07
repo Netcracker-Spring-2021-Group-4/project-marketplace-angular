@@ -4,7 +4,7 @@ import {FormGroup} from "@angular/forms";
 import {Route} from "../../../shared/models/enums/route.enum";
 import {UserAuthFormService} from "../../no-auth/services/user-auth-form.service";
 import {ManagerPlusApiService} from "../../../api-services/mgr-plus-http.service";
-import {finalize, first} from "rxjs/operators";
+import {finalize} from "rxjs/operators";
 import Labels from "../../../shared/models/labels/labels.constant";
 import {RoleService} from "../../../services/role.service";
 import {UserRole} from "../../../shared/models/enums/role.enum";
@@ -180,10 +180,9 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
 
   private execApiFunc(func: Observable<any>, successText: string, updatedProfile: any = {}) {
     this.isLoading = true
-    func
+    const sub = func
       .pipe(
-        finalize(() => this.isLoading = false),
-        first()
+        finalize(() => this.isLoading = false)
       )
       .subscribe(_ => {
         if (this.isCustomerProfileRoute || this.isStaffEditRoute) {
@@ -196,6 +195,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         const text = err.error.message ?? Object.values(err.error.error).join('\n')
         this.toaster.errorNotification(text);
       })
+    this.subscriptions.add(sub)
   }
 
   private setCurrentRoute() {

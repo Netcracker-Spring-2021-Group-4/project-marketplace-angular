@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {UserAuthFormService} from "../services/user-auth-form.service";
 import {FormGroup, Validators} from "@angular/forms";
 import {JwtTokenService} from "../../../auth/jwt-token.service";
@@ -11,14 +11,14 @@ import {ValidationMessages} from "../../../shared/models/labels/validation.messa
 import {ToasterCustomService} from "../../../services/toaster-custom.service";
 import {RedirectAuthService} from "../../../services/redirect-auth.service";
 import {Title} from "@angular/platform-browser";
-import {first} from "rxjs/operators";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy{
 
   form: FormGroup
   siteKey = environment.captchaKey
@@ -28,6 +28,8 @@ export class LoginComponent {
   usernameErrorMessage = ValidationMessages.email
   passwordErrorMessage = ValidationMessages.password
 
+  subscriptions: Subscription
+
   constructor(
     private userAuthFormService: UserAuthFormService,
     private roleService: RoleService,
@@ -36,8 +38,13 @@ export class LoginComponent {
     private redirectAuthService: RedirectAuthService,
     private titleService: Title
   ) {
+    this.subscriptions = new Subscription()
     this.titleService.setTitle("Login")
     this.form = this.userAuthFormService.loginForm()
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe()
   }
 
   get isCaptchaDisabled() {
@@ -52,8 +59,7 @@ export class LoginComponent {
   submit() {
     const {username, password} = this.form.value
     const cred = {username, password}
-    this.authApiService.login(cred)
-      .pipe(first())
+    const sub = this.authApiService.login(cred)
       .subscribe(
         (res: Response) => {
           const token = res.headers.get('Authorization')
@@ -68,6 +74,8 @@ export class LoginComponent {
 
           this.toaster.errorNotification(Labels.login.error);
         })
+
+    this.subscriptions.add(sub)
   }
 
   handleError() {
